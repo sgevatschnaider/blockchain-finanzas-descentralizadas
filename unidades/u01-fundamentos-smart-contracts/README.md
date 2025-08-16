@@ -20,7 +20,7 @@
   - Evolución de blockchain y smart contracts; casos de uso.  
   - Comparación entre blockchains (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda).  
   - Casos de smart contracts: logística, PropTech, InsurTech; ventajas y desventajas; perspectivas.  
-  - **Actividad sincrónica obligatoria.** :contentReference[oaicite:2]{index=2}
+  - **Actividad sincrónica obligatoria.** 
 
 > Sugerencia operativa de cátedra: 1 sesión sincrónica (3 h) dentro de la semana + trabajo autónomo de 3 días con lecturas y práctica guiada.
 
