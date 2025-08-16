@@ -103,7 +103,7 @@
 
 ---
 
-##  Puesta en marcha (Guía rápida)
+##  🗃️ Puesta en marcha (Guía rápida)
 
 > Si recién llegás, comenzá por el **[cronograma](cronograma/cronograma.md)** y luego abrí la **Unidad 1**.
 
@@ -321,7 +321,7 @@ print(ohlcv[:2])
 
 ---
 
-## 🧠 Aprendizaje autónomo
+## 🕮  Aprendizaje autónomo
 
 * Reforzá **hash, firmas, EVM, AMMs** antes de optimizar.
 * **Laboratorio primero**, lectura después para consolidar.
