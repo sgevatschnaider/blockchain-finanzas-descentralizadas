@@ -1,56 +1,61 @@
-# 🧭 **Dominando Blockchain y Finanzas Descentralizadas**  
-### _De la Teoría al Laboratorio_
+# **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
 
-**Blockchain · DeFi · Criptografía aplicada · Trading cuantitativo · On-chain analytics**
-
-[![CI Foundry](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml)
-[![CI Python](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml)
-[![Links](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml)
-[![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)](LICENSE)
-
-
-> **Misión:** Empoderarte con rigor técnico y habilidades prácticas para **construir, auditar, analizar y evaluar** soluciones blockchain en contextos reales de negocio y finanzas.  
-> **Docente responsable:** Dr. Sergio Gevatschnaider · **Cursada:** Ago–Oct 2025 · **Modalidad:** Remota + Híbrida (Sede Zabala)
-
----
-
-## 🔎 Vista rápida
-
-- 📚 **Fundamentos & Smart Contracts** (Solidity/Foundry)  
-- 💱 **DeFi**: AMMs (Uniswap v3), riesgo de LP, MEV/PBS, regulación MiCA/FATF  
-- 📈 **Trading cuantitativo**: métricas, *backtesting* reproducible  
-- 🔗 **On-chain analytics** (Web3.py) + eventos `Transfer`  
-- 🧪 **Labs** y *notebooks* listos para ejecutar (Python 3.10+, Foundry)
-
----
-
-## 🖼️ Demo del laboratorio
+<p align="center">
+  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml">
+    <img alt="CI Foundry" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml/badge.svg">
+  </a>
+  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml">
+    <img alt="CI Python" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml/badge.svg">
+  </a>
+  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml">
+    <img alt="Links" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg">
+  </a>
+  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml">
+    <img alt="Slides (Marp)" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg">
+  </a>
+</p>
 
 > GIF demostrativo del flujo y funcionamiento de la cadena de bloques en el laboratorio.
 
-<img src="assets/blockchain%20.gif" alt="Blockchain GIF de vista previa del laboratorio" width="900">
+<img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain - Vista previa del laboratorio" width="900" />
 
 ---
 
-## Índice
+¡Bienvenido/a al repositorio central de conocimiento y práctica en **Blockchain**, **DeFi** y **Criptografía aplicada**!
 
-- [Arquitectura del repositorio](#arquitectura)
-- [Integración continua (CI)](#ci)
-- [Puesta en marcha (Guía rápida)](#guia-rapida)
-- [Unidades (Estructura temática)](#unidades)
-- [Contratos listos para Remix](#remix)
-- [Snippets ilustrativos](#snippets)
-- [Recursos clave](#recursos)
-- [Aprendizaje autónomo](#aprendizaje)
+Este espacio fue diseñado como un compendio para estudiantes, profesionales y entusiastas que buscan **dominar fundamentos, protocolos, tooling y aplicaciones financieras**. Desde Bitcoin y Ethereum hasta AMMs, MEV, regulación y *on-chain analytics*, el repo ofrece un camino de aprendizaje **estructurado, práctico y actualizado**.
+
+**Nuestra misión:** Empoderarte con rigor técnico y habilidades prácticas para **construir, auditar, analizar y evaluar** soluciones basadas en blockchain en contextos reales.
+
+---
+
+## 🧭 Índice
+
+- [Visión holística del repositorio](#visión-holística-del-repositorio)
+- [Arquitectura del repositorio](#arquitectura-del-repositorio)
+- [Puesta en marcha (guía rápida)](#puesta-en-marcha-guía-rápida)
+- [Unidades (U1–U6)](#unidades-u1u6)
+- [Contratos (carpeta `contracts/`)](#contratos-carpeta-contracts)
+- [Fragmentos de código](#fragmentos-de-código)
+- [Slides (Marp)](#slides-marp)
+- [Arsenal de recursos](#arsenal-de-recursos)
 - [Contribuciones](#contribuciones)
 - [Licencia](#licencia)
 
 ---
 
-<h2 id="arquitectura">Arquitectura del repositorio</h2>
+## Visión holística del repositorio
 
-<details>
-<summary><strong>Ver estructura</strong></summary>
+- **Teoría** curada y actualizada (lecturas primarias, estándares).
+- **Práctica** con *labs*, notebooks y proyectos (Solidity + Python).
+- **Calidad**: CI para Python/Foundry, verificación de enlaces y *slides* automáticas.
+- **Docencia**: cronograma, objetivos por unidad, rúbricas y recursos.
+
+> **Docente responsable:** Dr. Sergio Gevatschnaider · **Cursada:** Ago–Oct 2025 · Modalidad: Remota + Híbrida (Sede Zabala)
+
+---
+
+## Arquitectura del repositorio
 
 ```text
 .
@@ -65,17 +70,19 @@
 │  ├─ bibliografia.md
 │  └─ enlaces-utiles.md
 ├─ unidades/
-│  ├─ u01-fundamentos-smart-contracts/README.md
-│  ├─ u02-criptoactivos-consenso-seguridad/README.md
-│  ├─ u03-iot-ia-metaverso/README.md
-│  ├─ u04-trafi-vs-defi-amms-mev-regulacion/README.md
-│  ├─ u05-indicadores-trading/README.md
-│  └─ u06-python-blockchain-analytics/README.md
+│  ├─ unidad-01/README.md
+│  ├─ unidad-02/README.md
+│  ├─ unidad-03/README.md
+│  ├─ unidad-04/README.md
+│  ├─ unidad-05/README.md
+│  └─ unidad-06/README.md
 ├─ notebooks/
 │  ├─ U01_merkle_tree.ipynb
 │  ├─ U02_ecdsa_pow_keccak.ipynb
-│  ├─ U05_indicadores_trading.ipynb
-│  └─ U06_blockchain_con_python.ipynb
+│  ├─ U03_trazabilidad_ipfs_l2_costos.ipynb
+│  ├─ U03_mini_ml_alertas.ipynb
+│  ├─ U5_indicadores_trading.ipynb
+│  └─ U6_blockchain_con_python.ipynb
 ├─ python/
 │  ├─ pyproject.toml
 │  ├─ src/
@@ -84,35 +91,25 @@
 │  └─ tests/test_indicadores.py
 ├─ solidity/
 │  ├─ foundry.toml
-│  ├─ src/            # (MyToken.sol · MyNFT.sol)
+│  ├─ src/            # (MyToken.sol · MyNFT.sol · AnchorRegistry.sol)
 │  └─ test/           # (MyToken.t.sol · MyNFT.t.sol)
-└─ contracts/         # contratos listos para usar en Remix (JS VM)
+└─ contracts/         # contratos listos para usar/mostrar en clase
 ````
 
-</details>
-
 ---
 
-<h2 id="ci">Integración continua (CI)</h2>
+## Puesta en marcha (guía rápida)
 
-* `.github/workflows/ci-python.yml` — Ejecuta **pytest** para `python/`.
-* `.github/workflows/ci-foundry.yml` — `forge fmt --check && forge test` en `solidity/`.
-* `.github/workflows/links.yml` — Verificación de enlaces Markdown en todo el repo.
+> Si recién llegás, empezá por el **[cronograma](cronograma/cronograma.md)** y luego abrí **U1**.
 
----
-
-<h2 id="guia-rapida">🗃️ Puesta en marcha (Guía rápida)</h2>
-
-> Si recién llegás, comenzá por el **[cronograma](cronograma/cronograma.md)** y luego abrí la **Unidad 1**.
-
-### 1) Python (3.10+)
+### Python (3.10+)
 
 ```bash
 pip install -r requirements.txt
 pytest -q
 ```
 
-### 2) Solidity + Foundry (forge / anvil / cast)
+### Solidity + Foundry (forge/anvil/cast)
 
 ```bash
 # Linux/macOS/WSL
@@ -122,110 +119,177 @@ foundryup
 cd solidity
 forge fmt
 forge test -vvv
-anvil  # red local para pruebas
+anvil   # red local
 ```
 
-### 3) Notebooks (Colab/Local)
+### Notebooks
 
-* **U1 — Merkle Tree:** `notebooks/U01_merkle_tree.ipynb`
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U01_merkle_tree.ipynb)
-* **U2 — ECDSA + PoW + Keccak:** `notebooks/U02_ecdsa_pow_keccak.ipynb`
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U02_ecdsa_pow_keccak.ipynb)
-* **U5 — Indicadores & Trading:** `notebooks/U05_indicadores_trading.ipynb`
-* **U6 — On-chain Analytics (Web3.py):** `notebooks/U06_blockchain_con_python.ipynb`
+* **U1** — Árbol de Merkle: `notebooks/U01_merkle_tree.ipynb`
+* **U2** — ECDSA + PoW + Keccak: `notebooks/U02_ecdsa_pow_keccak.ipynb`
+* **U3** — IPFS + Anchor + Costos + Mini-ML: `notebooks/U03_*`
+* **U5** — Indicadores & Trading: `notebooks/U5_indicadores_trading.ipynb`
+* **U6** — On-chain Analytics (Web3.py): `notebooks/U6_blockchain_con_python.ipynb`
 
 ---
 
-<h2 id="unidades">🧩 Unidades (Estructura temática)</h2>
+## Unidades (U1–U6)
 
-Cada unidad incluye **objetivos**, **lab principal**, **lecturas (EN)** y **rúbrica**.
+### U1 — Fundamentos de Blockchain & Smart Contracts
 
-### U1 — Fundamentos & Smart Contracts
+`unidades/unidad-01/README.md`
 
-[Ver unidad](unidades/u01-fundamentos-smart-contracts/README.md) · **Lab:** Árbol de Merkle y prueba de inclusión.
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+Impacto de nuevas tecnologías en negocios; modelos de negocio basados en blockchain; evolución de smart contracts; comparación entre Bitcoin, Ethereum, Litecoin, Hyperledger y Corda; ventajas y desventajas; perspectivas.
+</details>
+
+**Lab:** Árbol de Merkle y prueba de inclusión.
+**Notebook:** `notebooks/U01_merkle_tree.ipynb`
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U01_merkle_tree.ipynb)
+
+> **Pista (Python):**
+
+```python
+import hashlib
+
+def h(x: bytes) -> bytes:
+    return hashlib.sha256(x).digest()
+
+def merkle_parent(a: bytes, b: bytes) -> bytes:
+    return h(a + b)
+
+def merkle_root(leaves: list[bytes]) -> bytes:
+    level = leaves[:]
+    if len(level) % 2 == 1:
+        level.append(level[-1])
+    while len(level) > 1:
+        nxt = []
+        for i in range(0, len(level), 2):
+            nxt.append(merkle_parent(level[i], level[i+1]))
+        if len(nxt) % 2 == 1:
+            nxt.append(nxt[-1])
+        level = nxt
+    return level[0]
+```
 
 ---
 
 ### U2 — Criptoactivos, Consenso & Ciberseguridad
 
-[Ver unidad](unidades/u02-criptoactivos-consenso-seguridad/README.md) · **Lab:** ECDSA (secp256k1) · PoW mínimo · Keccak/SHA-3.
+`unidades/unidad-02/README.md`
+
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+Taxonomía de criptoactivos (coins, stablecoins, tokens, NFT), consenso (PoW/PoS, finality), criptografía aplicada (hash SHA-256/SHA-3, ECDSA secp256k1), ciberseguridad (gestión de claves, Sybil/51%).
+</details>
+
+**Lab:** ECDSA (secp256k1) + PoW mínimo + integridad con Keccak/SHA-3
+**Notebook:** `notebooks/U02_ecdsa_pow_keccak.ipynb`
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U02_ecdsa_pow_keccak.ipynb)
+
+> **Pista (Python):**
+
+```python
+# !pip install ecdsa pysha3
+import hashlib, time
+from ecdsa import SigningKey, SECP256k1
+
+# ECDSA
+sk = SigningKey.generate(curve=SECP256k1)
+vk = sk.get_verifying_key()
+msg = b"U2 demo"
+sig = sk.sign(hashlib.sha3_256(msg).digest())
+assert vk.verify(sig, hashlib.sha3_256(msg).digest())
+
+# PoW mínimo con SHA-3
+def pow_mini(message: bytes, zeros: int = 3):
+    target = "0" * zeros
+    nonce = 0
+    t0 = time.time()
+    while True:
+        d = hashlib.sha3_256(message + nonce.to_bytes(8, "big")).hexdigest()
+        if d.startswith(target):
+            return nonce, d, time.time() - t0
+        nonce += 1
+```
 
 ---
 
-### U3 — IoT/IA/ML + Metaverso (casos)
+### U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)
 
-[Ver unidad](unidades/u03-iot-ia-metaverso/README.md) · **Lab:** Anclaje/verificación · análisis de gas/costos.
+`unidades/unidad-03/README.md`
+
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+Trazabilidad con IPFS/on-chain, costos L1/L2 (noción EIP-4844), prototipos de negocio y mini-ML para alertas/anomalías.
+</details>
+
+**Labs/Notebooks:**
+
+* `notebooks/U03_trazabilidad_ipfs_l2_costos.ipynb`
+* `notebooks/U03_mini_ml_alertas.ipynb`
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U03_trazabilidad_ipfs_l2_costos.ipynb)
 
 ---
 
 ### U4 — TraFi vs DeFi (AMMs, MEV, regulación)
 
-[Ver unidad](unidades/u04-trafi-vs-defi-amms-mev-regulacion/README.md) · **Lab:** Simulador Uniswap v3 (rango, fees, P\&L) · Mini-MEV.
+`unidades/unidad-04/README.md`
+
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+AMMs (Uniswap v3), riesgo de LP, MEV/PBS y panorama regulatorio (MiCA/FATF).
+</details>
+
+**Lab:** Simulador de Uniswap v3 (rango, fees, P\&L) + mini-análisis MEV.
 
 ---
 
 ### U5 — Indicadores & Trading (cuantitativo)
 
-[Ver unidad](unidades/u05-indicadores-trading/README.md) · **Notebook:** `notebooks/U05_indicadores_trading.ipynb`.
+`unidades/unidad-05/README.md`
+
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos de apalancamiento y liquidez.
+</details>
+
+**Notebook:** `notebooks/U5_indicadores_trading.ipynb` (CCXT OHLCV + *backtest* con métricas)
 
 ---
 
 ### U6 — Python para Blockchain & Finanzas (*on-chain analytics*)
 
-[Ver unidad](unidades/u06-python-blockchain-analytics/README.md) · **Notebook:** `notebooks/U06_blockchain_con_python.ipynb`.
+`unidades/unidad-06/README.md`
 
----
-
-<h2 id="remix">🧾 Contratos listos para Remix</h2>
-
-> Ejecutá en **Remix** con **JavaScript VM (London)** — gratis, sin MetaMask ni ETH real.
-
-### 📄 `Milestonecrowdemo.sol`
-
-[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](contracts/Milestonecrowdemo.sol)
-[![Abrir en Remix](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/Milestonecrowdemo.sol) <sub>📂 Ruta: `contracts/Milestonecrowdemo.sol` · El botón de Remix carga el contrato desde el raw de GitHub.</sub>
-
----
-
-### 📄 `MilestoneEscrow_OZDemo.sol`
-
-[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](contracts/MilestoneEscrow_OZDemo.sol)
-[![Abrir en Remix](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol)
-
-<details>
-<summary>🧪 Guía rápida (JS VM)</summary>
-
-1. Abrí el enlace en **Remix**
-2. **Solidity Compiler** → `0.8.24` (o `^0.8.24`) → **Compile**
-3. **Deploy & Run** → **Environment:** **JavaScript VM (London)**
-4. Despliegue:
-
-   * `MockToken`
-   * `MockOracle`
-   * `MilestoneEscrow(seller, stablecoin, oracle)`
-5. Flujo demo:
-
-   * Cuenta **buyer**: `MockToken.approve(escrow, 1000e18)` → `MilestoneEscrow.fund()`
-   * Cuenta **oracle**: `MockOracle.setAuthorized(oracleAddr, true)` → `MilestoneEscrow.markMilestone(0)`
-   * Verificá: `contractBalance()` y `MockToken.balanceOf(seller)`
-
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+*Deploy* ERC-20 (Foundry/Anvil), eventos on-chain, KPIs con Web3.py (parseo de `Transfer` y panel de indicadores).
 </details>
 
-<details>
-<summary>🛡️ Notas de seguridad</summary>
-
-* `SafeERC20` maneja tokens que no devuelven `bool`.
-* `ReentrancyGuard` protege `fund()` y `markMilestone()`.
-* Eventos (`Funded`, `MilestoneMarked`) y `immutable` para trazabilidad.
-* Penalidad por *deadline* si el hito se marca fuera de tiempo.
-
-</details>
+**Notebook:** `notebooks/U6_blockchain_con_python.ipynb`
 
 ---
 
-<h2 id="snippets">🧩 Snippets ilustrativos</h2>
+## Contratos (carpeta `contracts/`)
 
-### Solidity — ERC-20 mínimo (OpenZeppelin)
+Contratos de demostración listos para clase. Se pueden leer en GitHub y, **opcionalmente**, abrir en Remix cargando el **raw** del repo (no accede a tu PC ni a tu sesión).
+
+### `Milestonecrowdemo.sol`
+
+[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
+[![Abrir en Remix (opcional)](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
+
+<sub>📂 Ruta: `contracts/Milestonecrowdemo.sol`. El botón de Remix carga el archivo desde el *raw* de GitHub.</sub>
+
+---
+
+### `MilestoneEscrow_OZDemo.sol`
+
+[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/contracts/MilestoneEscrow_OZDemo.sol)
+[![Abrir en Remix (opcional)](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol)
+
+<sub>📂 Ruta: `contracts/MilestoneEscrow_OZDemo.sol`.</sub>
+
+---
+
+## Fragmentos de código
+
+**Solidity — ERC-20 mínimo (OpenZeppelin)**
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -240,21 +304,19 @@ contract MyToken is ERC20 {
 }
 ```
 
-### Python — Conexión a nodo local (*healthcheck*)
+**Python — Nodo local (Web3.py)**
 
 ```python
 from web3 import Web3
-
-w3 = Web3(Web3.HTTPProvider("http://localhost:8545"))
+w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
 assert w3.is_connected()
 print("OK: nodo conectado")
 ```
 
-### Python — OHLCV público (ccxt)
+**Python — OHLCV público (CCXT)**
 
 ```python
 import ccxt
-
 ex = ccxt.binance()
 ohlcv = ex.fetch_ohlcv("BTC/USDT", timeframe="1h", limit=10)
 print(ohlcv[:2])
@@ -262,51 +324,43 @@ print(ohlcv[:2])
 
 ---
 
-<h2 id="recursos">📚 Recursos clave</h2>
+## Slides (Marp)
 
-* **Protocolos & tooling:** Bitcoin WP · Ethereum docs (Dencun/EIP-4844) · Solidity 0.8.x · OpenZeppelin · Foundry Book · Web3.py 7.x · CCXT
-* **DeFi/MEV/AMMs:** Uniswap v3 whitepaper · Flashbots (MEV-Boost/PBS) · EigenLayer (restaking)
-* **Criptografía aplicada:** NIST FIPS-202 (SHA-3), SP 800-185 (KMAC/cSHAKE), RFC 8032 (EdDSA), RFC 8439 (ChaCha20-Poly1305), SEC-1 (ECC)
-* **Regulación & riesgo:** MiCA (UE), FATF (VASPs/Travel Rule), BIS (estabilidad)
+* Los archivos `slides/**/*.md` se convierten automáticamente a **HTML/PDF** con Marp y se publican como **artefacto** en cada corrida de Actions.
+* Si **Pages** está habilitado, también se publican en una URL del repositorio.
 
-> Lista completa en `recursos/bibliografia.md` y `recursos/enlaces-utiles.md`.
-
----
-
-<h2 id="aprendizaje">🕮 Aprendizaje autónomo</h2>
-
-* Reforzá **hash, firmas, EVM, AMMs** antes de optimizar.
-* **Laboratorio primero**, lectura después para consolidar.
-* Medí **riesgo**: volatilidad, drawdown, slippage.
-* **Seguridad**: no subas claves; evitá reentrancy/overflow; escribí tests.
-* **Lectura primaria** > resúmenes.
-* **Ética & cumplimiento**: docencia ≠ asesoramiento financiero.
+**Estado:**
+[![Slides (Marp)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml)
 
 ---
 
-<h2 id="contribuciones">🤝 Contribuciones</h2>
+## Arsenal de recursos
 
-1. Abrí un **issue** con tu propuesta (bug/feature/doc)
-2. **Fork** → rama `feature/...` o `fix/...` → **Pull Request**
-3. CI en **verde** (Python/Foundry/Links)
+* **Protocolos / Tooling:** Bitcoin WP · Ethereum Docs (Dencun/EIP-4844) · Solidity 0.8.x · OpenZeppelin · Foundry Book · Web3.py 7.x · CCXT
+* **DeFi / MEV / AMMs:** Uniswap v3 WP · Flashbots (MEV-Boost/PBS) · EigenLayer (restaking)
+* **Criptografía aplicada:** FIPS-202 (SHA-3), SP 800-185 (KMAC), RFC 8032 (EdDSA), RFC 8439 (ChaCha20-Poly1305), SEC-1 (ECC)
+* **Regulación & riesgo:** MiCA (UE), FATF (Travel Rule), BIS (estabilidad)
 
-Más en `CONTRIBUTING.md` y `CODE_OF_CONDUCT.md`.
+> Lista viva en `recursos/bibliografia.md` y `recursos/enlaces-utiles.md`.
 
 ---
 
-<h2 id="licencia">⚖️ Licencia</h2>
+## Contribuciones
+
+¡Proyecto vivo! Contribuciones bienvenidas:
+
+1. Abrí un **issue** (bug/feature/doc).
+2. **Fork** → rama `feature/...` o `fix/...` → **Pull Request**.
+3. Asegurá **CI verde** (Python/Foundry/Links/Slides).
+4. Seguí **CONTRIBUTING.md** y **CODE\_OF\_CONDUCT.md**.
+
+---
+
+## Licencia
 
 * Material educativo; **no** constituye asesoramiento financiero.
-* Licencia **MIT** (ver `LICENSE`).
+* Licencia **MIT** — ver [LICENSE](LICENSE).
 * Contenido de terceros mantiene sus licencias y atribuciones.
 
-<br>
-<p align="center">
-  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml">
-    <img src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg" alt="Slides (Marp)">
-  </a>
-</p>
-
-<p align="center"><a href="#readme">⬆️ Volver arriba</a></p>
 
 
