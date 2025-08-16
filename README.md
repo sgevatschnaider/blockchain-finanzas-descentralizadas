@@ -245,12 +245,34 @@ Contratos de demostración listos para usar en clase. Todo se prueba **gratis** 
 
 ### ▶️ Abrir en Remix (1 clic)
 
-* **MilestoneEscrow\_OZDemo.sol**
-  [https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow\_OZDemo.sol](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol)
+## 📄 Contratos (carpeta `contracts/`)
 
-> Si el enlace devuelve **404**, revisá el nombre exacto del archivo en `contracts/` y actualizá la URL.
+---
 
-### 🚀 Guía rápida de uso (JS VM – GRATIS)
+### 1) `Milestonecrowdemo.sol`
+
+- **Ver archivo en GitHub (commit fijado):**  
+  https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/4e2dbd16b375fb8087aa35108f70f208bc3bb2f2/contracts/Milestonecrowdemo.sol
+
+- **(Opcional) Abrir en Remix — seguro (apunta al raw de GitHub):**  
+  https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/4e2dbd16b375fb8087aa35108f70f208bc3bb2f2/contracts/Milestonecrowdemo.sol
+
+> 🛡️ **Nota:** El enlace a Remix solo descarga este archivo desde GitHub (modo lectura). No abre “tu” Remix ni tu entorno local.
+
+---
+
+### 2) `MilestoneEscrow_OZDemo.sol`
+
+- **Ver archivo en GitHub (rama `main`):**  
+  https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/contracts/MilestoneEscrow_OZDemo.sol
+
+- **(Opcional) Abrir en Remix — seguro (última versión de `main`):**  
+  https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol
+
+---
+
+
+###  Guía rápida de uso (JS VM – GRATIS)
 
 1. Abrí el enlace de arriba en **Remix**.
 2. **Solidity Compiler** → versión **0.8.24** (o **0.8.30**, compatible con `^0.8.24`) → **Compile**.
