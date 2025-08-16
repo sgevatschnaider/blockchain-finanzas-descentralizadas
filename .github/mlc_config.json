@@ -1,0 +1,12 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^mailto:" }
+  ],
+  "timeout": "20s",
+  "httpHeaders": [
+    {
+      "urls": ["https://raw.githubusercontent.com/"],
+      "headers": { "User-Agent": "curl/7.64" }
+    }
+  ]
+}
