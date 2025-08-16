@@ -31,8 +31,6 @@
 
 > GIF demostrativo del flujo y funcionamiento de la cadena de bloques en el laboratorio.
 
-> GIF demostrativo del flujo de la cadena de bloques en el laboratorio.
-
 <img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain GIF de vista previa del laboratorio" width="900">
 
 
