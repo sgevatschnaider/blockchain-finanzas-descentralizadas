@@ -1,0 +1,43 @@
+name: Build Slides (Marp)
+
+on:
+  push:
+    paths:
+      - 'slides/**'
+      - '.github/workflows/slides.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Construye el PDF usando marp-cli en contenedor oficial
+      - name: Build PDF with Marp
+        uses: docker://marpteam/marp-cli:v3.11.0
+        with:
+          args: >-
+            slides/u03-pitch.md
+            --pdf
+            --allow-local-files
+            -o slides/u03-pitch.pdf
+
+      # Artefacto descargable desde la página del run
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: u03-pitch-pdf
+          path: slides/u03-pitch.pdf
+
+      # (Opcional) Commitea el PDF al repo
+      - name: Commit PDF back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add slides/u03-pitch.pdf
+          git commit -m "chore(slides): build u03-pitch.pdf" || echo "No changes to commit"
+          git push
