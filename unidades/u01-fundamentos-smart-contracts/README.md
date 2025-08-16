@@ -123,14 +123,8 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 * Bitcoin Whitepaper · Ethereum Docs · Solidity Docs · Foundry Book.
 * Calculadoras de hash y visualizadores de árboles de Merkle (educativos).
 
-> Próxima clase: **U2 — Criptoactivos, Consenso & Ciberseguridad**.
 
-```
 
----
 
-Si querés, ahora mismo te dejo **U2** con el mismo formato (consenso + ECDSA + PoW mínimo) y el badge preparado para `notebooks/U02_ecdsa_pow_minimo.ipynb`.
-::contentReference[oaicite:5]{index=5}
-```
 
 
