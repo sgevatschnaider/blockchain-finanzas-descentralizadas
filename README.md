@@ -143,7 +143,7 @@ Material base para seguir el curso (entorno Python, Foundry y *tooling*).
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 Conceptos esenciales de blockchain, impacto en negocios, evolución de contratos inteligentes. Comparativa de plataformas (Bitcoin, Ethereum, Hyperledger, Corda).
 </details>  
-**Lab:** Árbol de Merkle y prueba de inclusión.
+**Lab:**Árbol de Merkle y prueba de inclusión.
 
 ---
 
