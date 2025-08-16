@@ -237,6 +237,18 @@ ex = ccxt.binance()
 ohlcv = ex.fetch_ohlcv("BTC/USDT", timeframe="1h", limit=10)
 print(ohlcv[:2])
 ```
+# Blockchain Finanzas Descentralizadas – Ejemplos Solidity
+
+## Contratos en este repo
+- [contracts/MilestoneEscrow_OZDemo.sol](contracts/MilestoneEscrow_OZDemo.sol)  
+  Escrow con hitos, Oracle mock y Token mock.  
+  👉 [Abrir en Remix](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol)
+
+## Cómo probar (gratis en Remix)
+1. Abrir el enlace de arriba.
+2. Compilar con Solidity 0.8.24.
+3. Deploy en JS VM (London).
+4. Flujo: `approve → fund → markMilestone`.
 
 ---
 
