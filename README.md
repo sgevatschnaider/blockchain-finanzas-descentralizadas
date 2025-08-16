@@ -1,10 +1,6 @@
 # 🧭 **Dominando Blockchain y Finanzas Descentralizadas**  
 ### _De la Teoría al Laboratorio_
 
-> GIF demostrativo del flujo de la cadena de bloques en el laboratorio.
-
-<img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain GIF de vista previa del laboratorio" width="900">
-
 ---
 **Blockchain · DeFi · Criptografía aplicada · Trading cuantitativo · On-chain analytics**
 
@@ -35,9 +31,10 @@
 
 > GIF demostrativo del flujo y funcionamiento de la cadena de bloques en el laboratorio.
 
-<p align="center">
-  <img src="assets/blockchain.gif" alt="Demo Blockchain GIF" width="820">
-</p>
+> GIF demostrativo del flujo de la cadena de bloques en el laboratorio.
+
+<img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain GIF de vista previa del laboratorio" width="900">
+
 
 ---
 
