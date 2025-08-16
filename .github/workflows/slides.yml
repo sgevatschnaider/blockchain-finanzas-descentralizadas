@@ -23,18 +23,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Acción correcta y mantenida
       - name: Convert Markdown into HTML and PDF
         uses: KoharaKazuya/marp-cli-action@v4
-        # Por defecto compila todos los .md del repo.
-        # Si querés limitar a /slides, podés usar un script post-step para mover/filtrar.
 
-      - name: List outputs
+      - name: Collect outputs
         run: |
-          echo "Artefactos generados:"
-          ls -la .
           mkdir -p dist
-          # Mover resultados a dist si querés empaquetar prolijo
           find . -maxdepth 1 -type f \( -name '*.html' -o -name '*.pdf' \) -exec mv {} dist/ \;
 
       - name: Upload artifact
@@ -44,8 +38,8 @@ jobs:
           path: dist
           if-no-files-found: error
 
-  # Opcional: publicar en GitHub Pages
   deploy:
+    name: Deploy to GitHub Pages
     needs: build
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
@@ -65,6 +59,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deploy
         uses: actions/deploy-pages@v4
