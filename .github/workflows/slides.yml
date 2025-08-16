@@ -8,7 +8,6 @@ on:
       - '.github/workflows/slides.yml'
   workflow_dispatch:
 
-# Solo lo necesario; si vas a publicar a Pages, habilitamos pages/id-token en el job deploy.
 permissions:
   contents: read
 
@@ -24,23 +23,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Compila TODO lo que haya en slides/**/*.md a HTML y PDF dentro de dist/
-      - name: Marp build
-        uses: marp-team/marp-cli-action@v3
-        with:
-          glob: slides/**/*.md
-          output: dist
-          allow-local-files: true
-          # Si tenés un marp.config.js en /slides, lo toma solo. Si no, no hace falta.
+      # Acción correcta y mantenida
+      - name: Convert Markdown into HTML and PDF
+        uses: KoharaKazuya/marp-cli-action@v4
+        # Por defecto compila todos los .md del repo.
+        # Si querés limitar a /slides, podés usar un script post-step para mover/filtrar.
 
-      - name: Subir artefacto (HTML/PDF)
+      - name: List outputs
+        run: |
+          echo "Artefactos generados:"
+          ls -la .
+          mkdir -p dist
+          # Mover resultados a dist si querés empaquetar prolijo
+          find . -maxdepth 1 -type f \( -name '*.html' -o -name '*.pdf' \) -exec mv {} dist/ \;
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: slides-dist
           path: dist
           if-no-files-found: error
 
-  # --- OPCIONAL: publicar en GitHub Pages ---
+  # Opcional: publicar en GitHub Pages
   deploy:
     needs: build
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -52,16 +56,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - name: Bajar artefacto
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: slides-dist
           path: dist
-      - name: Subir artifact para Pages
+      - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - name: Deploy a Pages
+      - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
-
