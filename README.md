@@ -36,7 +36,7 @@
 
 ---
 
-## 🗂️ Índice
+##  Índice
 
 - [Arquitectura del repositorio](#-arquitectura-del-repositorio)
 - [Integración continua (CI)](#-integración-continua-ci)
@@ -51,7 +51,7 @@
 
 ---
 
-## 🧱 Arquitectura del repositorio
+##  Arquitectura del repositorio
 
 <details>
 <summary><strong>Ver estructura</strong></summary>
@@ -95,7 +95,7 @@
 
 ---
 
-## 🤖 Integración continua (CI)
+##  Integración continua (CI)
 
 * `.github/workflows/ci-python.yml` — Ejecuta **pytest** para el paquete `python/`.
 * `.github/workflows/ci-foundry.yml` — `forge fmt --check && forge test` en `solidity/`.
@@ -103,7 +103,7 @@
 
 ---
 
-## 🚀 Puesta en marcha (Guía rápida)
+##  Puesta en marcha (Guía rápida)
 
 > Si recién llegás, comenzá por el **[cronograma](cronograma/cronograma.md)** y luego abrí la **Unidad 1**.
 
