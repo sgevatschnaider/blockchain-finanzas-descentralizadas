@@ -1,43 +1,67 @@
-name: Build Slides (Marp)
+name: Slides (Marp)
 
 on:
   push:
+    branches: [ main ]
     paths:
-      - 'slides/**'
+      - 'slides/**/*.md'
       - '.github/workflows/slides.yml'
   workflow_dispatch:
 
+# Solo lo necesario; si vas a publicar a Pages, habilitamos pages/id-token en el job deploy.
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: slides-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
+    name: Build HTML + PDF
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Construye el PDF usando marp-cli en contenedor oficial
-      - name: Build PDF with Marp
-        uses: docker://marpteam/marp-cli:v3.11.0
+      # Compila TODO lo que haya en slides/**/*.md a HTML y PDF dentro de dist/
+      - name: Marp build
+        uses: marp-team/marp-cli-action@v3
         with:
-          args: >-
-            slides/u03-pitch.md
-            --pdf
-            --allow-local-files
-            -o slides/u03-pitch.pdf
+          glob: slides/**/*.md
+          output: dist
+          allow-local-files: true
+          # Si tenés un marp.config.js en /slides, lo toma solo. Si no, no hace falta.
 
-      # Artefacto descargable desde la página del run
-      - name: Upload artifact
+      - name: Subir artefacto (HTML/PDF)
         uses: actions/upload-artifact@v4
         with:
-          name: u03-pitch-pdf
-          path: slides/u03-pitch.pdf
+          name: slides-dist
+          path: dist
+          if-no-files-found: error
 
-      # (Opcional) Commitea el PDF al repo
-      - name: Commit PDF back to repo
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add slides/u03-pitch.pdf
-          git commit -m "chore(slides): build u03-pitch.pdf" || echo "No changes to commit"
-          git push
+  # --- OPCIONAL: publicar en GitHub Pages ---
+  deploy:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Bajar artefacto
+        uses: actions/download-artifact@v4
+        with:
+          name: slides-dist
+          path: dist
+      - name: Subir artifact para Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Deploy a Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
