@@ -1,178 +1,275 @@
-> **Material elaborado por el Profesor Sergio Gevatschnaider**
+# U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)
 
+**Material elaborado:** Dr. Sergio Gevatschnaider
 
-# U3 — IoT / IA / ML + Metaverso: Trazabilidad y Prototipos On-chain
-
-**Propósito:** integrar IoT/IA/ML con blockchain y explorar el **metaverso** como entorno de negocio, construyendo un PoC auditable y una **propuesta de negocio** viable.
-
----
-
-## Índice
-- [Objetivos de aprendizaje](#objetivos)
-- [Plan de trabajo (7 días)](#plan)
-- [Contenidos](#contenidos)
-- [Actividades y labs](#labs)
-- [Entregables](#entregables)
-- [Riesgos de criptoactivos y mitigación](#riesgos)
-- [Rúbrica de evaluación](#rubrica)
-- [Prerequisitos y setup](#setup)
-- [Snippets de referencia](#snippets)
-- [Bibliografía y recursos](#bibliografia)
+> Esta unidad une **trazabilidad** (IoT → IPFS/on-chain), **análisis de costos en L1/L2** (incluido EIP-4844 a nivel conceptual) y **mini-ML** para alertas/insights. El foco está en prototipos aplicados: desde anclar evidencias (hash/CID) hasta estimar costos de publicación y construir un *pipeline* sencillo de detección de anomalías.
 
 ---
 
-<h2 id="objetivos">Objetivos de aprendizaje</h2>
+## 🎯 Objetivos de la unidad
 
-1. Modelar flujos **IoT → IPFS → Blockchain** con pruebas de integridad (Keccak-256).
-2. Diseñar una **propuesta de negocio** en **metaverso** basada en blockchain.
-3. Usar **herramientas colaborativas** (Google Workspace, Trello, Miro) para planificar y presentar.
-4. Identificar **riesgos digitales** de criptoactivos e incluir **acciones de mitigación**.
-
----
-
-<h2 id="plan">Plan de trabajo (7 días)</h2>
-
-| Día | Tema | Actividad | Producto |
-|---|---|---|---|
-| 1 | Integración Blockchain + IoT/IA/ML | **Foro Debate** (visión, casos) | Post en el foro con insights |
-| 2 | Metaverso y Blockchain | **Foro de Consultas** (técnicas/dudas) | Q&A respondidas |
-| 3 | Arquitectura PoE (IPFS + on-chain) | **Lab A**: hash + anclaje | PoC mínimo funcionando |
-| 4 | Costos L1/L2 y disponibilidad de datos | **Lab B**: análisis técnico-económico | Tabla sensibilidad + comentario |
-| 5 | Trabajo grupal | **Sprint colaborativo** (Workspace/Trello/Miro) | Tablero y borrador de pitch |
-| 6 | Propuesta de negocio en metaverso | **Prototipo y pitch deck** | README_caso + slides |
-| 7 | Riesgos & mitigación | **Checklist + medidas** | Sección de riesgos en README_caso |
-
-> Foros: usar **GitHub Discussions** o el aula virtual (canales “Debate U3” y “Consultas U3”).
+- Diseñar un **flujo de trazabilidad**: dispositivo/sistema → IPFS → *anchor* on-chain.
+- Entender **costos y trade-offs** entre L1 y L2 (datos en *call-data*, *blobs*/rollups).
+- Construir un **prototipo de anclaje y verificación** (hash/CID, *event logs*).
+- Implementar un **mini-ML** (detección de anomalías) sobre datos simulados/IoT.
+- Evaluar **riesgos**: privacidad/PII, *key management*, disponibilidad de datos.
 
 ---
 
-<h2 id="contenidos">Contenidos</h2>
+## 🗺️ Plan de trabajo (visión general)
 
-- Modelos de evidencia (*hash-first* / *data-first*), **IPFS**, CIDs, pinning, gateways.
-- Patrón **Proof-of-Existence** on-chain y eventos de auditoría.
-- Métrica de coste: `gasUsed × gasPrice` → USD. L1 vs L2 (tiempo, fees, disponibilidad de datos).
-- Metaverso: **espacios, activos, interacción, monetización**.
+- **Sección 3 (3 días)**
+  - Modelado del flujo de datos (IoT/ERP) hacia **IPFS** y anclaje on-chain.
+  - Estimación de **costos** (gas L1, alternativas L2/rollups; noción de blobs EIP-4844).
+  - **Prototipo**: contrato mínimo de anclaje + *script* Python (IPFS + Web3.py).
+  - **Mini-ML** para alertas (ej.: *z-score*/IsolationForest) y reporte.
+  - **Actividad sincrónica obligatoria.**
 
----
-
-<h2 id="labs">Actividades y labs</h2>
-
-### Lab A — Anclaje de evidencias (IPFS + PoE)
-- Subí un archivo a IPFS, calculá **Keccak-256**, anclá en `ProofOfExistence`.
-- Evidencia: captura del CID, hash y tx de anclaje (Remix JS VM o anvil).
-
-### Lab B — Análisis económico de costos
-- Script `costo_tx_usd(gas_used, gas_price_gwei, eth_usd)`.
-- Tabla de sensibilidad: `gas_price = {3,10,30} gwei`, `eth = {2k,3k,4k} USD`.
-- Conclusión escrita (trade-offs seguridad/latencia/costo).
-
-### Actividad grupal — Propuesta de negocio en metaverso
-- Elegir un metaverso (p. ej., **The Sandbox**, **Decentraland**) y armar **MVP**.
-- Entregar pitch de 6–8 láminas (problema, solución, token/activo, flujo de valor, riesgos).
+> **Sugerencia operativa:** 1 sesión sincrónica (3 h) + 3 días de trabajo autónomo (lecturas, laboratorio y reporte).
 
 ---
 
-<h2 id="entregables">Entregables</h2>
+## ⏱️ Agenda sugerida para la sesión sincrónica (3 h)
 
-1. **Carpeta** `u03-iot-ia-metaverso/`:
-   - `poe/ProofOfExistence.sol` y `test/ProofOfExistence.t.sol`
-   - `scripts/hash_demo.py` y `scripts/costo_gas.py`
-2. **README_caso.md** (2–3 págs) con diagrama, supuestos, métricas, **riesgos y mitigación**.
-3. **Pitch deck** breve (PDF o enlace) y tablero de Trello/Miro (URL).
-
----
-
-<h2 id="riesgos">Riesgos de criptoactivos y mitigación</h2>
-
-- **Custodia/llaves**: uso de wallets con `allowances` acotados; políticas de backup y revocación.
-- **Volatilidad y liquidez**: límites de exposición; *stablecoin policy*; oráculos redundantes.
-- **Cumplimiento y PII**: separar datos personales (off-chain); mínimos datos on-chain; consentimiento.
-- **Operativo**: *rate limits*, caídas de gateway IPFS; fallback multi-gateway y *pinning* redundante.
-- **Seguridad de contrato**: evitar reentrancy/overflow; tests y revisión de eventos/auditoría.
+1) Casos: logística/salud/PropTech/arte digital (30’)  
+2) Arquitectura: IPFS, *gateways*, on-chain *anchors*, *event logs* (35’)  
+3) Costos L1/L2: gas, *call-data* vs *blobs* (EIP-4844), orden de magnitud (35’)  
+4) **Hands-on**: subir a IPFS, anclar hash y verificar (60’)  
+5) Mini-ML para alertas + Q&A (20’)
 
 ---
 
-<h2 id="rubrica">Rúbrica de evaluación</h2>
+## 🧪 Laboratorio principal (propuesto por la cátedra)
 
-- **PoE funcional (contrato + test)**: 35%  
-- **Análisis de costos (modelo + tabla + argumentos)**: 35%  
-- **Calidad técnica (código, estructura, naming, doc)**: 20%  
-- **Presentación/defensa (claridad, riesgos, límites)**: 10%
+**Título:** Trazabilidad con IPFS + *Anchor* on-chain + Costos L1/L2
+
+**Descripción (3 partes):**
+1) Subir artefactos (JSON/CSV/imagen) a **IPFS**, obtener **CID** y calcular **hash** local.  
+2) Registrar el **hash/CID** en un contrato mínimo (*event* o *mapping*) y **verificar**.  
+3) Estimar **costos** para L1 vs L2 según parámetros elegidos (gas, *blob price* conceptual).
+
+**Notebooks sugeridos:**
+- `notebooks/U03_trazabilidad_ipfs_l2_costos.ipynb`  
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U03_trazabilidad_ipfs_l2_costos.ipynb)
+- `notebooks/U03_mini_ml_alertas.ipynb`  
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U03_mini_ml_alertas.ipynb)
 
 ---
 
-<h2 id="setup">Prerequisitos y setup</h2>
+## 🧩 Pistas de implementación
 
-- Haber completado U1 y U2; **Foundry** (`forge`, `anvil`) y **Python 3.10+**.
-```bash
-forge fmt && forge test -vvv
-anvil   # red local
-python scripts/hash_demo.py
-python scripts/costo_gas.py
+### 1) Python — IPFS + verificación local
+
+> Requiere `ipfshttpclient` con *daemon* local (`ipfs daemon`) **o** usar un servicio (e.g., web3.storage) vía HTTP.  
+> Alternativa: `requests` contra un *pinning service* con token.
+
+```python
+# !pip install ipfshttpclient hashlib
+import ipfshttpclient, hashlib, json, pathlib
+
+# (A) Preparo un documento de ejemplo
+doc = {"batch_id": "A-001", "ts": "2025-08-01T12:00:00Z", "sensor": {"t": 4.1, "hum": 74}}
+p = pathlib.Path("batch_A001.json")
+p.write_text(json.dumps(doc, ensure_ascii=False, indent=2))
+
+# (B) Hash local para integridad (SHA-256 o SHA3-256)
+h_local = hashlib.sha256(p.read_bytes()).hexdigest()
+print("SHA-256 local:", h_local)
+
+# (C) Subo a IPFS (daemon local corriendo)
+with ipfshttpclient.connect() as client:
+    res = client.add(p.as_posix())
+    cid = res["Hash"]
+print("CID:", cid)
+
+# (D) Verificación: bajo por gateway (solo prueba; no dependas de un gateway en producción)
+# import requests
+# r = requests.get(f"https://ipfs.io/ipfs/{cid}", timeout=20)
+# assert hashlib.sha256(r.content).hexdigest() == h_local
 ````
 
----
+### 2) Solidity — *Anchor* mínimo de hash/CID
 
-<h2 id="snippets">Snippets de referencia</h2>
-
-**Solidity — Proof of Existence**
+> Contrato sencillo para **emitir** un evento de anclaje y/o **persistir** un hash → timestamp.
+> Guardar en `solidity/src/AnchorRegistry.sol` y testear con Foundry/Anvil.
 
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-contract ProofOfExistence {
-    mapping(bytes32 => address) public submittedBy;
-    mapping(bytes32 => uint256) public submittedAt;
-    event Anchored(bytes32 indexed hash, address indexed by, uint256 at);
+contract AnchorRegistry {
+    event Anchored(bytes32 indexed hash, string cid, address indexed who, uint256 ts);
 
-    function anchor(bytes32 hash) external {
-        require(submittedAt[hash] == 0, "already anchored");
-        submittedBy[hash] = msg.sender;
-        submittedAt[hash] = block.timestamp;
-        emit Anchored(hash, msg.sender, block.timestamp);
-    }
+    mapping(bytes32 => uint256) public firstSeen; // opcional: primer timestamp de anclaje
 
-    function verify(bytes32 hash) external view returns (bool ok, address by, uint256 at) {
-        at = submittedAt[hash];
-        by = submittedBy[hash];
-        ok = (at != 0);
+    function anchor(bytes32 hash, string calldata cid) external {
+        if (firstSeen[hash] == 0) {
+            firstSeen[hash] = block.timestamp;
+        }
+        emit Anchored(hash, cid, msg.sender, block.timestamp);
     }
 }
 ```
 
-**Python — Keccak-256 de un archivo**
+### 3) Python — *Anchor* vía Web3.py (contra Anvil o proveedor)
 
 ```python
-# scripts/hash_demo.py
-from eth_utils import keccak
-def keccak256_file(path: str) -> str:
-    with open(path, "rb") as f:
-        data = f.read()
-    return "0x" + keccak(data).hex()
-if __name__ == "__main__":
-    print(keccak256_file("mi_archivo.pdf"))
+# !pip install web3
+from web3 import Web3
+from eth_account import Account
+import os, json, hashlib
+
+# Conexión: nodo local Anvil o provider HTTP
+w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
+assert w3.is_connected()
+
+# Datos (mismos del paso 1)
+payload = pathlib.Path("batch_A001.json").read_bytes()
+sha256_local = hashlib.sha256(payload).digest()
+
+# ABI del contrato compilado (pegar ABI generado por Foundry/Remix en producción).
+ABI = json.loads("""[
+  {"anonymous":false,"inputs":[
+    {"indexed":true,"internalType":"bytes32","name":"hash","type":"bytes32"},
+    {"indexed":false,"internalType":"string","name":"cid","type":"string"},
+    {"indexed":true,"internalType":"address","name":"who","type":"address"},
+    {"indexed":false,"internalType":"uint256","name":"ts","type":"uint256"}],
+    "name":"Anchored","type":"event"},
+  {"inputs":[{"internalType":"bytes32","name":"hash","type":"bytes32"},
+             {"internalType":"string","name":"cid","type":"string"}],
+   "name":"anchor","outputs":[],"stateMutability":"nonpayable","type":"function"},
+  {"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],
+   "name":"firstSeen","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],
+   "stateMutability":"view","type":"function"}
+]""")
+
+CONTRACT_ADDR = Web3.to_checksum_address("0xYourDeployedContract")  # TODO: reemplazar
+contract = w3.eth.contract(address=CONTRACT_ADDR, abi=ABI)
+
+acct = w3.eth.account.from_key(os.environ.get("PRIVATE_KEY_ANVIL") or "0x"+"1"*64)
+tx = contract.functions.anchor(sha256_local, "ipfs://"+cid).build_transaction({
+    "from": acct.address,
+    "nonce": w3.eth.get_transaction_count(acct.address),
+    "gas": 150000,
+    "maxFeePerGas": w3.to_wei("2", "gwei"),
+    "maxPriorityFeePerGas": w3.to_wei("1", "gwei"),
+})
+signed = acct.sign_transaction(tx)
+tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
+receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+print("Anchored tx:", receipt.transactionHash.hex(), "status:", receipt.status)
 ```
 
-**Python — Estimador de costos**
+### 4) Python — Estimador de costos L1/L2 (parámetros manuales)
+
+> Sin precios en vivo: pasá **gas price**, **gas used**, **blob-price** (si aplica) y **ETH/USD**.
 
 ```python
-# scripts/costo_gas.py
-def costo_tx_usd(gas_used: int, gas_price_gwei: float, eth_usd: float) -> float:
-    return gas_used * (gas_price_gwei * 1e-9) * eth_usd
+def eth_cost_native(gas_used: int, gas_price_gwei: float) -> float:
+    return gas_used * gas_price_gwei * 1e-9  # ETH
+
+def usd_cost_native(gas_used: int, gas_price_gwei: float, eth_usd: float) -> float:
+    return eth_cost_native(gas_used, gas_price_gwei) * eth_usd
+
+def usd_cost_blob(blob_gas_used: int, blob_price_gwei: float, eth_usd: float) -> float:
+    # costo conceptual por "blob gas" (aprox. EIP-4844). Ajustar unidades según su proveedor.
+    return blob_gas_used * blob_price_gwei * 1e-9 * eth_usd
+
+# Ejemplo: 60k gas a 5 gwei, ETH=3,000 USD
+print("L1 USD aprox:", usd_cost_native(60_000, 5, 3000.0))
+# Ejemplo "blob": 1e6 blob-gas a 0.4 gwei
+print("Blob USD aprox:", usd_cost_blob(1_000_000, 0.4, 3000.0))
+```
+
+### 5) Mini-ML — Detección de anomalías (IoT simulado)
+
+```python
+# !pip install scikit-learn pandas numpy
+import numpy as np, pandas as pd
+from sklearn.ensemble import IsolationForest
+
+rng = np.random.default_rng(7)
+n = 500
+temp = rng.normal(4.0, 0.5, size=n)             # frío controlado
+hum  = rng.normal(75.0, 5.0, size=n)
+
+# inyectamos anomalías
+temp[:8] += rng.normal(4.0, 1.5, size=8)
+hum[:8]  += rng.normal(20.0, 5.0, size=8)
+
+X = pd.DataFrame({"temp": temp, "hum": hum})
+model = IsolationForest(contamination=0.02, random_state=0).fit(X)
+X["anomaly"] = (model.predict(X) == -1)
+
+print("Anomalías detectadas:", int(X["anomaly"].sum()))
+X[X["anomaly"]].head()
 ```
 
 ---
 
-<h2 id="bibliografia">Bibliografía y recursos</h2>
+## 📚 Material de estudio
 
-* **Bashir, I. (2018). *Mastering Blockchain*.**
-* **Beltrán, M. et al. (2021). *Blockchain: El modelo descentralizado hacia la economía digital*.**
-* **Meta — ¿Qué es el metaverso?** [https://about.meta.com/what-is-the-metaverse/](https://about.meta.com/what-is-the-metaverse/)
-* **The Sandbox** [https://www.sandbox.game/es/](https://www.sandbox.game/es/)
+### Base (ES)
 
-> Recursos técnicos adicionales en el README general del curso (IPFS, Ethereum docs, Foundry, Web3.py).
+* Bashir, I. *Mastering Blockchain* — almacenamiento, integridad y *data anchoring*.
+* Beltrán, M. (coord.). *Blockchain…* — arquitectura y aplicaciones sectoriales.
+
+### Complementaria (EN)
+
+* Narayanan et al. — *data integrity*, PoW y cadenas de custodia.
+* *Mastering Ethereum* — Keccak-256, *logs/events*, *gas*.
+* Documentación IPFS — *content addressing*, *pinning*, *gateways*.
+* Rollups y *data availability* (visión general).
+
+> Bibliografía viva y ampliada en `recursos/bibliografia.md`.
+
+---
+
+## 🧱 Prerrequisitos técnicos
+
+* **Python 3.10+** (`pip install -r requirements.txt`)
+  Paquetes recomendados U3: `ipfshttpclient`, `web3`, `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `requests`.
+* **Foundry/Anvil** (opcional, para *deploy/test* de `AnchorRegistry.sol`).
+* Nodo local o proveedor HTTP (Anvil/Infura/Alchemy) para probar el *anchor*.
+
+---
+
+## ✅ Rúbrica (U3 Lab)
+
+| Criterio        | Descripción                                                           |  Puntos |
+| --------------- | --------------------------------------------------------------------- | ------: |
+| Integridad      | Subida a IPFS + verificación de hash/CID                              |      25 |
+| On-chain anchor | Emisión de *event* y/o almacenamiento con recuperación/consulta       |      25 |
+| Costos          | Estimación L1 vs L2 (supuestos claros, tabla/figura, discusión)       |      20 |
+| Mini-ML         | Detección de anomalías con breve justificación y salida reproducible  |      15 |
+| Claridad        | Código limpio, parametrizado, *README* del lab y *how-to*             |      10 |
+| Presentación    | Informe 1–2 págs. con resultados, supuestos, riesgos y próximos pasos |       5 |
+| **Total**       |                                                                       | **100** |
+
+**Entrega:** notebooks ejecutados + contrato (si aplica) + informe (MD/PDF) + *assets* (capturas/tablas).
+
+---
+
+## 👥 Organización y normas
+
+* Mantener grupos definidos en U1/U2 (o notificar cambios).
+* **Seguridad & privacidad:** no subir PII ni llaves privadas; usar `.env`/variables de entorno; evaluar *pinning* privado.
+* Documentar **supuestos** y **límites** (p. ej., dependencia de gateways públicos).
+
+---
+
+## 📎 Recursos de apoyo
+
+* **Contratos:** `solidity/src/AnchorRegistry.sol` (mínimo); tests en `solidity/test`.
+* **Plantillas de *pipeline***: `python/src/chain/` y notebooks U3.
+* **Herramientas:** IPFS CLI/Daemon, Foundry/Anvil, Web3.py, *pinning services*.
+
+---
+
+### 🔁 Conexión con U2 y U4
+
+* **De U2 → U3:** de integridad (SHA-3/Keccak) y firmas (ECDSA) a **trazabilidad con IPFS** y **anclaje**.
+* **Hacia U4:** estos *anchors* y costos informan decisiones en **DeFi/AMMs/MEV** (riesgo, *data availability* y *oracle design*).
 
 ```
-
 
