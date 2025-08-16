@@ -301,6 +301,11 @@ Más en `CONTRIBUTING.md` y `CODE_OF_CONDUCT.md`.
 * Contenido de terceros mantiene sus licencias y atribuciones.
 
 <br>
+<p align="center">
+  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml">
+    <img src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg" alt="Slides (Marp)">
+  </a>
+</p>
 
 <p align="center"><a href="#readme">⬆️ Volver arriba</a></p>
 
