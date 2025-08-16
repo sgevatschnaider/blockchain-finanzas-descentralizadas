@@ -3,10 +3,11 @@
 
 **Blockchain · DeFi · Criptografía aplicada · Trading cuantitativo · On-chain analytics**
 
-[![CI Foundry](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml/badge.svg?branch=main)](../../actions/workflows/ci-foundry.yml)
-[![CI Python](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml/badge.svg?branch=main)](../../actions/workflows/ci-python.yml)
-[![Links](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg?branch=main)](../../actions/workflows/links.yml)
+[![CI Foundry](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml)
+[![CI Python](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml)
+[![Links](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml)
 [![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)](LICENSE)
+
 
 > **Misión:** Empoderarte con rigor técnico y habilidades prácticas para **construir, auditar, analizar y evaluar** soluciones blockchain en contextos reales de negocio y finanzas.  
 > **Docente responsable:** Dr. Sergio Gevatschnaider · **Cursada:** Ago–Oct 2025 · **Modalidad:** Remota + Híbrida (Sede Zabala)
