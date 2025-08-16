@@ -1,0 +1,52 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg*
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+.env
+.env.*
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- VSCode / IDEs ---
+.vscode/
+.idea/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Node/Hardhat/Truffle ---
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-store/
+artifacts/
+cache/
+coverage/
+typechain/
+typechain-types/
+# Truffle
+solidity/build/
+
+# --- Foundry ---
+out/
+# (Foundry también usa cache/; ya cubierto arriba)
+
+# --- Misc ---
+*.log

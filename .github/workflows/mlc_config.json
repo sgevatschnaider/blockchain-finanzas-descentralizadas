@@ -1,0 +1,8 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^mailto:" },
+    { "pattern": "https://img.shields.io/.*" },
+    { "pattern": "https://github.com/.*/actions/workflows/.*badge.svg.*" }
+  ],
+  "replacementPatterns": []
+}
