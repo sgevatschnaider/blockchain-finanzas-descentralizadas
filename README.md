@@ -249,8 +249,16 @@ Contratos de demostración listos para usar en clase. Todo se prueba **gratis** 
 
 ### `Milestonecrowdemo.sol`
 
-[![Ver archivo (GitHub)](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/4e2dbd16b375fb8087aa35108f70f208bc3bb2f2/contracts/Milestonecrowdemo.sol)
-[![Abrir en Remix (opcional)](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/4e2dbd16b375fb8087aa35108f70f208bc3bb2f2/contracts/Milestonecrowdemo.sol)
+## 📄 Contratos (`contracts/`)
+
+### `Milestonecrowdemo.sol`
+
+[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
+[![Abrir en Remix](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
+
+<sub>📂 Ruta: `contracts/Milestonecrowdemo.sol`  
+🔒 El botón de Remix abre el contrato desde el *raw* de GitHub. No accede a tu PC ni a tu sesión privada.</sub>
+
 
 <sub>Ruta: `contracts/Milestonecrowdemo.sol` · Si querés la última versión en lugar del commit fijado: 
 <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/contracts/Milestonecrowdemo.sol">ver en <code>main</code></a>.</sub>
