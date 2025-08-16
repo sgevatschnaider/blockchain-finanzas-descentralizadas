@@ -1,3 +1,4 @@
+
 # U1 — Fundamentos de Blockchain & Smart Contracts
 
 **Material elaborado :** Dr. Sergio Gevatschnaider
@@ -64,4 +65,72 @@ def merkle_root(leaves: list[bytes]) -> bytes:
             nxt.append(nxt[-1])
         level = nxt
     return level[0]
+````
+
+---
+
+## 📚 Material de estudio
+
+### Base de la guía (ES)
+
+* Bashir, I. *Mastering Blockchain* (2ª ed.).
+* Beltrán, M. (coord.), Nespral, D., Fernández-Hergueta, R. *Blockchain: el modelo descentralizado hacia la economía digital*.
+* Drescher, D. *Blockchain Basics: A Non-Technical Introduction in 25 Steps*.
+* Edmunds, J. C. *DeFi. El nuevo paradigma de las finanzas modernas*.
+* Lewis, A. *The Basics of Bitcoins and Blockchains*.&#x20;
+
+### Complementaria actualizada (EN)
+
+* Narayanan et al., *Bitcoin and Cryptocurrency Technologies* (Princeton).
+* Antonopoulos & Wood, *Mastering Ethereum* (O’Reilly).
+* Ethereum Docs (EVM, gas, accounts).
+* OpenZeppelin Docs (primitives y estándares ERC).
+
+> La bibliografía viva y ampliada está en `recursos/bibliografia.md`.
+
+---
+
+## 🧱 Prerrequisitos técnicos
+
+* **Python 3.10+** (`pip install -r requirements.txt`)
+* (Opcional) **Foundry/Anvil** para pruebas EVM (se usa intensivamente en U6).
+
+---
+
+## ✅ Rúbrica (U1 Lab)
+
+| Criterio     | Descripción                                        |  Puntos |
+| ------------ | -------------------------------------------------- | ------: |
+| Correctitud  | Cálculo de raíz y verificación de pruebas          |      40 |
+| Claridad     | Código limpio, nombres claros, explicación breve   |      25 |
+| Pruebas      | Casos normales y bordes (pares/impares, duplicado) |      20 |
+| Presentación | Informe de 1 pág. con resultados y discusión       |      15 |
+| **Total**    |                                                    | **100** |
+
+**Entrega:** notebook con celdas ejecutadas + informe breve (MD/PDF).
+
+---
+
+## 👥 Organización y normas
+
+* Formar **grupos** en la primera sesión y comunicar al docente.
+* Verificar **pertinencia** de fuentes y **citar en APA 7** en trabajos y presentaciones.&#x20;
+
+---
+
+## 📎 Recursos de apoyo
+
+* Bitcoin Whitepaper · Ethereum Docs · Solidity Docs · Foundry Book.
+* Calculadoras de hash y visualizadores de árboles de Merkle (educativos).
+
+> Próxima clase: **U2 — Criptoactivos, Consenso & Ciberseguridad**.
+
+```
+
+---
+
+Si querés, ahora mismo te dejo **U2** con el mismo formato (consenso + ECDSA + PoW mínimo) y el badge preparado para `notebooks/U02_ecdsa_pow_minimo.ipynb`.
+::contentReference[oaicite:5]{index=5}
+```
+
 
