@@ -5,6 +5,11 @@ on:
     branches: [ main ]
     paths:
       - 'slides/**/*.md'
+      - 'slides/**/*.png'
+      - 'slides/**/*.jpg'
+      - 'slides/**/*.jpeg'
+      - 'slides/**/*.svg'
+      - 'slides/**/*.css'
       - '.github/workflows/slides.yml'
   workflow_dispatch:
 
@@ -23,13 +28,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Convert Markdown into HTML and PDF
-        uses: KoharaKazuya/marp-cli-action@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Collect outputs
+      - name: Install Marp CLI
+        run: npm i -g @marp-team/marp-cli@latest
+
+      - name: Build slides (HTML + PDF)
         run: |
           mkdir -p dist
-          find . -maxdepth 1 -type f \( -name '*.html' -o -name '*.pdf' \) -exec mv {} dist/ \;
+          # HTML
+          marp slides/**/*.md --html --allow-local-files -o dist/
+          # PDF
+          marp slides/**/*.md --pdf  --allow-local-files -o dist/
+          echo "Generados:"
+          ls -la dist
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -38,6 +53,7 @@ jobs:
           path: dist
           if-no-files-found: error
 
+  # --------- OPCIONAL: publicar en GitHub Pages ---------
   deploy:
     name: Deploy to GitHub Pages
     needs: build
