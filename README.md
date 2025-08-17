@@ -277,21 +277,35 @@ Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos d
 
 Contratos de demostración listos para clase. Se pueden leer en GitHub y, **opcionalmente**, abrir en Remix cargando el **raw** del repo (no accede a tu PC ni a tu sesión).
 
+## Contratos (carpeta `contracts/`)
+
+Contratos de demostración listos para clase. Se pueden leer en GitHub y, **opcionalmente**, abrir en Remix cargando el **raw** del repo (no accede a tu PC ni a tu sesión).
+
+---
+
 ### `Milestonecrowdemo.sol`
 
-[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
+[![Ver archivo (raw)](https://img.shields.io/badge/Ver%20archivo-RAW-blue?logo=github)](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
 [![Abrir en Remix (opcional)](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
 
-<sub>📂 Ruta: `contracts/Milestonecrowdemo.sol`. El botón de Remix carga el archivo desde el *raw* de GitHub.</sub>
+<details>
+<summary>Ver en GitHub (HTML, opcional)</summary>
+
+https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol
+</details>
 
 ---
 
 ### `MilestoneEscrow_OZDemo.sol`
 
-[![Ver en GitHub](https://img.shields.io/badge/Ver%20archivo-GitHub-blue?logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/contracts/MilestoneEscrow_OZDemo.sol)
+[![Ver archivo (raw)](https://img.shields.io/badge/Ver%20archivo-RAW-blue?logo=github)](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol)
 [![Abrir en Remix (opcional)](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/contracts/MilestoneEscrow_OZDemo.sol)
 
-<sub>📂 Ruta: `contracts/MilestoneEscrow_OZDemo.sol`.</sub>
+<details>
+<summary>Ver en GitHub (HTML, opcional)</summary>
+
+https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/contracts/MilestoneEscrow_OZDemo.sol
+</details>
 
 ---
 
