@@ -1,4 +1,3 @@
-````markdown
 # **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
 
 <p align="center">
