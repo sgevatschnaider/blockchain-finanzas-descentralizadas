@@ -1,6 +1,8 @@
 {
   "ignorePatterns": [
-    { "pattern": "^mailto:" }
+    { "pattern": "^mailto:" },
+    { "pattern": "^https://github.com/.*/blob/.*" },
+    { "pattern": "^http://localhost(:[0-9]+)?/" }
   ],
   "timeout": "20s",
   "httpHeaders": [
