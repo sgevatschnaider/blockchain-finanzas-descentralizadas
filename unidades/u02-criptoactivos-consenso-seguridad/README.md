@@ -1,113 +1,186 @@
-﻿# U2 — Criptoactivos, Consenso & Ciberseguridad
+# U2 — Criptoactivos, Consenso & Ciberseguridad
 
 **Material elaborado:** Dr. Sergio Gevatschnaider
 
-> Esta unidad profundiza en la **taxonomía de criptoactivos** (coins, stablecoins, tokens fungibles/NFT), los **mecanismos de consenso** (PoW/PoS) y las **primitivas criptográficas** que los sostienen (hash, firmas digitales ECDSA, AEAD). Integra además una **capa de ciberseguridad** aplicada: gestión de claves, modelos de amenaza (Sybil/51%), *wallet* hygiene y nociones de auditoría básica de contratos.
+> En esta unidad profundizamos en la **clasificación de criptoactivos** (coins, stablecoins, tokens, NFTs), los **mecanismos de consenso** (PoW / PoS) y las **primitivas de criptografía** indispensables (hash, firmas digitales, AEAD). Cerramos con un **laboratorio práctico**: ECDSA (secp256k1), PoW mínimo y **Keccak-256** para asegurar integridad.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain Lab GIF" width="820">
+</p>
+
+[⬅️ Volver a Unidades](..)
 
 ---
 
 ## 🎯 Objetivos de la unidad
 
-- Diferenciar **tipos de criptoactivos** y sus casos de uso.
-- Comprender **PoW vs PoS** y su impacto en seguridad, latencia y costos.
-- Aplicar **ECDSA (secp256k1)** para firma/verificación de mensajes.
-- Implementar un **PoW mínimo** y medir su dificultad/tiempos.
-- Evaluar **integridad** de datos con **Keccak/SHA-3** y buenas prácticas de *key management*.
+- Comprender el mapa de **criptoactivos** y sus propiedades económicas/técnicas.
+- Entender el rol de **consenso** (PoW/PoS) y su impacto en seguridad y costos.
+- Repasar **hashes**, **firmas ECDSA** y **autenticidad/integridad** de mensajes.
+- Ejecutar un **lab guiado**: firma/validación con ECDSA (secp256k1), hash con **Keccak-256**, y **PoW mínimo**.
 
 ---
 
 ## 🗺️ Plan de trabajo (visión general)
 
-- **Sección 2 (3 días)**
-  - Taxonomía de criptoactivos y *token standards* (ERC-20/721, visión general).
-  - Consenso: PoW, PoS, *finality*, *fork choice* (alto nivel).
-  - Criptografía aplicada: hash (SHA-256, SHA-3/Keccak), firmas ECDSA, AEAD (noción).
-  - Ciberseguridad: modelos de amenaza (Sybil/51%), gestión de claves (mnemonics, *cold/hot storage*), *phishing* y *malware basics*.
-  - **Actividad sincrónica obligatoria.**
+- **Sección 1 (conceptos)**  
+  Tipos de criptoactivos, diseño de incentivos, riesgos y casos de uso.
+- **Sección 2 (consenso)**  
+  PoW vs PoS: seguridad, finalización, censura, costos y huella energética.
+- **Sección 3 (cripto aplicada)**  
+  Hashes (SHA-3/Keccak), firmas ECDSA (secp256k1), AEAD (ChaCha20-Poly1305).
+- **Sección 4 (hands-on)**  
+  **Lab**: ECDSA + PoW mínimo + Keccak-256; verificación y reporte breve.
 
-> **Sugerencia operativa:** 1 sesión sincrónica (3 h) dentro de la semana + trabajo autónomo de 3 días (lecturas y práctica guiada).
+> Sugerencia operativa: 1 sesión sincrónica (3 h) + 3 días de trabajo autónomo con lecturas y práctica.
 
 ---
 
-## ⏱️ Agenda sugerida para la sesión sincrónica (3 h)
+## ⏱️ Agenda sugerida para la sesión (3 h)
 
-1) Panorama de criptoactivos y estándares (25’)  
-2) PoW/PoS: propiedades de seguridad y trade-offs (35’)  
-3) Criptografía aplicada: hash (Merkle ↔ U1), ECDSA secp256k1 (40’)  
-4) **Hands-on**: ECDSA + PoW mínimo + integridad con Keccak/SHA-3 (60’)  
-5) Gestión de claves y *threat modeling* + Q&A (20’)
+1) Panorama de criptoactivos y riesgos (30’)  
+2) Consenso PoW/PoS: trade-offs y seguridad (40’)  
+3) Cripto aplicada: hash y firmas (30’)  
+4) **Hands-on**: ECDSA + PoW + Keccak (60’)  
+5) Q&A y siguientes pasos (20’)
 
 ---
 
 ## 🧪 Laboratorio principal (propuesto por la cátedra)
 
-**Título:** ECDSA (secp256k1) + PoW mínimo + integridad con Keccak/SHA-3
-
+**Título:** ECDSA (secp256k1) + PoW mínimo + integridad con Keccak-256  
 **Descripción:**  
-1) Generar un par de claves **ECDSA secp256k1**, firmar y verificar mensajes.  
-2) Implementar un **PoW mínimo**: hallar un *nonce* tal que `H(m || nonce)` cumpla una **dificultad** dada (p. ej., `n` ceros *hex* al inicio).  
-3) Validar **integridad** de un conjunto de elementos (p. ej., *dataset* breve) con **Keccak/SHA-3**.
+- Generá un par de claves (privada/pública) **secp256k1**.  
+- **Firmá** un mensaje y **verificalo** con la clave pública.  
+- Calculá **Keccak-256** del mensaje para asegurar integridad.  
+- Implementá un **PoW mínimo**: buscá un `nonce` tal que `keccak256(prefix || nonce)` tenga `n` ceros iniciales en hex.
 
-**Notebook sugerido:** `notebooks/U02_ecdsa_pow_keccak.ipynb`  
-**Abrir en Colab:**  
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U02_ecdsa_pow_keccak.ipynb)
+> **Notebook sugerido:** `notebooks/U02_ecdsa_pow_keccak.ipynb` *(sugerido por la cátedra; podés crearlo a partir de los snippets de abajo).*  
 
-**Pista de implementación (Python):**
+### Snippets base (Python)
 
-> 🔑 **Firmas ECDSA (secp256k1)** — usando la librería `ecdsa`.  
-> ⛏️ **PoW mínimo** — con SHA-3 (estándar) o Keccak-256 (Ethereum).  
-> ℹ️ Python >= 3.10 trae `hashlib.sha3_256`. Para **Keccak-256** (Ethereum) usá `pysha3` (`pip install pysha3`) o `eth_utils`.
+> Podés ejecutar esto en un notebook. Si falta una librería, instalala en Colab o tu venv:
+> `pip install ecdsa pycryptodome`
+
+**1) Firmas ECDSA (secp256k1)**
 
 ```python
-# --- Requisitos (ejecutá en una celda previa del notebook) ---
-# !pip install ecdsa pysha3  # pysha3 expone hashlib.keccak_256
-
-import os, time, binascii, hashlib
 from ecdsa import SigningKey, SECP256k1
 
-# ====== 1) ECDSA secp256k1: keypair, firma y verificación ======
-sk = SigningKey.generate(curve=SECP256k1)
-vk = sk.get_verifying_key()
-msg = b"U2 - ECDSA + PoW + Keccak/SHA-3"
+# 1) Generar par de claves
+sk = SigningKey.generate(curve=SECP256k1)       # clave privada
+vk = sk.get_verifying_key()                     # clave pública
 
-# Hash del mensaje (SHA-3 estándar)
-msg_hash = hashlib.sha3_256(msg).digest()
+msg = b"Hola, blockchain U2"
 
-sig = sk.sign(msg_hash)                     # firma (DER)
-ok  = vk.verify(sig, msg_hash)              # verificación
+# 2) Firmar
+signature = sk.sign(msg)
 
-print("PubKey (hex):", vk.to_string("compressed").hex())
-print("Firma válida:", ok)
+# 3) Verificar
+ok = vk.verify(signature, msg)
+print("Validez de la firma:", ok)  # True
+````
 
-# ====== 2) PoW mínimo: H(m || nonce) con 'd' ceros hex iniciales ======
-def pow_mini(message: bytes, difficulty_hex_zeros: int = 3, use_keccak: bool = False):
-    target_prefix = b"0" * difficulty_hex_zeros
-    nonce = 0
-    hfunc = (lambda x: hashlib.sha3_256(x).hexdigest())
-    if use_keccak and hasattr(hashlib, "keccak_256"):
-        hfunc = (lambda x: hashlib.keccak_256(x).hexdigest())  # requiere pysha3
+**2) Keccak-256 (integridad)**
 
-    start = time.time()
-    while True:
-        h = hfunc(message + nonce.to_bytes(8, "big"))
-        if h.startswith(target_prefix.decode()):
-            elapsed = time.time() - start
-            return nonce, h, elapsed
-        nonce += 1
+```python
+from Crypto.Hash import keccak
 
-nonce, digest, secs = pow_mini(msg, difficulty_hex_zeros=3, use_keccak=False)  # SHA-3
-print(f"PoW (SHA-3): nonce={nonce}, hash={digest[:16]}..., tiempo={secs:.3f}s")
+def keccak256(data: bytes) -> bytes:
+    k = keccak.new(digest_bits=256)
+    k.update(data)
+    return k.digest()
 
-# (Opcional) con Keccak-256 si está disponible:
-if hasattr(hashlib, "keccak_256"):
-    nonce_k, digest_k, secs_k = pow_mini(msg, difficulty_hex_zeros=3, use_keccak=True)
-    print(f"PoW (Keccak-256): nonce={nonce_k}, hash={digest_k[:16]}..., tiempo={secs_k:.3f}s")
+digest = keccak256(b"Hola, blockchain U2")
+print("Keccak-256:", digest.hex())
+```
 
-# ====== 3) Integridad de una lista de elementos con SHA-3 ======
-def digest_list(items: list[bytes]):
-    return [hashlib.sha3_256(x).hexdigest() for x in items]
+**3) PoW mínimo (didáctico)**
 
-items = [b"tx1: alice->bob 10", b"tx2: carol->dan 5", b"tx3: eve->frank 7"]
-print("Hashes SHA-3:", digest_list(items))
+```python
+from Crypto.Hash import keccak
+
+def keccak256_hex(data: bytes) -> str:
+    k = keccak.new(digest_bits=256); k.update(data)
+    return k.hexdigest()
+
+prefix = b"U2-demo"
+difficulty = 3  # cantidad de '0' iniciales en hex (aumentá para más dificultad)
+target = "0" * difficulty
+
+nonce = 0
+while True:
+    h = keccak256_hex(prefix + nonce.to_bytes(8, "big"))
+    if h.startswith(target):
+        print(f"Nonce encontrado: {nonce}, hash: {h}")
+        break
+    nonce += 1
+```
+
+> 📌 **Reflexión:** ¿Cómo varía el tiempo del PoW al incrementar `difficulty`? Medí tiempos y graficá.
+
+---
+
+## 📚 Material de estudio
+
+### Base (ES)
+
+* Bashir, I. *Mastering Blockchain* (2ª ed.).
+* Beltrán, M. (coord.), Nespral, D., Fernández-Hergueta, R. *Blockchain: el modelo descentralizado hacia la economía digital*.
+* Drescher, D. *Blockchain Basics: A Non-Technical Introduction in 25 Steps*.
+* Edmunds, J. C. *DeFi. El nuevo paradigma de las finanzas modernas*.
+* Lewis, A. *The Basics of Bitcoins and Blockchains*.
+
+### Complementaria (EN)
+
+* Narayanan et al., *Bitcoin and Cryptocurrency Technologies* (Princeton).
+* Antonopoulos & Wood, *Mastering Ethereum* (O’Reilly).
+* **NIST FIPS-202** (SHA-3), **SEC-1** (ECC), **RFC 8439** (ChaCha20-Poly1305), **RFC 8032** (EdDSA).
+* OpenZeppelin Docs (estándares y utilidades).
+
+> La bibliografía ampliada vive en `recursos/bibliografia.md`.
+
+---
+
+## 🧱 Prerrequisitos técnicos
+
+* **Python 3.10+** → `pip install -r requirements.txt`
+* (Opcional) **Foundry/Anvil** para práctica EVM (intensivo en U6).
+
+---
+
+## ✅ Rúbrica (U2 Lab)
+
+| Criterio     |                                                       Descripción |  Puntos |
+| ------------ | ----------------------------------------------------------------: | ------: |
+| Correctitud  |    ECDSA firma/verificación + PoW funcional + Keccak-256 correcto |      40 |
+| Claridad     |             Código limpio, comentarios, explicación de decisiones |      25 |
+| Pruebas      | Casos y métricas (tiempos vs dificultad; pruebas de verificación) |      20 |
+| Presentación |                 Informe 1 pág. con resultados/figuras y discusión |      15 |
+| **Total**    |                                                                   | **100** |
+
+**Entrega:** notebook con celdas ejecutadas + informe breve (MD/PDF).
+
+---
+
+## 👥 Organización y normas
+
+* Conformar **grupos** (si aplica) y comunicar al docente.
+* **Citar fuentes** (APA 7) en informes y presentaciones.
+
+---
+
+## 🧩 Sugerencias de extensión (opcional)
+
+* **Compare PoW vs PoS**: redactá pros/cons (seguridad, latencia, costos).
+* **Ataques ECDSA**: explorá riesgos si se reutiliza `k` (nonce) o mala entropía.
+* **AEAD**: breve demo de **ChaCha20-Poly1305** para confidencialidad + integridad.
+
+---
+
+[⬅️ Volver a Unidades](..)
+
+
+
 
 
