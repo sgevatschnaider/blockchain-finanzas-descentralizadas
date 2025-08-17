@@ -1,49 +1,49 @@
 ﻿
-# U1 â€” Fundamentos de Blockchain & Smart Contracts
+# U1 — Fundamentos de Blockchain & Smart Contracts
 
 **Material elaborado :** Dr. Sergio Gevatschnaider
 
-> Esta unidad introduce el impacto de las nuevas tecnologÃ­as en negocios (banca, medios de pago, salud, logÃ­stica) y el rol de **blockchain** y **smart contracts** en nuevos modelos de negocio. Se comparan plataformas (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda) y se discuten ventajas, desventajas y perspectivas. 
+> Esta unidad introduce el impacto de las nuevas tecnologías en negocios (banca, medios de pago, salud, logística) y el rol de **blockchain** y **smart contracts** en nuevos modelos de negocio. Se comparan plataformas (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda) y se discuten ventajas, desventajas y perspectivas. 
 
 ---
 
-## ðŸŽ¯ Objetivos de la unidad
+## 🎯 Objetivos de la unidad
 - Acordar **cronograma** y **pautas de trabajo** de la materia.  
 - Recuperar y **profundizar conceptos** sobre blockchain y smart contracts. 
 
 ---
 
-## ðŸ—ºï¸ Plan de trabajo (visiÃ³n general)
-- **SecciÃ³n 1 (3 dÃ­as)**  
-  - Impacto de nuevas tecnologÃ­as en los negocios.  
-  - Modelos de negocio basados en blockchain (Big Tech, fintech, bancos, pagos, salud, logÃ­stica).  
-  - EvoluciÃ³n de blockchain y smart contracts; casos de uso.  
-  - ComparaciÃ³n entre blockchains (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda).  
-  - Casos de smart contracts: logÃ­stica, PropTech, InsurTech; ventajas y desventajas; perspectivas.  
-  - **Actividad sincrÃ³nica obligatoria.** 
+## 🗺️ Plan de trabajo (visión general)
+- **Sección 1 (3 días)**  
+  - Impacto de nuevas tecnologías en los negocios.  
+  - Modelos de negocio basados en blockchain (Big Tech, fintech, bancos, pagos, salud, logística).  
+  - Evolución de blockchain y smart contracts; casos de uso.  
+  - Comparación entre blockchains (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda).  
+  - Casos de smart contracts: logística, PropTech, InsurTech; ventajas y desventajas; perspectivas.  
+  - **Actividad sincrónica obligatoria.** 
 
-> Sugerencia operativa de cÃ¡tedra: 1 sesiÃ³n sincrÃ³nica (3 h) dentro de la semana + trabajo autÃ³nomo de 3 dÃ­as con lecturas y prÃ¡ctica guiada.
-
----
-
-## â±ï¸ Agenda sugerida para la sesiÃ³n sincrÃ³nica (3 h)
-1) Panorama y motivaciÃ³n en finanzas (30â€™)  
-2) Estructura de bloque, hash y **Merkle** (40â€™)  
-3) Ethereum/EVM y gas; comparaciÃ³n de plataformas (30â€™)  
-4) **Hands-on**: Merkle + prueba de inclusiÃ³n (60â€™)  
-5) Q&A y prÃ³ximas actividades (20â€™)
+> Sugerencia operativa de cátedra: 1 sesión sincrónica (3 h) dentro de la semana + trabajo autónomo de 3 días con lecturas y práctica guiada.
 
 ---
 
-## ðŸ§ª Laboratorio principal (propuesto por la cÃ¡tedra)
-**TÃ­tulo:** Ãrbol de Merkle y prueba de inclusiÃ³n  
-**DescripciÃ³n:** Dada una lista de transacciones, construir el **Merkle root** y demostrar (off-chain / on-chain) que un elemento pertenece al conjunto.
+## ⏱️ Agenda sugerida para la sesión sincrónica (3 h)
+1) Panorama y motivación en finanzas (30’)  
+2) Estructura de bloque, hash y **Merkle** (40’)  
+3) Ethereum/EVM y gas; comparación de plataformas (30’)  
+4) **Hands-on**: Merkle + prueba de inclusión (60’)  
+5) Q&A y próximas actividades (20’)
+
+---
+
+## 🧪 Laboratorio principal (propuesto por la cátedra)
+**Título:** Árbol de Merkle y prueba de inclusión  
+**Descripción:** Dada una lista de transacciones, construir el **Merkle root** y demostrar (off-chain / on-chain) que un elemento pertenece al conjunto.
 
 **Notebook sugerido:** `notebooks/U01_merkle_tree.ipynb`  
 **Abrir en Colab:**  
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U01_merkle_tree.ipynb)
 
-**Pista de implementaciÃ³n (Python):**
+**Pista de implementación (Python):**
 ```python
 import hashlib
 
@@ -56,7 +56,7 @@ def merkle_parent(a: bytes, b: bytes) -> bytes:
 def merkle_root(leaves: list[bytes]) -> bytes:
     level = leaves[:]
     if len(level) % 2 == 1:
-        level.append(level[-1])  # duplico Ãºltima si es impar
+        level.append(level[-1])  # duplico última si es impar
     while len(level) > 1:
         nxt = []
         for i in range(0, len(level), 2):
@@ -69,12 +69,12 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 
 ---
 
-## ðŸ“š Material de estudio
+## 📚 Material de estudio
 
-### Base de la guÃ­a (ES)
+### Base de la guía (ES)
 
-* Bashir, I. *Mastering Blockchain* (2Âª ed.).
-* BeltrÃ¡n, M. (coord.), Nespral, D., FernÃ¡ndez-Hergueta, R. *Blockchain: el modelo descentralizado hacia la economÃ­a digital*.
+* Bashir, I. *Mastering Blockchain* (2ª ed.).
+* Beltrán, M. (coord.), Nespral, D., Fernández-Hergueta, R. *Blockchain: el modelo descentralizado hacia la economía digital*.
 * Drescher, D. *Blockchain Basics: A Non-Technical Introduction in 25 Steps*.
 * Edmunds, J. C. *DeFi. El nuevo paradigma de las finanzas modernas*.
 * Lewis, A. *The Basics of Bitcoins and Blockchains*.&#x20;
@@ -82,46 +82,47 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 ### Complementaria actualizada (EN)
 
 * Narayanan et al., *Bitcoin and Cryptocurrency Technologies* (Princeton).
-* Antonopoulos & Wood, *Mastering Ethereum* (Oâ€™Reilly).
+* Antonopoulos & Wood, *Mastering Ethereum* (O’Reilly).
 * Ethereum Docs (EVM, gas, accounts).
-* OpenZeppelin Docs (primitives y estÃ¡ndares ERC).
+* OpenZeppelin Docs (primitives y estándares ERC).
 
-> La bibliografÃ­a viva y ampliada estÃ¡ en `recursos/bibliografia.md`.
+> La bibliografía viva y ampliada está en `recursos/bibliografia.md`.
 
 ---
 
-## ðŸ§± Prerrequisitos tÃ©cnicos
+## 🧱 Prerrequisitos técnicos
 
 * **Python 3.10+** (`pip install -r requirements.txt`)
 * (Opcional) **Foundry/Anvil** para pruebas EVM (se usa intensivamente en U6).
 
 ---
 
-## âœ… RÃºbrica (U1 Lab)
+## ✅ Rúbrica (U1 Lab)
 
-| Criterio     | DescripciÃ³n                                        |  Puntos |
+| Criterio     | Descripción                                        |  Puntos |
 | ------------ | -------------------------------------------------- | ------: |
-| Correctitud  | CÃ¡lculo de raÃ­z y verificaciÃ³n de pruebas          |      40 |
-| Claridad     | CÃ³digo limpio, nombres claros, explicaciÃ³n breve   |      25 |
+| Correctitud  | Cálculo de raíz y verificación de pruebas          |      40 |
+| Claridad     | Código limpio, nombres claros, explicación breve   |      25 |
 | Pruebas      | Casos normales y bordes (pares/impares, duplicado) |      20 |
-| PresentaciÃ³n | Informe de 1 pÃ¡g. con resultados y discusiÃ³n       |      15 |
+| Presentación | Informe de 1 pág. con resultados y discusión       |      15 |
 | **Total**    |                                                    | **100** |
 
 **Entrega:** notebook con celdas ejecutadas + informe breve (MD/PDF).
 
 ---
 
-## ðŸ‘¥ OrganizaciÃ³n y normas
+## 👥 Organización y normas
 
-* Formar **grupos** en la primera sesiÃ³n y comunicar al docente.
+* Formar **grupos** en la primera sesión y comunicar al docente.
 * Verificar **pertinencia** de fuentes y **citar en APA 7** en trabajos y presentaciones.&#x20;
 
 ---
 
-## ðŸ“Ž Recursos de apoyo
+## 📎 Recursos de apoyo
 
-* Bitcoin Whitepaper Â· Ethereum Docs Â· Solidity Docs Â· Foundry Book.
-* Calculadoras de hash y visualizadores de Ã¡rboles de Merkle (educativos).
+* Bitcoin Whitepaper · Ethereum Docs · Solidity Docs · Foundry Book.
+* Calculadoras de hash y visualizadores de árboles de Merkle (educativos).
+
 
 
 
