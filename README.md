@@ -8,14 +8,16 @@
     <img alt="CI Python" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml/badge.svg">
   </a>
   <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml">
-    <img alt="Links" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg">
+    <img alt="Markdown Links" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg">
   </a>
   <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml">
-    <img alt="Slides (Marp)" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg">
+    <img alt="Slides (Marp)" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg?branch=main&event=push">
   </a>
 </p>
 
-> GIF demostrativo del flujo y funcionamiento de la cadena de bloques en el laboratorio.
+**Ir directo a una unidad:** [U1](unidades/unidad-01/) · [U2](unidades/unidad-02/) · [U3](unidades/unidad-03/) · [U4](unidades/unidad-04/) · [U5](unidades/unidad-05/) · [U6](unidades/unidad-06/)
+
+> Vista previa del laboratorio (flujo y funcionamiento de la cadena de bloques).
 
 <img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain - Vista previa del laboratorio" width="900" />
 
@@ -134,7 +136,7 @@ anvil   # red local
 
 ## Unidades (U1–U6)
 
-### U1 — Fundamentos de Blockchain & Smart Contracts
+### [U1 — Fundamentos de Blockchain & Smart Contracts](unidades/unidad-01/)
 
 `unidades/unidad-01/README.md`
 
@@ -173,7 +175,7 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 
 ---
 
-### U2 — Criptoactivos, Consenso & Ciberseguridad
+### [U2 — Criptoactivos, Consenso & Ciberseguridad](unidades/unidad-02/)
 
 `unidades/unidad-02/README.md`
 
@@ -213,7 +215,7 @@ def pow_mini(message: bytes, zeros: int = 3):
 
 ---
 
-### U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)
+### [U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)](unidades/unidad-03/)
 
 `unidades/unidad-03/README.md`
 
@@ -229,7 +231,7 @@ Trazabilidad con IPFS/on-chain, costos L1/L2 (noción EIP-4844), prototipos de n
 
 ---
 
-### U4 — TraFi vs DeFi (AMMs, MEV, regulación)
+### [U4 — TraFi vs DeFi (AMMs, MEV, regulación)](unidades/unidad-04/)
 
 `unidades/unidad-04/README.md`
 
@@ -241,7 +243,7 @@ AMMs (Uniswap v3), riesgo de LP, MEV/PBS y panorama regulatorio (MiCA/FATF).
 
 ---
 
-### U5 — Indicadores & Trading (cuantitativo)
+### [U5 — Indicadores & Trading (cuantitativo)](unidades/unidad-05/)
 
 `unidades/unidad-05/README.md`
 
@@ -253,7 +255,7 @@ Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos d
 
 ---
 
-### U6 — Python para Blockchain & Finanzas (*on-chain analytics*)
+### [U6 — Python para Blockchain & Finanzas (*on-chain analytics*)](unidades/unidad-06/)
 
 `unidades/unidad-06/README.md`
 
@@ -329,8 +331,9 @@ print(ohlcv[:2])
 * Los archivos `slides/**/*.md` se convierten automáticamente a **HTML/PDF** con Marp y se publican como **artefacto** en cada corrida de Actions.
 * Si **Pages** está habilitado, también se publican en una URL del repositorio.
 
-**Estado:**
-[![Slides (Marp)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml)
+**Sitio de slides:** [https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/)
+**Estado del workflow:**
+[![Slides (Marp)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg?branch=main\&event=push)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml)
 
 ---
 
@@ -356,11 +359,13 @@ print(ohlcv[:2])
 
 ---
 
-## Licencia
+## ⚖️ Licencia
 
 * Material educativo; **no** constituye asesoramiento financiero.
 * Licencia **MIT** — ver [LICENSE](LICENSE).
 * Contenido de terceros mantiene sus licencias y atribuciones.
+
+
 
 
 
