@@ -1,4 +1,4 @@
-﻿# U2 — Criptoactivos, Consenso & Ciberseguridad
+# U2 — Criptoactivos, Consenso & Ciberseguridad
 
 **Material elaborado:** Dr. Sergio Gevatschnaider
 
@@ -109,5 +109,4 @@ def digest_list(items: list[bytes]):
 
 items = [b"tx1: alice->bob 10", b"tx2: carol->dan 5", b"tx3: eve->frank 7"]
 print("Hashes SHA-3:", digest_list(items))
-
 

@@ -1,4 +1,4 @@
-﻿# **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
+# **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
 
 <p align="center">
   <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml">
@@ -389,4 +389,3 @@ print(ohlcv[:2])
 
 
 $UPDATED: link-check test
-

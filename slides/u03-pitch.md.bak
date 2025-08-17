@@ -1,4 +1,4 @@
-﻿---
+---
 marp: true
 title: U3 — Pitch del Caso (IoT / IA / ML + Metaverso)
 description: Propuesta de negocio con anclaje on-chain (PoE + IPFS), costos L1/L2 y riesgos
@@ -61,4 +61,3 @@ flowchart LR
   B --> C[IPFS (CID)]
   B --> D[ProofOfExistence.anchor]
   D --> E[(Ledger)]
-

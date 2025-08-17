@@ -1,4 +1,4 @@
-﻿# U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)
+# U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)
 
 **Material elaborado:** Dr. Sergio Gevatschnaider
 
@@ -272,5 +272,4 @@ X[X["anomaly"]].head()
 * **Hacia U4:** estos *anchors* y costos informan decisiones en **DeFi/AMMs/MEV** (riesgo, *data availability* y *oracle design*).
 
 ```
-
 
