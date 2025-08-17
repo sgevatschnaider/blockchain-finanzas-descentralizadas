@@ -1,3 +1,4 @@
+````markdown
 # **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
 
 <p align="center">
@@ -15,7 +16,13 @@
   </a>
 </p>
 
-**Ir directo a una unidad:** [U1](unidades/unidad-01/) · [U2](unidades/unidad-02/) · [U3](unidades/unidad-03/) · [U4](unidades/unidad-04/) · [U5](unidades/unidad-05/) · [U6](unidades/unidad-06/)
+**Ir directo a una unidad:**  
+[U1](unidades/u01-fundamentos-smart-contracts/) ·
+[U2](unidades/u02-criptoactivos-consenso-seguridad/) ·
+[U3](unidades/u03-iot-ia-metaverso/) ·
+[U4](unidades/u04-trafi-vs-defi-amms-mev-regulacion/) ·
+[U5](unidades/u05-indicadores-trading/) ·
+[U6](unidades/u06-python-blockchain-analytics/)
 
 > Vista previa del laboratorio (flujo y funcionamiento de la cadena de bloques).
 
@@ -72,12 +79,12 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 │  ├─ bibliografia.md
 │  └─ enlaces-utiles.md
 ├─ unidades/
-│  ├─ unidad-01/README.md
-│  ├─ unidad-02/README.md
-│  ├─ unidad-03/README.md
-│  ├─ unidad-04/README.md
-│  ├─ unidad-05/README.md
-│  └─ unidad-06/README.md
+│  ├─ u01-fundamentos-smart-contracts/            # README.md
+│  ├─ u02-criptoactivos-consenso-seguridad/       # README.md
+│  ├─ u03-iot-ia-metaverso/                       # README.md
+│  ├─ u04-trafi-vs-defi-amms-mev-regulacion/      # README.md
+│  ├─ u05-indicadores-trading/                    # README.md
+│  └─ u06-python-blockchain-analytics/            # README.md
 ├─ notebooks/
 │  ├─ U01_merkle_tree.ipynb
 │  ├─ U02_ecdsa_pow_keccak.ipynb
@@ -136,9 +143,9 @@ anvil   # red local
 
 ## Unidades (U1–U6)
 
-### [U1 — Fundamentos de Blockchain & Smart Contracts](unidades/unidad-01/)
+### [U1 — Fundamentos de Blockchain & Smart Contracts](unidades/u01-fundamentos-smart-contracts/)
 
-`unidades/unidad-01/README.md`
+`unidades/u01-fundamentos-smart-contracts/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 Impacto de nuevas tecnologías en negocios; modelos de negocio basados en blockchain; evolución de smart contracts; comparación entre Bitcoin, Ethereum, Litecoin, Hyperledger y Corda; ventajas y desventajas; perspectivas.
@@ -175,9 +182,9 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 
 ---
 
-### [U2 — Criptoactivos, Consenso & Ciberseguridad](unidades/unidad-02/)
+### [U2 — Criptoactivos, Consenso & Ciberseguridad](unidades/u02-criptoactivos-consenso-seguridad/)
 
-`unidades/unidad-02/README.md`
+`unidades/u02-criptoactivos-consenso-seguridad/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 Taxonomía de criptoactivos (coins, stablecoins, tokens, NFT), consenso (PoW/PoS, finality), criptografía aplicada (hash SHA-256/SHA-3, ECDSA secp256k1), ciberseguridad (gestión de claves, Sybil/51%).
@@ -215,9 +222,9 @@ def pow_mini(message: bytes, zeros: int = 3):
 
 ---
 
-### [U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)](unidades/unidad-03/)
+### [U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)](unidades/u03-iot-ia-metaverso/)
 
-`unidades/unidad-03/README.md`
+`unidades/u03-iot-ia-metaverso/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 Trazabilidad con IPFS/on-chain, costos L1/L2 (noción EIP-4844), prototipos de negocio y mini-ML para alertas/anomalías.
@@ -231,9 +238,9 @@ Trazabilidad con IPFS/on-chain, costos L1/L2 (noción EIP-4844), prototipos de n
 
 ---
 
-### [U4 — TraFi vs DeFi (AMMs, MEV, regulación)](unidades/unidad-04/)
+### [U4 — TraFi vs DeFi (AMMs, MEV, regulación)](unidades/u04-trafi-vs-defi-amms-mev-regulacion/)
 
-`unidades/unidad-04/README.md`
+`unidades/u04-trafi-vs-defi-amms-mev-regulacion/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 AMMs (Uniswap v3), riesgo de LP, MEV/PBS y panorama regulatorio (MiCA/FATF).
@@ -243,9 +250,9 @@ AMMs (Uniswap v3), riesgo de LP, MEV/PBS y panorama regulatorio (MiCA/FATF).
 
 ---
 
-### [U5 — Indicadores & Trading (cuantitativo)](unidades/unidad-05/)
+### [U5 — Indicadores & Trading (cuantitativo)](unidades/u05-indicadores-trading/)
 
-`unidades/unidad-05/README.md`
+`unidades/u05-indicadores-trading/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos de apalancamiento y liquidez.
@@ -255,9 +262,9 @@ Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos d
 
 ---
 
-### [U6 — Python para Blockchain & Finanzas (*on-chain analytics*)](unidades/unidad-06/)
+### [U6 — Python para Blockchain & Finanzas (*on-chain analytics*)](unidades/u06-python-blockchain-analytics/)
 
-`unidades/unidad-06/README.md`
+`unidades/u06-python-blockchain-analytics/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
 *Deploy* ERC-20 (Foundry/Anvil), eventos on-chain, KPIs con Web3.py (parseo de `Transfer` y panel de indicadores).
@@ -364,7 +371,6 @@ print(ohlcv[:2])
 * Material educativo; **no** constituye asesoramiento financiero.
 * Licencia **MIT** — ver [LICENSE](LICENSE).
 * Contenido de terceros mantiene sus licencias y atribuciones.
-
 
 
 
