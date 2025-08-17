@@ -1,24 +1,46 @@
 name: Markdown Links
+
 on:
   push:
+    branches: [ main ]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   link-checker:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # necesario si comparamos con base-branch
+          fetch-depth: 0  # necesario si comparamos con base-branch
 
-      - name: markdown-link-check
+      # Chequea SOLO los archivos modificados (evita rate limits y acelera PRs)
+      - name: Markdown link check (changed files only)
         uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
-          use-verbose-mode: true
-          # Si no querés comparar solo cambios, poné "check-modified-files-only: false"
-          check-modified-files-only: true
-          base-branch: main          # <-- tu rama por defecto
-          folder-path: .
-          file-extension: .md
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          check-modified-files-only: 'true'
+          base-branch: 'main'
+          folder-path: '.'
+          file-extension: '.md'
           max-depth: -1
-          config-file: .github/mlc_config.json
+          config-file: '.github/mlc_config.json'
+
+      # (Opcional) Si querés revisar TODO el repo cuando lo lanzás a mano
+      # Comentá este paso si no lo necesitás.
+      - name: Markdown link check (full repo on manual run)
+        if: github.event_name == 'workflow_dispatch'
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          folder-path: '.'
+          file-extension: '.md'
+          max-depth: -1
+          config-file: '.github/mlc_config.json'
