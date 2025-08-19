@@ -59,7 +59,7 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 - **Calidad**: CI para Python/Foundry, verificación de enlaces y *slides* automáticas.
 - **Docencia**: cronograma, objetivos por unidad, rúbricas y recursos.
 
-> **Docente responsable:** Dr. Sergio Gevatschnaider · **Cursada:** Ago–Oct 2025 · Modalidad: Remota + Híbrida (Sede Zabala)
+> **Docente responsable:** Dr. Sergio Gevatschnaider · 
 
 ---
 
