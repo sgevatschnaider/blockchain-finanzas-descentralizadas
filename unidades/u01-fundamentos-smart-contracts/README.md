@@ -1,4 +1,3 @@
-﻿
 # U1 — Fundamentos de Blockchain & Smart Contracts
 
 **Material elaborado :** Dr. Sergio Gevatschnaider
@@ -69,6 +68,29 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 
 ---
 
+## 📁 Estructura de trabajo (códigos y ejemplos)
+
+Para esta unidad se creó la siguiente estructura de carpetas:
+
+```
+Unidad-1/
+├── python/   → Scripts en Python
+├── html/     → Ejemplos y prácticas en HTML
+└── README.md
+```
+
+### 🔹 Códigos Python
+
+* [Ejemplo 1: Árbol de Merkle](./python/ejemplo_merkle.py)
+* [Notebook complementario](./python/U01_merkle_tree.ipynb)
+
+### 🔹 Archivos HTML
+
+* [Index básico](./html/index.html)
+* [Formulario ejemplo](./html/formulario.html)
+
+---
+
 ## 📚 Material de estudio
 
 ### Base de la guía (ES)
@@ -123,10 +145,5 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 * Bitcoin Whitepaper · Ethereum Docs · Solidity Docs · Foundry Book.
 * Calculadoras de hash y visualizadores de árboles de Merkle (educativos).
 
-
-
-
-
-
-
+```
 
