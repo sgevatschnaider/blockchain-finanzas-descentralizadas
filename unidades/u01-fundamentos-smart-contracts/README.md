@@ -79,6 +79,14 @@ Unidad-1/
 └── README.md
 ```
 
+## 📝 Unidad 1 — Fundamentos de Blockchain & Smart Contracts
+
+| 📄 Recurso | 📥 Acceso |
+|------------|-----------|
+| **Notebook: El Impacto de las Nuevas Tecnologías en los Negocios** <br><br> <details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Este notebook introduce el impacto de tecnologías emergentes en negocios (banca, pagos, salud, logística), destacando el papel de blockchain y smart contracts. Incluye una revisión conceptual y práctica inicial con ejemplos para visualizar cómo los modelos de negocio se transforman con plataformas descentralizadas.</p></details> | [![Ver en GitHub](https://img.shields.io/badge/Ver%20en-GitHub-blue?style=for-the-badge&logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/af8ade01a7d1f0f9fe27391b58acd4e3b648444a/unidades/u01-fundamentos-smart-contracts/python/El_Impacto_de_las_Nuevas_Tecnolog%C3%ADas_en_los_Negocios.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/af8ade01a7d1f0f9fe27391b58acd4e3b648444a/unidades/u01-fundamentos-smart-contracts/python/El_Impacto_de_las_Nuevas_Tecnolog%C3%ADas_en_los_Negocios.ipynb) |
+| **Simulación interactiva: Transición Colateral (HTML)** <br><br> <details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Un panel didáctico para explorar la transición de la movilización de colateral y liquidaciones tradicionales hacia esquemas con stablecoins y tokenización de activos. Permite ajustar parámetros (haircuts, exposición, reconciliaciones, AUM) y visualizar en tiempo real el impacto en capital, costes operativos y nuevos ingresos. Incluye hitos recientes de la industria (BlackRock, Visa) y métricas simplificadas de P&L.</p></details> | [![Ver Página Web](https://img.shields.io/badge/Abrir%20Simulación-HTML-brightgreen?style=for-the-badge&logo=html5)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/af8ade01a7d1f0f9fe27391b58acd4e3b648444a/unidades/u01-fundamentos-smart-contracts/html/colateral.html) |
+
+
 ### 🔹 Códigos Python
 
 * [Ejemplo 1: Árbol de Merkle](./python/ejemplo_merkle.py)
