@@ -293,6 +293,13 @@ Contratos de demostración listos para clase. Se pueden leer en GitHub y, **opci
 [![Ver archivo (raw)](https://img.shields.io/badge/Ver%20archivo-RAW-blue?logo=github)](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
 [![Abrir en Remix (opcional)](https://img.shields.io/badge/Abrir%20en-Remix-orange?logo=ethereum)](https://remix.ethereum.org/#url=https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/8ce183666f7ba0fc834d0de866d4d257baa3504a/contracts/Milestonecrowdemo.sol)
 
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/contrato.html" target="_blank">
+    <img src="https://img.shields.io/badge/ Abrir%20Demo%20Contrato-blueviolet?style=for-the-badge" alt="Abrir Demo Contrato">
+  </a>
+</p>
+
+
 <details>
 <summary>Ver en GitHub (HTML, opcional)</summary>
 
