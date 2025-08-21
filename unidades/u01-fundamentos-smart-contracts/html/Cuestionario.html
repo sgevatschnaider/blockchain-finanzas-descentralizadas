@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz: Impacto de las Nuevas Tecnologías en los Negocios</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f1220;
+      color: #e8eaf6;
+      padding: 40px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #7dd3fc;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #171a2b;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.4);
+    }
+    .question {
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #2d3748;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #2d3748;
+      color: #e8eaf6;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 15px;
+      text-align: left;
+    }
+    .options button:hover {
+      background: #4a5568;
+    }
+    .correct {
+      background: #34d399 !important;
+      color: #0f1220;
+      font-weight: bold;
+    }
+    .incorrect {
+      background: #ef4444 !important;
+      color: white;
+      font-weight: bold;
+    }
+    .explanation {
+      margin-top: 10px;
+      padding: 10px;
+      border-left: 4px solid #7dd3fc;
+      background: #1e233a;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: left;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz: Impacto de las Nuevas Tecnologías en los Negocios</h1>
+  <div class="quiz-container" id="quiz"></div>
+  <div id="result"></div>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. ¿Qué significa 'tokenización' en el contexto financiero?",
+        options: [
+          "A) La digitalización de documentos legales en PDF",
+          "B) La representación de un activo en un ledger digital mediante un token",
+          "C) La creación de criptomonedas especulativas",
+          "D) El almacenamiento en la nube de registros bancarios"
+        ],
+        correct: 1,
+        explanation: "La tokenización implica representar un activo (ej. un bono o inmueble) en un ledger digital con un token. Esto no es solo digitalizar un documento, sino crear un activo programable que puede transferirse, fraccionarse y liquidarse en blockchain."
+      },
+      {
+        question: "2. ¿Cuáles son las tres palancas que impactan en el P&L gracias a la digitalización de valor?",
+        options: [
+          "A) Capital y liquidez, coste operativo, nuevos ingresos",
+          "B) Marketing digital, experiencia de usuario, branding",
+          "C) Costos de personal, reducción de oficinas, mayor endeudamiento",
+          "D) Innovación tecnológica, regulación, riesgos de compliance"
+        ],
+        correct: 0,
+        explanation: "La tokenización y el uso de stablecoins impactan directamente el P&L en tres áreas: (1) mejor uso de capital y liquidez, (2) reducción de costes operativos por menos reconciliaciones y fricciones, (3) nuevos ingresos mediante productos financieros innovadores."
+      },
+      {
+        question: "3. ¿Qué ventaja principal ofrecen las stablecoins en el settlement interbancario?",
+        options: [
+          "A) Eliminan por completo la necesidad de bancos",
+          "B) Facilitan liquidaciones 24/7 y reducen fricciones de FX y prefunding",
+          "C) Son más volátiles que el dólar",
+          "D) Solo sirven para consumidores minoristas"
+        ],
+        correct: 1,
+        explanation: "Las stablecoins permiten liquidaciones inmediatas, 24/7 y globales, reduciendo la necesidad de prefinanciar operaciones y eliminando cortes horarios. Además, reducen la fricción en pagos transfronterizos."
+      },
+      {
+        question: "4. ¿En qué caso es más conveniente usar una red permissioned como Hyperledger o Corda?",
+        options: [
+          "A) Cuando se busca acceso global abierto y composabilidad con DeFi",
+          "B) Cuando se requiere confidencialidad comercial y gobernanza por consorcio",
+          "C) Cuando se quiere especular con precios de tokens",
+          "D) Cuando se necesita pagar comisiones más bajas"
+        ],
+        correct: 1,
+        explanation: "Las redes permissioned son ideales para entornos donde la privacidad, el cumplimiento regulatorio y la gobernanza centralizada son esenciales (ej. supply chain finance, bancos)."
+      },
+      {
+        question: "5. ¿Qué aporta la infraestructura cloud (AWS, Azure, Google Cloud) en la adopción de blockchain?",
+        options: [
+          "A) Aumenta la volatilidad del mercado",
+          "B) Reemplaza a los bancos en la gestión de colateral",
+          "C) Reduce el 'time-to-pilot' y facilita seguridad corporativa",
+          "D) Hace innecesario el cumplimiento regulatorio"
+        ],
+        correct: 2,
+        explanation: "Los servicios cloud permiten desplegar pilotos blockchain rápidamente con seguridad empresarial integrada, reduciendo costos y tiempos de implementación para corporaciones."
+      },
+      {
+        question: "6. ¿Por qué se consideran los pagos con PYUSD (PayPal) o USDC en Stripe como 'nuevos rieles de pago'?",
+        options: [
+          "A) Porque sustituyen al efectivo físico en todos los comercios",
+          "B) Porque permiten pagos rápidos, globales, de bajo costo y conciliación automática",
+          "C) Porque eliminan el uso de tarjetas tradicionales de inmediato",
+          "D) Porque garantizan anonimato total"
+        ],
+        correct: 1,
+        explanation: "Estos sistemas no buscan reemplazar al efectivo inmediatamente, sino ofrecer pagos programables, rápidos y baratos, con conciliación automática que mejora la eficiencia de los comercios."
+      },
+      {
+        question: "7. ¿Cuál es un beneficio concreto de la tokenización de colateral (ej. JPMorgan Onyx/TCN)?",
+        options: [
+          "A) Aumentar los haircuts y costos financieros",
+          "B) Transferencias de titularidad casi en tiempo real y menor fricción",
+          "C) Eliminar por completo los riesgos regulatorios",
+          "D) Sustituir todos los activos físicos por cripto"
+        ],
+        correct: 1,
+        explanation: "Tokenizar colateral permite transferir propiedad en minutos en lugar de días, reduciendo riesgos operativos, haircuts y mejorando la liquidez intradía."
+      },
+      {
+        question: "8. ¿Cuál es la principal ventaja de un eBL (electronic Bill of Lading) respecto al documento físico?",
+        options: [
+          "A) Se puede imprimir más rápido",
+          "B) Reduce fraude, agiliza procesos y habilita financiación casi inmediata",
+          "C) No requiere colaboración de navieras o puertos",
+          "D) Elimina la necesidad de contratos legales"
+        ],
+        correct: 1,
+        explanation: "El eBL digitaliza el conocimiento de embarque, reduciendo fraude y tiempo de procesamiento, y puede tokenizarse para obtener financiación inmediata en comercio internacional."
+      },
+      {
+        question: "9. ¿Qué ventaja ofrece un ledger inmutable como Hyperledger Fabric en trazabilidad alimentaria o farmacéutica?",
+        options: [
+          "A) Inmutabilidad verificable y reducción de tiempo de trazado a segundos",
+          "B) Mayor anonimato para las empresas participantes",
+          "C) Reemplaza los ERP tradicionales en su totalidad",
+          "D) Genera automáticamente ingresos adicionales"
+        ],
+        correct: 0,
+        explanation: "La inmutabilidad y trazabilidad rápida (de días a segundos) permiten mayor seguridad en casos de recalls, aumentando la confianza de consumidores y reguladores."
+      },
+      {
+        question: "10. Como CFO/COO, ¿qué criterio es clave al decidir migrar activos a versiones tokenizadas?",
+        options: [
+          "A) Volatilidad de las criptomonedas en redes públicas",
+          "B) Coste de marketing y publicidad del proyecto",
+          "C) Impacto en liquidez, capital y eficiencia operativa",
+          "D) Preferencias personales del CEO"
+        ],
+        correct: 2,
+        explanation: "La decisión se centra en mejorar liquidez, liberar capital y ganar eficiencia operativa; no en factores de marketing o preferencias subjetivas."
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+    let score = 0;
+
+    quizData.forEach((q, i) => {
+      const questionEl = document.createElement("div");
+      questionEl.classList.add("question");
+      questionEl.innerHTML = `<h3>${q.question}</h3>`;
+
+      const optionsEl = document.createElement("div");
+      optionsEl.classList.add("options");
+
+      q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.onclick = () => {
+          if (index === q.correct) {
+            button.classList.add("correct");
+            score++;
+          } else {
+            button.classList.add("incorrect");
+          }
+          Array.from(optionsEl.children).forEach(btn => btn.disabled = true);
+          
+          // Mostrar explicación
+          const explanation = document.createElement("div");
+          explanation.classList.add("explanation");
+          explanation.innerText = q.explanation;
+          questionEl.appendChild(explanation);
+
+          if (i === quizData.length - 1) {
+            resultContainer.innerHTML = `✅ Obtuviste ${score} de ${quizData.length} respuestas correctas.`;
+          }
+        };
+        optionsEl.appendChild(button);
+      });
+
+      questionEl.appendChild(optionsEl);
+      quizContainer.appendChild(questionEl);
+    });
+  </script>
+</body>
+</html>
