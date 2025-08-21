@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🌳 Árbol de Merkle con Proof</title>
+<style>
+  body { display: flex; font-family: "Inter", sans-serif; background: #0b0f14; color: #e8f0ff; margin: 0; }
+  .main { flex: 3; padding: 20px; }
+  .sidebar { flex: 1; background: #121821; padding: 20px; border-left: 2px solid #333; overflow-y: auto; }
+  h1 { text-align: center; color: #f7931a; margin-bottom: 20px; font-size: 1.8rem; }
+  textarea { width: 100%; height: 100px; margin-bottom: 10px; background: #121821; color: #e8f0ff; border: 2px solid #333; border-radius: 8px; padding: 8px; font-family: monospace; }
+  button { margin: 5px 5px 15px 0; padding: 10px 16px; border: none; border-radius: 8px; background: linear-gradient(135deg, #f7931a, #ff6b35); color: white; font-weight: bold; cursor: pointer; }
+  .svg-container { text-align: center; }
+  .node { fill: #0e141c; stroke: #49d3ff; stroke-width: 2; cursor: pointer; }
+  .root { stroke: #00e58f; fill: #1a472a; stroke-width: 3; }
+  .text { fill: #49d3ff; font-size: 11px; font-family: monospace; text-anchor: middle; pointer-events: none; }
+  .connection-line { stroke: #555; stroke-width: 2; opacity: 0.7; }
+  .highlight-node { stroke: #ffd700 !important; fill: #333300 !important; stroke-width: 4 !important; }
+  .highlight-line { stroke: #ffd700 !important; stroke-width: 4 !important; opacity: 1 !important; }
+  .sidebar h2 { color: #49d3ff; margin-top: 0; }
+  .proof-item { background: rgba(73,211,255,0.1); border-left: 4px solid #49d3ff; padding: 6px; margin: 6px 0; font-size: 13px; font-family: monospace; }
+  .leaf-hash { border-left-color: #ffd700; background: rgba(255,215,0,0.1); }
+  .root-hash { border-left-color: #00e58f; background: rgba(0,229,143,0.1); }
+</style>
+</head>
+<body>
+
+<div class="main">
+  <h1>🌳 Árbol de Merkle con Camino y Proof</h1>
+  <textarea id="txs">Pagar a Alice 10 BTC
+Pagar a Bob 5 BTC
+Pagar a Carol 15 BTC
+Pagar a David 8 BTC
+Pagar a Eve 12 BTC</textarea><br>
+  <button onclick="buildMerkle()">🔧 Generar Árbol</button>
+  <button onclick="clearTree()">🗑️ Limpiar</button>
+  <div class="svg-container">
+    <svg id="svgTree" width="1000" height="600" style="background:#111; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.5);"></svg>
+  </div>
+</div>
+
+<div class="sidebar">
+  <h2>🔍 Merkle Proof</h2>
+  <div id="proofPanel">
+    Haz clic en una hoja para ver su prueba.
+  </div>
+</div>
+
+<script>
+// ============== HASHING ==================
+async function sha256Hex(str) {
+  const enc = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+async function doubleHash(str) { return await sha256Hex(await sha256Hex(str)); }
+
+// ============== BUILD MERKLE =============
+let globalLevels=[]; // guardamos estructura
+let originalTxs=[];
+async function buildMerkle() {
+  const txs = document.getElementById("txs").value.trim().split("\n").filter(x=>x);
+  if (!txs.length) return;
+  originalTxs = txs;
+
+  let levels=[], current=[];
+  for (let tx of txs) current.push(await doubleHash(tx.trim()));
+  levels.push([...current]);
+
+  while (current.length>1) {
+    let next=[];
+    for (let i=0;i<current.length;i+=2){
+      const left=current[i], right=current[i+1]||left;
+      next.push(await doubleHash(left+right));
+    }
+    levels.push([...next]);
+    current=next;
+  }
+
+  globalLevels=levels;
+  drawTree(levels);
+}
+
+// ============== DRAW TREE ================
+function drawTree(levels) {
+  const svg=document.getElementById("svgTree"); svg.innerHTML="";
+  const width=+svg.getAttribute("width"), height=+svg.getAttribute("height");
+  const levelHeight=height/(levels.length+1);
+  let positions=[];
+
+  levels.forEach((level,li)=>{
+    let y=height-(li+1)*levelHeight;
+    let spacing=width/(level.length+1);
+    let rowPos=[];
+    level.forEach((hash,i)=>{
+      rowPos.push({x:(i+1)*spacing,y,hash,level:li,index:i,isRoot:(li===levels.length-1&&i===0)});
+    });
+    positions.push(rowPos);
+  });
+
+  // draw connections
+  for (let li=0; li<positions.length-1; li++){
+    let row=positions[li], parents=positions[li+1];
+    row.forEach((child,ci)=>{
+      let pi=Math.floor(ci/2), parent=parents[pi];
+      let line=document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1",child.x); line.setAttribute("y1",child.y);
+      line.setAttribute("x2",parent.x); line.setAttribute("y2",parent.y);
+      line.setAttribute("class","connection-line");
+      line.dataset.child=`${li}-${ci}`;
+      line.dataset.parent=`${li+1}-${pi}`;
+      svg.appendChild(line);
+    });
+  }
+
+  // draw nodes
+  positions.flat().forEach(node=>{
+    let g=document.createElementNS("http://www.w3.org/2000/svg","g");
+    let circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    circle.setAttribute("cx",node.x); circle.setAttribute("cy",node.y);
+    circle.setAttribute("r",28);
+    circle.setAttribute("class","node"+(node.isRoot?" root":""));
+    circle.dataset.key=`${node.level}-${node.index}`;
+    circle.addEventListener("click",()=>highlightPath(node,positions));
+
+    let text=document.createElementNS("http://www.w3.org/2000/svg","text");
+    text.setAttribute("x",node.x); text.setAttribute("y",node.y+4);
+    text.setAttribute("class","text");
+    text.textContent=node.hash.slice(0,6)+"..";
+
+    g.appendChild(circle); g.appendChild(text); svg.appendChild(g);
+  });
+}
+
+// ============== HIGHLIGHT + PROOF =========
+function highlightPath(node,positions){
+  // reset styles
+  document.querySelectorAll(".highlight-node").forEach(n=>n.classList.remove("highlight-node"));
+  document.querySelectorAll(".highlight-line").forEach(l=>l.classList.remove("highlight-line"));
+
+  let proofPanel=document.getElementById("proofPanel");
+  proofPanel.innerHTML="";
+
+  // 1. Hash de la hoja seleccionada
+  if(node.level===0){
+    let div=document.createElement("div");
+    div.className="proof-item leaf-hash";
+    div.textContent=`Hoja (tx): ${originalTxs[node.index]} → ${node.hash}`;
+    proofPanel.appendChild(div);
+  }
+
+  let current=node;
+  while(current){
+    // highlight node
+    const circle=document.querySelector(`circle[data-key="${current.level}-${current.index}"]`);
+    if(circle) circle.classList.add("highlight-node");
+
+    // highlight line + record sibling for proof
+    if(current.level<positions.length-1){
+      let pi=Math.floor(current.index/2);
+      const line=document.querySelector(`line[data-child="${current.level}-${current.index}"][data-parent="${current.level+1}-${pi}"]`);
+      if(line) line.classList.add("highlight-line");
+
+      // hermano
+      let siblingIndex=(current.index%2===0)?current.index+1:current.index-1;
+      let sibling=positions[current.level][siblingIndex];
+      if(sibling){
+        let dir=(current.index%2===0)?"RIGHT":"LEFT";
+        let div=document.createElement("div");
+        div.className="proof-item";
+        div.textContent=`Hermano (${dir}): ${sibling.hash}`;
+        proofPanel.appendChild(div);
+      }
+
+      current=positions[current.level+1][pi];
+    } else {
+      // root
+      let div=document.createElement("div");
+      div.className="proof-item root-hash";
+      div.textContent=`🌱 Hash raíz: ${current.hash}`;
+      proofPanel.appendChild(div);
+      current=null;
+    }
+  }
+}
+
+// ============== CLEAR ====================
+function clearTree(){ 
+  document.getElementById("svgTree").innerHTML=""; 
+  document.getElementById("proofPanel").innerHTML=""; 
+}
+</script>
+</body>
+</html>
+
