@@ -103,6 +103,18 @@ Unidad-1/
 | **HTML: Smart Contracts** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Definición de smart contracts, sus características principales y cómo automatizan acuerdos mediante código ejecutable en blockchain.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/1bb4e2c61d5b7b2e5426b0da30098223499c697f/unidades/u01-fundamentos-smart-contracts/html/smart_contract.html) |
 | **HTML: Tokenización** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Explicación de la tokenización de activos, tanto financieros como del mundo real (RWA), y su relevancia en la digitalización de valor y mercados 24/7.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/1bb4e2c61d5b7b2e5426b0da30098223499c697f/unidades/u01-fundamentos-smart-contracts/html/tokenizacion.html) |
 
+
+## 📝 Unidad 1 — Fundamentos de Blockchain & Smart Contracts (Recursos HTML)
+
+| 📄 Recurso | 🌐 Página Renderizada |
+| ---------- | --------------------- |
+| **HTML: Bitcoin** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/BITCOIN.html) |
+| **HTML: Colateral** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/Colateral.html) |
+| **HTML: FT & DeFi** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/FT_DEFI.html) |
+| **HTML: Clave Criptográfica** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/clave.html) |
+| **HTML: Smart Contracts** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/smart_contract.html) |
+| **HTML: Tokenización** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/tokenizacion.html) |
+
 ---
 
 ## 📚 Material de estudio
