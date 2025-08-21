@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¿Qué es un Escrow?</title>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #0f1220;
+      color: #e8f0ff;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(90deg, #34d399, #3b82f6);
+      color: #0f1220;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    section {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #171a2b;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    section h2 {
+      color: #34d399;
+      border-bottom: 2px solid #34d399;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin: 0.4rem 0;
+    }
+    .flow {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .box {
+      background: #1f2937;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      width: 200px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .arrow {
+      font-size: 2rem;
+      color: #34d399;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>💰 ¿Qué es un Escrow?</h1>
+  </header>
+
+  <section>
+    <h2>📌 Definición</h2>
+    <p>
+      Un <strong>escrow</strong> es un <em>depósito en garantía</em>. 
+      Es un mecanismo de confianza donde un tercero neutral mantiene fondos, activos o documentos 
+      hasta que se cumplan ciertas condiciones. 
+    </p>
+    <p>
+      En blockchain, ese “tercero” se reemplaza por un <span style="color:#3b82f6;">smart contract</span> que 
+      libera los fondos automáticamente si se cumplen las reglas.
+    </p>
+  </section>
+
+  <section>
+    <h2>✅ Características</h2>
+    <ul>
+      <li>Protege tanto al comprador como al vendedor.</li>
+      <li>El dinero se libera solo si se cumplen las condiciones.</li>
+      <li>Evita fraudes y genera confianza en transacciones.</li>
+      <li>En DeFi: todo se programa en el contrato inteligente.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔄 Flujo de un Escrow</h2>
+    <div class="flow">
+      <div class="box">👤 Buyer<br><small>Deposita fondos</small></div>
+      <div class="arrow">➡️</div>
+      <div class="box">🔒 Escrow<br><small>Custodia neutral</small></div>
+      <div class="arrow">➡️</div>
+      <div class="box">👨‍💻 Seller<br><small>Recibe pago si cumple</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🌐 Ejemplo en Blockchain</h2>
+    <p>
+      1. El comprador deposita 1000 USDC en el contrato de escrow.<br>
+      2. El vendedor entrega el servicio o producto.<br>
+      3. Un oráculo verifica el cumplimiento.<br>
+      4. El smart contract libera el pago al vendedor.<br>
+    </p>
+  </section>
+
+  <footer>
+     Demo educativa sobre Escrow en Blockchain | Creado para explicar conceptos de DeFi
+  </footer>
+</body>
+</html>
