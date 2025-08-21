@@ -35,6 +35,13 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 
 **Nuestra misión:** Empoderarte con rigor técnico y habilidades prácticas para **construir, auditar, analizar y evaluar** soluciones basadas en blockchain en contextos reales.
 
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/AMMS.html" target="_blank">
+    <img src="https://img.shields.io/badge/ Abrir%20Demo%20AMMs-blueviolet?style=for-the-badge" alt="Abrir Demo AMMs">
+  </a>
+</p>
+
+
 ---
 
 ## 🧭 Índice
