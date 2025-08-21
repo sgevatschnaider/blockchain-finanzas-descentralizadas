@@ -108,12 +108,12 @@ Unidad-1/
 
 | 📄 Recurso | 🌐 Página Renderizada |
 | ---------- | --------------------- |
-| **HTML: Bitcoin** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/BITCOIN.html) |
-| **HTML: Colateral** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/Colateral.html) |
-| **HTML: FT & DeFi** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/FT_DEFI.html) |
-| **HTML: Clave Criptográfica** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/clave.html) |
-| **HTML: Smart Contracts** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/smart_contract.html) |
-| **HTML: Tokenización** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://cdn.jsdelivr.net/gh/sgevatschnaider/blockchain-finanzas-descentralizadas@main/unidades/u01-fundamentos-smart-contracts/html/tokenizacion.html) |
+| **HTML: Bitcoin** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/BITCOIN.html) |
+| **HTML: Colateral** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/Colateral.html) |
+| **HTML: FT & DeFi** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/FT_DEFI.html) |
+| **HTML: Clave Criptográfica** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/clave.html) |
+| **HTML: Smart Contracts** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/smart_contract.html) |
+| **HTML: Tokenización** | [![Abrir Página](https://img.shields.io/badge/Abrir-Página-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/tokenizacion.html) |
 
 ---
 
