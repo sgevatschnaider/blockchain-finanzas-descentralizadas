@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tokenización en Blockchain - Slideshow</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f1220;
+      color: #e8eaf6;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      margin-bottom: 40px;
+      color: #7dd3fc;
+    }
+    .container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .box {
+      width: 180px;
+      height: 180px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 16px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.8s ease-in-out;
+      color: white;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.4);
+      margin: 10px;
+    }
+    .activo { background: #fbbf24; }
+    .smart { background: #a78bfa; }
+    .token { background: #34d399; }
+    .mercado { background: #7dd3fc; }
+    .inversores { background: #f87171; }
+    .show {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+    .arrow {
+      font-size: 40px;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      margin: 10px;
+    }
+    .arrow.show {
+      opacity: 1;
+    }
+    button {
+      margin-top: 50px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #7dd3fc;
+      color: #0f1220;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #34d399;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔗 Tokenización en Blockchain</h1>
+  <div class="container">
+    <div id="activo" class="box activo">Activo Real</div>
+    <div id="arrow1" class="arrow">➡️</div>
+    <div id="smart" class="box smart">Smart Contract</div>
+    <div id="arrow2" class="arrow">➡️</div>
+    <div id="token" class="box token">Token Digital</div>
+    <div id="arrow3" class="arrow">➡️</div>
+    <div id="mercado" class="box mercado">Mercado / DeFi</div>
+    <div id="arrow4" class="arrow">➡️</div>
+    <div id="inversores" class="box inversores">Inversores</div>
+  </div>
+
+  <button onclick="nextStep()">➡️ Siguiente</button>
+  <button onclick="resetSteps()">🔄 Reiniciar</button>
+
+  <!-- Sonido -->
+  <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+
+  <script>
+    const steps = [
+      "activo",
+      "arrow1",
+      "smart",
+      "arrow2",
+      "token",
+      "arrow3",
+      "mercado",
+      "arrow4",
+      "inversores"
+    ];
+
+    let currentStep = 0;
+
+    function playSound() {
+      const sound = document.getElementById("popSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function nextStep() {
+      if (currentStep < steps.length) {
+        document.getElementById(steps[currentStep]).classList.add("show");
+        playSound();
+        currentStep++;
+      }
+    }
+
+    function resetSteps() {
+      steps.forEach(id => {
+        document.getElementById(id).classList.remove("show");
+      });
+      currentStep = 0;
+    }
+  </script>
+</body>
+</html>

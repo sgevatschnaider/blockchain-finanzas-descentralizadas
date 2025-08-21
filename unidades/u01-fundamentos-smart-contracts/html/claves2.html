@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Criptografía: Simétrica vs Asimétrica — Demo Interactiva</title>
+<style>
+  :root{
+    --bg-primary: #0a0f1c;
+    --bg-secondary: #111827;
+    --bg-card: rgba(17, 24, 39, 0.95);
+    --bg-glass: rgba(17, 24, 39, 0.6);
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --accent-primary: #06b6d4;
+    --accent-secondary: #22d3ee;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --border: rgba(51, 65, 85, 0.3);
+    --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
+    --glow-purple: 0 0 20px rgba(139, 92, 246, 0.3);
+    --glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(circle at 20% 80%, rgba(139,92,246,.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(6,182,212,.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(16,185,129,.1) 0%, transparent 50%),
+      linear-gradient(135deg, var(--bg-primary) 0%, #0f1729 50%, var(--bg-primary) 100%);
+    color:var(--text-primary);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    font-size:14px; line-height:1.5; min-height:100vh; overflow-x:hidden;
+  }
+  .particles{position:fixed;inset:0;pointer-events:none;z-index:-1}
+  .particle{position:absolute;width:2px;height:2px;background:var(--accent-secondary);border-radius:50%;animation:float 20s infinite linear;opacity:.3}
+  @keyframes float{
+    0%{transform:translateY(100vh) translateX(0) rotate(0);opacity:0}
+    10%,90%{opacity:.3}
+    100%{transform:translateY(-100vh) translateX(100px) rotate(360deg);opacity:0}
+  }
+  header{text-align:center;padding:60px 20px 30px;background:linear-gradient(180deg, rgba(6,182,212,.05) 0%, transparent 100%)}
+  h1{
+    font-size:clamp(24px,4vw,36px);font-weight:700;margin-bottom:12px;letter-spacing:-.02em;
+    background:linear-gradient(135deg,var(--accent-primary),var(--accent-secondary),#8b5cf6);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:shimmer 3s ease-in-out infinite alternate;
+  }
+  @keyframes shimmer{0%{filter:brightness(1)}100%{filter:brightness(1.2)}}
+  .sub{color:var(--text-secondary);font-size:16px;opacity:.8;max-width:700px;margin:0 auto}
+  .wrap{max-width:1200px;margin:0 auto;padding:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:20px}
+  .card{
+    background:var(--bg-card);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:20px;padding:24px;
+    box-shadow:0 20px 40px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.05);position:relative;overflow:hidden;transition:.3s ease all;
+    animation:slideUp .6s ease-out forwards;opacity:0;transform:translateY(20px);
+  }
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-secondary),transparent);opacity:.5}
+  .card:hover{transform:translateY(-2px);box-shadow:0 25px 50px rgba(0,0,0,.4), var(--glow-cyan)}
+  .card h2{font-size:20px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--text-primary)}
+  @keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+  .kvs{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+  .col{display:flex;flex-direction:column;gap:12px}
+  button{
+    background:linear-gradient(135deg,var(--accent-primary),var(--accent-secondary));border:none;color:#fff;font-weight:700;
+    padding:12px 20px;border-radius:12px;cursor:pointer;font-size:14px;transition:.3s ease all;box-shadow:0 4px 15px rgba(6,182,212,.3);
+    position:relative;overflow:hidden
+  }
+  button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+  button:hover::before{left:100%}
+  button:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(6,182,212,.4)}
+  button:active{transform:translateY(0)}
+  button.secondary{background:linear-gradient(135deg,var(--bg-secondary),#1e293b);color:var(--text-secondary);border:1px solid var(--border);box-shadow:0 4px 15px rgba(0,0,0,.2)}
+  button.secondary:hover{background:linear-gradient(135deg,#1e293b,#334155);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+  button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  button.copy{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:8px 12px;font-size:12px;box-shadow:0 4px 15px rgba(139,92,246,.3)}
+  button.copy:hover{box-shadow:var(--glow-purple)}
+  textarea,input,pre{
+    width:100%;background:rgba(15,23,42,.8);backdrop-filter:blur(10px);border:1px solid var(--border);color:var(--text-primary);
+    border-radius:12px;padding:14px;font-family:'JetBrains Mono','Fira Code',Consolas,monospace;font-size:13px;line-height:1.4;transition:.3s ease all
+  }
+  textarea:focus,input:focus{outline:none;border-color:var(--accent-primary);box-shadow:0 0 0 3px rgba(6,182,212,.1);background:rgba(15,23,42,.95)}
+  textarea{min-height:80px;resize:vertical}
+  pre{max-height:220px;overflow:auto;margin:0;white-space:pre-wrap;word-break:break-all}
+  label{display:block;margin:16px 0 8px;color:var(--text-secondary);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:20px;background:var(--bg-glass);backdrop-filter:blur(10px);border:1px solid var(--border);color:var(--text-secondary);font-size:13px;font-weight:600;white-space:nowrap}
+  .badge{font-size:12px;background:var(--bg-glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:10px;padding:6px 12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;transition:.3s ease all}
+  .badge.success{background:linear-gradient(135deg, rgba(16,185,129,.2), rgba(16,185,129,.1));border-color:rgba(16,185,129,.3);color:var(--success);box-shadow:var(--glow-green)}
+  .seq{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px dashed rgba(6,182,212,.3);border-radius:16px;padding:16px;background:linear-gradient(135deg, rgba(6,182,212,.05), rgba(139,92,246,.05));backdrop-filter:blur(10px);position:relative}
+  .seq::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,var(--accent-primary),transparent,var(--accent-secondary));mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:exclude;mask-composite:exclude}
+  .avatar{font-size:32px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+  .arrow{font-size:24px;color:var(--accent-primary);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.1);opacity:1}}
+  .apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .app{background:var(--bg-glass);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:16px;padding:16px;transition:.3s ease all;position:relative;overflow:hidden}
+  .app::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent-primary),var(--accent-secondary));transform:translateX(-100%);transition:transform .3s ease}
+  .app:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.2)}
+  .app:hover::before{transform:translateX(0)}
+  .app b{color:var(--accent-secondary);display:block;margin-bottom:8px;font-size:15px}
+  .mini{font-size:12px;color:var(--text-muted);line-height:1.45}
+  .ok{color:var(--success)} .warn{color:var(--warning)} .bad{color:var(--danger)}
+  .footer{color:var(--text-muted);text-align:center;margin:40px 0 20px;padding:20px;background:var(--bg-glass);backdrop-filter:blur(10px);border-radius:16px;border:1px solid var(--border)}
+  @media (max-width:768px){.wrap{padding:16px}.card{padding:16px}.row{gap:8px}.grid{gap:16px}button{padding:10px 16px;font-size:13px}}
+  .card:nth-of-type(1){animation-delay:.1s}.card:nth-of-type(2){animation-delay:.2s}.card:nth-of-type(3){animation-delay:.3s}.card:nth-of-type(4){animation-delay:.4s}.card:nth-of-type(5){animation-delay:.5s}.card:nth-of-type(6){animation-delay:.6s}
+  /* Toasts */
+  .toasts{position:fixed;top:16px;right:16px;display:flex;flex-direction:column;gap:10px;z-index:9999}
+  .toast{background:rgba(2,6,23,.9);color:#e2e8f0;border:1px solid #334155;border-radius:12px;padding:10px 14px;box-shadow:0 10px 30px rgba(0,0,0,.4);display:flex;align-items:center;gap:10px;min-width:220px}
+  .toast.ok{border-color:rgba(16,185,129,.4)} .toast.warn{border-color:rgba(245,158,11,.4)} .toast.bad{border-color:rgba(239,68,68,.4)}
+  .spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="toasts" id="toasts"></div>
+
+<header>
+  <h1>Criptografía Simétrica vs Asimétrica — Demo Interactiva</h1>
+  <div class="sub">AES-GCM · RSA-OAEP · RSA-PSS · Esquema híbrido · Clave pública/privada</div>
+</header>
+
+<div class="wrap">
+  <!-- Diagrama Alicia/Bob -->
+  <div class="card">
+    <h2>👩🏻‍💻 Alicia ↔ 👨🏻‍💻 Bob (visión rápida)</h2>
+    <div class="grid">
+      <div class="col">
+        <div class="pill">Simétrica: <b>1 clave</b> (compartida)</div>
+        <div class="seq">
+          <span class="avatar">🔑</span>
+          <span class="arrow">⟶</span>
+          <span>Ambos usan la <b>misma clave</b> para cifrar/descifrar.</span>
+        </div>
+      </div>
+      <div class="col">
+        <div class="pill">Asimétrica: <b>2 claves</b> (pública/privada)</div>
+        <div class="seq">
+          <span class="avatar">👩🏻‍💻</span>
+          <span>cifra con <b>pública de Bob</b></span>
+          <span class="arrow">⟶</span>
+          <span>solo <b>privada de Bob</b> descifra</span>
+          <span class="avatar">👨🏻‍💻</span>
+        </div>
+        <div class="mini">Firma: Alicia <b>firma con su privada</b> → cualquiera verifica con su <b>pública</b>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMÉTRICA AES-GCM -->
+  <div class="card" id="card-sym">
+    <h2>🔒 Criptografía Simétrica (AES-GCM)</h2>
+    <div class="row">
+      <button id="genAES">Generar clave AES-256</button>
+      <span id="aesState" class="badge">sin clave</span>
+    </div>
+    <label>Clave (raw Base64)</label>
+    <div class="kvs">
+      <pre id="aesKeyOut">(genera la clave)</pre>
+      <button class="copy" data-copy="aesKeyOut">Copiar</button>
+    </div>
+
+    <label>Mensaje</label>
+    <textarea id="aesMsg" placeholder="Escribe un mensaje a cifrar...">Hola Bob, este mensaje está protegido con AES-GCM.</textarea>
+
+    <div class="row">
+      <button id="aesEnc">Cifrar (AES-GCM)</button>
+      <button id="aesDec" class="secondary">Descifrar</button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>IV/Nonce (Base64)</label>
+        <div class="kvs"><pre id="aesIvOut"></pre><button class="copy" data-copy="aesIvOut">Copiar</button></div>
+      </div>
+      <div>
+        <label>Ciphertext (Base64)</label>
+        <div class="kvs"><pre id="aesCtOut"></pre><button class="copy" data-copy="aesCtOut">Copiar</button></div>
+      </div>
+    </div>
+
+    <label>Texto descifrado</label>
+    <pre id="aesPlainOut"></pre>
+    <div class="mini">AES-GCM provee <b>confidencialidad</b> e <b>integridad</b> (AEAD). Usa IV de 12 bytes al azar y <b>no lo reutilices</b> con la misma clave.</div>
+  </div>
+
+  <!-- ASIMÉTRICA RSA-OAEP -->
+  <div class="card" id="card-asym">
+    <h2>🔑 Criptografía Asimétrica (RSA-OAEP)</h2>
+    <div class="row">
+      <button id="genRSA">Generar par RSA-OAEP (2048, SHA-256)</button>
+      <span id="rsaState" class="badge">sin par</span>
+    </div>
+    <div class="grid">
+      <div>
+        <label>Clave pública (PEM)</label>
+        <div class="kvs"><pre id="rsaPub"></pre><button class="copy" data-copy="rsaPub">Copiar</button></div>
+      </div>
+      <div>
+        <label>Clave privada (PEM)</label>
+        <div class="kvs"><pre id="rsaPriv"></pre><button class="copy" data-copy="rsaPriv">Copiar</button></div>
+      </div>
+    </div>
+
+    <label>Mensaje (≤ ~190 bytes con OAEP 2048/SHA-256)</label>
+    <textarea id="rsaMsg">Se cifra con la &lt;clave pública&gt; y se descifra con la &lt;clave privada&gt;.</textarea>
+
+    <div class="row">
+      <button id="rsaEnc">Cifrar con pública</button>
+      <button id="rsaDec" class="secondary">Descifrar con privada</button>
+    </div>
+
+    <label>Ciphertext (Base64)</label>
+    <div class="kvs"><pre id="rsaCt"></pre><button class="copy" data-copy="rsaCt">Copiar</button></div>
+
+    <label>Texto descifrado</label>
+    <pre id="rsaPlain"></pre>
+
+    <div class="mini">OAEP es padding seguro para RSA. Úsalo para pequeños secretos (p. ej., <b>claves de sesión</b>), no para grandes archivos.</div>
+  </div>
+
+  <!-- FIRMAS DIGITALES RSA-PSS -->
+  <div class="card" id="card-sign">
+    <h2>✍️ Firmas Digitales (RSA-PSS · SHA-256)</h2>
+    <div class="row">
+      <button id="genPSS">Generar par RSA-PSS</button>
+      <span id="pssState" class="badge">sin par</span>
+    </div>
+    <div class="grid">
+      <div>
+        <label>Clave pública (PEM)</label>
+        <div class="kvs"><pre id="pssPub"></pre><button class="copy" data-copy="pssPub">Copiar</button></div>
+      </div>
+      <div>
+        <label>Clave privada (PEM)</label>
+        <div class="kvs"><pre id="pssPriv"></pre><button class="copy" data-copy="pssPriv">Copiar</button></div>
+      </div>
+    </div>
+
+    <label>Mensaje a firmar</label>
+    <textarea id="pssMsg">Yo, Alicia, apruebo esta transacción.</textarea>
+
+    <div class="row">
+      <button id="pssSign">Firmar con privada</button>
+      <button id="pssVerify" class="secondary">Verificar con pública</button>
+    </div>
+
+    <label>Firma (Base64)</label>
+    <div class="kvs"><pre id="pssSig"></pre><button class="copy" data-copy="pssSig">Copiar</button></div>
+
+    <div class="row"><span>Verificación:</span><span id="pssOk" class="pill">pendiente</span></div>
+    <div class="mini">La firma garantiza <b>autenticidad</b> y <b>no repudio</b>; cualquiera con tu <b>clave pública</b> puede verificar.</div>
+  </div>
+
+  <!-- HÍBRIDO -->
+  <div class="card" id="card-hybrid">
+    <h2>🧬 Esquema Híbrido (RSA-OAEP + AES-GCM)</h2>
+    <div class="row">
+      <button id="hybGenerate">Usar par RSA-OAEP actual o generarlo</button>
+      <span class="mini">Cifra el mensaje con AES y la clave AES con la pública RSA.</span>
+    </div>
+
+    <label>Mensaje</label>
+    <textarea id="hybMsg">Este flujo usa lo mejor de ambos mundos: velocidad (AES) + intercambio seguro (RSA-OAEP).</textarea>
+
+    <div class="row">
+      <button id="hybEnc">Híbrido: cifrar</button>
+      <button id="hybDec" class="secondary">Híbrido: descifrar</button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Clave AES envuelta (Base64, RSA-OAEP)</label>
+        <div class="kvs"><pre id="hybWrapped"></pre><button class="copy" data-copy="hybWrapped">Copiar</button></div>
+      </div>
+      <div>
+        <label>IV (Base64)</label>
+        <div class="kvs"><pre id="hybIv"></pre><button class="copy" data-copy="hybIv">Copiar</button></div>
+      </div>
+    </div>
+
+    <label>Ciphertext (Base64)</label>
+    <div class="kvs"><pre id="hybCt"></pre><button class="copy" data-copy="hybCt">Copiar</button></div>
+
+    <label>Texto descifrado</label>
+    <pre id="hybPlain"></pre>
+
+    <div class="mini">Así funciona TLS/HTTPS: asimétrica para acordar clave → tráfico de sesión con cifrado simétrico (rápido y escalable).</div>
+  </div>
+
+  <!-- APLICACIONES -->
+  <div class="card">
+    <h2>🌐 Aplicaciones prácticas (qué se usa y por qué)</h2>
+    <div class="apps">
+      <div class="app"><b>HTTPS/TLS</b><span class="mini">Handshake con asimétrica + certificados (PKI). Datos de sesión con AES-GCM/ChaCha20-Poly1305.</span></div>
+      <div class="app"><b>Correo cifrado (PGP/S/MIME)</b><span class="mini">Asimétrica para compartir claves y firmar; simétrica para el cuerpo del mensaje.</span></div>
+      <div class="app"><b>Backup/Disco</b><span class="mini">AES-XTS/AES-GCM por rendimiento. Gestión cuidadosa de claves.</span></div>
+      <div class="app"><b>VPN</b><span class="mini">Intercambio con asimétrica (IKE/Noise), canal con AES-GCM/ChaCha20-Poly1305.</span></div>
+      <div class="app"><b>Mensajería E2E</b><span class="mini">Ratcheting asimétrico + simétrico para mensajes (Signal: X3DH + Double Ratchet).</span></div>
+      <div class="app"><b>Blockchain/Firmas</b><span class="mini">Firmas con clave privada; verificación pública; no repudio.</span></div>
+    </div>
+  </div>
+
+  <div class="footer mini">
+    ⚠️ Demo educativa. Requiere <b>contexto seguro</b> (https/localhost) para Web Crypto. No reutilices IVs, evita DES/RC4/RSA&lt;2048. Prefiere AES-GCM/ChaCha20-Poly1305 y RSA-3072 o ECC modernos en producción.
+  </div>
+</div>
+
+<script>
+/* ======== Partículas flotantes ======== */
+function createParticles() {
+  const container = document.getElementById('particles');
+  const particleCount = 50;
+  for (let i = 0; i < particleCount; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = (Math.random() * 20).toFixed(2) + 's';
+    p.style.animationDuration = (Math.random() * 10 + 10).toFixed(2) + 's';
+    container.appendChild(p);
+  }
+}
+
+/* ======== Toasts ======== */
+function toast(msg, type='ok', timeout=2800) {
+  const wrap = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<div class="spinner"></div><div>${msg}</div>`;
+  // Remove spinner for non-loading updates
+  if (type !== 'loading') el.firstElementChild.remove();
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(-6px)'; }, timeout-400);
+  setTimeout(()=>wrap.removeChild(el), timeout);
+}
+
+/* ======== Utilidades ======== */
+const enc = new TextEncoder(), dec = new TextDecoder();
+
+function ab2b64(ab){
+  const bytes = new Uint8Array(ab);
+  let bin = ""; const len = bytes.byteLength;
+  for (let i=0;i<len;i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+function b642ab(b64){
+  const bin = atob(b64);
+  const len = bin.length;
+  const bytes = new Uint8Array(len);
+  for (let i=0;i<len;i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+function chunk64(str, n=64){
+  return (str.match(new RegExp(`.{1,${n}}`, 'g')) || []).join("\n");
+}
+async function exportPEM(key, type){
+  const format = type === 'public' ? 'spki' : 'pkcs8';
+  const ab = await crypto.subtle.exportKey(format, key);
+  const header = type==='public' ? '-----BEGIN PUBLIC KEY-----' : '-----BEGIN PRIVATE KEY-----';
+  const footer = type==='public' ? '-----END PUBLIC KEY-----' : '-----END PRIVATE KEY-----';
+  return `${header}\n${chunk64(ab2b64(ab))}\n${footer}`;
+}
+async function exportRawB64(key){
+  const ab = await crypto.subtle.exportKey('raw', key);
+  return ab2b64(ab);
+}
+async function importAESfromB64(b64){
+  const ab = b642ab(b64);
+  return crypto.subtle.importKey('raw', ab, {name:'AES-GCM'}, true, ['encrypt','decrypt']);
+}
+function setBadge(el, text, ok=false){
+  el.textContent = text;
+  el.className = 'badge' + (ok ? ' success' : '');
+}
+function isSecure(){
+  return window.isSecureContext && window.crypto && window.crypto.subtle;
+}
+function getHashLen(hash){
+  const map = {'SHA-1':20,'SHA-256':32,'SHA-384':48,'SHA-512':64};
+  return map[hash] || 32;
+}
+function rsaOaepMaxPlain(modulusBits=2048, hash='SHA-256'){
+  const k = modulusBits/8;
+  const hLen = getHashLen(hash);
+  return k - 2*hLen - 2; // RFC 8017
+}
+
+/* ======== Estado ======== */
+let aesKey = null;
+let rsaOAEP = {publicKey:null, privateKey:null, params:{modulusLength:2048, hash:'SHA-256'}};
+let rsaPSS = {publicKey:null, privateKey:null};
+
+let aesLast = {iv:null, ct:null};
+let rsaLast = {ct:null};
+let pssLast = {sig:null};
+let hybLast = {wrapped:null, iv:null, ct:null};
+
+/* ======== DOM (SIMÉTRICA AES-GCM) ======== */
+const btnGenAES = document.getElementById('genAES');
+const aesState = document.getElementById('aesState');
+const aesKeyOut = document.getElementById('aesKeyOut');
+const aesMsg = document.getElementById('aesMsg');
+const aesEncBtn = document.getElementById('aesEnc');
+const aesDecBtn = document.getElementById('aesDec');
+const aesIvOut = document.getElementById('aesIvOut');
+const aesCtOut = document.getElementById('aesCtOut');
+const aesPlainOut = document.getElementById('aesPlainOut');
+
+/* ======== DOM (ASIMÉTRICA RSA-OAEP) ======== */
+const btnGenRSA = document.getElementById('genRSA');
+const rsaState = document.getElementById('rsaState');
+const rsaPub = document.getElementById('rsaPub');
+const rsaPriv = document.getElementById('rsaPriv');
+const rsaMsg = document.getElementById('rsaMsg');
+const rsaEncBtn = document.getElementById('rsaEnc');
+const rsaDecBtn = document.getElementById('rsaDec');
+const rsaCt = document.getElementById('rsaCt');
+const rsaPlain = document.getElementById('rsaPlain');
+
+/* ======== DOM (FIRMAS RSA-PSS) ======== */
+const btnGenPSS = document.getElementById('genPSS');
+const pssState = document.getElementById('pssState');
+const pssPub = document.getElementById('pssPub');
+const pssPriv = document.getElementById('pssPriv');
+const pssMsg = document.getElementById('pssMsg');
+const pssSignBtn = document.getElementById('pssSign');
+const pssVerifyBtn = document.getElementById('pssVerify');
+const pssSig = document.getElementById('pssSig');
+const pssOk = document.getElementById('pssOk');
+
+/* ======== DOM (HÍBRIDO) ======== */
+const hybGenerate = document.getElementById('hybGenerate');
+const hybMsg = document.getElementById('hybMsg');
+const hybEnc = document.getElementById('hybEnc');
+const hybDec = document.getElementById('hybDec');
+const hybWrapped = document.getElementById('hybWrapped');
+const hybIv = document.getElementById('hybIv');
+const hybCt = document.getElementById('hybCt');
+const hybPlain = document.getElementById('hybPlain');
+
+/* ======== Simétrica AES-GCM ======== */
+btnGenAES.onclick = async () => {
+  try{
+    if(!isSecure()) return toast('Este demo requiere contexto seguro (https/localhost).', 'warn');
+    btnGenAES.disabled = true; const old = btnGenAES.textContent; btnGenAES.textContent = 'Generando…';
+    aesKey = await crypto.subtle.generateKey({name:'AES-GCM', length:256}, true, ['encrypt','decrypt']);
+    aesKeyOut.textContent = await exportRawB64(aesKey);
+    setBadge(aesState, 'AES-256 listo', true);
+    toast('Clave AES-256 generada.', 'ok');
+    btnGenAES.textContent = old; btnGenAES.disabled = false;
+  }catch(e){
+    btnGenAES.disabled = false; btnGenAES.textContent = 'Generar clave AES-256';
+    toast('Error generando AES: '+e.message, 'bad');
+  }
+};
+
+aesEncBtn.onclick = async () => {
+  try{
+    if(!aesKey){ await btnGenAES.onclick(); if(!aesKey) return; }
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, aesKey, enc.encode(aesMsg.value));
+    aesIvOut.textContent = ab2b64(iv);
+    aesCtOut.textContent = ab2b64(ct);
+    aesPlainOut.textContent = '(pulsa "Descifrar" para recuperar el texto)';
+    aesLast = {iv, ct};
+    toast('Mensaje cifrado con AES-GCM.', 'ok');
+  }catch(e){
+    toast('Error cifrando AES: '+e.message, 'bad');
+  }
+};
+
+aesDecBtn.onclick = async () => {
+  try{
+    if(!aesKey) return toast('Primero genera la clave AES.', 'warn');
+    const ivB64 = aesIvOut.textContent.trim();
+    const ctB64 = aesCtOut.textContent.trim();
+    if(!ivB64 || !ctB64) return toast('No hay IV o ciphertext para descifrar.', 'warn');
+    const iv = new Uint8Array(b642ab(ivB64));
+    const ct = b642ab(ctB64);
+    const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv}, aesKey, ct);
+    aesPlainOut.textContent = dec.decode(plain);
+    toast('Texto descifrado con AES.', 'ok');
+  }catch(e){
+    toast('Error descifrando AES: '+e.message, 'bad');
+  }
+};
+
+/* ======== Asimétrica RSA-OAEP ======== */
+btnGenRSA.onclick = async () => {
+  try{
+    if(!isSecure()) return toast('Este demo requiere contexto seguro (https/localhost).', 'warn');
+    btnGenRSA.disabled = true; const old = btnGenRSA.textContent; btnGenRSA.textContent = 'Generando par…';
+    rsaOAEP = await crypto.subtle.generateKey(
+      {name:'RSA-OAEP', modulusLength:2048, publicExponent:new Uint8Array([0x01,0x00,0x01]), hash:'SHA-256'},
+      true, ['encrypt','decrypt','wrapKey','unwrapKey']
+    );
+    rsaPub.textContent = await exportPEM(rsaOAEP.publicKey, 'public');
+    rsaPriv.textContent = await exportPEM(rsaOAEP.privateKey, 'private');
+    setBadge(rsaState, 'RSA-OAEP listo', true);
+    toast('Par RSA-OAEP 2048/SHA-256 generado.', 'ok');
+    btnGenRSA.textContent = old; btnGenRSA.disabled = false;
+  }catch(e){
+    btnGenRSA.disabled = false; btnGenRSA.textContent = 'Generar par RSA-OAEP (2048, SHA-256)';
+    toast('Error generando RSA-OAEP: '+e.message, 'bad');
+  }
+};
+
+rsaEncBtn.onclick = async () => {
+  try{
+    if(!rsaOAEP.publicKey){ await btnGenRSA.onclick(); if(!rsaOAEP.publicKey) return; }
+    const msgBytes = enc.encode(rsaMsg.value);
+    const max = rsaOaepMaxPlain(2048, 'SHA-256'); // 190 bytes
+    if(msgBytes.byteLength > max){
+      return toast(`Mensaje demasiado largo para RSA-OAEP (máx ${max} bytes). Usa el esquema híbrido.`, 'warn', 3600);
+    }
+    const ct = await crypto.subtle.encrypt({name:'RSA-OAEP'}, rsaOAEP.publicKey, msgBytes);
+    rsaCt.textContent = ab2b64(ct);
+    rsaPlain.textContent = '(pulsa "Descifrar con privada")';
+    rsaLast.ct = ct;
+    toast('Mensaje cifrado con la clave pública.', 'ok');
+  }catch(e){
+    toast('Error cifrando RSA-OAEP: '+e.message, 'bad');
+  }
+};
+
+rsaDecBtn.onclick = async () => {
+  try{
+    if(!rsaOAEP.privateKey) return toast('Genera el par RSA-OAEP primero.', 'warn');
+    const ctB64 = rsaCt.textContent.trim();
+    if(!ctB64) return toast('No hay ciphertext para descifrar.', 'warn');
+    const ct = b642ab(ctB64);
+    const plain = await crypto.subtle.decrypt({name:'RSA-OAEP'}, rsaOAEP.privateKey, ct);
+    rsaPlain.textContent = dec.decode(plain);
+    toast('Texto descifrado con la clave privada.', 'ok');
+  }catch(e){
+    toast('Error descifrando RSA-OAEP: '+e.message, 'bad');
+  }
+};
+
+/* ======== Firmas RSA-PSS ======== */
+btnGenPSS.onclick = async () => {
+  try{
+    if(!isSecure()) return toast('Este demo requiere contexto seguro.', 'warn');
+    btnGenPSS.disabled = true; const old = btnGenPSS.textContent; btnGenPSS.textContent = 'Generando par…';
+    rsaPSS = await crypto.subtle.generateKey(
+      {name:'RSA-PSS', modulusLength:2048, publicExponent:new Uint8Array([0x01,0x00,0x01]), hash:'SHA-256'},
+      true, ['sign','verify']
+    );
+    pssPub.textContent = await exportPEM(rsaPSS.publicKey, 'public');
+    pssPriv.textContent = await exportPEM(rsaPSS.privateKey, 'private');
+    setBadge(pssState, 'RSA-PSS listo', true);
+    pssOk.textContent = 'pendiente'; pssOk.style.color = '';
+    toast('Par RSA-PSS 2048/SHA-256 generado.', 'ok');
+    btnGenPSS.textContent = old; btnGenPSS.disabled = false;
+  }catch(e){
+    btnGenPSS.disabled = false; btnGenPSS.textContent = 'Generar par RSA-PSS';
+    toast('Error generando RSA-PSS: '+e.message, 'bad');
+  }
+};
+
+pssSignBtn.onclick = async () => {
+  try{
+    if(!rsaPSS.privateKey){ await btnGenPSS.onclick(); if(!rsaPSS.privateKey) return; }
+    const sig = await crypto.subtle.sign({name:'RSA-PSS', saltLength:32}, rsaPSS.privateKey, enc.encode(pssMsg.value));
+    pssSig.textContent = ab2b64(sig);
+    pssOk.textContent = 'firma generada'; pssOk.style.color = 'var(--accent-secondary)';
+    pssLast.sig = sig;
+    toast('Mensaje firmado con la clave privada.', 'ok');
+  }catch(e){
+    toast('Error firmando (RSA-PSS): '+e.message, 'bad');
+  }
+};
+
+pssVerifyBtn.onclick = async () => {
+  try{
+    const sigB64 = pssSig.textContent.trim();
+    if(!sigB64) return toast('No hay firma para verificar.', 'warn');
+    const ok = await crypto.subtle.verify(
+      {name:'RSA-PSS', saltLength:32}, rsaPSS.publicKey, b642ab(sigB64), enc.encode(pssMsg.value)
+    );
+    pssOk.textContent = ok ? '✓ válida' : '✗ inválida';
+    pssOk.style.color = ok ? 'var(--success)' : 'var(--danger)';
+    toast(ok ? 'Firma válida.' : 'Firma inválida.', ok ? 'ok' : 'bad');
+  }catch(e){
+    toast('Error verificando firma: '+e.message, 'bad');
+  }
+};
+
+/* ======== Híbrido (RSA-OAEP + AES-GCM) ======== */
+hybGenerate.onclick = async () => {
+  if(!rsaOAEP.publicKey){
+    await btnGenRSA.onclick();
+  } else {
+    toast('Usando el par RSA-OAEP existente.', 'ok');
+  }
+};
+
+hybEnc.onclick = async () => {
+  try{
+    if(!rsaOAEP.publicKey){ await btnGenRSA.onclick(); if(!rsaOAEP.publicKey) return; }
+    const sk = await crypto.subtle.generateKey({name:'AES-GCM', length:256}, true, ['encrypt','decrypt']);
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, sk, enc.encode(hybMsg.value));
+    const wrapped = await crypto.subtle.wrapKey('raw', sk, rsaOAEP.publicKey, {name:'RSA-OAEP'});
+    hybWrapped.textContent = ab2b64(wrapped);
+    hybIv.textContent = ab2b64(iv);
+    hybCt.textContent = ab2b64(ct);
+    hybPlain.textContent = '(pulsa "Híbrido: descifrar")';
+    hybLast = {wrapped, iv, ct};
+    toast('Cifrado híbrido completado (AES + RSA-OAEP).', 'ok');
+  }catch(e){
+    toast('Error cifrado híbrido: '+e.message, 'bad');
+  }
+};
+
+hybDec.onclick = async () => {
+  try{
+    if(!rsaOAEP.privateKey) return toast('Genera/usa el par RSA-OAEP primero.', 'warn');
+    const wrappedB64 = hybWrapped.textContent.trim();
+    const ivB64 = hybIv.textContent.trim();
+    const ctB64 = hybCt.textContent.trim();
+    if(!wrappedB64 || !ivB64 || !ctB64) return toast('Faltan datos (clave envuelta / IV / ciphertext).', 'warn');
+    const wrapped = b642ab(wrappedB64);
+    const iv = new Uint8Array(b642ab(ivB64));
+    const ct = b642ab(ctB64);
+    const sk = await crypto.subtle.unwrapKey(
+      'raw', wrapped, rsaOAEP.privateKey, {name:'RSA-OAEP'},
+      {name:'AES-GCM', length:256}, false, ['decrypt']
+    );
+    const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv}, sk, ct);
+    hybPlain.textContent = dec.decode(plain);
+    toast('Descifrado híbrido correcto.', 'ok');
+  }catch(e){
+    toast('Error descifrado híbrido: '+e.message, 'bad');
+  }
+};
+
+/* ======== Copiar ======== */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button.copy');
+  if(!btn) return;
+  const id = btn.getAttribute('data-copy');
+  const el = document.getElementById(id);
+  const txt = (el?.textContent || '').trim();
+  if(!txt) return toast('Nada que copiar.', 'warn');
+  navigator.clipboard.writeText(txt).then(()=>{
+    const old = btn.textContent; btn.textContent = 'Copiado ✓';
+    setTimeout(()=>btn.textContent = old, 900);
+    toast('Copiado al portapapeles.', 'ok');
+  }).catch(err=>{
+    toast('No se pudo copiar: '+err.message, 'bad');
+  });
+});
+
+/* ======== Init ======== */
+window.addEventListener('DOMContentLoaded', ()=>{
+  createParticles();
+  if(!isSecure()){
+    toast('Consejo: abre este archivo en https o localhost para habilitar Web Crypto.', 'warn', 5000);
+  }
+});
+</script>
+</body>
+</html>

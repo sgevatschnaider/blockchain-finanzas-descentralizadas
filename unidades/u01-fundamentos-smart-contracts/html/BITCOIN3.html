@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Simulador Bitcoin (educativo, sin librerías)</title>
+<style>
+  :root{--bg:#0b0f14;--card:#121821;--muted:#9fb0c3;--text:#e8f0ff;--accent:#f7931a;--ok:#00e58f;--err:#ff5577;--line:#223042}
+  *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+  h1{margin:16px 0;text-align:center;color:var(--accent)} .wrap{max-width:1200px;margin:0 auto;padding:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card h3{margin:0 0 12px;color:var(--accent)}
+  label{display:block;margin:6px 0 4px;color:var(--muted);font-size:12px}
+  input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:#0e141c;color:var(--text)}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .btn{padding:10px 14px;border:0;border-radius:8px;background:var(--accent);color:#111;font-weight:600;cursor:pointer}
+  .btn.sec{background:#2b88ff;color:white}.btn.dng{background:#ff4d4f;color:#111}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .hash{color:#49d3ff;word-break:break-all}
+  .utxo{padding:10px;border:1px solid var(--line);border-radius:8px;background:#0e141c;margin-bottom:8px;cursor:pointer}
+  .utxo.sel{outline:2px solid var(--accent)}
+  .mempool .tx{padding:8px;border:1px dashed var(--line);border-radius:8px;margin-bottom:8px}
+  .bc{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+  .blk{min-width:220px;border:1px solid var(--line);border-radius:10px;background:#0e141c;padding:10px}
+  .muted{color:var(--muted)} .ok{color:var(--ok)} .err{color:var(--err)}
+  .toast{position:fixed;top:16px;right:16px;background:#16202c;border:1px solid var(--line);padding:10px 14px;border-radius:8px;z-index:99}
+  .errField{outline:2px solid var(--err)}
+  /* Merkle visual */
+  .merkle{font-family:ui-monospace,monospace}
+  .level{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .node{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:#0e141c;color:#49d3ff}
+  .tag{display:inline-block;padding:2px 6px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🪙 Simulador Bitcoin (educativo, sin librerías)</h1>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🔐 Claves y Dirección</h3>
+        <div class="row">
+          <button class="btn" id="genKeys">Generar claves</button>
+          <div class="row" style="gap:6px">
+            <input id="faucetAmt" value="1" style="width:130px" inputmode="decimal" />
+            <button class="btn sec" id="faucet">💧 Faucet</button>
+          </div>
+        </div>
+        <label>Clave privada (hex)</label><input id="privHex" class="mono" readonly/>
+        <label>Clave pública (simulada, 65 bytes)</label><input id="pubHex" class="mono" readonly/>
+        <label>Dirección (Base58Check)</label><input id="addr" class="mono" readonly/>
+        <div id="addrSteps" class="mono" style="font-size:12px;margin-top:8px;color:var(--muted)"></div>
+      </div>
+
+      <div class="card">
+        <h3>💰 UTXOs</h3>
+        <div id="utxos"></div>
+        <div class="row" style="margin-top:8px"><b>Balance:</b>&nbsp;<span id="balance" class="mono">0.00000000</span> BTC</div>
+      </div>
+
+      <div class="card">
+        <h3>📝 Crear Transacción</h3>
+        <label>Dirección destino</label>
+        <input id="to" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" autocomplete="off"/>
+        <label>Cantidad (BTC)</label>
+        <input id="amt" type="text" inputmode="decimal" placeholder="e.g. 0.5 o 2e-8"/>
+        <label>Fee rate (sat/vB)</label>
+        <input id="feerate" type="text" inputmode="numeric" value="15"/>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="makeTx">Crear + firmar (educativo)</button>
+          <button class="btn dng" id="clearMempool">Limpiar mempool</button>
+        </div>
+        <div id="txInfo" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Mempool</h3>
+        <div id="mempool" class="mempool"></div>
+      </div>
+
+      <div class="card">
+        <h3>🌳 Árbol de Merkle</h3>
+        <div class="row" style="margin-bottom:8px">
+          <span class="tag">Vista:</span>
+          <button class="btn ghost" id="viewMempool">Mempool</button>
+          <button class="btn ghost" id="viewLastBlock">Último bloque</button>
+        </div>
+        <div id="merkleTitle" class="muted mono">Sin transacciones</div>
+        <div id="merkle" class="merkle"></div>
+      </div>
+
+      <div class="card">
+        <h3>⛏️ Minería (PoW)</h3>
+        <div class="row">
+          <span class="muted">Dificultad (ceros)</span>
+          <input id="diff" type="range" min="1" max="6" value="3" style="flex:1"/>
+          <span id="diffVal" class="mono">3</span>
+        </div>
+        <div class="row" style="margin:8px 0">
+          <button class="btn" id="mine">Minar bloque</button>
+          <div class="mono muted">Nonce: <span id="nonce">0</span></div>
+        </div>
+        <div class="mono">Hash: <span id="powhash" class="hash">-</span></div>
+        <div id="coinbase" class="mono" style="margin-top:8px"></div>
+      </div>
+
+      <div class="card" style="grid-column:1/-1">
+        <h3>⛓️ Blockchain</h3>
+        <div class="row muted" style="margin-bottom:8px">
+          Altura: <span id="height" class="mono">0</span>&nbsp;·&nbsp;
+          Subsidio (educativo): <span id="subsidy" class="mono">50.00000000 BTC</span>&nbsp;·&nbsp;
+          Suministro: <span id="supply" class="mono">0.00</span> / 21,000,000 BTC
+        </div>
+        <div id="bc" class="bc"></div>
+        <div id="blkInfo" class="mono" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" style="display:none"></div>
+
+<script>
+/* ===================== Utilidades ===================== */
+const enc = new TextEncoder();
+const toHex = (u8)=>Array.from(u8, b=>b.toString(16).padStart(2,'0')).join('');
+const fromHex = (hex)=>{ const a=new Uint8Array(hex.length/2); for(let i=0;i<a.length;i++) a[i]=parseInt(hex.substr(i*2,2),16); return a; };
+const concatBytes = (...arrs)=>{ let len=0; for(const a of arrs) len+=a.length; const u=new Uint8Array(len); let off=0; for(const a of arrs){ u.set(a,off); off+=a.length; } return u; };
+const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+const randBytes = (n)=>{ const a=new Uint8Array(n); crypto.getRandomValues(a); return a; };
+
+async function sha256(data){ const b = data instanceof Uint8Array ? data : enc.encode(String(data)); return new Uint8Array(await crypto.subtle.digest('SHA-256', b)); }
+async function dsha256(data){ return sha256(await sha256(data)); }
+
+/* ===== Base58 + Base58Check ===== */
+const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+function base58encode(bytes){
+  if(!bytes.length) return '';
+  let zeros=0; while(zeros<bytes.length && bytes[zeros]===0) zeros++;
+  let v = BigInt('0x'+toHex(bytes)); let out='';
+  while(v>0n){ out = B58[Number(v%58n)] + out; v/=58n; }
+  return '1'.repeat(zeros) + out;
+}
+async function base58check(payload, version=0x00){
+  const ver = new Uint8Array([version]); const data = concatBytes(ver, payload);
+  const chk = (await dsha256(data)).slice(0,4);
+  return base58encode(concatBytes(data, chk));
+}
+
+/* ===================== RIPEMD-160 (JS puro) ===================== */
+function ripemd160(bytes){
+  function rol(x,n){ return (x<<n) | (x>>> (32-n)); }
+  function f(j,x,y,z){
+    if(j<=15) return x ^ y ^ z;
+    if(j<=31) return (x & y) | (~x & z);
+    if(j<=47) return (x | ~y) ^ z;
+    if(j<=63) return (x & z) | (y & ~z);
+    return x ^ (y | ~z);
+  }
+  const r1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8,3,10,14,4,9,15,8,1,2,7,0,6,13,11,5,12,1,9,11,10,0,8,12,4,13,3,7,15,14,5,6,2];
+  const r2=[5,14,7,0,9,2,11,4,13,6,15,8,1,10,3,12,6,11,3,7,0,13,5,10,14,15,8,12,4,9,1,2,15,5,1,3,7,14,6,9,11,8,12,2,10,0,4,13,8,6,4,1,3,11,15,0,5,12,2,13,9,7,10,14];
+  const s1=[11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12];
+  const s2=[8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8];
+  const K1=[0x00000000,0x5a827999,0x6ed9eba1,0x8f1bbcdc,0xa953fd4e];
+  const K2=[0x50a28be6,0x5c4dd124,0x6d703ef3,0x7a6d76e9,0x00000000];
+
+  const len = bytes.length;
+  const withOne = new Uint8Array(len+1); withOne.set(bytes); withOne[len]=0x80;
+  let padLen = (56 - (withOne.length % 64) + 64) % 64;
+  const padded = new Uint8Array(withOne.length + padLen + 8);
+  padded.set(withOne);
+  const bitLen = BigInt(len) * 8n;
+  const dv = new DataView(padded.buffer);
+  dv.setUint32(padded.length-8, Number(bitLen & 0xffffffffn), true);
+  dv.setUint32(padded.length-4, Number(bitLen >> 32n), true);
+
+  let h0=0x67452301|0, h1=0xefcdab89|0, h2=0x98badcfe|0, h3=0x10325476|0, h4=0xc3d2e1f0|0;
+  const w = new Uint32Array(16);
+
+  for(let i=0;i<padded.length;i+=64){
+    for(let j=0;j<16;j++) w[j]=dv.getUint32(i+j*4, true);
+
+    let al=h0, bl=h1, cl=h2, dl=h3, el=h4;
+    let ar=h0, br=h1, cr=h2, dr=h3, er=h4;
+
+    for(let j=0;j<80;j++){
+      const r = j<16?0:j<32?1:j<48?2:j<64?3:4;
+      const rol=(x,n)=> (x<<n) | (x>>> (32-n));
+      const f0=(j<=15)?(bl^cl^dl):(j<=31)?((bl&cl)|(~bl&dl)):(j<=47)?((bl|~cl)^dl):(j<=63)?((bl&dl)|(cl&~dl)):(bl^(cl|~dl));
+      const tl = (rol((al + f0 + w[r1[j]] + K1[r])|0, s1[j]) + el)|0;
+      al=el; el=dl; dl=rol(cl,10); cl=bl; bl=tl;
+
+      const j2=79-j;
+      const f1=(j2<=15)?(br^cr^dr):(j2<=31)?((br&cr)|(~br&dr)):(j2<=47)?((br|~cr)^dr):(j2<=63)?((br&dr)|(cr&~dr)):(br^(cr|~dr));
+      const tr = (rol((ar + f1 + w[r2[j]] + K2[r])|0, s2[j]) + er)|0;
+      ar=er; er=dr; dr=rol(cr,10); cr=br; br=tr;
+    }
+    const t = (h1 + cl + dr)|0;
+    h1 = (h2 + dl + er)|0;
+    h2 = (h3 + el + ar)|0;
+    h3 = (h4 + al + br)|0;
+    h4 = (h0 + bl + cr)|0;
+    h0 = t|0;
+  }
+  const out = new Uint8Array(20);
+  const dv2 = new DataView(out.buffer);
+  dv2.setInt32(0,h0,true); dv2.setInt32(4,h1,true); dv2.setInt32(8,h2,true); dv2.setInt32(12,h3,true); dv2.setInt32(16,h4,true);
+  return out;
+}
+
+/* ============ Estado ============ */
+const state = {
+  keys: { priv:null, pub:null, addr:null },
+  utxos: [],
+  mempool: [],
+  chain: [],
+  diff: 3,
+  height: 0,
+  subsidy: 50.0,
+  supply: 0.0,
+  merkleMode: 'mempool' // 'mempool' | 'lastblock'
+};
+
+/* ============ UI helpers ============ */
+const $ = (id)=>document.getElementById(id);
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none', 2000); }
+function fmtBTC(sats){ return (sats/1e8).toFixed(8); }
+function markInvalid(el, on=true){ el.classList.toggle('errField', !!on); }
+function parseSats(val){ const s=String(val??'').trim(); if(s==='') return NaN; const n=Number(s); if(!Number.isFinite(n)) return NaN; return Math.round(n*1e8); }
+function parseNumber(val){ const n=Number(String(val??'').trim()); return Number.isFinite(n)?n:NaN; }
+
+/* ============ Claves / Dirección (simulado, educativo) ============ */
+async function genKeys(){
+  const priv = randBytes(32);
+  const X = await sha256(priv);
+  const Y = await sha256(concatBytes(X, priv));
+  const pub = concatBytes(Uint8Array.from([0x04]), X.slice(0,32), Y.slice(0,32));
+
+  const h1 = await sha256(pub);
+  const h160 = ripemd160(h1);
+  const addr = await base58check(h160, 0x00);
+
+  state.keys.priv = priv; state.keys.pub = pub; state.keys.addr = addr;
+
+  $('privHex').value = toHex(priv);
+  $('pubHex').value  = toHex(pub);
+  $('addr').value    = addr;
+  $('addrSteps').innerHTML =
+    `1) SHA-256(pub) = <span class="hash">${toHex(h1).slice(0,40)}...</span><br>` +
+    `2) RIPEMD-160 = <span class="hash">${toHex(h160)}</span><br>` +
+    `3) Base58Check(version=0x00) = <b>${addr}</b>`;
+  toast('✔️ Claves generadas');
+}
+
+/* Faucet con cantidad configurable */
+async function faucet(){
+  if(!state.keys.addr){ toast('Genera claves primero'); return; }
+  const sats = parseSats($('faucetAmt').value);
+  if(!Number.isFinite(sats) || sats<=0){ markInvalid($('faucetAmt'),true); toast('Cantidad de faucet inválida'); return; }
+  markInvalid($('faucetAmt'),false);
+  const txid = toHex(await sha256('faucet-'+Date.now()+Math.random()));
+  state.utxos.push({ txid, vout:0, value: sats, address: state.keys.addr });
+  drawUTXOs(); toast(`${fmtBTC(sats)} BTC recibidos 💧`);
+  await drawMerkle(); // refrescar vista de mempool (por si no hay)
+}
+
+/* ============ UTXOs UI ============ */
+function drawUTXOs(){
+  const list = $('utxos'); list.innerHTML = '';
+  const my = state.utxos.filter(u=>u.address===state.keys.addr);
+  if(my.length===0){ list.innerHTML='<div class="muted">Sin UTXOs</div>'; }
+  let tot=0;
+  for(const u of my){
+    tot+=u.value;
+    const el=document.createElement('div'); el.className='utxo'+(u.sel?' sel':''); el.innerHTML=
+      `<div class="mono">TXID ${u.txid.slice(0,16)}...:${u.vout}</div><div><b>${fmtBTC(u.value)}</b> BTC</div>`;
+    el.onclick=()=>{u.sel=!u.sel; drawUTXOs();};
+    list.appendChild(el);
+  }
+  $('balance').textContent = fmtBTC(tot);
+}
+
+/* ============ Transacciones (firma educativa) ============ */
+async function makeTx(){
+  const toEl = $('to'); const amtEl = $('amt'); const frEl = $('feerate');
+  markInvalid(toEl,false); markInvalid(amtEl,false); markInvalid(frEl,false);
+
+  const to = String(toEl.value||'').trim();
+  if(!to){ markInvalid(toEl,true); toast('❗ Escribe una dirección destino'); return; }
+
+  const amount = parseSats(amtEl.value);
+  if(!Number.isFinite(amount) || amount<=0){ markInvalid(amtEl,true); toast('❗ Cantidad inválida'); return; }
+
+  const feerate = parseNumber(frEl.value);
+  if(!Number.isFinite(feerate) || feerate<=0){ markInvalid(frEl,true); toast('❗ Fee rate inválido'); return; }
+
+  if(!state.keys.priv){ toast('Genera claves primero'); return; }
+
+  const av = state.utxos.filter(u=>u.address===state.keys.addr).sort((a,b)=>a.value-b.value);
+  if(av.length===0){ toast('No tienes UTXOs'); return; }
+  let sel=[], total=0, fee=0;
+  for(const u of (av.some(x=>x.sel)?av.filter(x=>x.sel):av)){
+    sel.push(u); total+=u.value;
+    const estOuts = 2;
+    const estSize = 10 + sel.length*148 + estOuts*34;
+    fee = Math.ceil(estSize * feerate);
+    if(total >= amount + fee) break;
+  }
+  if(total < amount + fee){ toast('Fondos insuficientes'); return; }
+
+  const change = total - amount - fee;
+  const tx = {
+    inputs: sel.map(u=>({ txid:u.txid, vout:u.vout, address:u.address })),
+    outputs: [{ value: amount, address: to }],
+    fee, size: 10 + sel.length*148 + 2*34
+  };
+  if(change > 546) tx.outputs.push({ value: change, address: state.keys.addr });
+
+  const msg = new TextEncoder().encode(JSON.stringify({inputs:tx.inputs,outputs:tx.outputs}));
+  const sig = await sha256(concatBytes(msg, state.keys.priv));
+  tx.signature = toHex(sig);
+  tx.txid = toHex(await dsha256(new TextEncoder().encode(JSON.stringify(tx))));
+
+  state.utxos = state.utxos.filter(u => !sel.find(s=>s.txid===u.txid && s.vout===u.vout));
+  state.mempool.push(tx);
+  drawUTXOs(); drawMempool();
+  $('txInfo').innerHTML = `<div class="mono">✅ TXID: <span class="hash">${tx.txid}</span><br>Fee: ${fmtBTC(tx.fee)} BTC · ${(tx.fee/tx.size).toFixed(1)} sat/vB</div>`;
+  toast('TX creada y enviada al mempool');
+  await drawMerkle(); // refrescar vista Merkle (mempool)
+}
+
+function drawMempool(){
+  const m=$('mempool'); m.innerHTML='';
+  if(state.mempool.length===0){ m.innerHTML='<div class="muted">Mempool vacío</div>'; return; }
+  for(const tx of state.mempool){
+    const d=document.createElement('div'); d.className='tx mono';
+    d.innerHTML = `TXID ${tx.txid.slice(0,20)}... · Fee ${(tx.fee/tx.size).toFixed(1)} sat/vB`;
+    m.appendChild(d);
+  }
+}
+
+/* ============ Merkle (mempool / último bloque) ============ */
+async function buildMerkleLevels(txids){
+  if(txids.length===0) return [];
+  let level = txids.map(fromHex);
+  const levels = [ txids.slice() ]; // hojas (hex)
+  while(level.length>1){
+    if(level.length%2) level.push(level[level.length-1]);
+    const next=[]; const nextHex=[];
+    for(let i=0;i<level.length;i+=2){
+      const h = await dsha256(concatBytes(level[i],level[i+1]));
+      next.push(h); nextHex.push(toHex(h));
+    }
+    levels.push(nextHex);
+    level = next;
+  }
+  return levels;
+}
+
+async function drawMerkle(mode = state.merkleMode){
+  state.merkleMode = mode;
+  const title = $('merkleTitle');
+  const cont = $('merkle'); cont.innerHTML='';
+  let txids = [];
+
+  if(mode==='mempool'){
+    txids = state.mempool.map(tx=>tx.txid);
+    title.textContent = txids.length ? `Mempool (${txids.length} TX)` : 'Mempool vacío';
+  } else {
+    const last = state.chain[state.chain.length-1];
+    if(!last){ title.textContent='Aún no hay bloques'; return; }
+    txids = last.txs.map(t=>t.txid);
+    title.textContent = `Último bloque #${last.height} (${txids.length} TX incl. coinbase)`;
+  }
+  if(txids.length===0){ cont.innerHTML = '<div class="muted">Sin transacciones</div>'; return; }
+
+  const levels = await buildMerkleLevels(txids);
+  levels.forEach((lev, idx)=>{
+    const row = document.createElement('div'); row.className='level';
+    row.innerHTML = `<span class="tag">${idx===0?'Hojas':'Nivel '+idx}</span>` +
+      lev.map(h=>`<span class="node">${h.slice(0,16)}...</span>`).join('');
+    cont.appendChild(row);
+  });
+  const root = levels[levels.length-1][0];
+  const rootRow = document.createElement('div'); rootRow.className='level';
+  rootRow.innerHTML = `<span class="tag">Merkle root</span><span class="node">${root}</span>`;
+  cont.appendChild(rootRow);
+}
+
+/* ============ Minería ============ */
+function updateDiffUI(){ $('diffVal').textContent = String(state.diff); }
+
+async function mineBlock(){
+  if(state.mining){ return; }
+  state.mining = true; $('mine').disabled = true;
+
+  const rewardSats = Math.floor(state.subsidy * 1e8);
+  const coinbaseTx = { coinbase:true, inputs:[], outputs:[{value:rewardSats, address: state.keys.addr||'miner'}] };
+  coinbaseTx.txid = toHex(await dsha256(JSON.stringify(coinbaseTx)));
+
+  const txs = [coinbaseTx, ...state.mempool];
+  const root = await (async()=>{ const ids = txs.map(t=>t.txid); const lv=await buildMerkleLevels(ids); return lv.length?lv[lv.length-1][0]:'0'.repeat(64); })();
+
+  const prevHash = state.chain.length ? state.chain[state.chain.length-1].hash : '0'.repeat(64);
+  const block = { height: state.height, prevHash, merkleRoot: root, ts: Date.now(), diff: state.diff, nonce:0, txs };
+
+  const prefix = '0'.repeat(state.diff);
+  for(;;){
+    const header = prevHash + root + String(block.ts) + String(block.diff) + String(block.nonce);
+    const h = toHex(await dsha256(header));
+    if(block.nonce % 500 === 0){
+      $('nonce').textContent = String(block.nonce);
+      $('powhash').textContent = h.slice(0,20)+'...';
+      await sleep(0);
+    }
+    if(h.startsWith(prefix)){ block.hash = h; break; }
+    block.nonce++;
+  }
+
+  state.chain.push(block);
+  state.height++;
+  state.supply += state.subsidy;
+  if(state.height % 210000 === 0) state.subsidy = Math.max(0, state.subsidy/2);
+
+  for(const tx of block.txs){
+    tx.outputs?.forEach((o, vout)=>{ state.utxos.push({ txid: tx.txid, vout, value:o.value, address:o.address }); });
+  }
+  state.mempool = [];
+
+  drawChain(); drawUTXOs(); drawMempool();
+  $('coinbase').innerHTML = `Recompensa: <b>${fmtBTC(rewardSats)} BTC</b> · Coinbase TXID <span class="hash">${coinbaseTx.txid}</span>`;
+  $('powhash').textContent = block.hash;
+  $('mine').disabled=false; state.mining=false;
+  toast(`Bloque #${block.height} minado ⛏️`);
+
+  // Mostrar automáticamente el Merkle del bloque recién minado
+  await drawMerkle('lastblock');
+}
+
+function drawChain(){
+  $('height').textContent = String(state.height);
+  $('subsidy').textContent = `${state.subsidy.toFixed(8)} BTC`;
+  $('supply').textContent  = state.supply.toFixed(2);
+  const bc = $('bc'); bc.innerHTML='';
+  for(const b of state.chain){
+    const el = document.createElement('div'); el.className='blk mono';
+    el.innerHTML = `#${b.height}<br><span class="hash">${b.hash.slice(0,16)}...</span><br>${b.txs.length} txs`;
+    el.onclick = async ()=>{ $('blkInfo').innerHTML =
+      `Hash: <span class="hash">${b.hash}</span><br>`+
+      `Prev: <span class="hash">${b.prevHash}</span><br>`+
+      `Root: <span class="hash">${b.merkleRoot}</span><br>`+
+      `Ts: ${new Date(b.ts).toLocaleString()} · Nonce: ${b.nonce}`;
+      await drawMerkle('lastblock');
+    };
+    bc.appendChild(el);
+  }
+}
+
+/* ============ Eventos ============ */
+$('genKeys').onclick = genKeys;
+$('faucet').onclick = faucet;
+$('makeTx').onclick = makeTx;
+$('clearMempool').onclick = ()=>{ state.mempool=[]; drawMempool(); drawMerkle(); toast('Mempool limpio'); };
+$('mine').onclick = mineBlock;
+$('diff').oninput = (e)=>{ state.diff = parseInt(e.target.value,10); updateDiffUI(); };
+$('viewMempool').onclick = ()=>drawMerkle('mempool');
+$('viewLastBlock').onclick = ()=>drawMerkle('lastblock');
+
+updateDiffUI(); drawUTXOs(); drawMempool(); drawChain(); drawMerkle();
+</script>
+</body>
+</html>

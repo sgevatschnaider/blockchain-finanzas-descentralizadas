@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Demo Visual de Escrow Premium (Simple y con Hitos)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root{
+    --bg: linear-gradient(135deg, #0c0f1e 0%, #1a1f3a 25%, #0f1320 50%, #2d1b69 100%);
+    --card: linear-gradient(145deg, rgba(20,26,42,0.95) 0%, rgba(15,19,32,0.98) 100%);
+    --card-hover: linear-gradient(145deg, rgba(25,31,47,0.98) 0%, rgba(18,22,35,1) 100%);
+    --accent: linear-gradient(135deg, #4f8cff 0%, #7c3aed 100%);
+    --accent-2: linear-gradient(135deg, #00c896 0%, #06d6a0 100%);
+    --accent-3: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    --warning: linear-gradient(135deg, #ffd93d 0%, #ff9500 100%);
+    --text: #e8eefc;
+    --text-secondary: #a0b3d6;
+    --muted: #7a8db8;
+    --border: rgba(79,140,255,0.15);
+    --border-hover: rgba(79,140,255,0.3);
+    --glass: backdrop-filter: blur(16px) saturate(180%);
+    --shadow-primary: 0 20px 40px rgba(79,140,255,0.15), 0 8px 25px rgba(0,0,0,0.3);
+    --shadow-secondary: 0 15px 30px rgba(0,200,150,0.1), 0 5px 20px rgba(0,0,0,0.25);
+    --shadow-card: 0 25px 50px rgba(0,0,0,0.25), 0 12px 30px rgba(0,0,0,0.15);
+    --radius: 20px;
+    --radius-small: 12px;
+  }
+
+  *{
+    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body{
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3), transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255,119,198,0.15), transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(79,140,255,0.1), transparent 50%);
+    pointer-events: none; z-index: -2;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle fill="none" stroke="rgba(79,140,255,0.03)" cx="16" cy="16" r="1"/></svg>');
+    pointer-events: none; z-index: -1;
+  }
+
+  .floating-particles {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden; z-index: -1; pointer-events: none;
+  }
+
+  .particle {
+    position: absolute; width: 4px; height: 4px; background: rgba(79,140,255,0.3);
+    border-radius: 50%; animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; } 90% { opacity: 1; }
+    50% { transform: translateY(-100vh) rotate(180deg); }
+  }
+
+  header{
+    padding: 40px 20px 20px; text-align: center; position: relative; overflow: hidden;
+  }
+
+  header::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 200%; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(79,140,255,0.5) 50%, transparent 100%);
+  }
+
+  header h1{
+    font-size: clamp(24px, 4vw, 40px); font-weight: 700;
+    background: linear-gradient(135deg, #4f8cff 0%, #7c3aed 50%, #ff6b6b 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 12px; letter-spacing: -0.5px;
+    text-shadow: 0 0 30px rgba(79,140,255,0.3);
+  }
+
+  header p{
+    color: var(--text-secondary); font-size: 16px; max-width: 800px; margin: 0 auto; line-height: 1.6;
+  }
+
+  .tabs{
+    display: flex; gap: 8px; justify-content: center; margin: 30px 0 20px; position: relative;
+  }
+
+  .tab{
+    background: rgba(20,26,42,0.6); color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 14px 24px; border-radius: 50px; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500; font-size: 14px; position: relative; overflow: hidden;
+  }
+
+  .tab::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(79,140,255,0.1), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .tab:hover::before { left: 100%; }
+  .tab:hover { border-color: var(--border-hover); transform: translateY(-2px); color: var(--text); }
+  .tab.active{
+    background: var(--accent); color: white; border-color: transparent;
+    box-shadow: var(--shadow-primary); transform: translateY(-2px);
+  }
+
+  .container{ max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+  .grid-3{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px; margin-bottom: 40px;
+  }
+
+  .card{
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow-card); padding: 28px; position: relative; overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(79,140,255,0.3) 50%, transparent 100%);
+  }
+
+  .card:hover {
+    background: var(--card-hover); border-color: var(--border-hover);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 40px 80px rgba(79,140,255,0.15), 0 20px 40px rgba(0,0,0,0.3);
+  }
+
+  .card h2{
+    margin: 0 0 20px; font-size: 22px; font-weight: 600; display: flex; align-items: center; gap: 12px;
+  }
+  .card h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(79,140,255,0.3), transparent); }
+
+  .balances{
+    display: flex; gap: 16px; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono','Fira Code',monospace;
+    background: rgba(15,21,38,0.8); border: 1px solid rgba(79,140,255,0.2);
+    padding: 20px; border-radius: var(--radius-small); color: #d9e6ff; margin-bottom: 20px; position: relative; overflow: hidden;
+  }
+
+  .balances::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(79,140,255,0.05) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); } 100% { transform: translateX(100%) translateY(100%) rotate(30deg); } }
+
+  .balances > div { position: relative; z-index: 1; }
+  .balances small{ color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+  .balances > div > div:last-child { font-weight: 600; font-size: 16px; margin-top: 4px; }
+
+  .row{ display: flex; gap: 12px; margin: 16px 0; flex-wrap: wrap; }
+  .row > * { flex: 1; min-width: 140px; }
+
+  input, select{
+    background: rgba(16,24,45,0.8); border: 1px solid rgba(42,58,102,0.6);
+    color: var(--text); padding: 14px 16px; border-radius: var(--radius-small);
+    outline: none; transition: all 0.3s ease; font-family: inherit; font-size: 14px;
+  }
+  input:focus { border-color: rgba(79,140,255,0.6); box-shadow: 0 0 0 4px rgba(79,140,255,0.1); background: rgba(16,24,45,0.95); }
+  input::placeholder{ color: var(--muted); }
+
+  .btn{
+    border: 0; padding: 14px 20px; border-radius: var(--radius-small); cursor: pointer;
+    font-weight: 600; font-size: 14px; background: var(--accent); color: white;
+    box-shadow: var(--shadow-primary); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; overflow: hidden; font-family: inherit;
+  }
+  .btn::before {
+    content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.2);
+    border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s ease, height 0.6s ease;
+  }
+  .btn:hover::before { width: 300px; height: 300px; }
+  .btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 40px rgba(79,140,255,0.3), 0 8px 25px rgba(0,0,0,0.2); }
+  .btn:active { transform: translateY(-1px) scale(1.02); }
+  .btn.secondary{ background: rgba(47,58,95,0.8); box-shadow: none; color: #dbe6ff; border: 1px solid rgba(50,68,113,0.6); }
+  .btn.secondary:hover { background: rgba(57,68,105,0.9); border-color: rgba(60,78,123,0.8); }
+  .btn.success { background: var(--accent-2); box-shadow: var(--shadow-secondary); }
+  .btn.danger { background: var(--accent-3); box-shadow: 0 15px 30px rgba(255,107,107,0.15); }
+
+  .tag{
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 50px;
+    font-size: 12px; border: 1px solid var(--border); color: var(--text); background: rgba(16,26,49,0.6);
+    font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tag::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.7; }
+  .tag.ok{ background: rgba(0,200,150,0.15); border-color: rgba(29,107,86,0.6); color: #aef1dc; }
+  .tag.warn{ background: rgba(255,204,0,0.15); border-color: rgba(107,90,29,0.6); color: #ffe48a; }
+  .tag.err{ background: rgba(255,77,109,0.15); border-color: rgba(107,29,46,0.6); color: #ffb3c1; }
+
+  .log{
+    max-height: 200px; overflow: auto; padding: 16px;
+    background: rgba(15,22,41,0.8); border: 1px solid rgba(39,51,90,0.6);
+    border-radius: var(--radius-small); font-family: 'JetBrains Mono','Fira Code',monospace;
+    font-size: 13px; line-height: 1.5;
+  }
+  .log p{ margin: 8px 0; color: var(--text); animation: fadeInUp 0.3s ease; }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+
+  .footer-note{
+    color: var(--text-secondary); text-align: center; margin-top: 40px; padding: 20px;
+    background: rgba(20,26,42,0.3); border-radius: var(--radius); border: 1px solid rgba(79,140,255,0.1);
+  }
+
+  .divider{ height: 1px; background: linear-gradient(90deg, transparent, rgba(79,140,255,0.3), transparent); margin: 24px 0; }
+  .flex-between{ display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; }
+
+  .progress{
+    width: 100%; height: 16px; background: rgba(17,26,49,0.8);
+    border: 1px solid rgba(43,57,104,0.6); border-radius: 50px; overflow: hidden; position: relative;
+  }
+  .progress::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(79,140,255,0.1) 0%, rgba(79,140,255,0.05) 50%, rgba(79,140,255,0.1) 100%);
+    animation: progressShine 2s ease-in-out infinite;
+  }
+  @keyframes progressShine { 0%,100% { transform: translateX(-100%);} 50% { transform: translateX(100%);} }
+
+  .progress > span{
+    display:block; height:100%; background: linear-gradient(135deg, #00c896 0%, #00e6b3 100%);
+    width:0%; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); position: relative; border-radius: 50px; overflow: hidden;
+  }
+  .progress > span::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    animation: progressGlow 1.5s ease-in-out infinite;
+  }
+  @keyframes progressGlow { 0%,100% { transform: translateX(-100%);} 50% { transform: translateX(100%);} }
+
+  table{
+    width:100%; border-collapse: collapse; border:1px solid var(--border);
+    overflow:hidden; border-radius: var(--radius-small); background: rgba(15,22,41,0.6);
+  }
+  th, td{ padding:16px 12px; border-bottom:1px solid rgba(34,48,85,0.6); text-align:left; }
+  th{
+    color: var(--text); background: rgba(17,26,42,0.8); position: sticky; top:0;
+    font-weight:600; font-size:13px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  tr:last-child td{ border-bottom:0 }
+  tr:hover { background: rgba(79,140,255,0.05); }
+
+  .pill{
+    display:inline-block; padding:6px 12px; border-radius:50px; font-size:12px;
+    border:1px solid var(--border); color: var(--text); background: rgba(16,26,49,0.6); font-weight:500;
+  }
+  .pill.late{ background: rgba(255,204,0,0.15); color:#ffd76f; border-color: rgba(107,90,29,0.6); }
+  .pill.met{ background: rgba(0,200,150,0.15); color:#9ff0d5; border-color: rgba(29,107,86,0.6); }
+
+  .coins{ position: fixed; pointer-events: none; z-index: 9999; }
+  .coin{
+    position: fixed; width: 20px; height: 20px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 40%), linear-gradient(135deg, #ffd95e 0%, #ffb400 100%);
+    border: 2px solid #d08c00; box-shadow: 0 4px 12px rgba(255,180,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center; color:#6a4300; font-size:11px; font-weight:700;
+    transform: translate(-50%, -50%);
+  }
+
+  .hint{
+    font-size: 13px; color: var(--text-secondary); margin-top: 12px; padding: 12px;
+    background: rgba(79,140,255,0.05); border-radius: var(--radius-small); border-left: 3px solid rgba(79,140,255,0.3);
+  }
+
+  .arrow-note{ text-align:center; color: var(--text-secondary); margin:16px 0 8px; font-size:14px; position:relative; }
+  .arrow-note::before { content:'→'; margin-right:8px; color: rgba(79,140,255,0.6); }
+
+  /* Responsive */
+  @media (max-width: 980px){
+    .grid-3{ grid-template-columns: 1fr; gap: 20px; }
+    .container{ padding:16px; }
+    .card{ padding:20px; }
+    .row{ flex-direction: column; }
+    .row > * { min-width: auto; }
+    .balances { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(15,22,41,0.5); }
+  ::-webkit-scrollbar-thumb { background: rgba(79,140,255,0.3); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(79,140,255,0.5); }
+</style>
+</head>
+<body>
+<div class="floating-particles" id="particles"></div>
+
+<header>
+  <h1>💰 Demo Visual de Escrow — Simple & por Hitos</h1>
+  <p>Simulación didáctica interactiva: approve → fund → release/refund y milestones con deadlines/penalizaciones. Experiencia visual educativa sin blockchain real.</p>
+  <div class="tabs">
+    <button class="tab active" id="tabSimple">✨ Escrow Simple</button>
+    <button class="tab" id="tabMilestones">🎯 Escrow por Hitos</button>
+  </div>
+</header>
+
+<!-- ====== VISTA: ESCROW SIMPLE ====== -->
+<div class="container" id="viewSimple">
+  <div class="grid-3">
+    <div class="card" id="boxBuyerS">
+      <h2>👤 Buyer</h2>
+      <div class="balances">
+        <div>
+          <div><small>Saldo Disponible</small></div>
+          <div id="buyerBalanceS">1000.00 MOCK</div>
+        </div>
+        <div>
+          <div><small>Allowance → Escrow</small></div>
+          <div id="allowanceS">0.00 MOCK</div>
+        </div>
+      </div>
+      <div class="row">
+        <input id="amountS" type="number" min="1" step="1" value="500" placeholder="Monto a depositar (MOCK)"/>
+      </div>
+      <div class="row">
+        <button class="btn" id="btnApproveS">🔓 Approve</button>
+        <button class="btn success" id="btnFundS">💰 Depositar</button>
+      </div>
+      <div class="hint">💡 <strong>Flujo:</strong> Primero <strong>Approve</strong> para autorizar el gasto, luego <strong>Depositar</strong> en el Escrow.</div>
+    </div>
+
+    <div class="card" id="boxEscrowS">
+      <h2>🔒 Escrow Contract</h2>
+      <div class="flex-between">
+        <span class="tag" id="statusS">Estado: No financiado</span>
+        <span class="tag warn">Token: MOCK (18 dec)</span>
+      </div>
+      <div class="divider"></div>
+      <div class="balances">
+        <div>
+          <div><small>Saldo en Escrow</small></div>
+          <div id="escrowBalanceS">0.00 MOCK</div>
+        </div>
+        <div>
+          <div><small>Smart Contract</small></div>
+          <div class="pill">SimpleEscrow.sol</div>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="btnRefundS">↩️ Refund → Buyer</button>
+        <button class="btn success" id="btnReleaseS">✅ Release → Seller</button>
+      </div>
+      <div class="row">
+        <button class="btn danger" id="btnCancelS">🛑 Cancelar</button>
+        <button class="btn secondary" id="btnResetS">🔄 Reset</button>
+      </div>
+      <p class="arrow-note">Buyer → Escrow → Seller</p>
+    </div>
+
+    <div class="card" id="boxSellerS">
+      <h2>💼 Seller</h2>
+      <div class="balances">
+        <div>
+          <div><small>Saldo Recibido</small></div>
+          <div id="sellerBalanceS">0.00 MOCK</div>
+        </div>
+        <div>
+          <div><small>Transacciones</small></div>
+          <div class="pill" id="receivedCountS">0</div>
+        </div>
+      </div>
+      <div class="log" id="logS"><p>📜 Sistema listo para transacciones...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== VISTA: ESCROW POR HITOS ====== -->
+<div class="container" id="viewMilestones" style="display:none">
+  <div class="grid-3">
+    <div class="card" id="boxBuyerM">
+      <h2>👤 Buyer</h2>
+      <div class="balances">
+        <div>
+          <div><small>Saldo Disponible</small></div>
+          <div id="buyerBalanceM">1000.00 MOCK</div>
+        </div>
+        <div>
+          <div><small>Allowance → Escrow</small></div>
+          <div id="allowanceM">0.00 MOCK</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <input id="amountM" type="number" min="1" step="1" value="1000" placeholder="Monto total del proyecto"/>
+      </div>
+      <div class="row">
+        <button class="btn" id="btnApproveM">🔓 Approve</button>
+        <button class="btn success" id="btnFundM">💰 Depositar</button>
+      </div>
+
+      <div class="divider"></div>
+      <h3 style="margin:12px 0; font-size:18px; color:#4ef0c8;">➕ Configurar Hito</h3>
+      <div class="row">
+        <input id="msName" placeholder="Nombre del hito (ej: Entrega final)"/>
+        <input id="msPct" type="number" min="1" max="100" value="50" placeholder="% a liberar"/>
+      </div>
+      <div class="row">
+        <input id="msDeadline" type="number" min="0" value="1" placeholder="Deadline (minutos desde ahora)"/>
+        <input id="msPenalty" type="number" min="0" max="10000" value="500" placeholder="Penalty (bps)"/>
+      </div>
+      <div class="row">
+        <button class="btn" id="btnAddMs">➕ Agregar hito</button>
+        <button class="btn secondary" id="btnResetM">🔄 Reset</button>
+      </div>
+      <div class="hint">La suma de porcentajes no puede superar el 100%. <b>Penalty</b> en basis points (100 bps = 1%).</div>
+    </div>
+
+    <div class="card" id="boxEscrowM">
+      <h2>🔒 Escrow (Hitos)</h2>
+      <div class="flex-between">
+        <span class="tag" id="statusM">Estado: No financiado</span>
+        <label class="tag"><input type="checkbox" id="oracleAuth" style="transform:translateY(1px); margin-right:8px"> Oráculo autorizado</label>
+      </div>
+      <div class="divider"></div>
+      <div class="balances">
+        <div>
+          <div><small>Saldo en Escrow</small></div>
+          <div id="escrowBalanceM">0.00 MOCK</div>
+        </div>
+        <div>
+          <div><small>Liberado total</small></div>
+          <div id="releasedM">0.00 MOCK</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="progress" title="Progreso liberado vs monto total del contrato">
+          <span id="progressBar" style="width:0%"></span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Hito</th>
+            <th>%</th>
+            <th>Deadline</th>
+            <th>Penalty</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="msTableBody">
+          <!-- filas dinámicas -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" id="boxSellerM">
+      <h2>💼 Seller</h2>
+      <div class="balances">
+        <div>
+          <div><small>Saldo Recibido</small></div>
+          <div id="sellerBalanceM">0.00 MOCK</div>
+        </div>
+        <div>
+          <div><small>Pagos</small></div>
+          <div class="pill" id="receivedCountM">0</div>
+        </div>
+      </div>
+      <div class="log" id="logM"><p>📜 Sistema listo para hitos...</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  Consejo: muestra primero el flujo simple, luego cambia a "Escrow por Hitos" y enseña deadlines, penalizaciones y el rol del oráculo.
+</div>
+
+<div class="coins" id="coins"></div>
+
+<script>
+/* ========== UTILIDADES GENERALES ========== */
+const fmt = (n) => (Number(n).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " MOCK");
+const now = () => Date.now();
+
+/* Animación de monedas entre cajas */
+function animateTransfer(fromEl, toEl, count = 12) {
+  if (!fromEl || !toEl) return;
+  const fb = fromEl.getBoundingClientRect();
+  const tb = toEl.getBoundingClientRect();
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement('div');
+    c.className = 'coin';
+    const sx = fb.left + fb.width / 2 + (Math.random() * 30 - 15);
+    const sy = fb.top + fb.height / 2 + (Math.random() * 20 - 10);
+    const tx = tb.left + tb.width / 2 + (Math.random() * 30 - 15);
+    const ty = tb.top + tb.height / 2 + (Math.random() * 20 - 10);
+    c.style.left = sx + 'px';
+    c.style.top = sy + 'px';
+    c.textContent = '$';
+    document.body.appendChild(c);
+    const dx = tx - sx, dy = ty - sy;
+    const dur = 450 + Math.random() * 300;
+    c.animate([
+      { transform: `translate(-50%,-50%) scale(1)`, opacity: 1 },
+      { transform: `translate(${dx - 50}px, ${dy - 50}px) scale(0.8)`, opacity: 0.1 }
+    ], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    setTimeout(() => c.remove(), dur + 20);
+  }
+}
+
+/* Partículas decorativas */
+(function spawnParticles() {
+  const container = document.getElementById('particles');
+  const W = window.innerWidth, H = window.innerHeight;
+  const total = Math.min(120, Math.ceil((W * H) / 35000));
+  for (let i = 0; i < total; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = (100 + Math.random() * 50) + '%';
+    p.style.animationDelay = (Math.random() * 6) + 's';
+    p.style.opacity = (0.3 + Math.random() * 0.5).toFixed(2);
+    p.style.background = Math.random() > 0.7 ? 'rgba(255,107,107,0.25)' : 'rgba(79,140,255,0.3)';
+    container.appendChild(p);
+  }
+})();
+
+/* ========== TABS ========== */
+const tabSimple = document.getElementById('tabSimple');
+const tabMilestones = document.getElementById('tabMilestones');
+const viewSimple = document.getElementById('viewSimple');
+const viewMilestones = document.getElementById('viewMilestones');
+
+tabSimple.onclick = () => {
+  tabSimple.classList.add('active'); tabMilestones.classList.remove('active');
+  viewSimple.style.display = 'block'; viewMilestones.style.display = 'none';
+};
+tabMilestones.onclick = () => {
+  tabMilestones.classList.add('active'); tabSimple.classList.remove('active');
+  viewSimple.style.display = 'none'; viewMilestones.style.display = 'block';
+};
+
+/* ========== ESTADO — ESCROW SIMPLE ========== */
+const stateS = {
+  buyer: 1000,
+  seller: 0,
+  escrow: 0,
+  allowance: 0,
+  funded: false,
+  released: false,
+  canceled: false,
+  receivedCount: 0
+};
+
+const elS = {
+  buyerBalance: document.getElementById('buyerBalanceS'),
+  sellerBalance: document.getElementById('sellerBalanceS'),
+  escrowBalance: document.getElementById('escrowBalanceS'),
+  allowance: document.getElementById('allowanceS'),
+  amount: document.getElementById('amountS'),
+  approve: document.getElementById('btnApproveS'),
+  fund: document.getElementById('btnFundS'),
+  refund: document.getElementById('btnRefundS'),
+  release: document.getElementById('btnReleaseS'),
+  cancel: document.getElementById('btnCancelS'),
+  reset: document.getElementById('btnResetS'),
+  status: document.getElementById('statusS'),
+  log: document.getElementById('logS'),
+  recCount: document.getElementById('receivedCountS'),
+  boxBuyer: document.getElementById('boxBuyerS'),
+  boxEscrow: document.getElementById('boxEscrowS'),
+  boxSeller: document.getElementById('boxSellerS'),
+};
+
+function logS(msg) { elS.log.innerHTML += `<p>${msg}</p>`; elS.log.scrollTop = elS.log.scrollHeight; }
+function updateS() {
+  elS.buyerBalance.textContent = fmt(stateS.buyer);
+  elS.sellerBalance.textContent = fmt(stateS.seller);
+  elS.escrowBalance.textContent = fmt(stateS.escrow);
+  elS.allowance.textContent = fmt(stateS.allowance);
+  elS.recCount.textContent = stateS.receivedCount;
+
+  if (stateS.escrow > 0 && !stateS.released && !stateS.canceled) {
+    elS.status.className = 'tag warn'; elS.status.textContent = 'Estado: Financiado';
+  } else if (stateS.released) {
+    elS.status.className = 'tag ok'; elS.status.textContent = 'Estado: Liberado';
+  } else if (stateS.canceled) {
+    elS.status.className = 'tag err'; elS.status.textContent = 'Estado: Cancelado';
+  } else {
+    elS.status.className = 'tag'; elS.status.textContent = 'Estado: No financiado';
+  }
+}
+
+elS.approve.onclick = () => {
+  const amt = Math.max(0, Math.floor(Number(elS.amount.value || 0)));
+  if (!amt) return logS('❓ Ingresa un monto válido para aprobar.');
+  if (amt > stateS.buyer) return logS('❌ El buyer no tiene saldo suficiente para aprobar ese monto.');
+  stateS.allowance = amt;
+  logS(`✅ Approve realizado por ${fmt(amt)} para el Escrow.`);
+  updateS();
+};
+
+elS.fund.onclick = () => {
+  const amt = Math.max(0, Math.floor(Number(elS.amount.value || 0)));
+  if (!amt) return logS('❓ Ingresa un monto válido.');
+  if (stateS.funded) return logS('⚠️ Ya está financiado. Usa Release/Refund/Reset.');
+  if (amt > stateS.allowance) return logS('❌ Allowance insuficiente. Haz Approve primero.');
+  if (amt > stateS.buyer) return logS('❌ Saldo insuficiente en Buyer.');
+  stateS.buyer -= amt; stateS.escrow += amt; stateS.allowance -= amt;
+  stateS.funded = true; stateS.released = false; stateS.canceled = false;
+  animateTransfer(elS.boxBuyer, elS.boxEscrow, Math.min(20, Math.ceil(amt/50)));
+  logS(`💰 Depósito realizado: ${fmt(amt)} → Escrow.`);
+  updateS();
+};
+
+elS.release.onclick = () => {
+  if (!stateS.funded || stateS.escrow <= 0) return logS('⚠️ No hay fondos en Escrow.');
+  const amt = stateS.escrow;
+  stateS.escrow = 0; stateS.seller += amt; stateS.funded = false; stateS.released = true; stateS.receivedCount += 1;
+  animateTransfer(elS.boxEscrow, elS.boxSeller, Math.min(20, Math.ceil(amt/50)));
+  logS(`✅ Release: ${fmt(amt)} → Seller.`);
+  updateS();
+};
+
+elS.refund.onclick = () => {
+  if (!stateS.funded || stateS.escrow <= 0) return logS('⚠️ No hay fondos en Escrow.');
+  const amt = stateS.escrow;
+  stateS.escrow = 0; stateS.buyer += amt; stateS.funded = false;
+  animateTransfer(elS.boxEscrow, elS.boxBuyer, Math.min(20, Math.ceil(amt/50)));
+  logS(`↩️ Refund: ${fmt(amt)} → Buyer.`);
+  updateS();
+};
+
+elS.cancel.onclick = () => {
+  if (stateS.canceled) return;
+  stateS.canceled = true;
+  logS('🛑 Escrow cancelado (simulado). Aún puedes refund si hay saldo en Escrow.');
+  updateS();
+};
+
+elS.reset.onclick = () => {
+  stateS.buyer = 1000; stateS.seller = 0; stateS.escrow = 0; stateS.allowance = 0;
+  stateS.funded = false; stateS.released = false; stateS.canceled = false; stateS.receivedCount = 0;
+  elS.log.innerHTML = '<p>📜 Sistema listo para transacciones...</p>';
+  updateS();
+};
+updateS();
+
+/* ========== ESTADO — ESCROW POR HITOS ========== */
+const stateM = {
+  buyer: 1000,
+  seller: 0,
+  escrow: 0,
+  allowance: 0,
+  amount: 1000,
+  funded: false,
+  releasedTotal: 0,
+  receivedCount: 0,
+  milestones: [], // {id,name,pct,deadlineMs,penaltyBps,met:false,metAt:null}
+  nextId: 1
+};
+
+const elM = {
+  buyerBalance: document.getElementById('buyerBalanceM'),
+  sellerBalance: document.getElementById('sellerBalanceM'),
+  escrowBalance: document.getElementById('escrowBalanceM'),
+  allowance: document.getElementById('allowanceM'),
+  amount: document.getElementById('amountM'),
+  approve: document.getElementById('btnApproveM'),
+  fund: document.getElementById('btnFundM'),
+  reset: document.getElementById('btnResetM'),
+  status: document.getElementById('statusM'),
+  log: document.getElementById('logM'),
+  recCount: document.getElementById('receivedCountM'),
+  boxBuyer: document.getElementById('boxBuyerM'),
+  boxEscrow: document.getElementById('boxEscrowM'),
+  boxSeller: document.getElementById('boxSellerM'),
+  msName: document.getElementById('msName'),
+  msPct: document.getElementById('msPct'),
+  msDeadline: document.getElementById('msDeadline'),
+  msPenalty: document.getElementById('msPenalty'),
+  msAdd: document.getElementById('btnAddMs'),
+  msTableBody: document.getElementById('msTableBody'),
+  released: document.getElementById('releasedM'),
+  progress: document.getElementById('progressBar'),
+  oracleAuth: document.getElementById('oracleAuth'),
+};
+
+function logM(msg) { elM.log.innerHTML += `<p>${msg}</p>`; elM.log.scrollTop = elM.log.scrollHeight; }
+const pctSum = () => stateM.milestones.reduce((a, m) => a + (m.pct || 0), 0);
+
+function renderMilestones() {
+  elM.msTableBody.innerHTML = '';
+  stateM.milestones.forEach(m => {
+    const tr = document.createElement('tr');
+    const deadlineLabel = new Date(m.deadlineMs).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    const statusPill = m.met
+      ? `<span class="pill met">Met</span>`
+      : (now() > m.deadlineMs ? `<span class="pill late">Late</span>` : `<span class="pill">Pending</span>`);
+
+    tr.innerHTML = `
+      <td>${m.name}</td>
+      <td>${m.pct}%</td>
+      <td title="${new Date(m.deadlineMs).toLocaleString()}">${deadlineLabel}</td>
+      <td>${(m.penaltyBps / 100).toFixed(2)}%</td>
+      <td>${statusPill}</td>
+      <td>
+        ${m.met
+          ? `<span class="tag ok">Liberado</span>`
+          : `<button class="btn" data-action="mark" data-id="${m.id}">Marcar cumplido</button>`
+        }
+      </td>
+    `;
+    elM.msTableBody.appendChild(tr);
+  });
+
+  elM.msTableBody.querySelectorAll('button[data-action="mark"]').forEach(btn => {
+    btn.onclick = () => {
+      const id = Number(btn.dataset.id);
+      if (!elM.oracleAuth.checked) return logM('❌ No autorizado: solo el oráculo puede marcar hitos.');
+      markMilestone(id);
+    };
+  });
+}
+
+function updateM() {
+  elM.buyerBalance.textContent = fmt(stateM.buyer);
+  elM.sellerBalance.textContent = fmt(stateM.seller);
+  elM.escrowBalance.textContent = fmt(stateM.escrow);
+  elM.allowance.textContent = fmt(stateM.allowance);
+  elM.released.textContent = fmt(stateM.releasedTotal);
+  elM.recCount.textContent = stateM.receivedCount;
+
+  const relPctOfContract = stateM.amount > 0 ? (stateM.releasedTotal / stateM.amount * 100) : 0;
+  elM.progress.style.width = Math.min(100, relPctOfContract).toFixed(2) + '%';
+
+  if (stateM.escrow > 0) {
+    elM.status.className = 'tag warn'; elM.status.textContent = 'Estado: Financiado';
+  } else if (stateM.releasedTotal > 0) {
+    elM.status.className = 'tag ok'; elM.status.textContent = 'Estado: Pagos completados o sin saldo';
+  } else {
+    elM.status.className = 'tag'; elM.status.textContent = 'Estado: No financiado';
+  }
+  renderMilestones();
+}
+
+function addMilestone(name, pct, minutesFromNow, penaltyBps) {
+  if (!name) return logM('❓ El hito necesita un nombre.');
+  if (pct <= 0 || pct > 100) return logM('❌ % inválido (1–100).');
+  if (pctSum() + pct > 100) return logM('❌ La suma de % de hitos no puede superar 100%.');
+  if (penaltyBps < 0 || penaltyBps > 10000) return logM('❌ Penalty BPS inválido (0–10000).');
+
+  const deadlineMs = now() + Math.max(0, minutesFromNow) * 60 * 1000;
+  stateM.milestones.push({
+    id: stateM.nextId++,
+    name: name.slice(0, 40),
+    pct: Math.floor(pct),
+    deadlineMs,
+    penaltyBps: Math.floor(penaltyBps),
+    met: false,
+    metAt: null
+  });
+  logM(`➕ Hito agregado: ${name} — ${pct}% — deadline ${new Date(deadlineMs).toLocaleTimeString()} — penalty ${(penaltyBps/100).toFixed(2)}%.`);
+  updateM();
+}
+
+function markMilestone(id) {
+  const m = stateM.milestones.find(x => x.id === id);
+  if (!m) return;
+  if (m.met) return logM('⚠️ Ya estaba marcado.');
+  if (!stateM.funded) return logM('⚠️ Debe estar financiado para liberar fondos.');
+
+  m.met = true; m.metAt = now();
+
+  let pct = m.pct;
+  const isLate = m.metAt > m.deadlineMs;
+  if (isLate && m.penaltyBps > 0) {
+    const penalty = (pct * m.penaltyBps) / 10000; // bps sobre el % del hito
+    pct = Math.max(0, pct - penalty);
+  }
+
+  const toRelease = Math.floor(stateM.amount * pct / 100);
+  const releaseAmt = Math.min(toRelease, stateM.escrow);
+
+  stateM.escrow -= releaseAmt;
+  stateM.seller += releaseAmt;
+  stateM.releasedTotal += releaseAmt;
+  if (releaseAmt > 0) stateM.receivedCount += 1;
+
+  animateTransfer(elM.boxEscrow, elM.boxSeller, Math.min(20, Math.ceil(releaseAmt/50)));
+  logM(`✅ Hito "${m.name}" cumplido. ${isLate ? '⏰ Tarde (penalización aplicada). ' : ''}Liberado: ${fmt(releaseAmt)} (${pct.toFixed(2)}% efectivo).`);
+  updateM();
+}
+
+/* Handlers de Milestones */
+elM.msAdd.onclick = () => {
+  addMilestone(
+    (elM.msName.value || 'Delivered'),
+    Number(elM.msPct.value || 0),
+    Number(elM.msDeadline.value || 0),
+    Number(elM.msPenalty.value || 0),
+  );
+};
+
+elM.approve.onclick = () => {
+  const amt = Math.max(0, Math.floor(Number(elM.amount.value || 0)));
+  if (!amt) return logM('❓ Ingresa un monto total válido.');
+  if (amt > stateM.buyer) return logM('❌ Buyer no tiene saldo suficiente para ese approve.');
+  stateM.amount = amt; stateM.allowance = amt;
+  logM(`✅ Approve por ${fmt(amt)} para Escrow (hitos).`);
+  updateM();
+};
+
+elM.fund.onclick = () => {
+  const amt = Math.max(0, Math.floor(Number(elM.amount.value || 0)));
+  if (!amt) return logM('❓ Monto inválido.');
+  if (stateM.funded) return logM('⚠️ Ya está financiado.');
+  if (amt > stateM.allowance) return logM('❌ Allowance insuficiente.');
+  if (amt > stateM.buyer) return logM('❌ Saldo insuficiente en Buyer.');
+  if (pctSum() === 0) return logM('❌ Agrega al menos un hito (% > 0).');
+
+  stateM.buyer -= amt; stateM.escrow += amt; stateM.allowance -= amt; stateM.funded = true;
+  animateTransfer(elM.boxBuyer, elM.boxEscrow, Math.min(20, Math.ceil(amt/50)));
+  logM(`💰 Depósito realizado: ${fmt(amt)} → Escrow de hitos.`);
+  updateM();
+};
+
+elM.reset.onclick = () => {
+  stateM.buyer = 1000; stateM.seller = 0; stateM.escrow = 0; stateM.allowance = 0;
+  stateM.amount = 1000; stateM.funded = false; stateM.releasedTotal = 0; stateM.receivedCount = 0;
+  stateM.milestones = []; stateM.nextId = 1;
+  elM.amount.value = 1000; elM.msName.value = ''; elM.msPct.value = 50; elM.msDeadline.value = 1; elM.msPenalty.value = 500;
+  elM.oracleAuth.checked = false;
+  elM.log.innerHTML = '<p>📜 Sistema listo para hitos...</p>';
+  updateM();
+};
+
+updateM();
+
+/* ========== PRE-CARGA DEMO (HITOS) ========== */
+(function preloadMilestones(){
+  addMilestone('Design', 30, 0.2, 300); // 12s
+  addMilestone('Delivered', 50, 1, 500); // 1 min
+  addMilestone('QA', 20, 2, 0);
+})();
+</script>
+</body>
+</html>
