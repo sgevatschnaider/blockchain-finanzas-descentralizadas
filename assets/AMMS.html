@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>DeFi: AMMs, MEV, Regulación y On-Chain Analytics</title>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #0f1220;
+      color: #e8f0ff;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(90deg, #7dd3fc, #a78bfa);
+      color: #0f1220;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    section {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #171a2b;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    section h2 {
+      color: #7dd3fc;
+      border-bottom: 2px solid #7dd3fc;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    ul {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin: 0.4rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+    table th, table td {
+      border: 1px solid #333;
+      padding: 0.8rem;
+      text-align: left;
+    }
+    table th {
+      background: #2980b9;
+      color: white;
+    }
+    table tr:nth-child(even) {
+      background: #1f2438;
+    }
+    table tr:nth-child(odd) {
+      background: #2a3047;
+    }
+    .highlight {
+      color: #f39c12;
+      font-weight: bold;
+    }
+    .diagram {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    canvas {
+      background: #0b0f14;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌐 Ecosistema DeFi: AMMs, MEV, Regulación y On-Chain Analytics</h1>
+  </header>
+
+  <section>
+    <h2>🔹 AMMs (Automated Market Makers)</h2>
+    <p>Son protocolos de intercambio descentralizado que eliminan el libro de órdenes tradicional. Funcionan con <span class="highlight">pools de liquidez</span> y fórmulas matemáticas (ejemplo: <code>x · y = k</code> en Uniswap).</p>
+    <ul>
+      <li>Permiten trading sin intermediarios.</li>
+      <li>Cualquiera puede aportar liquidez y recibir comisiones.</li>
+      <li>Son la base de las finanzas descentralizadas (DeFi).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔹 MEV (Maximal Extractable Value)</h2>
+    <p>Es el valor que pueden capturar los validadores al reordenar o excluir transacciones en un bloque.</p>
+    <ul>
+      <li>Ejemplos: <em>front-running</em>, arbitraje, liquidaciones.</li>
+      <li>Genera riesgos de equidad en el mercado.</li>
+      <li>Soluciones emergentes: <strong>Flashbots</strong> para mitigar abusos.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔹 Regulación</h2>
+    <p>Se refiere al marco legal aplicado a cripto y DeFi.</p>
+    <ul>
+      <li>KYC/AML, fiscalidad y licencias para exchanges.</li>
+      <li>Debates sobre la responsabilidad de los desarrolladores de protocolos.</li>
+      <li>Objetivo: equilibrio entre innovación y protección del usuario.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔹 On-Chain Analytics</h2>
+    <p>Son técnicas de análisis de datos en blockchain para rastrear actividad y generar transparencia.</p>
+    <ul>
+      <li>Monitorean liquidez, TVL y flujos de capital.</li>
+      <li>Detectan fraudes y lavado de dinero.</li>
+      <li>Herramientas: <strong>Nansen, Dune Analytics, Glassnode</strong>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📘 Libro de Órdenes vs 💧 Pools de Liquidez</h2>
+    <p>Los <span class="highlight">libros de órdenes</span> requieren contrapartes directas, mientras que los <span class="highlight">pools de liquidez</span> permiten operar contra un fondo común mediante smart contracts.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Aspecto</th>
+          <th>Libro de órdenes tradicional</th>
+          <th>Pools de liquidez (AMMs)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mecanismo de precios</td>
+          <td>Oferta y demanda en tiempo real</td>
+          <td>Fórmula matemática (<code>x·y=k</code>)</td>
+        </tr>
+        <tr>
+          <td>Contrapartes</td>
+          <td>Comprador ↔ vendedor</td>
+          <td>Usuario ↔ pool</td>
+        </tr>
+        <tr>
+          <td>Liquidez</td>
+          <td>Depende de market makers</td>
+          <td>Aportada por usuarios (LPs)</td>
+        </tr>
+        <tr>
+          <td>Participantes</td>
+          <td>Traders + market makers</td>
+          <td>Traders + proveedores de liquidez</td>
+        </tr>
+        <tr>
+          <td>Ejemplo práctico</td>
+          <td>Comprar BTC a $60.000 si alguien lo vende</td>
+          <td>Comprar ETH con USDC → el precio cambia según el pool</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="diagram">
+    <h2>📊 Relación entre conceptos en DeFi</h2>
+    <canvas id="defiDiagram" width="600" height="400"></canvas>
+  </section>
+
+  <script>
+    const canvas = document.getElementById("defiDiagram");
+    const ctx = canvas.getContext("2d");
+
+    // Nodos
+    const nodes = [
+      {x: 300, y: 50, label: "DeFi", color: "#8e44ad"},
+      {x: 100, y: 150, label: "AMMs", color: "#f39c12"},
+      {x: 500, y: 150, label: "MEV", color: "#e74c3c"},
+      {x: 100, y: 300, label: "Regulación", color: "#2980b9"},
+      {x: 500, y: 300, label: "On-Chain Analytics", color: "#27ae60"}
+    ];
+
+    const edges = [
+      [0,1],[0,2],[0,3],[0,4],
+      [1,2],[2,4],[4,3],[3,1]
+    ];
+
+    function drawNode(node) {
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, 50, 0, 2*Math.PI);
+      ctx.fillStyle = node.color;
+      ctx.fill();
+      ctx.fillStyle = "white";
+      ctx.font = "bold 14px Inter";
+      ctx.textAlign = "center";
+      ctx.fillText(node.label, node.x, node.y+5);
+    }
+
+    function drawEdge(a,b) {
+      ctx.beginPath();
+      ctx.moveTo(nodes[a].x, nodes[a].y);
+      ctx.lineTo(nodes[b].x, nodes[b].y);
+      ctx.strokeStyle = "#aaa";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Dibujar edges
+    edges.forEach(e => drawEdge(e[0], e[1]));
+    // Dibujar nodes
+    nodes.forEach(n => drawNode(n));
+  </script>
+</body>
+</html>
