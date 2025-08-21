@@ -108,8 +108,6 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 
 ## Puesta en marcha (guía rápida)
 
-> Si recién llegás, empezá por el **[cronograma](cronograma/cronograma.md)** y luego abrí **U1**.
-
 ### Python (3.10+)
 
 ```bash
