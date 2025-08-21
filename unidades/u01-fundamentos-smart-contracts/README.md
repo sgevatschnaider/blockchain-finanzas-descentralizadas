@@ -13,7 +13,7 @@
 ---
 
 ## 🗺️ Plan de trabajo (visión general)
-- **Sección 1 (3 días)**  
+- **Sección 1**  
   - Impacto de nuevas tecnologías en los negocios.  
   - Modelos de negocio basados en blockchain (Big Tech, fintech, bancos, pagos, salud, logística).  
   - Evolución de blockchain y smart contracts; casos de uso.  
@@ -21,7 +21,7 @@
   - Casos de smart contracts: logística, PropTech, InsurTech; ventajas y desventajas; perspectivas.  
   - **Actividad sincrónica obligatoria.** 
 
-> Sugerencia operativa de cátedra: 1 sesión sincrónica (3 h) dentro de la semana + trabajo autónomo de 3 días con lecturas y práctica guiada.
+> 
 
 ---
 
@@ -34,7 +34,7 @@
 
 ---
 
-## 🧪 Laboratorio principal (propuesto por la cátedra)
+## 🧪 Laboratorio principal 
 **Título:** Árbol de Merkle y prueba de inclusión  
 **Descripción:** Dada una lista de transacciones, construir el **Merkle root** y demostrar (off-chain / on-chain) que un elemento pertenece al conjunto.
 
