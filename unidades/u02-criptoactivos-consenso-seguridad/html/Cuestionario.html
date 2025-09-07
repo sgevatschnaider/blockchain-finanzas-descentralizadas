@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Experto en Blockchain y DeFi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --bg-secondary: rgba(26, 32, 44, 0.9);
+            --bg-tertiary: rgba(45, 55, 72, 0.8);
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --accent-primary: #3ad0ff;
+            --accent-secondary: #7cff9e;
+            --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .main-title {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .questions-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .qa-card {
+            background: var(--bg-secondary);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .question h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .toggle-answer {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .toggle-answer:hover {
+            background-color: var(--accent-primary);
+            color: #0f2027;
+            border-color: var(--accent-primary);
+        }
+
+        .answer {
+            background-color: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out;
+            padding: 0 1.5rem;
+        }
+        
+        .qa-card.answer-visible .answer {
+            max-height: 2000px; /* Suficientemente grande para cualquier respuesta */
+            padding: 1.5rem;
+        }
+
+        .answer p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .answer strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .answer ul {
+            list-style: none;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .answer li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .answer li::before {
+            content: '⛓️';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            background-color: rgba(45, 55, 72, 0.9);
+            color: var(--accent-secondary);
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .question { flex-direction: column; align-items: flex-start; }
+            .toggle-answer { margin-top: 1rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Cuestionario Experto en Blockchain</h1>
+            <p class="subtitle">Evalúa tu comprensión de los mecanismos de consenso, seguridad y la arquitectura de las finanzas descentralizadas.</p>
+        </header>
+
+        <div class="questions-wrapper">
+            <!-- Pregunta 1 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>1. Describe el proceso de Proof-of-Work (PoW) más allá de "resolver un acertijo". ¿Qué componentes específicos ensambla un minero en la cabecera del bloque y cuál es el objetivo exacto con respecto al <code>target</code> de la red?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>El Proof-of-Work es un mecanismo de consenso que asegura la red mediante un coste computacional verificable. No se trata de resolver un problema matemático complejo, sino de encontrar un valor específico (el <code>nonce</code>) a través de fuerza bruta.</p>
+                    <p>Un minero realiza los siguientes pasos:</p>
+                    <ul>
+                        <li><strong>Selección de Transacciones:</strong> Recopila transacciones de la <code>mempool</code>, priorizando las que tienen mayores comisiones (<code>fees</code>) para maximizar su ganancia.</li>
+                        <li><strong>Construcción del Árbol de Merkle:</strong> Organiza todas las transacciones, incluyendo su propia transacción <code>coinbase</code> (que le otorga la recompensa), en un Árbol de Merkle. El resultado es un único hash de 32 bytes llamado <code>Merkle Root</code>.</li>
+                        <li><strong>Ensamblaje de la Cabecera del Bloque:</strong> Crea la cabecera (un conjunto de datos de 80 bytes) que incluye:
+                            <ul>
+                                <li>La versión del software.</li>
+                                <li>El hash del bloque anterior (encadenando criptográficamente la blockchain).</li>
+                                <li>El <strong>Merkle Root</strong> (resumiendo todas las transacciones del bloque).</li>
+                                <li>La marca de tiempo (Timestamp).</li>
+                                <li>El <strong>Target de Dificultad</strong> (en formato compacto llamado <code>nBits</code>).</li>
+                                <li>El <strong>Nonce</strong>, un campo de 4 bytes que se comienza a iterar.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Proceso de Hashing:</strong> El minero aplica el algoritmo SHA-256 dos veces (<code>SHA256d</code>) a la cabecera del bloque, cambiando el <code>nonce</code> en cada intento.</li>
+                    </ul>
+                    <p><strong>El objetivo final</strong> es encontrar un <code>nonce</code> que, al ser hasheado junto con el resto de la cabecera, produzca un resultado numéricamente <strong>menor</strong> que el <code>target</code> de dificultad de la red. Este <code>target</code> es un número de 256 bits; cuanto más bajo es, más ceros iniciales debe tener el hash resultante, y más difícil es encontrarlo.</p>
+                </div>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>2. Diferencia entre el "subsidio de bloque" y las "tarifas de transacción". ¿Cuál es el modelo de seguridad económica a largo plazo de Bitcoin a medida que el subsidio tiende a cero?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>Ambos son los incentivos que reciben los mineros por asegurar la red, pero su origen y propósito son distintos:</p>
+                    <ul>
+                        <li><strong>Subsidio de Bloque:</strong> Es una cantidad fija de bitcoins <strong>nuevos</strong> que se crean con cada bloque exitosamente minado. Esta es la forma en que se emiten nuevas monedas en el sistema. El subsidio se reduce a la mitad cada 210,000 bloques (aproximadamente 4 años) en un evento conocido como <code>halving</code>. Comenzó en 50 BTC y actualmente es de 3.125 BTC.</li>
+                        <li><strong>Tarifas de Transacción (Fees):</strong> Son pequeñas cantidades de bitcoin que los usuarios adjuntan a sus transacciones. Actúan como un incentivo para que los mineros incluyan dichas transacciones en el próximo bloque. Son pagadas con bitcoins <strong>ya existentes</strong> y no crean nueva moneda.</li>
+                    </ul>
+                    <p><strong>El modelo de seguridad económica a largo plazo</strong> de Bitcoin se basa en una transición gradual desde un sistema dependiente del subsidio a uno sostenido enteramente por las tarifas de transacción. A medida que los halvings reduzcan el subsidio hasta que finalmente llegue a cero (alrededor del año 2140), el "presupuesto de seguridad" de la red (la cantidad total pagada a los mineros) deberá ser cubierto por las comisiones.</p>
+                    <p>Para que este modelo sea sostenible, se espera que el valor de Bitcoin y/o el volumen y la urgencia de las transacciones aumenten con el tiempo, creando un mercado de comisiones robusto que sea suficiente para incentivar a los mineros a seguir protegiendo la red con una cantidad masiva de hashrate.</p>
+                </div>
+            </div>
+            
+            <!-- Pregunta 3 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>3. ¿Qué es el "ajuste de dificultad" en Bitcoin, por qué es crucial para la estabilidad de la red y con qué frecuencia ocurre?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>El <strong>ajuste de dificultad</strong> es un mecanismo autorregulado integrado en el protocolo de Bitcoin que asegura que el tiempo promedio para encontrar un nuevo bloque se mantenga en aproximadamente <strong>10 minutos</strong>, sin importar cuánto poder computacional (hashrate) se una o abandone la red.</p>
+                    <p><strong>Es crucial por varias razones:</strong></p>
+                    <ul>
+                        <li><strong>Previsibilidad de la Emisión:</strong> Mantiene el calendario de emisión de nuevos bitcoins y los eventos de <code>halving</code> en un cronograma predecible y constante. Si los bloques se produjeran más rápido, el suministro total de 21 millones de BTC se emitiría mucho antes de lo previsto.</li>
+                        <li><strong>Estabilidad y Sincronización:</strong> Un tiempo de bloque constante da tiempo a la red para propagar nuevos bloques globalmente, reduciendo la probabilidad de bifurcaciones accidentales (<code>forks</code>) donde dos mineros encuentran un bloque casi al mismo tiempo.</li>
+                        <li><strong>Adaptabilidad:</strong> Permite que la red se adapte a cambios masivos en la tecnología (hardware de minería más eficiente) y en la participación de los mineros. Si el hashrate se duplica, la dificultad se duplicará para compensar y mantener el ritmo de 10 minutos.</li>
+                    </ul>
+                    <p>Este ajuste ocurre automáticamente cada <strong>2016 bloques</strong>. La red calcula cuánto tiempo tardó en minar esos 2016 bloques. Si fue menos de dos semanas (2016 bloques * 10 minutos), la dificultad aumenta. Si fue más de dos semanas, la dificultad disminuye. Este ciclo asegura una homeostasis constante en la producción de bloques.</p>
+                </div>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>4. Describe una "Ataque de Doble Gasto" en un escenario de ataque del 51%. Detalla los pasos que tomaría un atacante, incluyendo el concepto de una "cadena secreta".</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>Un ataque de doble gasto es el acto de gastar las mismas monedas digitales más de una vez. Un ataque del 51% lo hace posible al permitir que un atacante reescriba una porción del historial de la blockchain. Los pasos son los siguientes:</p>
+                    <ol>
+                        <li><strong>Paso 1: Transacción Pública.</strong> El atacante envía una transacción a una víctima, por ejemplo, 10 BTC a un exchange para comprar un producto o retirar otra moneda. Esta transacción se transmite a toda la red como de costumbre.</li>
+                        <li><strong>Paso 2: Confirmación Pública.</strong> La red honesta (el 49% restante) incluye esta transacción en un bloque (Bloque A) y comienza a construir sobre él (Bloque B, C, etc.). La víctima, al ver suficientes confirmaciones, considera la transacción finalizada y entrega el bien o servicio.</li>
+                        <li><strong>Paso 3: Minado de la Cadena Secreta.</strong> Simultáneamente, el atacante, con su 51% de hashrate, comienza a minar una <strong>cadena paralela y secreta</strong>. En su versión del Bloque A (llamémoslo Bloque A'), el atacante <strong>no incluye</strong> la transacción de 10 BTC a la víctima. En su lugar, incluye una transacción diferente que envía esos mismos 10 BTC de vuelta a otra dirección que él controla.</li>
+                        <li><strong>Paso 4: Superar a la Cadena Honesta.</strong> Dado que el atacante tiene más poder de cómputo, estadísticamente encontrará bloques más rápido que el resto de la red. Continúa minando en secreto (Bloque B', C', D'...) hasta que su cadena secreta sea <strong>más larga</strong> que la cadena pública y honesta.</li>
+                        <li><strong>Paso 5: Publicación y Reorganización (Reorg).</strong> Una vez que tiene la delantera, el atacante publica su cadena más larga a toda la red. Según la regla de consenso de Bitcoin (la "cadena más larga es la válida"), todos los nodos honestos abandonarán la cadena original y adoptarán la del atacante como la verdadera historia.</li>
+                    </ol>
+                    <p><strong>El resultado</strong> es que la transacción original a la víctima "desaparece" de la historia, como si nunca hubiera ocurrido. El atacante recupera sus 10 BTC y también posee el bien o servicio que recibió de la víctima. Ha "doblado el gasto" con éxito.</p>
+                </div>
+            </div>
+            
+            <!-- Pregunta 5 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>5. Define "composabilidad" en DeFi usando la analogía de los "Lego de Dinero". ¿Cuáles son los tres pilares técnicos que la hacen posible?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La <strong>composabilidad</strong> es una de las propiedades más poderosas del ecosistema DeFi. Se refiere a la capacidad de diferentes aplicaciones y protocolos descentralizados de interactuar, conectarse e integrarse entre sí de manera abierta y sin necesidad de permisos.</p>
+                    <p>La analogía de los <strong>"Lego de Dinero"</strong> es perfecta: cada protocolo DeFi es como una pieza de Lego con una función específica (intercambiar, prestar, tomar prestado, etc.). Debido a que todos operan en la misma blockchain pública y siguen estándares comunes, cualquier desarrollador puede tomar estas "piezas" y combinarlas para construir aplicaciones financieras o estrategias mucho más complejas y sofisticadas, sin necesidad de pedir permiso a los creadores de las piezas originales.</p>
+                    <p>Los tres pilares técnicos que sustentan la composabilidad son:</p>
+                    <ul>
+                        <li><strong>Contratos Inteligentes de Código Abierto:</strong> El código de los protocolos DeFi es público y verificable. Esto permite a otros desarrolladores auditar su funcionamiento, confiar en él y, lo más importante, construir sobre él, llamando a sus funciones desde sus propios contratos para crear nueva funcionalidad.</li>
+                        <li><strong>Estándares de Tokens Comunes:</strong> Estándares como <code>ERC-20</code> para tokens fungibles o <code>ERC-721</code> para NFTs aseguran que todos los "Lego" hablen el mismo idioma. Un token de un protocolo A es instantáneamente compatible y utilizable en un protocolo B, eliminando la fricción de la integración.</li>
+                        <li><strong>Atomicidad de las Transacciones:</strong> Múltiples operaciones complejas (por ejemplo, tomar un préstamo flash, intercambiar en un DEX, depositar en una bóveda y devolver el préstamo) pueden agruparse en una sola transacción atómica. Esto significa que <strong>o todas las operaciones tienen éxito, o todas fallan y se revierten</strong>. No hay riesgo de quedar en un estado intermedio fallido, lo que permite crear interacciones complejas sin riesgo de ejecución parcial.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Pregunta 6 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>6. Contrasta la "finalidad probabilística" de PoW con la "finalidad determinista" de PoS, utilizando las analogías del "cemento húmedo" y el "sello de notario".</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La "finalidad" se refiere al punto en el que una transacción se considera irreversible. PoW y PoS logran esta garantía de maneras fundamentalmente diferentes.</p>
+                    <p><strong>Finalidad Probabilística (Proof-of-Work / Bitcoin):</strong></p>
+                    <p>En PoW, la irreversibilidad se basa en la probabilidad y el coste económico. Siempre existe una probabilidad teórica (aunque infinitesimalmente pequeña) de que una transacción pueda ser revertida mediante un ataque del 51%. La seguridad aumenta con cada bloque adicional.</p>
+                    <ul>
+                        <li><strong>Analogía del Cemento Húmedo:</strong> Una transacción recién incluida en un bloque es como cemento fresco; es maleable. Cada bloque subsiguiente (confirmación) es como una nueva capa de cemento que se endurece sobre la anterior. Después de unas 6 capas (6 confirmaciones, ~1 hora), la transacción original está tan profundamente enterrada que es, para todos los efectos prácticos, imposible de alterar. La seguridad es <strong>económica</strong>: costaría una cantidad astronómica de energía revertirla.</li>
+                    </ul>
+                    <p><strong>Finalidad Determinista (Proof-of-Stake / Ethereum):</strong></p>
+                    <p>En PoS, la finalidad es absoluta y se basa en un consenso explícito y criptográfico. Los validadores votan por la validez de los bloques. Una vez que un bloque alcanza un umbral de votos (2/3 de los validadores) y es marcado como "finalizado", es criptográficamente imposible revertirlo.</p>
+                    <ul>
+                        <li><strong>Analogía del Sello de Notario:</strong> El proceso de finalización en PoS es como llevar un documento a un notario. Una vez que los validadores "firman" y "sellan" el bloque, su validez es absoluta y legalmente vinculante dentro del protocolo. El único modo de revertirlo sería que al menos 1/3 de los validadores conspiraran y destruyeran su propio capital (miles de millones de dólares) a través del <code>slashing</code>. La seguridad es <strong>criptoeconómica y explícita</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Pregunta 7 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>7. ¿Cuál es la función económica principal de un activo nativo de una blockchain (como BTC o ETH) y cómo cumple esta función en los modelos PoW y PoS?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La función económica principal de un activo nativo no es simplemente ser "dinero digital", sino <strong>financiar el presupuesto de seguridad de la red</strong>. Es el incentivo que se paga a los participantes (mineros o validadores) para que actúen honestamente y protejan la integridad y la inmutabilidad de la blockchain.</p>
+                    <p>Cumple esta función de manera diferente en cada modelo de consenso:</p>
+                    <ul>
+                        <li><strong>En Proof-of-Work (PoW) como Bitcoin (BTC):</strong> El activo nativo (BTC) se utiliza para pagar la recompensa por bloque (subsidio + fees) a los mineros. Este pago incentiva a los mineros a gastar recursos del mundo real (electricidad, hardware) en hashrate. La seguridad de la red es directamente proporcional a la cantidad de energía gastada, lo que hace que un ataque (que requeriría superar ese gasto) sea extremadamente costoso. BTC es la "energía monetizada" que respalda la seguridad de la red.</li>
+                        <li><strong>En Proof-of-Stake (PoS) como Ethereum (ETH):</strong> El activo nativo (ETH) se utiliza como <strong>capital de garantía (stake)</strong>. Los validadores deben bloquear una cantidad significativa de ETH (actualmente 32 ETH) para tener derecho a proponer y validar bloques. Si actúan de manera maliciosa (por ejemplo, intentando un doble gasto), el protocolo destruye automáticamente una parte o la totalidad de su ETH depositado en un proceso llamado <code>slashing</code>. La seguridad de la red es directamente proporcional al valor total del capital en stake, ya que un ataque requeriría controlar y arriesgar miles de millones de dólares. ETH es el "bono de seguridad" que garantiza el comportamiento honesto.</li>
+                    </ul>
+                    <p>En ambos casos, el activo nativo es el mecanismo endógeno que alinea los incentivos económicos de los validadores con la seguridad y la salud de la red.</p>
+                </div>
+            </div>
+            
+             <!-- Pregunta 8 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>8. ¿Qué problema resuelve el estándar ERC-4337 (Abstracción de Cuentas) y qué tres mejoras de experiencia de usuario habilita?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>El estándar <strong>ERC-4337 (Account Abstraction)</strong> resuelve la rígida distinción en Ethereum entre las Cuentas de Propiedad Externa (EOA), controladas por claves privadas, y las Cuentas de Contrato (smart contracts). Tradicionalmente, solo las EOA podían iniciar transacciones y pagar gas, lo que limitaba la flexibilidad y la experiencia del usuario.</p>
+                    <p>ERC-4337 permite que la wallet de un usuario se comporte como un <strong>smart contract</strong> sin cambiar el protocolo central de Ethereum. Esto introduce una capa de lógica programable en la propia cuenta, desbloqueando funcionalidades avanzadas.</p>
+                    <p>Las tres principales mejoras de experiencia de usuario que habilita son:</p>
+                    <ul>
+                        <li><strong>Recuperación Social (Social Recovery):</strong> En lugar de depender de una frase semilla (que si se pierde, los fondos son irrecuperables), un usuario puede designar "guardianes" (amigos, familiares u otros dispositivos) que pueden autorizar la recuperación de la cuenta si se pierde la clave principal. Esto elimina el principal punto de fallo de la autocustodia.</li>
+                        <li><strong>Flexibilidad en el Pago de Gas (Gas Abstraction):</strong> Permite que las transacciones sean pagadas por un tercero o con tokens distintos al ETH. Una dApp podría subsidiar el gas de sus usuarios para mejorar la incorporación, o un usuario podría pagar las comisiones con una stablecoin (como USDC) que ya posea, eliminando la necesidad de tener siempre ETH para interactuar con la red.</li>
+                        <li><strong>Automatización y Transacciones por Lotes (Batching):</strong> Permite agrupar múltiples operaciones (por ejemplo, aprobar un token y luego intercambiarlo) en una única transacción firmada por el usuario. Esto simplifica interacciones complejas, ahorra costes de gas y puede habilitar funciones como pagos recurrentes o límites de gasto, todo ello gestionado por la lógica de la propia wallet.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Pregunta 9 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>9. Describe el "Problema del Oráculo". ¿Por qué los smart contracts no pueden acceder directamente a datos del mundo real y cómo lo solucionan redes como Chainlink?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>El <strong>Problema del Oráculo</strong> se refiere a la incapacidad de las blockchains y los smart contracts para acceder a datos externos (off-chain) de forma nativa. Las blockchains son sistemas deterministas y aislados; todos los nodos de la red deben llegar exactamente al mismo estado al procesar las mismas transacciones. Si un smart contract pudiera hacer una llamada a una API externa (por ejemplo, para obtener el precio de una acción), diferentes nodos podrían recibir respuestas diferentes en momentos diferentes, rompiendo el consenso y la integridad de la blockchain.</p>
+                    <p>Un oráculo es el puente que conecta los datos del mundo real (off-chain) con el mundo determinista de la blockchain (on-chain).</p>
+                    <p>Sin embargo, un oráculo centralizado se convierte en un único punto de fallo y manipulación. Si un protocolo DeFi de préstamos depende de una única fuente para el precio de ETH/USD, un atacante podría corromper esa fuente para causar liquidaciones injustas.</p>
+                    <p><strong>Redes de oráculos descentralizadas como Chainlink</strong> solucionan este problema de la siguiente manera:</p>
+                    <ul>
+                        <li><strong>Descentralización de Fuentes de Datos:</strong> En lugar de depender de una sola API, una red de Chainlink obtiene datos de múltiples fuentes de alta calidad y agrega los resultados para eliminar valores atípicos y errores.</li>
+                        <li><strong>Descentralización de Nodos:</strong> La tarea de obtener y reportar los datos en la cadena es realizada por una red de nodos de oráculos independientes y con reputación en juego. Cada nodo obtiene la información por su cuenta y la reporta.</li>
+                        <li><strong>Agregación On-Chain:</strong> Un contrato inteligente de agregación en la blockchain recibe las respuestas de todos los nodos y calcula un único valor de consenso (por ejemplo, la mediana), que luego es utilizado por otros smart contracts. Esto asegura que ningún nodo individual pueda corromper el dato final.</li>
+                        <li><strong>Incentivos Criptoeconómicos:</strong> Los nodos son recompensados con tokens (LINK) por proporcionar datos precisos y fiables, y pueden ser penalizados si su comportamiento es malicioso o su rendimiento es bajo, asegurando un alto nivel de confianza.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pregunta 10 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>10. Compara y contrasta los monederos con custodia (custodial) y sin custodia (non-custodial). ¿Cuáles son las ventajas y desventajas clave en términos de conveniencia, seguridad, control y responsabilidad?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La diferencia fundamental radica en quién controla las <strong>llaves privadas</strong>, que son la prueba de propiedad de los criptoactivos.</p>
+                    <p><strong>Monederos con Custodia (Custodial Wallets):</strong></p>
+                    <p>Son servicios (generalmente exchanges como Binance o Coinbase) que guardan las llaves privadas en nombre del usuario. El usuario interactúa a través de un nombre de usuario y contraseña.</p>
+                    <ul>
+                        <li><strong>Ventajas:</strong>
+                            <ul>
+                                <li><strong>Conveniencia:</strong> La experiencia es similar a la banca online. La recuperación de la cuenta es fácil si se olvida la contraseña.</li>
+                                <li><strong>Abstracción:</strong> El usuario no tiene que preocuparse por la gestión de frases semilla, el pago de gas o la seguridad de las claves.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Desventajas:</strong>
+                            <ul>
+                                <li><strong>Falta de Control (Censura):</strong> El custodio tiene el control final sobre los fondos. Puede congelar la cuenta, revertir transacciones o cumplir con órdenes gubernamentales.</li>
+                                <li><strong>Riesgo de Contraparte:</strong> Si el exchange es hackeado, sufre una quiebra (como FTX) o actúa de mala fe, los fondos de los usuarios pueden perderse para siempre.</li>
+                                <li><strong>Lema clave:</strong> Aquí aplica la frase <em>"Not your keys, not your coins"</em> (Si no son tus llaves, no son tus monedas).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>Monederos sin Custodia (Non-Custodial Wallets):</strong></p>
+                    <p>Son aplicaciones (MetaMask, Trust Wallet) o dispositivos físicos (Ledger, Trezor) que le dan al usuario el control exclusivo de sus llaves privadas. El usuario es el único responsable de su seguridad, generalmente a través de una frase semilla de 12 o 24 palabras.</p>
+                    <ul>
+                        <li><strong>Ventajas:</strong>
+                            <ul>
+                                <li><strong>Control Total y Soberanía:</strong> El usuario es su propio banco. Nadie puede mover sus fondos o censurar sus transacciones sin su permiso.</li>
+                                <li><strong>Acceso Directo a Web3:</strong> Son la puerta de entrada para interactuar con todo el ecosistema de DeFi, NFTs y dApps de forma directa y sin intermediarios.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Desventajas:</strong>
+                            <ul>
+                                <li><strong>Responsabilidad Absoluta:</strong> Si el usuario pierde su frase semilla, no hay un servicio de atención al cliente al que llamar. Los fondos serán permanentemente irrecuperables.</li>
+                                <li><strong>Riesgo de Phishing/Malware:</strong> El usuario es el único responsable de protegerse contra estafas que intenten robar su frase semilla o engañarlo para que firme transacciones maliciosas.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Pregunta 11 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>11. Explica la estructura de un Árbol de Merkle y su función en un bloque de Bitcoin. ¿Cómo contribuye a la eficiencia y seguridad de la red?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>Un <strong>Árbol de Merkle</strong> es una estructura de datos criptográfica que permite resumir de manera eficiente y segura un gran conjunto de datos (en este caso, todas las transacciones de un bloque) en un único hash de 32 bytes, conocido como la <strong>Raíz de Merkle (Merkle Root)</strong>.</p>
+                    <p><strong>Estructura y Construcción:</strong></p>
+                    <ol>
+                        <li><strong>Hojas:</strong> En la base del árbol, cada transacción individual del bloque se hashea para formar las "hojas" del árbol.</li>
+                        <li><strong>Nodos Intermedios:</strong> Las hojas se agrupan en pares, y el hash de cada par se concatena y se vuelve a hashear para crear un nodo padre en el nivel superior.</li>
+                        <li><strong>Proceso Recursivo:</strong> Este proceso se repite sucesivamente: se toman los hashes del nivel actual, se agrupan en pares, y se hashean para formar el siguiente nivel, hasta que solo queda un único hash. Si en algún nivel hay un número impar de nodos, el último se duplica para formar un par.</li>
+                        <li><strong>Raíz de Merkle:</strong> El hash final en la cima del árbol es la Raíz de Merkle.</li>
+                    </ol>
+                    <p><strong>Función y Beneficios:</strong></p>
+                    <ul>
+                        <li><strong>Eficiencia:</strong> La Raíz de Merkle es lo único que se incluye en la cabecera del bloque. Esto permite que la cabecera, que debe ser hasheada miles de millones de veces, sea muy pequeña y ligera (80 bytes), en lugar de tener que incluir cientos de kilobytes de datos de transacciones en cada intento de minado. El cuerpo del bloque con todas las transacciones se transmite por separado.</li>
+                        <li><strong>Seguridad y Detección de Manipulaciones:</strong> La Raíz de Merkle actúa como una "huella digital" de todas las transacciones. Si un solo bit en cualquiera de las transacciones del bloque es alterado, el hash de esa transacción cambiará, lo que provocará un cambio en el hash del nodo padre, y así sucesivamente en cascada hasta la cima. El resultado será una Raíz de Merkle completamente diferente, lo que invalidaría el hash del bloque y sería rechazado instantáneamente por la red.</li>
+                        <li><strong>Verificación Simplificada (SPV):</strong> Permite a los "nodos ligeros" (light nodes) verificar si una transacción específica está incluida en un bloque sin necesidad de descargar toda la blockchain (cientos de gigabytes). Solo necesitan descargar las cabeceras de los bloques y solicitar la "ruta de Merkle" (Merkle path) de la transacción, que es una pequeña lista de hashes necesarios para reconstruir la Raíz de Merkle y confirmar la inclusión.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Pregunta 12 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>12. ¿Por qué se considera que un ataque del 51% a Bitcoin es económicamente inviable en la práctica? Menciona al menos dos impedimentos significativos más allá del coste inicial del hardware.</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>Aunque teóricamente posible, un ataque del 51% a una red tan masiva como Bitcoin se considera económicamente irracional y prácticamente inviable debido a varios factores que van más allá del simple coste de adquisición del hardware (ASICs).</p>
+                    <p><strong>El coste del hardware</strong> ya es astronómico, requiriendo cientos de miles de los ASICs más avanzados, lo que costaría miles de millones de dólares y alertaría a toda la industria.</p>
+                    <p>Sin embargo, dos impedimentos adicionales son cruciales:</p>
+                    <ul>
+                        <li><strong>Costes Operativos Masivos (OPEX):</strong> Adquirir el hardware es solo el primer paso. El atacante necesitaría instalaciones físicas masivas para alojar los equipos y, lo más importante, un acceso a <strong>gigavatios de energía eléctrica</strong>, equivalente al consumo de un país pequeño. Conseguir esta cantidad de energía de forma discreta y a un coste que no haga el ataque prohibitivamente caro desde el primer segundo es un desafío logístico y económico monumental. Estos costes operativos deben pagarse continuamente para mantener el ataque.</li>
+                        <li><strong>Destrucción del Valor del Activo:</strong> El objetivo de un ataque suele ser obtener un beneficio económico (por ejemplo, mediante un doble gasto). Sin embargo, en el momento en que un ataque del 51% a Bitcoin fuera exitoso y se hiciera público, la confianza en la red se desplomaría. El precio del BTC caería drásticamente. Por lo tanto, cualquier BTC que el atacante lograra robar o conservar a través del doble gasto perdería la mayor parte de su valor. El atacante estaría gastando miles de millones de dólares para destruir el valor del mismo activo que intenta robar, haciendo que el ataque sea económicamente contraproducente. Es un acto de "matar a la gallina de los huevos de oro".</li>
+                    </ul>
+                    <p>Además, la comunidad podría responder con un <strong>hard fork</strong> coordinado para invalidar la cadena del atacante, dejando al atacante con hardware especializado que solo sirve para minar una versión de Bitcoin que nadie valora.</p>
+                </div>
+            </div>
+            
+            <!-- Pregunta 13 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>13. Explica el concepto de "riesgo sistémico" como el "lado oscuro" de la composabilidad en DeFi. ¿Cómo puede una vulnerabilidad en un solo protocolo crear un efecto dominó?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>El "riesgo sistémico" en DeFi es la consecuencia directa y negativa de la composabilidad. Si bien la interconexión de los "Lego de Dinero" fomenta una innovación rápida y la eficiencia del capital, también significa que los protocolos se vuelven altamente dependientes unos de otros. La fortaleza de la cadena es la de su eslabón más débil.</p>
+                    <p>Una vulnerabilidad en un solo protocolo, especialmente uno fundamental, puede desencadenar un <strong>efecto dominó o una falla en cascada</strong> a través de todo el ecosistema que depende de él. Así es como puede ocurrir:</p>
+                    <ol>
+                        <li><strong>El Protocolo Base es Vulnerado:</strong> Imaginemos que un protocolo de préstamos importante como Aave tiene un bug crítico que permite a un atacante acuñar una cantidad masiva de su token de depósito, por ejemplo, aDAI, sin depositar DAI real.</li>
+                        <li><strong>Contagio a Protocolos Dependientes:</strong> Otros protocolos utilizan aDAI como colateral. Por ejemplo, un protocolo de stablecoin descentralizada podría aceptar aDAI para acuñar su propia stablecoin. El atacante utiliza su aDAI falso para tomar prestado y drenar toda la liquidez de esta stablecoin.</li>
+                        <li><strong>Impacto en Agregadores de Rendimiento:</strong> Bóvedas de rendimiento como las de Yearn Finance, que ejecutan estrategias complejas depositando activos en Aave, ahora están operando sobre un protocolo comprometido. Sus cálculos de rendimiento y el valor de sus activos subyacentes se vuelven incorrectos, y los fondos de sus usuarios están en riesgo.</li>
+                        <li><strong>Liquidaciones en Cascada:</strong> A medida que el valor de aDAI (o cualquier activo comprometido) se desploma a cero, todos los préstamos en otros protocolos que lo utilizan como garantía quedan instantáneamente subcolateralizados. Esto desencadena liquidaciones masivas en todo el ecosistema, creando una congestión extrema en la red, un aumento en las tarifas de gas y una espiral de ventas que afecta el precio de muchos otros activos.</li>
+                    </ol>
+                    <p>En resumen, la composabilidad crea una "superficie de riesgo" compartida. La seguridad de un protocolo complejo no es solo la seguridad de su propio código, sino la seguridad acumulada de todos los protocolos con los que interactúa. Un fallo en un Lego puede hacer que toda la estructura se desmorone.</p>
+                </div>
+            </div>
+            
+             <!-- Pregunta 14 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>14. ¿Qué es un "share" en el contexto de la minería en pool y cómo se diferencia de encontrar un bloque válido? ¿Por qué es necesario este concepto?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>En la minería en pool, un <strong>share</strong> (o "participación") es un <strong>bloque parcialmente válido</strong>. Es un hash que cumple con un requisito de dificultad mucho más bajo y fácil de alcanzar que el objetivo de dificultad real de la red, pero que aun así requiere un trabajo computacional significativo.</p>
+                    <p>La diferencia clave es:</p>
+                    <ul>
+                        <li><strong>Encontrar un Bloque Válido:</strong> Es encontrar un hash que sea menor que el <code>target</code> de dificultad de toda la red. Este es un evento extremadamente raro (la "lotería" de ~10 minutos), y el minero que lo encuentra recibe la recompensa completa del bloque.</li>
+                        <li><strong>Enviar un Share:</strong> Es encontrar un hash que es menor que el <code>target</code> de dificultad establecido por el <strong>pool de minería</strong>. Este objetivo es miles de veces más fácil que el de la red, por lo que un minero puede encontrar y enviar "shares" con mucha frecuencia (cada pocos segundos o minutos). Estos shares no son válidos para la red de Bitcoin y no otorgan ninguna recompensa por sí mismos.</li>
+                    </ul>
+                    <p><strong>La necesidad del concepto de "share"</strong> radica en la distribución justa de las recompensas. La minería en solitario es una lotería con una probabilidad de éxito extremadamente baja para un minero pequeño. Un pool de minería combina el hashrate de miles de mineros para aumentar la probabilidad de encontrar un bloque.</p>
+                    <p>Los "shares" actúan como <strong>prueba de trabajo</strong> para el operador del pool. Al enviar constantemente estos bloques parcialmente válidos, cada minero demuestra al pool que está contribuyendo activamente con su poder de cómputo. El pool registra cuántos "shares" envía cada participante. Cuando el pool, como un todo, finalmente encuentra un bloque válido (que, por definición, también es un "share" válido), la recompensa del bloque se distribuye entre todos los participantes de manera proporcional a la cantidad de "shares" que cada uno contribuyó. Esto garantiza un flujo de ingresos más estable y predecible para los mineros individuales.</p>
+                </div>
+            </div>
+            
+            <!-- Pregunta 15 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>15. Explica el mecanismo de "censura de transacciones" en un ataque del 51%. ¿Por qué un atacante podría querer hacerlo y cuál es el impacto para el usuario afectado?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La <strong>censura de transacciones</strong> en un ataque del 51% ocurre cuando un minero (o un pool de mineros) que controla la mayoría del hashrate de la red decide <strong>deliberadamente ignorar e excluir</strong> las transacciones provenientes de una dirección o conjunto de direcciones específicas, impidiendo que sean confirmadas en la blockchain.</p>
+                    <p><strong>Mecanismo del ataque:</strong></p>
+                    <p>Dado que el atacante encuentra más del 50% de los bloques, puede asegurarse de que cualquier bloque minado por el resto de la red (que pudiera incluir la transacción del usuario censurado) sea eventualmente "huérfano" por su propia cadena más larga, en la cual omite sistemáticamente las transacciones del objetivo.</p>
+                    <p><strong>Motivaciones para la censura:</strong></p>
+                    <ul>
+                        <li><strong>Ataque Dirigido:</strong> Un actor malicioso (un gobierno, una corporación, un individuo) podría querer bloquear a un competidor, un disidente o una entidad específica para impedir que mueva sus fondos.</li>
+                        <li><strong>Extorsión:</strong> El atacante podría exigir un rescate a la víctima a cambio de dejar de censurar sus transacciones.</li>
+                        <li><strong>Cumplimiento Forzado:</strong> Un pool de minería podría ser coaccionado por reguladores para censurar transacciones asociadas a direcciones en una lista negra (por ejemplo, direcciones sancionadas).</li>
+                    </ul>
+                    <p><strong>Impacto para el usuario afectado:</strong></p>
+                    <p>El impacto es devastador. Para el usuario censurado, sus fondos están efectivamente <strong>congelados</strong>. No importa cuán alta sea la tarifa de transacción que ofrezca para incentivar a los mineros, el atacante mayoritario simplemente la ignorará. La transacción del usuario permanecerá perpetuamente en la <code>mempool</code>, sin poder ser confirmada. Esto socava una de las propuestas de valor fundamentales de las criptomonedas: la resistencia a la censura. El usuario mantiene la posesión teórica de sus claves, pero pierde la capacidad práctica de usar sus activos en la red.</p>
+                </div>
+            </div>
+            
+            <!-- Pregunta 16 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>16. ¿Por qué la "reversibilidad" es una característica fundamental de las finanzas tradicionales (ej. chargebacks) y cómo se contrapone al concepto de finalidad en blockchain?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La reversibilidad es una característica deliberada y fundamental en las finanzas tradicionales (TradFi) porque el sistema se basa en la <strong>confianza en intermediarios</strong> y en la existencia de un recurso legal para la resolución de disputas. Tú nunca posees el activo directamente, sino un apunte en la base de datos de un banco (un IOU o "te debo").</p>
+                    <p><strong>Razones para la reversibilidad en TradFi:</strong></p>
+                    <ul>
+                        <li><strong>Protección al Consumidor:</strong> Los <code>chargebacks</code> (retrocesos de cargo) en las tarjetas de crédito protegen a los consumidores contra fraudes, productos defectuosos o servicios no prestados.</li>
+                        <li><strong>Corrección de Errores:</strong> Permite a los bancos revertir transferencias erróneas o duplicadas.</li>
+                        <li><strong>Cumplimiento Legal:</strong> Las autoridades pueden ordenar la congelación de cuentas y la reversión de transacciones como parte de investigaciones criminales o sanciones.</li>
+                        <li><strong>Gestión de Riesgos:</strong> Las entidades financieras actúan como árbitros, asumiendo el riesgo a cambio de comisiones. La reversibilidad es su principal herramienta de mitigación.</li>
+                    </ul>
+                    <p><strong>Contraste con la Finalidad en Blockchain:</strong></p>
+                    <p>La finalidad en blockchain se contrapone directamente a este modelo porque está diseñada para eliminar la necesidad de un intermediario de confianza. El sistema se basa en <strong>verificación matemática y propiedad digital soberana</strong> (<code>bearer assets</code>).</p>
+                    <ul>
+                        <li><strong>Naturaleza Irreversible:</strong> Una transacción con finalidad en una blockchain es, por diseño, irreversible. No hay una entidad central con la autoridad para revertirla. La seguridad no proviene de la posibilidad de apelar, sino de la garantía matemática de que el pasado no puede ser alterado.</li>
+                        <li><strong>Transferencia de Valor vs. Mensajes:</strong> Una transacción de tarjeta de crédito es un mensaje de "promesa de pago" que se liquida días después. Una transacción de Bitcoin es la <strong>liquidación y transferencia de valor real</strong> en el mismo acto.</li>
+                        <li><strong>Autoridad del Protocolo:</strong> En blockchain, la autoridad final es el código del protocolo y el consenso de la red, no una política corporativa o un marco legal externo.</li>
+                    </ul>
+                    <p>En resumen, TradFi prioriza la <strong>protección a través de la reversión mediada</strong>, mientras que blockchain prioriza la <strong>certeza a través de la inmutabilidad programática</strong>.</p>
+                </div>
+            </div>
+            
+             <!-- Pregunta 17 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>17. Detalla una estrategia de inversión compleja en DeFi que aproveche la composabilidad, involucrando al menos tres tipos de protocolos distintos.</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>Una estrategia clásica que demuestra el poder de la composabilidad es el <strong>apalancamiento de rendimiento ("leveraged yield farming")</strong>. El objetivo es maximizar la exposición a un activo que genera rendimiento, utilizando un préstamo. Aquí un ejemplo con tres protocolos:</p>
+                    <p><strong>Activo Inicial:</strong> 10 ETH.</p>
+                    <p><strong>Protocolos Involucrados:</strong></p>
+                    <ol>
+                        <li><strong>Protocolo de Staking Líquido (ej. Lido):</strong> Permite obtener rendimiento por staking sin perder liquidez.</li>
+                        <li><strong>Protocolo de Préstamos (ej. Aave):</strong> Permite depositar activos como colateral para tomar prestado otros activos.</li>
+                        <li><strong>Exchange Descentralizado - DEX (ej. Uniswap):</strong> Permite intercambiar un activo por otro.</li>
+                    </ol>
+                    <p><strong>Pasos de la Estrategia (ejecutados en una sola transacción atómica):</strong></p>
+                    <ul>
+                        <li><strong>Paso 1 (Staking Líquido):</strong> El usuario deposita sus 10 ETH en Lido. A cambio, recibe aproximadamente 10 stETH (staked Ether). Estos stETH ya están generando un rendimiento de staking (~4% APY), pero además son un token líquido ERC-20 que puede usarse en otros protocolos. <em>(Composabilidad: Lido crea un "Lego" que representa ETH en staking)</em>.</li>
+                        <li><strong>Paso 2 (Depósito como Colateral):</strong> El usuario deposita sus 10 stETH en Aave. Aave reconoce stETH como un colateral de alta calidad y permite al usuario tomar prestado contra él. <em>(Composabilidad: Aave integra el "Lego" de Lido sin pedirle permiso)</em>.</li>
+                        <li><strong>Paso 3 (Préstamo):</strong> Contra sus 10 stETH (valorados, digamos, en $20,000), el usuario toma prestado un 70% de su valor en ETH. Pide prestados 7 ETH. Ahora tiene una deuda de 7 ETH en Aave, por la cual paga un interés (digamos, ~2% APY).</li>
+                        <li><strong>Paso 4 (Repetición del Ciclo):</strong> El usuario toma los 7 ETH que pidió prestados y repite el proceso: los deposita en Lido para obtener 7 stETH, los deposita en Aave, y pide prestado más ETH. Este ciclo puede repetirse varias veces (2x, 3x de apalancamiento) para maximizar la cantidad de stETH que posee.</li>
+                    </ul>
+                    <p><strong>Resultado Final:</strong></p>
+                    <p>Al final, el usuario podría tener, por ejemplo, 20 stETH, todos generando un 4% APY, mientras paga un interés del 2% APY sobre sus 10 ETH prestados. Su rendimiento neto es significativamente mayor que si simplemente hubiera hecho staking con sus 10 ETH iniciales. Ha utilizado la composabilidad de tres protocolos para crear una máquina de rendimiento apalancada. El riesgo es que si el precio de stETH se desvía del de ETH (un evento de "depeg"), su posición podría ser liquidada.</p>
+                </div>
+            </div>
+            
+             <!-- Pregunta 18 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>18. Explica el concepto de "Soberanía del Usuario" en el contexto de los criptoactivos. ¿Por qué un activo como tu saldo de PayPal no ofrece esta soberanía?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La <strong>Soberanía del Usuario</strong> es el principio fundamental de que un individuo tiene control absoluto, final e incondicional sobre sus propios activos digitales. Esta soberanía se logra a través del control exclusivo de las llaves privadas asociadas a esos activos. Significa que el usuario es su propio banco y no necesita permiso de ninguna autoridad central para poseer, mover o utilizar sus fondos.</p>
+                    <p>Las características clave de la soberanía del usuario son:</p>
+                    <ul>
+                        <li><strong>Posesión Directa:</strong> No hay un intermediario que custodie los activos. La propiedad es directa, no delegada.</li>
+                        <li><strong>Resistencia a la Censura:</strong> Nadie puede impedir que un usuario envíe una transacción válida a la red.</li>
+                        <li><strong>Resistencia a la Incautación:</strong> Mientras las llaves privadas permanezcan seguras, ninguna entidad puede confiscar los activos sin el consentimiento del usuario.</li>
+                        <li><strong>Acceso Sin Permisos (Permissionless):</strong> Cualquier persona en el mundo puede crear una wallet y empezar a usar la red 24/7, sin necesidad de aprobación o KYC.</li>
+                    </ul>
+                    <p><strong>Por qué un saldo de PayPal no ofrece soberanía:</strong></p>
+                    <p>Tu saldo de PayPal es un ejemplo clásico de un <strong>activo digital tradicional no soberano</strong>. Aunque tienes "acceso" a él, no lo "posees" en el sentido criptográfico. Es simplemente un registro en la base de datos centralizada de PayPal, una promesa de que PayPal te debe esa cantidad de dinero.</p>
+                    <ul>
+                        <li><strong>Custodia Delegada:</strong> PayPal tiene la custodia y el control final de los fondos. Tú solo tienes credenciales de acceso (usuario/contraseña).</li>
+                        <li><strong>Permisionado y Censurable:</strong> PayPal puede, a su entera discreción y en cualquier momento, congelar tu cuenta, revertir transacciones, o cerrarte el acceso si violas sus términos de servicio o si una autoridad legal lo ordena.</li>
+                        <li><strong>Reversible:</strong> Las transacciones no tienen finalidad real y pueden ser revertidas días o semanas después.</li>
+                        <li><strong>Silo de Datos:</strong> Tu saldo solo existe dentro del "jardín vallado" de PayPal. No puedes usarlo directamente en otra aplicación o servicio de forma nativa.</li>
+                    </ul>
+                    <p>En resumen, con PayPal eres un <strong>usuario</strong> del servicio; con Bitcoin o Ethereum en una wallet sin custodia, eres el <strong>dueño soberano</strong> del activo.</p>
+                </div>
+            </div>
+            
+            <!-- Pregunta 19 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>19. ¿Qué son los "Activos del Mundo Real" (RWAs) en el contexto de la blockchain y qué desafíos clave enfrentan para su adopción masiva?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>Los <strong>Activos del Mundo Real (Real-World Assets o RWAs)</strong> son el proceso de representar la propiedad de activos tangibles o financieros tradicionales (fuera de la cadena) como tokens en una blockchain. Esto se conoce como <strong>tokenización</strong>.</p>
+                    <p>El objetivo es traer la vasta liquidez y valor del mundo tradicional (bienes raíces, préstamos privados, bonos del tesoro, arte) a la eficiencia, transparencia y composabilidad del ecosistema DeFi. Por ejemplo, en lugar de un complejo proceso legal para vender una fracción de una propiedad, se podría vender un token que representa esa fracción de forma instantánea en un DEX.</p>
+                    <p>A pesar de su enorme potencial, los RWAs enfrentan desafíos significativos:</p>
+                    <ul>
+                        <li><strong>El Problema del Oráculo (Legal y Físico):</strong> La blockchain puede garantizar la propiedad del <strong>token</strong>, pero no puede hacer cumplir los derechos de propiedad del <strong>activo subyacente</strong> en el mundo real. Existe una brecha insalvable que debe ser cubierta por marcos legales y confianza en una entidad emisora. Si la empresa que tokeniza un edificio quiebra, la posesión del token puede no tener ningún valor. Se requiere una estructura legal robusta que vincule de manera irrefutable el token al activo.</li>
+                        <li><strong>Cumplimiento Regulatorio (Compliance):</strong> La mayoría de los RWAs son considerados "securities" (valores negociables) por los reguladores. Esto significa que su emisión, transferencia y custodia deben cumplir con estrictas regulaciones de Conoce a tu Cliente (KYC) y Anti-Lavado de Dinero (AML). Esto choca con la naturaleza abierta y seudónima de las blockchains públicas. Se necesitan estándares como <code>ERC-3643</code> para gestionar identidades y permisos on-chain.</li>
+                        <li><strong>Valoración y Mantenimiento:</strong> A diferencia de un criptoactivo nativo, un RWA requiere una valoración constante y fiable por parte de entidades externas. Una propiedad necesita tasaciones, y un préstamo privado necesita evaluación de riesgo crediticio. Estos procesos dependen de actores centralizados, reintroduciendo parte de la ineficiencia que DeFi busca eliminar.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Pregunta 20 -->
+            <div class="qa-card">
+                <div class="question">
+                    <h3>20. ¿Qué significa la "atomicidad de las transacciones" y por qué es un pilar fundamental para la composabilidad y las operaciones complejas en DeFi?</h3>
+                    <button class="toggle-answer">Mostrar Respuesta</button>
+                </div>
+                <div class="answer">
+                    <p>La <strong>atomicidad de las transacciones</strong> es una propiedad de las blockchains de smart contracts que garantiza que una serie de operaciones agrupadas en una única transacción se ejecuten de manera indivisible: <strong>o todas las operaciones se completan con éxito, o ninguna de ellas se ejecuta y el estado de la blockchain permanece completamente inalterado</strong>, como si la transacción nunca hubiera ocurrido.</p>
+                    <p>El término "atómico" proviene de la idea de que la transacción es como un átomo, una unidad que no se puede dividir.</p>
+                    <p><strong>¿Por qué es un pilar para DeFi y la composabilidad?</strong></p>
+                    <p>La atomicidad elimina el <strong>riesgo de ejecución parcial</strong>, que sería catastrófico para operaciones financieras complejas que dependen de múltiples protocolos. Sin atomicidad, un usuario podría quedar en una situación financiera precaria.</p>
+                    <p>Consideremos un caso de uso clave habilitado por la atomicidad: los <strong>Préstamos Flash (Flash Loans)</strong>.</p>
+                    <ol>
+                        <li>Un usuario pide prestado 1 millón de USDC de Aave (sin poner colateral).</li>
+                        <li>Usa ese millón de USDC para explotar una oportunidad de arbitraje en Uniswap, intercambiándolos por 1.01 millones de DAI.</li>
+                        <li>Intercambia los 1.01 millones de DAI de vuelta a 1.005 millones de USDC en Curve.</li>
+                        <li>Devuelve el millón de USDC original a Aave, más una pequeña comisión.</li>
+                        <li>Se queda con una ganancia de ~5,000 USDC.</li>
+                    </ol>
+                    <p>Gracias a la atomicidad, todas estas operaciones ocurren dentro de una sola transacción. El protocolo Aave puede prestar el millón de USDC sin riesgo porque sabe que si el usuario no puede devolver el préstamo al final de la transacción, <strong>toda la secuencia de operaciones se revertirá por completo</strong>. El préstamo, en efecto, nunca habrá existido.</p>
+                    <p>Esto permite a los desarrolladores y usuarios componer "Lego de Dinero" de forma segura, sabiendo que las complejas interacciones entre protocolos no pueden fallar a mitad de camino, dejando fondos bloqueados o deudas sin pagar. Es la garantía de que las complejas máquinas de DeFi funcionarán como se diseñaron o no funcionarán en absoluto.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>Material de estudio elaborado por el profesor Sergio Gevatschnaider.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const allToggleButtons = document.querySelectorAll('.toggle-answer');
+
+            allToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const qaCard = button.closest('.qa-card');
+                    
+                    if (qaCard) {
+                        qaCard.classList.toggle('answer-visible');
+                        
+                        if (qaCard.classList.contains('answer-visible')) {
+                            button.textContent = 'Ocultar Respuesta';
+                        } else {
+                            button.textContent = 'Mostrar Respuesta';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
