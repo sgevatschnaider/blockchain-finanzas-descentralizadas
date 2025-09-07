@@ -32,6 +32,13 @@
 | **HTML: Composabilidad en DeFi** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Exploración del concepto de 'Legos de Dinero' en las Finanzas Descentralizadas (DeFi). Demuestra cómo diferentes protocolos se interconectan para crear estrategias financieras complejas y analiza los riesgos sistémicos asociados.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Definicion-composabilidad.html) |
 | **PDF: Paneles de Minería Bitcoin** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Listado simplificado de herramientas y exploradores clave para monitorear el estado de la red Bitcoin, incluyendo el mempool, hashrate, estadísticas de pools de minería y más.</p></details> | [![Abrir PDF](https://img.shields.io/badge/Abrir-PDF-red?style=for-the-badge&logo=adobeacrobatreader)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Paneles_Mineria_Bitcoin_Simplificado.pdf) |
 
+## 📖 Evaluaciones y Referencias (Recursos HTML)
+
+| 📄 Recurso | 📥 Acceso |
+| ---------- | --------- |
+| **HTML: Cuestionario Experto** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Cuestionario interactivo con 20 preguntas de nivel experto diseñadas para evaluar la comprensión de los mecanismos de consenso, seguridad y la arquitectura de DeFi. Cada pregunta incluye una respuesta detallada que sirve como material de estudio.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Cuestionario.html) |
+| **HTML: Glosario Interactivo** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Glosario completo con definiciones detalladas de los conceptos fundamentales de criptoactivos, consenso y DeFi. Incluye un filtro de búsqueda en tiempo real y navegación alfabética para facilitar la consulta y el estudio de términos clave.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Glosario.html) |
+
 ## 🗺️ Plan de trabajo (visión general)
 
 - **Sección 1 (conceptos)**  
