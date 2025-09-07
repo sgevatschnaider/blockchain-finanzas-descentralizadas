@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glosario Experto de Blockchain y Criptoactivos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #1D2B64 0%, #0d1326 100%);
+            --bg-secondary: rgba(29, 43, 100, 0.5);
+            --bg-tertiary: rgba(45, 55, 72, 0.3);
+            --text-primary: #f7fafc;
+            --text-secondary: #b0c4de;
+            --accent-primary: #3a7bd5;
+            --accent-secondary: #a8ff78;
+            --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            --border-color: rgba(58, 123, 213, 0.3);
+            --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .main-title {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .glossary-controls {
+            position: sticky;
+            top: 1rem;
+            background-color: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .alpha-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .alpha-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .alpha-nav a:hover {
+            background-color: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+        
+        .glossary-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .glossary-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .glossary-entry {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .glossary-entry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(58, 123, 213, 0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .glossary-term {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .glossary-definition {
+            color: var(--text-secondary);
+        }
+        
+        .glossary-definition p {
+            margin-bottom: 1rem;
+        }
+        
+        code {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-secondary);
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Glosario Experto de Blockchain</h1>
+            <p class="subtitle">Conceptos Fundamentales de Criptoactivos, Consenso, Seguridad y Finanzas Descentralizadas.</p>
+        </header>
+
+        <div class="glossary-controls">
+            <input type="text" id="searchInput" placeholder="Buscar un término...">
+            <nav class="alpha-nav">
+                <a href="#section-A">A</a> <a href="#section-B">B</a> <a href="#section-C">C</a> <a href="#section-D">D</a> <a href="#section-E">E</a> <a href="#section-F">F</a> <a href="#section-G">G</a> <a href="#section-H">H</a> <a href="#section-L">L</a> <a href="#section-M">M</a> <a href="#section-N">N</a> <a href="#section-O">O</a> <a href="#section-P">P</a> <a href="#section-R">R</a> <a href="#section-S">S</a> <a href="#section-T">T</a> <a href="#section-W">W</a>
+            </nav>
+        </div>
+        
+        <main id="glossary-content">
+            <div id="section-A" class="glossary-section">
+                <h2>A</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Abstracción de Cuentas (ERC-4337)</h3>
+                    <div class="glossary-definition">
+                        <p>Un estándar de Ethereum que permite que las wallets de los usuarios funcionen como smart contracts, sin requerir cambios en el protocolo central. Desbloquea mejoras cruciales en la experiencia de usuario, como la <strong>recuperación social</strong> (eliminando la dependencia de frases semilla), el <strong>pago de gas flexible</strong> (permitiendo que terceros o dApps paguen las comisiones) y las <strong>transacciones por lotes</strong> (agrupando múltiples operaciones en una sola firma).</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Activos del Mundo Real (RWA)</h3>
+                    <div class="glossary-definition">
+                        <p>Tokens en una blockchain que representan la propiedad de activos fuera de la cadena, tanto financieros (bonos, acciones) como físicos (bienes raíces, arte). El proceso de crear estos tokens se llama <strong>tokenización</strong>. Su objetivo es traer la liquidez y el valor del mundo tradicional a la eficiencia de DeFi, aunque enfrenta desafíos legales y de cumplimiento normativo.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Ataque del 51%</h3>
+                    <div class="glossary-definition">
+                        <p>Un ataque teórico a una blockchain Proof-of-Work donde una sola entidad o grupo coordinado controla más del 50% del hashrate total de la red. Este control mayoritario le permite al atacante minar bloques más rápido que el resto de la red, dándole la capacidad de <strong>reescribir el historial reciente</strong>. Esto puede usarse para ejecutar ataques de <strong>doble gasto</strong> o para <strong>censurar transacciones</strong> de otros usuarios. En redes grandes como Bitcoin, se considera económicamente inviable.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Atomicidad</h3>
+                    <div class="glossary-definition">
+                        <p>Una propiedad fundamental de las transacciones en blockchains de smart contracts. Garantiza que una serie de operaciones complejas dentro de una sola transacción se ejecuten como una unidad indivisible: <strong>o todas las operaciones tienen éxito, o todas fallan y se revierten</strong>. Elimina el riesgo de ejecución parcial y es el pilar que permite operaciones complejas y seguras en DeFi, como los <strong>préstamos flash (flash loans)</strong>.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Árbol de Merkle (Merkle Tree)</h3>
+                    <div class="glossary-definition">
+                        <p>Una estructura de datos criptográfica que resume de forma eficiente y segura todas las transacciones de un bloque en un único hash de 32 bytes llamado <strong>Raíz de Merkle (Merkle Root)</strong>. Permite una verificación de datos muy eficiente y segura; cualquier cambio en una transacción alteraría la raíz, invalidando el bloque. Es crucial para la eficiencia de la minería y para los nodos ligeros (SPV).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="section-B" class="glossary-section">
+                <h2>B</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Bloque</h3>
+                    <div class="glossary-definition">
+                        <p>Un conjunto de datos que agrupa transacciones pendientes y las registra permanentemente en la blockchain. Cada bloque contiene una <strong>cabecera</strong> (con metadatos como el hash del bloque anterior, la marca de tiempo, y la Raíz de Merkle) y un <strong>cuerpo</strong> (la lista de transacciones). Los bloques están enlazados criptográficamente en una cadena, creando un historial inmutable.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Blockchain</h3>
+                    <div class="glossary-definition">
+                        <p>Un libro de contabilidad digital, distribuido y criptográficamente seguro. Consiste en una cadena de <strong>bloques</strong> enlazados secuencialmente, donde cada bloque contiene un lote de transacciones. Su naturaleza descentralizada (mantenida por una red de nodos) y su estructura criptográfica la hacen resistente a la manipulación y la censura.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="section-C" class="glossary-section">
+                <h2>C</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Censura de Transacciones</h3>
+                    <div class="glossary-definition">
+                        <p>Una forma de ataque del 51% donde el minero mayoritario decide deliberadamente ignorar y excluir transacciones de una dirección específica. Esto efectivamente "congela" los fondos del usuario afectado, ya que sus transacciones nunca son confirmadas, sin importar las comisiones que ofrezca.</p>
+                    </div>
+                </div>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Composabilidad</h3>
+                    <div class="glossary-definition">
+                        <p>La capacidad de los protocolos y aplicaciones descentralizadas de interactuar e integrarse entre sí de manera abierta y sin permisos. Es el principio de los <strong>"Lego de Dinero"</strong>, donde cada protocolo es una pieza que puede ser combinada con otras para construir sistemas financieros complejos. Se apoya en el código abierto, los estándares de tokens y la atomicidad.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Consenso (Mecanismo de)</h3>
+                    <div class="glossary-definition">
+                        <p>El conjunto de reglas y procedimientos mediante los cuales todos los nodos de una red distribuida se ponen de acuerdo sobre el estado actual de la blockchain y la validez de las nuevas transacciones. Garantiza que todos los participantes compartan una única "verdad". Los mecanismos más comunes son <strong>Proof-of-Work (PoW)</strong> y <strong>Proof-of-Stake (PoS)</strong>.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Criptoactivo</h3>
+                    <div class="glossary-definition">
+                        <p>Un activo digital nativo de una blockchain, cuya propiedad y transferencia están aseguradas mediante criptografía. Se diferencia de un activo digital tradicional en que es un <strong>activo portador digital (digital bearer asset)</strong>, lo que significa que su posesión se basa en el control de una clave privada, otorgando <strong>soberanía</strong> al usuario y eliminando la necesidad de intermediarios.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-D" class="glossary-section">
+                <h2>D</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">dApp (Aplicación Descentralizada)</h3>
+                    <div class="glossary-definition">
+                        <p>Una aplicación cuyo backend se ejecuta en una red descentralizada (como Ethereum) a través de smart contracts, en lugar de en servidores centralizados. Su lógica de negocio es transparente, resistente a la censura y no está controlada por una sola entidad.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">DeFi (Finanzas Descentralizadas)</h3>
+                    <div class="glossary-definition">
+                        <p>Un ecosistema de aplicaciones y protocolos financieros construidos sobre blockchains públicas que recrean y mejoran los servicios financieros tradicionales (préstamos, intercambios, seguros) de manera abierta, transparente y sin intermediarios. La <strong>composabilidad</strong> es su característica principal.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Dificultad (Ajuste de)</h3>
+                    <div class="glossary-definition">
+                        <p>Un mecanismo autorregulado en blockchains PoW (como Bitcoin) que ajusta qué tan difícil es encontrar un bloque válido. En Bitcoin, se ajusta cada 2016 bloques para mantener el tiempo promedio de bloque en ~10 minutos. Si el hashrate aumenta, la dificultad sube; si disminuye, la dificultad baja. Es crucial para la previsibilidad de la emisión de monedas.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Doble Gasto (Double Spending)</h3>
+                    <div class="glossary-definition">
+                        <p>El acto de gastar las mismas monedas digitales más de una vez. Es el problema fundamental que las criptomonedas como Bitcoin resuelven a través de la blockchain y el consenso PoW. Un ataque del 51% puede permitir a un actor malicioso realizar un doble gasto al revertir transacciones previamente confirmadas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-E" class="glossary-section">
+                <h2>E</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">ERC-20</h3>
+                    <div class="glossary-definition">
+                        <p>El estándar técnico más común en Ethereum para la creación de <strong>tokens fungibles</strong> (intercambiables entre sí, como las monedas). Define una interfaz común que permite que estos tokens sean fácilmente compatibles con wallets, exchanges y otros smart contracts, siendo un pilar de la composabilidad en DeFi.</p>
+                    </div>
+                </div>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">ERC-721</h3>
+                    <div class="glossary-definition">
+                        <p>El estándar técnico principal en Ethereum para los <strong>Tokens No Fungibles (NFTs)</strong>. A diferencia de ERC-20, cada token ERC-721 es único e indivisible, lo que lo hace ideal para representar la propiedad de activos únicos como obras de arte digital, coleccionables o bienes raíces virtuales.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-F" class="glossary-section">
+                <h2>F</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Finalidad de Transacción</h3>
+                    <div class="glossary-definition">
+                        <p>La garantía de que una transacción registrada en la blockchain es irreversible. Existen dos tipos:</p>
+                        <ul>
+                            <li><strong>Finalidad Probabilística (PoW):</strong> La seguridad aumenta con cada bloque. Revertir una transacción se vuelve exponencialmente más caro con el tiempo, siendo prácticamente imposible después de ~6 confirmaciones.</li>
+                            <li><strong>Finalidad Determinista (PoS):</strong> Es absoluta. Una vez que un bloque es "finalizado" por el voto de los validadores, es criptográficamente imposible de revertir sin una penalización masiva (slashing).</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Frase Semilla (Seed Phrase)</h3>
+                    <div class="glossary-definition">
+                        <p>Una lista de 12 a 24 palabras que sirve como una copia de seguridad maestra para una wallet sin custodia. Esta frase puede usarse para restaurar el acceso a todos los fondos y claves privadas en un nuevo dispositivo. Es la información más crítica que un usuario debe proteger; quien la posea, controla los fondos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-G" class="glossary-section">
+                <h2>G</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Gas</h3>
+                    <div class="glossary-definition">
+                        <p>La unidad que mide la cantidad de esfuerzo computacional requerido para ejecutar operaciones en la red Ethereum. Cada operación (desde una simple transferencia hasta una interacción compleja con un smart contract) tiene un coste en gas. Los usuarios pagan por este cómputo en ETH, en una tarifa conocida como "gas fee".</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-H" class="glossary-section">
+                <h2>H</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Halving</h3>
+                    <div class="glossary-definition">
+                        <p>Un evento programado en el código de Bitcoin que ocurre cada 210,000 bloques (aproximadamente cada 4 años) y que reduce a la mitad la recompensa de <strong>subsidio de bloque</strong> para los mineros. Es el mecanismo que controla la emisión de nuevos bitcoins, haciéndola predecible y desinflacionaria con el tiempo.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Hash</h3>
+                    <div class="glossary-definition">
+                        <p>Una función criptográfica que toma una entrada de cualquier tamaño y produce una salida de tamaño fijo (por ejemplo, 256 bits en el caso de SHA-256). Es un proceso unidireccional (fácil de calcular, imposible de revertir) y determinista (la misma entrada siempre produce la misma salida). Cualquier cambio mínimo en la entrada produce una salida completamente diferente. Es la base de la seguridad e inmutabilidad de la blockchain.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Hashrate</h3>
+                    <div class="glossary-definition">
+                        <p>La medida total del poder computacional que se dedica a la minería en una red Proof-of-Work. Se mide en hashes por segundo (H/s) y sus múltiplos (TH/s, EH/s). Un hashrate alto indica una gran cantidad de mineros compitiendo, lo que se traduce en una mayor seguridad y dificultad para ejecutar un ataque del 51%.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-L" class="glossary-section">
+                <h2>L</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Llave Privada (Private Key)</h3>
+                    <div class="glossary-definition">
+                        <p>Un número secreto y criptográfico que permite a un usuario firmar transacciones y probar la propiedad de sus criptoactivos. Es la "llave" que desbloquea los fondos en una dirección de la blockchain. La seguridad de los fondos depende enteramente de mantener la llave privada en secreto.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-M" class="glossary-section">
+                <h2>M</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Mempool (Memory Pool)</h3>
+                    <div class="glossary-definition">
+                        <p>Un "área de espera" en cada nodo de Bitcoin donde residen las transacciones válidas que han sido transmitidas a la red pero que aún no han sido incluidas en un bloque. Los mineros seleccionan transacciones de la mempool, generalmente priorizando las que ofrecen las comisiones más altas, para construir su próximo bloque candidato.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Minería</h3>
+                    <div class="glossary-definition">
+                        <p>El proceso en las redes Proof-of-Work mediante el cual se validan las transacciones y se añaden nuevos bloques a la cadena. Los mineros utilizan hardware especializado (ASICs) para competir en la resolución de un problema computacional (encontrar un hash válido). El primer minero en encontrar la solución transmite el nuevo bloque y recibe la recompensa (subsidio + fees).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-N" class="glossary-section">
+                <h2>N</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">NFT (Token No Fungible)</h3>
+                    <div class="glossary-definition">
+                        <p>Un tipo de token criptográfico (generalmente estándar <strong>ERC-721</strong>) que representa la propiedad de un activo único e indivisible, ya sea digital o físico. A diferencia de las criptomonedas, cada NFT tiene propiedades únicas y no es intercambiable por otro de manera equivalente. Se utiliza para arte digital, coleccionables, gaming y más.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Nodo</h3>
+                    <div class="glossary-definition">
+                        <p>Un ordenador que participa en la red de una blockchain. Los nodos mantienen una copia del historial de transacciones, validan y propagan nuevos bloques y transacciones, y aplican las reglas de consenso del protocolo. Son la infraestructura que mantiene la red descentralizada y segura.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Nonce</h3>
+                    <div class="glossary-definition">
+                        <p>Abreviatura de "number used once" (número usado una vez). En la minería PoW, es un campo en la cabecera del bloque que los mineros modifican repetidamente en cada intento de hashing. El objetivo es encontrar un nonce que, combinado con el resto de la cabecera, produzca un hash por debajo del target de dificultad.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-O" class="glossary-section">
+                <h2>O</h2>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Oráculo</h3>
+                    <div class="glossary-definition">
+                        <p>Un servicio que actúa como puente entre una blockchain y fuentes de datos externas (off-chain). Resuelve el <strong>"Problema del Oráculo"</strong>, que es la incapacidad de los smart contracts para acceder a información del mundo real. Las redes de oráculos descentralizadas como Chainlink utilizan múltiples fuentes y nodos para proporcionar datos fiables y resistentes a la manipulación.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-P" class="glossary-section">
+                <h2>P</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Pool de Minería (Mining Pool)</h3>
+                    <div class="glossary-definition">
+                        <p>Un servidor que coordina el poder de cómputo de miles de mineros individuales. Al trabajar juntos, aumentan drásticamente la probabilidad de encontrar un bloque. La recompensa se distribuye entre los participantes de forma proporcional a su contribución, medida a través de "shares". Esto proporciona un ingreso más estable para los mineros pequeños.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Proof-of-Stake (PoS)</h3>
+                    <div class="glossary-definition">
+                        <p>Un mecanismo de consenso donde los participantes, llamados <strong>validadores</strong>, bloquean una cantidad del activo nativo de la red (su "stake") como garantía. Son elegidos para crear nuevos bloques y validar transacciones de forma proporcional a su stake. Si actúan de manera maliciosa, su stake es destruido (slashing). Es más eficiente energéticamente que PoW y ofrece <strong>finalidad determinista</strong>.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Proof-of-Work (PoW)</h3>
+                    <div class="glossary-definition">
+                        <p>El primer y más probado mecanismo de consenso, utilizado por Bitcoin. Requiere que los participantes (mineros) realicen un trabajo computacional intensivo (gasto de energía) para proponer nuevos bloques. Este "trabajo" es difícil de realizar pero fácil de verificar por la red, lo que asegura la cadena contra ataques. Ofrece <strong>finalidad probabilística</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-R" class="glossary-section">
+                <h2>R</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Recompensa por Bloque</h3>
+                    <div class="glossary-definition">
+                        <p>La remuneración total que recibe un minero por encontrar un bloque válido. Se compone de dos partes: el <strong>subsidio de bloque</strong> (bitcoins nuevos) y las <strong>tarifas de transacción</strong> (bitcoins existentes pagados por los usuarios).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="section-S" class="glossary-section">
+                <h2>S</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Share (Participación)</h3>
+                    <div class="glossary-definition">
+                        <p>En el contexto de la minería en pool, un "share" es una prueba de trabajo que cumple con un objetivo de dificultad mucho más bajo que el de la red principal. No es un bloque válido, pero sirve para que los mineros demuestren al pool que están contribuyendo activamente, permitiendo una distribución justa de las recompensas cuando el pool encuentra un bloque real.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Slashing</h3>
+                    <div class="glossary-definition">
+                        <p>Un mecanismo de castigo en las redes Proof-of-Stake. Si un validador actúa de manera maliciosa o viola las reglas del protocolo (por ejemplo, intentando validar dos bloques a la vez), una parte o la totalidad de su capital en stake es destruida permanentemente. Es el principal desincentivo económico contra los ataques.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Smart Contract (Contrato Inteligente)</h3>
+                    <div class="glossary-definition">
+                        <p>Un programa informático autoejecutable que se almacena y ejecuta en una blockchain. Los términos del acuerdo entre las partes están escritos directamente en el código. Se ejecutan automáticamente cuando se cumplen las condiciones predefinidas, eliminando la necesidad de intermediarios. Son la base de las dApps y DeFi.</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Soberanía del Usuario</h3>
+                    <div class="glossary-definition">
+                        <p>El principio de que un individuo tiene control absoluto y final sobre sus propios activos digitales a través del control de sus claves privadas. Contrapone al modelo tradicional donde la custodia y el control están delegados en un intermediario (como un banco).</p>
+                    </div>
+                </div>
+                <div class="glossary-entry">
+                    <h3 class="glossary-term">Stablecoin</h3>
+                    <div class="glossary-definition">
+                        <p>Un tipo de criptoactivo diseñado para mantener un valor estable, generalmente anclado a una moneda fiduciaria como el dólar estadounidense (ej. USDC, DAI). Son cruciales para el funcionamiento de DeFi, ya que proporcionan una unidad de cuenta estable y un medio de intercambio de baja volatilidad.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-T" class="glossary-section">
+                <h2>T</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Target (Objetivo de Dificultad)</h3>
+                    <div class="glossary-definition">
+                        <p>En la minería PoW, es el número de 256 bits que el hash de la cabecera de un bloque debe ser <strong>menor o igual</strong> para ser considerado válido. Un target más bajo significa que el hash debe tener más ceros iniciales, lo que lo hace exponencialmente más difícil de encontrar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-W" class="glossary-section">
+                <h2>W</h2>
+                 <div class="glossary-entry">
+                    <h3 class="glossary-term">Wallet (Monedero o Cartera)</h3>
+                    <div class="glossary-definition">
+                        <p>Una interfaz de software o hardware que gestiona las claves privadas y públicas de un usuario, le permite firmar transacciones e interactuar con la blockchain. Se dividen en dos categorías principales:</p>
+                        <ul>
+                            <li><strong>Con Custodia (Custodial):</strong> Un tercero (como un exchange) guarda las claves en nombre del usuario. Conveniente pero sin soberanía.</li>
+                            <li><strong>Sin Custodia (Non-Custodial):</strong> El usuario tiene control exclusivo de sus claves. Ofrece soberanía total pero requiere responsabilidad absoluta.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+        <footer>
+            <p>Material de estudio elaborado por el profesor Sergio Gevatschnaider.</p>
+        </footer>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const glossaryContent = document.getElementById('glossary-content');
+            const entries = glossaryContent.querySelectorAll('.glossary-entry');
+            const sections = glossaryContent.querySelectorAll('.glossary-section');
+
+            searchInput.addEventListener('input', (event) => {
+                const query = event.target.value.toLowerCase().trim();
+
+                entries.forEach(entry => {
+                    const term = entry.querySelector('.glossary-term').textContent.toLowerCase();
+                    const definition = entry.querySelector('.glossary-definition').textContent.toLowerCase();
+                    
+                    if (term.includes(query) || definition.includes(query)) {
+                        entry.style.display = 'block';
+                    } else {
+                        entry.style.display = 'none';
+                    }
+                });
+                
+                // Ocultar títulos de sección si no tienen entradas visibles
+                sections.forEach(section => {
+                    const visibleEntries = section.querySelectorAll('.glossary-entry[style*="display: block"]');
+                    if (visibleEntries.length > 0) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
