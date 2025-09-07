@@ -20,6 +20,24 @@
 - Ejecutar un **lab guiado**: firma/validación con ECDSA (secp256k1), hash con **Keccak-256**, y **PoW mínimo**.
 
 ---
+📄 Recurso	📥 Acceso
+HTML: Teoría General de Criptoactivos <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Análisis exhaustivo sobre la definición, taxonomía y ciclo de vida de los criptoactivos. Cubre desde activos nativos y NFTs hasta estándares de infraestructura como ERC-4337.</p></details>	
+HTML: Monederos con vs. Sin Custodia <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Comparación visual y técnica between custodial (exchanges) and non-custodial wallets (MetaMask, Ledger), explaining the dilemma of who controls the private keys.</p></details>	
+HTML: La Minería de Bitcoin (Teoría) <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Guía detallada del proceso de minería Proof-of-Work, las recompensas económicas, su rol en la seguridad de la red y los requisitos actuales (ASICs, energía).</p></details>	
+HTML: Simulación de Minería Bitcoin <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Simulador interactivo del pipeline de minería. Permite ajustar parámetros como hashrate y dificultad para observar su impacto en la mempool, el árbol de Merkle y el hasheo del bloque.</p></details>	
+HTML: Simulación de Ataque 51% <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Visualización avanzada de un ataque del 51%, demostrando escenarios de doble gasto y censura de transacciones al controlar la mayoría del hashrate de la red.</p></details>	
+HTML: Finalidad de una Transacción <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Análisis experto sobre la garantía de inmutabilidad. Compara la finalidad probabilística (PoW de Bitcoin) con la determinista (PoS de Ethereum) y el sistema reversible de las finanzas tradicionales.</p></details>	
+HTML: Composabilidad en DeFi <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Explica el concepto de "Legos de Dinero", donde los protocolos DeFi se integran para crear estrategias financieras complejas, destacando sus ventajas y riesgos sistémicos.</p></details>	
+PDF: Paneles de Minería Bitcoin <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Lista simplificada de herramientas y exploradores esenciales para monitorear la red Bitcoin, incluyendo la mempool, estadísticas de pools de minería, hashrate y más.</p></details>	
+HTML: Índice Interactivo del Módulo <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Índice completo e interactivo que estructura todos los temas de la unidad, desde los fundamentos de criptoactivos hasta las herramientas de desarrollo y los conceptos avanzados de DeFi.</p></details>	
+
+Exportar a Hojas de cálculo
+
+
+
+
+
+
 
 ## 🗺️ Plan de trabajo (visión general)
 
