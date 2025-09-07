@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Índice del Curso: Introducción a Criptomonedas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.9);
+      --bg-tertiary: rgba(45, 55, 72, 0.8);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #3ad0ff;
+      --accent-secondary: #7cff9e;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(255, 255, 255, 0.15);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.2);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.8;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+        padding: 2rem;
+    }
+    .container { max-width: 1000px; margin: 0 auto; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; }
+    .main-title {
+        font-size: clamp(2.5rem, 5vw, 3.8rem);
+        font-weight: 800;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+    }
+    .subtitle {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .module-card {
+        background: var(--bg-secondary);
+        backdrop-filter: blur(20px);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border-color);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .module-header {
+        cursor: pointer;
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, rgba(45, 55, 72, 0.5) 0%, transparent 100%);
+    }
+
+    .module-title { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+    .module-title i { margin-right: 1rem; color: var(--accent-primary); }
+    .expand-icon { font-size: 1.4rem; color: var(--text-secondary); transition: var(--transition); }
+    .module-card.open .expand-icon { transform: rotate(180deg); color: var(--accent-secondary); }
+
+    .module-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 1s ease, padding 1s ease;
+        background: var(--bg-tertiary);
+    }
+
+    .module-card.open .module-content {
+        max-height: 2000px;
+        padding: 1.5rem 2rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .lesson-list { list-style: none; }
+    .lesson-item {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+        border-left: 3px solid var(--border-color);
+        transition: var(--transition);
+    }
+    .lesson-item:hover {
+        border-left-color: var(--accent-secondary);
+        color: var(--text-primary);
+    }
+    .lesson-item strong {
+        display: block;
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .lesson-item ul { list-style-type: '- '; padding-left: 2rem; margin-top: 0.5rem; }
+    .lesson-item li { font-size: 0.95rem; }
+
+    footer {
+        text-align: center;
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+    }
+    footer p { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Índice del Curso de Criptomonedas</h1>
+      <p class="subtitle">Un Viaje Exhaustivo desde los Fundamentos de Blockchain hasta la Frontera de DeFi y Web3.</p>
+    </header>
+
+    <div class="modules-container">
+        
+        <div class="module-card">
+            <div class="module-header"><span class="module-title"><i class="fas fa-cubes"></i>Módulo 1: Fundamentos de Criptoactivos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="module-content">
+                <ul class="lesson-list">
+                    <li class="lesson-item">
+                        <strong>1.1 Introducción a los Criptoactivos</strong>
+                        <span>Definición, soberanía del usuario y comparación con activos digitales tradicionales.</span>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>1.2 Taxonomía y Tipos de Tokens</strong>
+                        <ul>
+                            <li>Activos Nativos (BTC, ETH) y la seguridad de la red.</li>
+                            <li>Tokens Fungibles (ERC-20), No Fungibles (NFTs) y Stablecoins.</li>
+                            <li>Tokens de Gobernanza, Utilidad y Activos del Mundo Real (RWAs).</li>
+                        </ul>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>1.3 Custodia de Activos: El Dilema del Control</strong>
+                        <ul>
+                            <li>Monederos con Custodia (Exchanges): Conveniencia vs. Confianza.</li>
+                            <li>Monederos sin Custodia (MetaMask, Ledger): Soberanía vs. Responsabilidad.</li>
+                        </ul>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>1.4 Estándares e Infraestructura</strong>
+                        <span>La importancia de ERC-4337 (Abstracción de Cuentas) y otros estándares para la interoperabilidad.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header"><span class="module-title"><i class="fas fa-hammer"></i>Módulo 2: Bitcoin, Minería y Consenso</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="module-content">
+                <ul class="lesson-list">
+                     <li class="lesson-item">
+                        <strong>2.1 El Mecanismo de Prueba de Trabajo (Proof-of-Work)</strong>
+                        <span>El proceso técnico de la minería: Mempool, construcción de bloques y el acertijo criptográfico.</span>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>2.2 Simulación Práctica de Minería</strong>
+                        <span>Análisis interactivo de parámetros clave: Hashrate, Dificultad, Árbol de Merkle y Nonce.</span>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>2.3 Economía y Seguridad de la Red</strong>
+                        <span>Incentivos del minero (subsidio y fees) y el rol de la minería en la inmutabilidad y prevención del doble gasto.</span>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>2.4 El Ataque del 51%</strong>
+                        <ul>
+                            <li>Simulación de un ataque de Doble Gasto.</li>
+                            <li>Simulación de Censura de Transacciones y sus consecuencias.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header"><span class="module-title"><i class="fas fa-puzzle-piece"></i>Módulo 3: Ecosistema Web3 y DeFi</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="module-content">
+                <ul class="lesson-list">
+                    <li class="lesson-item">
+                        <strong>3.1 Finalidad de una Transacción</strong>
+                        <span>Diferencia entre finalidad probabilística (PoW) y determinista (PoS), y su comparación con las finanzas tradicionales.</span>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>3.2 Composabilidad: Los "Lego de Dinero"</strong>
+                        <span>Cómo los protocolos DeFi se interconectan para crear estrategias financieras complejas (Aave, Uniswap, Yearn).</span>
+                    </li>
+                     <li class="lesson-item">
+                        <strong>3.3 Riesgos Sistémicos en DeFi</strong>
+                        <span>El "lado oscuro" de la composabilidad: Riesgo de contagio y complejidad oculta.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header"><span class="module-title"><i class="fas fa-tools"></i>Módulo 4: Herramientas y Desarrollo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="module-content">
+                <ul class="lesson-list">
+                    <li class="lesson-item">
+                        <strong>4.1 Paneles y Exploradores de la Red</strong>
+                        <span>Uso de herramientas como mempool.space y exploradores de blockchain para monitorear la actividad de la red.</span>
+                    </li>
+                    <li class="lesson-item">
+                        <strong>4.2 Introducción a la Interacción con Blockchain (Python)</strong>
+                        <ul>
+                            <li>Conexión a un nodo con `web3.py`.</li>
+                            <li>Consulta de datos y envío de transacciones.</li>
+                            <li>Conceptos de gestión segura de carteras.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const moduleHeaders = document.querySelectorAll('.module-header');
+        
+        moduleHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const parentCard = header.parentElement;
+                parentCard.classList.toggle('open');
+            });
+        });
+
+        // Abrir el primer módulo por defecto
+        const firstModule = document.querySelector('.module-card');
+        if(firstModule) {
+            firstModule.classList.add('open');
+        }
+    });
+  </script>
+</body>
+</html>
