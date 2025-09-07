@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Composabilidad en Web3 y DeFi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #434343 0%, #000000 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.9);
+      --bg-tertiary: rgba(248, 250, 252, 0.85);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #8a2be2;
+      --accent-secondary: #4a00e0;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.9);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.9);
+      --bg-tertiary: rgba(45, 55, 72, 0.8);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #9b59b6;
+      --accent-secondary: #8e44ad;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 6000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin: 2rem 0 1rem 0; font-weight: 700; border-left: 4px solid var(--accent-primary); padding-left: 1rem; }
+    .topic-content ul { padding-left: 20px; list-style-type: '✔ '; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; padding-left: 10px;}
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content em { font-style: italic; color: var(--accent-primary); }
+
+    .diagram-container { background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .icon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; text-align: center; }
+    .grid-item { padding: 1.5rem; border-radius: 10px; background-color: var(--bg-tertiary); transition: var(--transition); }
+    .grid-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-card); }
+    .grid-item i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-primary); }
+    .grid-item h5 { color: var(--text-primary); font-size: 1rem; margin-bottom: 0.5rem; }
+
+    .comparison-container { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; }
+    .comparison-column { flex: 1; min-width: 300px; padding: 1.5rem; border: 2px solid var(--border-color); border-radius: 10px; background-color: var(--bg-tertiary); }
+    .comparison-column h5 { display: flex; align-items: center; gap: 0.75rem; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 1rem; }
+    .comparison-column i { color: var(--accent-primary); font-size: 1.5rem; }
+
+    .flow-diagram { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+    .flow-step { display: flex; align-items: center; background-color: var(--bg-tertiary); border-radius: 12px; padding: 1rem; border: 1px solid var(--border-color); width: 100%; }
+    .flow-icon { font-size: 2rem; color: var(--accent-primary); margin-right: 1.5rem; padding: 1rem; background-color: var(--bg-secondary); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+    .flow-content h5 { color: var(--text-primary); }
+    .flow-content p { font-size: 0.9rem; margin-bottom: 0; }
+    .flow-arrow { font-size: 1.5rem; color: var(--text-secondary); margin: 0.5rem 0; }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Composabilidad en Web3 y DeFi</h1>
+      <p class="subtitle">El Superpoder de los "Legos de Dinero" que Impulsa la Innovación Financiera.</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">1. ¿Qué son los "Legos de Dinero"?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La composabilidad en el contexto de criptoactivos y DeFi se refiere a la capacidad de diferentes protocolos, aplicaciones y contratos inteligentes de <strong>integrarse y funcionar entre sí de manera abierta y sin necesidad de permisos</strong>, como si fueran piezas de "Legos de dinero".</p>
+                <p>Esta característica es el motor fundamental que impulsa la innovación y la eficiencia del capital en la economía descentralizada.</p>
+                <h4>Pilares Técnicos: ¿Qué Hace Posible la Composabilidad?</h4>
+                <p>La magia de la composabilidad no es accidental; se basa en una arquitectura tecnológica abierta:</p>
+                <div class="diagram-container">
+                    <div class="icon-grid">
+                        <div class="grid-item">
+                            <i class="fas fa-file-code"></i>
+                            <h5>Contratos de Código Abierto</h5>
+                            <p>El código público permite que cualquier desarrollador lo audite, confíe en él y lo integre en su propia aplicación para crear nueva funcionalidad.</p>
+                        </div>
+                        <div class="grid-item">
+                            <i class="fas fa-puzzle-piece"></i>
+                            <h5>Estándares de Tokens Comunes</h5>
+                            <p>Protocolos como el estándar ERC-20 aseguran que todos los "Legos" hablen el mismo idioma, haciendo los tokens instantáneamente compatibles.</p>
+                        </div>
+                        <div class="grid-item">
+                            <i class="fas fa-bolt"></i>
+                            <h5>Atomicidad de Transacciones</h5>
+                            <p>Múltiples operaciones se agrupan en una sola transacción: o todo tiene éxito, o todo se revierte. Esto elimina el riesgo de estados intermedios.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Construyendo con Legos: Un Flujo de Inversión</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Analicemos un ejemplo experto para entender cómo fluye el valor. Imaginemos que un usuario comienza con <strong>10 ETH</strong> y quiere crear una estrategia financiera compleja en minutos.</p>
+                <div class="diagram-container">
+                    <div class="flow-diagram">
+                        
+                        <div class="flow-step">
+                            <div class="flow-icon"><i class="fas fa-right-left"></i></div>
+                            <div class="flow-content">
+                                <h5>Paso 1: Intercambio en Uniswap (DEX)</h5>
+                                <p>El usuario intercambia sus 10 ETH por la stablecoin DAI. <em>Composabilidad:</em> Uniswap acepta ETH y entrega DAI (ERC-20) sin fricción gracias a los estándares compartidos.</p>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                        <div class="flow-step">
+                             <div class="flow-icon"><i class="fas fa-piggy-bank"></i></div>
+                            <div class="flow-content">
+                                <h5>Paso 2: Depósito como Colateral en Aave</h5>
+                                <p>Deposita los DAI en Aave para ganar intereses y usarlos como garantía. A cambio recibe aDAI. <em>Composabilidad:</em> Aave integra DAI sin permiso de sus creadores.</p>
+                            </div>
+                        </div>
+
+                         <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                        <div class="flow-step">
+                            <div class="flow-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                            <div class="flow-content">
+                                <h5>Paso 3: Pedir un Préstamo en Aave</h5>
+                                <p>Usa su aDAI como colateral para pedir prestado otro activo, como USDC. <em>Composabilidad:</em> Un producto (depósito) se convierte en la base para otro (préstamo) dentro del mismo protocolo.</p>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                        <div class="flow-step">
+                             <div class="flow-icon"><i class="fas fa-rocket"></i></div>
+                            <div class="flow-content">
+                                <h5>Paso 4: Invertir en Yearn Finance</h5>
+                                <p>Deposita los USDC prestados en una bóveda de Yearn para optimizar el rendimiento. <em>Composabilidad:</em> Yearn se construye sobre Aave, Compound, etc., para ejecutar estrategias complejas.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <h4>Resultado: Una Máquina de Rendimiento</h4>
+                <p>Al final, el usuario ha creado una estrategia de <strong>apalancamiento de rendimiento</strong>. Sus activos están trabajando en tres lugares a la vez:</p>
+                <ul>
+                    <li>El <strong>DAI original</strong> está en Aave, generando un rendimiento base.</li>
+                    <li>Ha <strong>liberado capital (USDC)</strong> sin vender su activo inicial.</li>
+                    <li>Ese capital prestado está generando un <strong>segundo flujo de rendimiento</strong> en Yearn.</li>
+                </ul>
+                <p>El objetivo es que la suma de los rendimientos sea superior al interés que paga por el préstamo. Todo esto ocurre de manera transparente y programática gracias a la interconexión de los protocolos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. DeFi vs. Finanzas Tradicionales: Un Mundo de Diferencia</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Intentar replicar este flujo en el sistema financiero tradicional sería prácticamente imposible debido a su naturaleza cerrada y fragmentada.</p>
+                 <div class="comparison-container">
+                    <div class="comparison-column">
+                        <h5><i class="fas fa-link"></i>Composabilidad en DeFi</h5>
+                         <ul>
+                            <li><strong>Sistemas Abiertos:</strong> Construidos unos sobre otros sin permisos.</li>
+                            <li><strong>Innovación Exponencial:</strong> Cada nuevo "Lego" aumenta las posibilidades de todo el ecosistema.</li>
+                            <li><strong>Eficiencia de Capital:</strong> El valor fluye sin fricción y un mismo activo cumple múltiples funciones.</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-column">
+                         <h5><i class="fas fa-building-lock"></i>Silos en Finanzas Tradicionales</h5>
+                         <ul>
+                            <li><strong>Sistemas Cerrados:</strong> "Jardines vallados" que requieren integraciones costosas.</li>
+                             <li><strong>Innovación Lenta:</strong> Fragmentada y obstaculizada por burocracia y barreras técnicas.</li>
+                             <li><strong>Capital Inactivo:</strong> El valor queda atrapado en procesos de liquidación (T+2) y transferencias lentas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. El Lado Oscuro: Riesgos Sistémicos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una visión experta debe ser equilibrada. Esta profunda interconexión también crea riesgos significativos, ya que la fortaleza de la composabilidad es también su mayor debilidad.</p>
+                <h4>Riesgo de Contagio</h4>
+                <p>Si un "Lego" fundamental tiene una vulnerabilidad (por ejemplo, un error en un contrato inteligente), el riesgo puede propagarse en cascada a todos los protocolos que dependen de él, causando liquidaciones masivas o pérdidas.</p>
+                <h4>Complejidad y Riesgos Ocultos</h4>
+                <p>La superposición de múltiples protocolos crea capas de complejidad que pueden ocultar vectores de ataque. La seguridad de la interacción entre cinco protocolos es mucho más difícil de auditar que la seguridad de cada uno por separado.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <p>Análisis de Composabilidad en Web3 y DeFi</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+        
+        const firstTopic = document.querySelector('.topic-card');
+        if(firstTopic) firstTopic.classList.add('open');
+    })();
+  </script>
+</body>
+</html>

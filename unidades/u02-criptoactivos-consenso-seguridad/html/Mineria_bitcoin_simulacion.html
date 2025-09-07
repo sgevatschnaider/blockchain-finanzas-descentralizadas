@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulación de Minería Bitcoin — PoW Demo</title>
+<style>
+  :root{
+    --bg:#0b0f14;
+    --panel:#0f1623cc;
+    --panel-strong:#101b2ecc;
+    --card:#0e1522b3;
+    --text:#e6f1ff;
+    --muted:#9bb0c9;
+    --primary:#3ad0ff;
+    --accent:#7cff9e;
+    --warn:#ffcb6b;
+    --danger:#ff6b6b;
+    --ok:#5cffd5;
+    --shadow: 0 10px 30px rgba(0,0,0,.4);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;
+    color:var(--text);
+    background:
+      radial-gradient(800px 500px at 10% -10%, #143b51aa, transparent 70%),
+      radial-gradient(600px 400px at 110% 10%, #1b5137aa, transparent 70%),
+      linear-gradient(180deg, #0a0f16 0%, #071018 100%);
+    background-color:var(--bg);
+  }
+  header{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:saturate(1.4) blur(8px);
+    background:linear-gradient(180deg, #0a1320cc, #0a132000);
+    border-bottom:1px solid #1e293b99;
+  }
+  .wrap{max-width:1300px; margin:0 auto; padding:14px 18px;}
+  .brand{
+    display:flex; align-items:center; gap:14px; font-weight:700; letter-spacing:.4px;
+  }
+  .brand .dot{
+    width:12px; height:12px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #7cff9e, #3ad0ff);
+    box-shadow:0 0 12px #3ad0ff66, 0 0 24px #7cff9e22;
+  }
+  .grid{
+    display:grid; gap:16px;
+    grid-template-columns: 320px 1fr;
+    padding:18px;
+    max-width:1300px; margin:0 auto;
+  }
+  .panel{
+    background: linear-gradient(180deg, var(--panel), var(--panel-strong));
+    border:1px solid #1f2a44;
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    overflow:hidden;
+  }
+  .panel h3{
+    margin:0; padding:12px 14px; font-size:14px; letter-spacing:.6px;
+    color:#b9d1ff; text-transform:uppercase;
+    border-bottom:1px solid #1e293b;
+    background:linear-gradient(180deg, #0e1730, #0e173000);
+  }
+  .panel .content{ padding:14px;}
+  .controls .row{
+    display:grid; grid-template-columns: 1fr 90px; gap:10px; align-items:center; margin:10px 0;
+  }
+  .controls label{font-size:12px; color:var(--muted)}
+  .controls input[type="range"]{ width:100%}
+  .value{
+    font-variant-numeric: tabular-nums; font-size:12px; color:#cfe2ff;
+    padding:6px 8px; background:#0b1424; border:1px solid #1f2a44; border-radius:10px; text-align:right;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:10px 14px; border-radius:12px; color:#001018; background: linear-gradient(90deg, #3ad0ff, #7cff9e);
+    border:none; box-shadow:0 10px 20px #00e5ff22, inset 0 0 0 1px #1f2a44;
+    cursor:pointer; font-weight:700; letter-spacing:.3px;
+  }
+  .btn.secondary{
+    background: linear-gradient(90deg, #ffaf6b, #ffd36b);
+  }
+  .kpis{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;
+  }
+  .kpi{
+    background:linear-gradient(180deg,#0b1424,#0b1424aa);
+    border:1px solid #1f2a44; border-radius:12px; padding:10px;
+  }
+  .kpi .label{font-size:11px; color:#9db2cc}
+  .kpi .val{font-size:16px; margin-top:6px; font-variant-numeric:tabular-nums}
+  .block{
+    display:grid; grid-template-columns: 1.2fr 1fr; gap:14px;
+  }
+  .rowFlex{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  code.hex{
+    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+    background:#0a1322; border:1px solid #1d2a44; padding:6px 8px; border-radius:8px; color:#b9f1ff;
+    font-size:12px; word-break:break-all;
+  }
+  .pill{
+    padding:6px 8px; border-radius:999px; font-size:11px; border:1px solid #1f2a44; background:#0a1320; color:#b5c7e6;
+  }
+  .headerGrid{
+    display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px;
+  }
+  .headerGrid .item{background:#0b1424; border:1px solid #1f2a44; border-radius:10px; padding:8px}
+  .headerGrid .item .t{font-size:10px;color:#9db2cc;text-transform:uppercase;letter-spacing:.4px}
+  .headerGrid .item .v{font-family: ui-monospace,Consolas; font-size:12px; margin-top:6px; color:#cfe2ff; word-break:break-all}
+  .targetBar{
+    height:10px; background:#0b1424; border:1px solid #1f2a44; border-radius:10px; overflow:hidden; margin-top:6px;
+  }
+  .targetBar .fill{
+    height:100%; background:linear-gradient(90deg,#3ad0ff,#7cff9e);
+    box-shadow:0 0 10px #3ad0ff66 inset;
+  }
+  .board{
+    display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+  }
+  .mempoolList{
+    max-height:220px; overflow:auto; padding-right:4px;
+  }
+  .tx{
+    display:grid; grid-template-columns: 1fr auto auto auto; gap:8px; align-items:center;
+    border-bottom:1px dashed #18304d; padding:6px 0;
+    font-family: ui-monospace,Consolas;
+  }
+  .tree{
+    width:100%; height:220px; background:#0b1424; border:1px solid #1f2a44; border-radius:10px;
+  }
+  .status{
+    display:grid; grid-template-columns: repeat(4,1fr); gap:10px; margin-top:10px;
+  }
+  .badge{font-size:11px; padding:6px 8px; border-radius:8px; background:#102338; border:1px solid #1f2a44; color:#bfe3ff}
+  .chain{
+    display:flex; gap:10px; overflow:auto; padding:10px;
+    background:linear-gradient(180deg,#0e1730,#0b1424); border-bottom:1px solid #1e293b;
+  }
+  .blk{
+    min-width:160px; background:#0b1424; border:1px solid #1f2a44; border-radius:10px; padding:8px;
+  }
+  .blk .h{font-size:11px;color:#9db2cc}
+  .blk .hash{font-family: ui-monospace; font-size:11px; word-break:break-all; color:#cfe2ff}
+  .spark{height:50px; width:100%; background:#0b1424; border:1px solid #1f2a44; border-radius:10px}
+  .hint{font-size:12px; color:#9bb0c9}
+  .switch{
+    display:flex; gap:8px; align-items:center; background:#0b1424; border:1px solid #1f2a44; border-radius:999px;
+    padding:4px; width:max-content;
+  }
+  .switch button{
+    border:none; background:transparent; color:#9bb0c9; padding:6px 10px; border-radius:999px; cursor:pointer; font-weight:700
+  }
+  .switch button.active{ color:#001018; background:linear-gradient(90deg,#3ad0ff,#7cff9e)}
+  footer{max-width:1300px;margin:20px auto; color:#8aa1bf; text-align:center; font-size:12px}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>Simulador de Minería Bitcoin — <span style="color:#7cff9e">Proof-of-Work</span></div>
+      </div>
+    </div>
+    <div class="chain" id="chainView"></div>
+  </header>
+
+  <main class="grid">
+    <!-- CONTROLES -->
+    <section class="panel controls">
+      <h3>Parámetros</h3>
+      <div class="content">
+        <div class="switch" id="modeSwitch">
+          <button data-mode="solo" class="active">Solo</button>
+          <button data-mode="pool">Pool</button>
+        </div>
+
+        <div class="row">
+          <label>Hashrate de red (EH/s)</label>
+          <input id="netHash" type="range" min="40" max="800" step="1" value="600">
+          <div class="value" id="netHashVal">600.0</div>
+        </div>
+        <div class="row">
+          <label>Dificultad (aprox.)</label>
+          <input id="diff" type="range" min="1" max="200" step="1" value="90">
+          <div class="value" id="diffVal">90</div>
+        </div>
+        <div class="row">
+          <label>Tu hashrate (TH/s)</label>
+          <input id="myHash" type="range" min="0.5" max="400" step="0.5" value="120">
+          <div class="value" id="myHashVal">120.0</div>
+        </div>
+        <div class="row">
+          <label>Latencia propagación (ms)</label>
+          <input id="latency" type="range" min="10" max="3000" step="10" value="300">
+          <div class="value" id="latencyVal">300</div>
+        </div>
+        <div class="row">
+          <label>Subsidio (BTC)</label>
+          <input id="subsidy" type="range" min="0" max="6.25" step="0.125" value="3.125">
+          <div class="value" id="subsidyVal">3.125</div>
+        </div>
+        <div class="row">
+          <label>Fees medias por bloque (BTC)</label>
+          <input id="fees" type="range" min="0" max="3" step="0.05" value="0.5">
+          <div class="value" id="feesVal">0.50</div>
+        </div>
+
+        <div class="rowFlex" style="margin-top:10px; gap:10px">
+          <button class="btn" id="toggleBtn">▶ Iniciar minería</button>
+          <button class="btn secondary" id="rebuildBtn">🔁 Nuevo template</button>
+          <span class="pill" id="modeLabel">Modo: Solo mining</span>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">Bloques/día esperados</div>
+            <div class="val" id="kpiBlocks">0.000</div>
+          </div>
+          <div class="kpi">
+            <div class="label">BTC/día esperados</div>
+            <div class="val" id="kpiBtc">0.00000000</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Tiempo medio a bloque</div>
+            <div class="val" id="kpiEta">—</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="hint">
+          Los cálculos son **aproximados**. El hash se simula con 256 bits aleatorios → comportamiento estadístico realista.
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULACIÓN -->
+    <section class="panel">
+      <h3>Pipeline de Minería</h3>
+      <div class="content">
+        <div class="board">
+          <!-- MEMPOOL + MERKLE -->
+          <div class="panel" style="background:transparent; box-shadow:none;">
+            <h3>Mempool → Selección por fee rate</h3>
+            <div class="content">
+              <div class="mempoolList" id="mempool"></div>
+              <div class="status">
+                <div class="badge" id="mempoolStats">—</div>
+                <div class="badge" id="coinbaseInfo">Coinbase: —</div>
+                <div class="badge" id="feesInfo">Fees seleccionadas: —</div>
+                <div class="badge" id="weightInfo">Peso (WU): —</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="background:transparent; box-shadow:none;">
+            <h3>Árbol de Merkle (incluye coinbase)</h3>
+            <div class="content">
+              <svg class="tree" id="merkleSvg"></svg>
+              <div class="rowFlex" style="margin-top:8px">
+                <span class="pill">extraNonce: <span id="extraNonceLabel">0</span></span>
+                <button class="btn secondary" id="bumpExtra">➕ Mutar extraNonce</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HEADER + MINING -->
+        <div class="panel" style="margin-top:16px">
+          <h3>Header del bloque y minado (SHA-256d comparado contra target)</h3>
+          <div class="content">
+            <div class="block">
+              <div>
+                <div class="headerGrid">
+                  <div class="item"><div class="t">version</div><div class="v" id="vVersion">0x20000000</div></div>
+                  <div class="item"><div class="t">nBits (compact)</div><div class="v" id="vNbits">—</div></div>
+                  <div class="item"><div class="t">prev_block_hash</div><div class="v" id="vPrev">—</div></div>
+                  <div class="item"><div class="t">time (unix)</div><div class="v" id="vTime">—</div></div>
+                  <div class="item" style="grid-column: span 2">
+                    <div class="t">merkle_root</div><div class="v" id="vMerkle">—</div>
+                  </div>
+                </div>
+
+                <div style="margin-top:10px">
+                  <div class="t" style="font-size:11px; color:#9db2cc">Target (dado dificultad)</div>
+                  <code class="hex" id="vTarget">—</code>
+                  <div class="targetBar"><div class="fill" id="targetFill" style="width: 1%"></div></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="rowFlex">
+                  <span class="pill">nonce: <span id="nonceLabel">0</span></span>
+                  <span class="pill">hash actual</span>
+                  <code class="hex" id="currentHash">—</code>
+                </div>
+                <canvas class="spark" id="spark"></canvas>
+                <div class="status">
+                  <div class="badge">Hashes totales: <span id="hashesTotal">0</span></div>
+                  <div class="badge">Shares (pool): <span id="shares">0</span></div>
+                  <div class="badge">Bloques encontrados: <span id="blocksFound">0</span></div>
+                  <div class="badge">Stales: <span id="stales">0</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:10px" class="hint">
+              En modo <b>Pool</b> se contabilizan <i>shares</i> (targets fáciles). En <b>Solo</b>, sólo el target de red valida el bloque.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Hecho para fines educativos: PoW, dificultad, mempool, coinbase/extraNonce, Merkle y estocasticidad. No es consejo financiero.
+  </footer>
+
+<script>
+/* ========= Utilidades numéricas y HEX ========= */
+const randHex = (len)=>[...crypto.getRandomValues(new Uint8Array(len/2))].map(b=>b.toString(16).padStart(2,'0')).join('');
+const toHex64 = (b)=> '0x'+b.toString(16).padStart(64,'0');
+const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+const format = (n, d=3)=>Number(n).toLocaleString('es-AR',{maximumFractionDigits:d, minimumFractionDigits:d});
+const formatInt = (n)=>Number(n).toLocaleString('es-AR');
+const nowSec = ()=>Math.floor(Date.now()/1000);
+
+// Máximo target de Bitcoin (dif=1): 0x00000000FFFF0000... (bits=0x1d00ffff)
+const MAX_TARGET = BigInt('0x00000000FFFF0000000000000000000000000000000000000000000000000000');
+
+// compact <-> target (aprox. visual; no se usa en consenso real)
+function targetFromDifficulty(diff){
+  diff = Math.max(1e-9, diff);
+  // usamos BigInt con factor de precisión para decimales:
+  const SCALE = 1_000_000n;
+  const scaled = BigInt(Math.round(diff*1_000_000));
+  let t = (MAX_TARGET * SCALE) / scaled;
+  return t;
+}
+function nBitsFromTarget(target){
+  // Compact approximation to visualize nBits like Bitcoin's "compact" format
+  // Find first non-zero byte
+  let hex = target.toString(16).padStart(64,'0');
+  let idx = hex.search(/[1-9a-f]/i);
+  if(idx === -1){ return '0x01000000'; }
+  let size = Math.ceil((64-idx)/2);
+  let mant = parseInt(hex.slice(idx, idx+6).padEnd(6,'0'), 16);
+  if((mant & 0x00800000) !== 0) { mant >>= 8; size += 1; }
+  const compact = (size << 24) | mant;
+  return '0x'+compact.toString(16).padStart(8,'0');
+}
+
+// BigInt random 256-bit
+function random256(){
+  const a = new Uint8Array(32);
+  crypto.getRandomValues(a);
+  let v = 0n;
+  for(const b of a){ v = (v<<8n) | BigInt(b); }
+  return v;
+}
+
+/* ========= Estado global ========= */
+const state = {
+  mode: 'solo', // 'solo' | 'pool'
+  diff: 90, // aproximada, para marcar un target
+  netEH: 600,
+  myTH: 120,
+  subsidy: 3.125,
+  fees: 0.5,
+  latencyMs: 300,
+  running: false,
+  nonce: 0,
+  extraNonce: 0,
+  target: targetFromDifficulty(90),
+  poolShareTarget: null, // target fácil para shares
+  prevHash: '0x'+randHex(64),
+  merkleRoot: null,
+  headerTime: nowSec(),
+  hashesTotal: 0n,
+  shares: 0,
+  blocksFound: 0,
+  stales: 0,
+  blockHeight: 830000,
+  mempool: [],
+  coinbaseFeesSelected: 0,
+  blockWeight: 0,
+  sparkData: new Array(100).fill(0),
+};
+
+/* ========= Inicialización de datos de mempool ========= */
+function buildMempool(n=300){
+  const txs=[];
+  for(let i=0;i<n;i++){
+    const vbytes = Math.floor(150 + Math.random()*800);           // tamaño
+    const feerate = +(1 + Math.random()*200).toFixed(2);          // sat/vB
+    const weight = vbytes*4;
+    const feeSats = Math.round(feerate * vbytes);                 // satoshis
+    txs.push({
+      id: 'tx'+randHex(12),
+      vbytes, weight, feerate, feeSats
+    });
+  }
+  // Selección greedy por sat/vB hasta 4M WU
+  txs.sort((a,b)=>b.feerate-a.feerate);
+  let accW=0, accFee=0, chosen=[];
+  for(const t of txs){
+    if(accW + t.weight > 4_000_000) continue;
+    accW += t.weight; accFee += t.feeSats; chosen.push(t);
+  }
+  state.mempool = chosen;
+  state.coinbaseFeesSelected = accFee / 1e8; // BTC
+  state.blockWeight = accW;
+  renderMempool();
+}
+
+/* ========= Merkle (simulado con hash-encadenado) ========= */
+function fakeHashPair(a,b){
+  // No SHA real; simulamos reduciendo a 256 bits determinísticos
+  // para visual. Aquí usamos simple mezcla de BigInt + random salt.
+  let x = BigInt('0x'+a) ^ (BigInt('0x'+b) << 1n);
+  // mezclar un poco:
+  x = (x ^ (x >> 97n) ^ (x << 13n)) & ((1n<<256n)-1n);
+  return x.toString(16).padStart(64,'0');
+}
+function buildMerkleRoot(extraNonce){
+  // Creamos coinbase “id” en función de height y extraNonce
+  const coinbase = (state.blockHeight+':'+extraNonce).split('').reduce((h,c)=>((h*131n+BigInt(c.charCodeAt(0)))%(1n<<256n)),0n).toString(16).padStart(64,'0');
+  const leaves = [coinbase, ...state.mempool.map(t=>randHex(64))];
+  let level = leaves.slice();
+  while(level.length>1){
+    if(level.length%2===1) level.push(level[level.length-1]); // duplicar si impar
+    const next=[];
+    for(let i=0;i<level.length;i+=2){
+      next.push(fakeHashPair(level[i],level[i+1]));
+    }
+    level = next;
+  }
+  state.merkleRoot = '0x'+level[0];
+  renderMerkle(leaves);
+}
+
+/* ========= Render de UI ========= */
+const $ = (id)=>document.getElementById(id);
+
+function renderMempool(){
+  const el = $('mempool');
+  el.innerHTML = '';
+  state.mempool.slice(0,120).forEach(t=>{
+    const div = document.createElement('div');
+    div.className='tx';
+    div.innerHTML = `
+      <div>${t.id}</div>
+      <div style="text-align:right; color:#bfe3ff">${t.vbytes} vB</div>
+      <div style="text-align:right; color:#ffd36b">${t.feerate} sat/vB</div>
+      <div style="text-align:right; color:#7cff9e">${(t.feeSats/1e8).toFixed(8)} BTC</div>
+    `;
+    el.appendChild(div);
+  });
+  $('mempoolStats').textContent = `TX incluidas: ${formatInt(state.mempool.length)}`;
+  $('feesInfo').textContent = `Fees estimadas: ${state.coinbaseFeesSelected.toFixed(8)} BTC`;
+  $('weightInfo').textContent = `Peso: ${formatInt(state.blockWeight)} WU (~${formatInt(Math.round(state.blockWeight/4))} vB)`;
+  $('coinbaseInfo').textContent = `Subsidio+fees: ${(state.subsidy+state.coinbaseFeesSelected).toFixed(8)} BTC`;
+}
+
+function renderMerkle(leaves){
+  const svg = $('merkleSvg');
+  const W = svg.clientWidth, H = svg.clientHeight;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.innerHTML='';
+  // niveles
+  const levels = [];
+  levels.push(leaves);
+  let lvl = leaves;
+  while(lvl.length>1){
+    if(lvl.length%2===1) lvl = [...lvl, lvl[lvl.length-1]];
+    const next=[];
+    for(let i=0;i<lvl.length;i+=2){
+      next.push(fakeHashPair(lvl[i],lvl[i+1]));
+    }
+    levels.push(next);
+    lvl = next;
+  }
+  const marginX = 12, marginY=20;
+  const colH = (H - marginY*2) / (levels.length-1);
+  const nodeAt = (level, index, count)=>{
+    const y = H - marginY - level*colH;
+    const total = levels[level].length;
+    const spacing = (W - marginX*2) / (total);
+    const x = marginX + spacing/2 + index*spacing;
+    return {x,y};
+  };
+  // conexiones
+  for(let l=0;l<levels.length-1;l++){
+    for(let i=0;i<levels[l+1].length;i++){
+      const childA = nodeAt(l, i*2, levels[l].length);
+      const childB = nodeAt(l, i*2+1, levels[l].length);
+      const parent = nodeAt(l+1, i, levels[l+1].length);
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', `M${childA.x},${childA.y} C ${childA.x},${(childA.y+parent.y)/2} ${parent.x},${(childA.y+parent.y)/2} ${parent.x},${parent.y}`);
+      path.setAttribute('stroke','#2b81c5'); path.setAttribute('fill','none'); path.setAttribute('stroke-opacity','.5');
+      svg.appendChild(path);
+      const path2 = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path2.setAttribute('d', `M${childB.x},${childB.y} C ${childB.x},${(childB.y+parent.y)/2} ${parent.x},${(childB.y+parent.y)/2} ${parent.x},${parent.y}`);
+      path2.setAttribute('stroke','#2b81c5'); path2.setAttribute('fill','none'); path2.setAttribute('stroke-opacity','.5');
+      svg.appendChild(path2);
+    }
+  }
+  // nodos
+  for(let l=0;l<levels.length;l++){
+    for(let i=0;i<levels[l].length;i++){
+      const {x,y} = nodeAt(l,i,levels[l].length);
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      const r = 6;
+      const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circle.setAttribute('cx',x); circle.setAttribute('cy',y); circle.setAttribute('r',r);
+      circle.setAttribute('fill','url(#grad'+(l%3)+')'); circle.setAttribute('stroke','#1f2a44');
+      circle.style.filter='drop-shadow(0 0 6px #3ad0ff55)';
+      const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+      text.setAttribute('x',x+8); text.setAttribute('y',y+4);
+      text.setAttribute('font-size','9'); text.setAttribute('fill','#b9f1ff');
+      text.textContent = levels[l][i].slice(0,10)+'…';
+      g.appendChild(circle); g.appendChild(text);
+      svg.appendChild(g);
+    }
+  }
+  // defs gradientes
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  for(let i=0;i<3;i++){
+    const lg = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+    lg.setAttribute('id','grad'+i);
+    lg.setAttribute('x1','0'); lg.setAttribute('x2','1'); lg.setAttribute('y1','0'); lg.setAttribute('y2','1');
+    const stop1 = document.createElementNS('http://www.w3.org/2000/svg','stop');
+    stop1.setAttribute('offset','0%'); stop1.setAttribute('stop-color', i===0?'#3ad0ff': i===1?'#7cff9e':'#ffd36b');
+    const stop2 = document.createElementNS('http://www.w3.org/2000/svg','stop');
+    stop2.setAttribute('offset','100%'); stop2.setAttribute('stop-color', i===0?'#7cff9e': i===1?'#3ad0ff':'#ffaf6b');
+    lg.appendChild(stop1); lg.appendChild(stop2); defs.appendChild(lg);
+  }
+  svg.appendChild(defs);
+
+  $('vMerkle').textContent = state.merkleRoot;
+  $('extraNonceLabel').textContent = state.extraNonce;
+}
+
+/* ========= Header + target rendering ========= */
+function rebuildTemplate(){
+  buildMempool(320);
+  buildMerkleRoot(state.extraNonce);
+  state.headerTime = nowSec();
+  $('vTime').textContent = state.headerTime;
+  $('vPrev').textContent = state.prevHash;
+  $('vVersion').textContent = '0x20000000';
+  updateDifficultyUI(); // recalcula target
+  state.nonce = 0;
+  $('nonceLabel').textContent = state.nonce;
+  $('currentHash').textContent = '—';
+}
+
+function updateDifficultyUI(){
+  state.target = targetFromDifficulty(state.diff);
+  $('vTarget').textContent = toHex64(state.target);
+  $('vNbits').textContent = nBitsFromTarget(state.target);
+  // “fill” inverso: a más dificultad, menor target → barra más pequeña
+  const relative = Number((MAX_TARGET*1000n)/state.target)/10; // % de target vs max
+  $('targetFill').style.width = clamp(relative, 0.1, 100) + '%';
+}
+
+/* ========= Cálculos de probabilidad, KPI ========= */
+function updateKPIs(){
+  // Relación clásica: diff ≈ (H_red * 600) / 2^32  =>  H_red ≈ diff * 2^32 / 600
+  const TWO32 = 4294967296;
+  const Hred_EHs_fromDiff = state.diff * TWO32 / 600 / 1e18; // en EH/s si diff es realista
+  // Si el usuario toca ambas, no forzamos consistencia; mostramos info derivada.
+  const Hred = state.netEH * 1e18;         // H/s
+  const Hmine = state.myTH * 1e12;         // H/s
+  const share = Hmine / Hred;              // proporción
+  const blocksPerDay = share * 144;        // 144 ≈ bloques/día
+  const btcPerBlock = state.subsidy + state.coinbaseFeesSelected;
+  const btcDaySolo = blocksPerDay * btcPerBlock;
+  $('kpiBlocks').textContent = format(blocksPerDay, 6);
+  $('kpiBtc').textContent = (state.mode==='solo' ? btcDaySolo : share*144*btcPerBlock).toFixed(8);
+  const etaDays = blocksPerDay>0 ? 1/blocksPerDay : Infinity;
+  $('kpiEta').textContent = isFinite(etaDays) ? (etaDays>1 ? `${format(etaDays,2)} días` : `${format(etaDays*24,2)} h` ) : '—';
+}
+
+/* ========= Sparkline ========= */
+const spark = $('spark').getContext('2d');
+function pushSpark(v){
+  state.sparkData.push(v); state.sparkData.shift();
+  const W = $('spark').width = $('spark').clientWidth;
+  const H = $('spark').height = $('spark').clientHeight;
+  spark.clearRect(0,0,W,H);
+  spark.strokeStyle = '#3ad0ff'; spark.lineWidth=2;
+  spark.beginPath();
+  const max = Math.max(1,...state.sparkData);
+  state.sparkData.forEach((p,i)=>{
+    const x = i * (W/(state.sparkData.length-1));
+    const y = H - (p/max)*H;
+    if(i===0) spark.moveTo(x,y); else spark.lineTo(x,y);
+  });
+  spark.stroke();
+}
+
+/* ========= Cadena visual ========= */
+function addBlockToChain({hash, height, stale}){
+  const el = document.createElement('div');
+  el.className='blk';
+  el.innerHTML = `
+    <div class="h">#${height} ${stale?'<span style="color:#ff6b6b">STALE</span>':''}</div>
+    <div class="hash">${hash}</div>
+  `;
+  $('chainView').prepend(el);
+}
+
+/* ========= Minado (bucle) ========= */
+let raf = null, lastTick = performance.now();
+function step(t){
+  const dt = Math.min(0.2, (t - lastTick)/1000); // seg
+  lastTick = t;
+  // hashes por frame según TH/s del minero y dt:
+  const Hmine = state.myTH * 1e12; // H/s
+  const hashesThisFrame = Math.max(1, Math.floor(Hmine * dt / 5000)); 
+  // (dividimos por 5000 para no quemar CPU; mantenemos proporción para métricas/animación)
+  let found = false, shareFound = false;
+  for(let i=0;i<hashesThisFrame;i++){
+    const trial = random256(); // “hash” de header+nonce simulado
+    state.nonce++;
+    if(state.mode === 'pool'){
+      // target de share (por ejemplo 2^16 veces más fácil que el de red)
+      if(!state.poolShareTarget){ state.poolShareTarget = (state.target << 16n); }
+      if(trial < state.poolShareTarget){ state.shares++; shareFound = true; }
+    }
+    if(trial < state.target){
+      found = true; break;
+    }
+  }
+  state.hashesTotal += BigInt(hashesThisFrame);
+  $('nonceLabel').textContent = state.nonce;
+  $('hashesTotal').textContent = formatInt(state.hashesTotal);
+  $('shares').textContent = state.shares;
+  $('currentHash').textContent = toHex64(random256());
+  pushSpark(hashesThisFrame);
+
+  if(found){
+    // ¿Se vuelve stale?
+    // Prob. de competencia en la ventana de propagación ~ Poisson(λ = H_otros/H_red * Δt/600 * 1 bloque)
+    const othersShare = Math.max(0, 1 - (state.myTH*1e12)/(state.netEH*1e18));
+    const latency = state.latencyMs/1000;
+    const lambda = othersShare * (latency/600) * 1; // expectativa de 1 bloque cada 600s
+    const competitor = Math.random() < (1 - Math.exp(-lambda));
+    const stale = competitor; // simple: si alguien más encuentra uno en tu latencia → stale
+    if(stale) state.stales++; else state.blocksFound++;
+    $('stales').textContent = state.stales;
+    $('blocksFound').textContent = state.blocksFound;
+
+    const newHash = toHex64(random256() & ((1n<<256n)-1n));
+    addBlockToChain({hash:newHash, height: ++state.blockHeight, stale});
+    // Nuevo template: prevHash cambia, extraNonce resetea y Merkle cambia
+    state.prevHash = newHash;
+    state.extraNonce = 0;
+    rebuildTemplate();
+  }
+
+  if(state.running){ raf = requestAnimationFrame(step); }
+}
+
+/* ========= Eventos ========= */
+function bind(){
+  const link = (id, fmt=(v)=>v, post=()=>{})=>{
+    const input = $(id); const val = $(id+'Val');
+    input.addEventListener('input', ()=>{
+      val.textContent = fmt(input.value);
+      switch(id){
+        case 'netHash': state.netEH = +input.value; break;
+        case 'diff': state.diff = +input.value; updateDifficultyUI(); break;
+        case 'myHash': state.myTH = +input.value; break;
+        case 'latency': state.latencyMs = +input.value; break;
+        case 'subsidy': state.subsidy = +input.value; renderMempool(); break;
+        case 'fees': state.fees = +input.value; break;
+      }
+      updateKPIs(); post();
+    });
+  };
+  link('netHash', v=>(+v).toFixed(1));
+  link('diff', v=>(+v).toFixed(0));
+  link('myHash', v=>(+v).toFixed(1));
+  link('latency', v=>(+v).toFixed(0));
+  link('subsidy', v=>(+v));
+  link('fees', v=>(+v).toFixed(2));
+
+  $('toggleBtn').addEventListener('click', ()=>{
+    state.running = !state.running;
+    $('toggleBtn').textContent = state.running ? '⏸️ Pausar minería' : '▶ Iniciar minería';
+    if(state.running){ lastTick = performance.now(); raf = requestAnimationFrame(step); }
+    else cancelAnimationFrame(raf);
+  });
+  $('rebuildBtn').addEventListener('click', ()=>{
+    state.extraNonce = 0;
+    rebuildTemplate();
+  });
+  $('bumpExtra').addEventListener('click', ()=>{
+    state.extraNonce++;
+    $('extraNonceLabel').textContent = state.extraNonce;
+    buildMerkleRoot(state.extraNonce);
+  });
+  // Modo
+  [...$('modeSwitch').querySelectorAll('button')].forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      [...$('modeSwitch').children].forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode = btn.dataset.mode;
+      $('modeLabel').textContent = 'Modo: ' + (state.mode==='solo'?'Solo mining':'Pool mining');
+    });
+  });
+  // KPIs refresco periódico
+  setInterval(updateKPIs, 500);
+}
+
+/* ========= Boot ========= */
+function boot(){
+  $('netHashVal').textContent = state.netEH.toFixed(1);
+  $('diffVal').textContent = state.diff.toFixed(0);
+  $('myHashVal').textContent = state.myTH.toFixed(1);
+  $('latencyVal').textContent = state.latencyMs.toFixed(0);
+  $('subsidyVal').textContent = state.subsidy;
+  $('feesVal').textContent = state.fees.toFixed(2);
+
+  buildMempool(320);
+  buildMerkleRoot(state.extraNonce);
+  rebuildTemplate();
+  updateKPIs();
+  // Cadena inicial
+  for(let i=0;i<6;i++){
+    addBlockToChain({hash: toHex64(random256()), height: state.blockHeight - (6-i), stale:false});
+  }
+  bind();
+}
+boot();
+</script>
+</body>
+</html>

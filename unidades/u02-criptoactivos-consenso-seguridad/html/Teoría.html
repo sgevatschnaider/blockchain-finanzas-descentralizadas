@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis Experto de Criptoactivos en Web3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 5000px; /* Aumentado para contenido largo */ padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.1rem; color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem; font-weight: 600; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content em { font-style: italic; color: var(--accent-primary); }
+
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    
+    .styled-table {
+        border-collapse: collapse; margin: 25px 0; font-size: 0.9em; width: 100%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); border-radius: 10px; overflow: hidden;
+    }
+    .styled-table thead tr { background: var(--accent-gradient); color: var(--text-light); text-align: left; }
+    .styled-table th, .styled-table td { padding: 12px 15px; }
+    .styled-table tbody tr { border-bottom: 1px solid var(--border-color); background-color: var(--bg-secondary); }
+    .styled-table tbody tr:last-of-type { border-bottom: 2px solid var(--accent-primary); }
+    [data-theme="dark"] .styled-table tbody tr { background-color: var(--bg-tertiary); }
+
+    footer {
+      text-align: center; margin-top: 4rem; padding: 2rem 0;
+      border-top: 1px solid var(--border-color);
+    }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Panorama de los Criptoactivos</h1>
+      <p class="subtitle">Una Visión de Experto sobre la Arquitectura, Funcionalidad y Estrategia del Ecosistema Blockchain.</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-title">1.1 Definición y Diferencias Fundamentales</span>
+                <i class="fas fa-chevron-down expand-icon"></i>
+            </div>
+            <div class="topic-content">
+                <p>La distinción fundamental no es solo tecnológica, sino filosófica: se trata de un cambio de paradigma del control centralizado a la <strong>soberanía del usuario</strong>.</p>
+                <p><strong>Criptoactivo:</strong> Es más que una "representación digital de valor". Es un <em>activo portador digital</em> (<code>digital bearer asset</code>), programable y verificable por cualquiera. Su propiedad no depende de un apunte en la base de datos de un tercero, sino del control exclusivo de una clave privada.</p>
+                <p><strong>Activo Digital Tradicional:</strong> Es una entrada en una base de datos permisionada y centralizada. Tu saldo bancario o los V-Bucks de Fortnite son promesas de valor controladas por una entidad que es el único árbitro de la verdad.</p>
+                <h4>Analogía Clave:</h4>
+                <p>Un activo digital tradicional es como el saldo en tu app bancaria. Un criptoactivo es como tener un lingote de oro en tu caja fuerte personal. Tú, y solo tú, tienes la llave.</p>
+                
+                <table class="styled-table">
+                    <thead>
+                        <tr><th>Característica</th><th>Criptoactivo (Ej: 1 ETH)</th><th>Activo Tradicional (Ej: Saldo PayPal)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Fuente de Verdad</td><td>Red descentralizada (Blockchain)</td><td>Servidores centralizados de la empresa</td></tr>
+                        <tr><td>Custodia</td><td>Soberanía del usuario (clave privada)</td><td>Delegada en el proveedor del servicio</td></tr>
+                        <tr><td>Finalidad de Tx</td><td>Finalidad probabilística fuerte (irreversible)</td><td>Reversible por la entidad</td></tr>
+                        <tr><td>Permisología</td><td>Sin permisos (<code>permissionless</code>)</td><td>Permisionado (requiere KYC, etc.)</td></tr>
+                        <tr><td>Disponibilidad</td><td>24/7/365, global</td><td>Limitada por horarios y políticas</td></tr>
+                        <tr><td>Programabilidad</td><td>Nativa y abierta (Contratos Inteligentes)</td><td>Cerrada y propietaria (API interna)</td></tr>
+                        <tr><td>Composabilidad</td><td>Alta ("Lego de dinero")</td><td>Nula o muy baja</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-title">1.2 Taxonomía de Criptoactivos</span>
+                <i class="fas fa-chevron-down expand-icon"></i>
+            </div>
+            <div class="topic-content">
+                <p>Esta clasificación se basa en la <strong>función técnica y económica</strong> que cada activo desempeña dentro de su ecosistema.</p>
+                
+                <h4>Activos Nativos (Criptomonedas)</h4>
+                <p>Son la sangre de una blockchain. Su función económica principal es <strong>financiar el presupuesto de seguridad de la red</strong>.</p>
+                <ul>
+                    <li><strong>Proof-of-Work (<code>PoW</code>) como Bitcoin (<code>BTC</code>):</strong> La recompensa por bloque incentiva a los mineros a gastar energía, haciendo que reescribir la historia sea económicamente inviable.</li>
+                    <li><strong>Proof-of-Stake (<code>PoS</code>) como Ethereum (<code>ETH</code>):</strong> Los validadores bloquean <code>ETH</code> como garantía. Si actúan mal, su <code>ETH</code> es "slasheado". ETH también actúa como "gas" para pagar el cómputo en la EVM.</li>
+                </ul>
+
+                <h4>Tokens Fungibles (<code>ERC-20</code>)</h4>
+                <p>El estándar <code>ERC-20</code> creó una interfaz común para tokens. Un riesgo crítico es el patrón <code>approve</code> que, si se otorga de forma ilimitada, puede permitir a un contrato vulnerado drenar los fondos del usuario.</p>
+                
+                <h4>Tokens No Fungibles (NFTs - <code>ERC-721</code> / <code>ERC-1155</code>)</h4>
+                <p>Otorgan propiedad digital única y verificable.</p>
+                <ul>
+                    <li><code>ERC-721</code>: Para NFTs "uno a uno" (arte, coleccionables).</li>
+                    <li><code>ERC-1155</code>: Estándar multi-token eficiente para gaming.</li>
+                    <li><strong>Soulbound Tokens (<code>SBTs</code>):</strong> NFTs intransferibles que representan credenciales.</li>
+                    <li><strong>Almacenamiento de Metadatos:</strong> Es crucial usar sistemas descentralizados como <code>IPFS</code> o <code>Arweave</code> para evitar que la imagen o atributos de un NFT desaparezcan.</li>
+                </ul>
+                
+                <h4>Stablecoins</h4>
+                <p>Son la piedra angular de DeFi. La clave está en su mecanismo de estabilización.</p>
+                <ul>
+                    <li><strong>Respaldadas por Fiat (Off-Chain):</strong> <code>USDC</code>, <code>USDT</code>. Conllevan riesgo de contraparte y censura.</li>
+                    <li><strong>Cripto-colateralizadas (On-Chain):</strong> <code>DAI</code>. Sobrecolateralizadas, transparentes y descentralizadas.</li>
+                    <li><strong>Algorítmicas:</strong> Históricamente frágiles y susceptibles a "espirales de la muerte" (ej: TerraUSD).</li>
+                </ul>
+
+                <h4>Tokens de Gobernanza y Utilidad</h4>
+                 <ul>
+                    <li><strong>Gobernanza (<code>UNI</code>, <code>AAVE</code>):</strong> Otorgan poder de voto en una DAO. A menudo protegidos por un <code>Timelock</code> para evitar cambios maliciosos inmediatos.</li>
+                    <li><strong>Utilidad (<code>LINK</code>, <code>FIL</code>):</strong> Proporcionan acceso a un servicio, como pagar por datos de oráculos o almacenamiento.</li>
+                </ul>
+                
+                <h4>Security Tokens y Activos del Mundo Real (RWAs)</h4>
+                <p>Tokenización de activos financieros tradicionales (acciones, bonos) o del mundo real (bienes raíces). Requieren una sólida estructura legal y cumplimiento normativo (KYC/AML).</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-title">1.3 Estándares y Mejoras de Infraestructura</span>
+                <i class="fas fa-chevron-down expand-icon"></i>
+            </div>
+            <div class="topic-content">
+                <p>Los estándares son cruciales para la interoperabilidad. Son como los puertos USB del ecosistema cripto.</p>
+                 <ul>
+                    <li><code>ERC-20, ERC-721, ERC-1155</code>: Los cimientos de los tokens.</li>
+                    <li><strong><code>ERC-4626</code> (Tokenized Vaults):</strong> Estandariza las bóvedas que generan rendimiento (yield farming), haciéndolas "Lego" componibles.</li>
+                    <li><strong><code>ERC-4337</code> (Account Abstraction):</strong> Convierte las wallets en smart contracts, permitiendo <strong>recuperación social</strong>, <strong>pago de gas flexible</strong> y <strong>transacciones por lotes</strong>.</li>
+                    <li><strong><code>ERC-3643</code> (T-REX):</strong> El estándar para tokens permisionados, gestionando identidades y reglas de transferencia on-chain para cumplir con la regulación.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">1.4 Ciclo de Vida de un Token</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El lanzamiento de un token abarca diseño técnico, estrategia económica (<code>tokenomics</code>) y gestión comunitaria.</p>
+                <ul>
+                    <li><strong>Diseño y Emisión:</strong> Definir <code>tokenomics</code> y usar librerías auditadas como <code>OpenZeppelin</code>.</li>
+                    <li><strong>Distribución Inicial:</strong> A través de ICOs, IDOs, Airdrops, etc., buscando una distribución amplia para descentralizar la gobernanza.</li>
+                    <li><strong>Vesting y Bloqueos:</strong> Los tokens del equipo e inversores se bloquean en un contrato de <code>vesting</code> para alinear incentivos a largo plazo.</li>
+                    <li><strong>Listados y Liquidez:</strong> Creación de pools de liquidez en DEX (ej: Uniswap) o listados en CEX.</li>
+                    <li><strong>Gobernanza Continua:</strong> La DAO se activa para gestionar el protocolo y su tesorería a través de propuestas y votaciones.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">1.5 Infraestructura de Mercado</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Custodia</h4>
+                 <ul>
+                    <li><strong>Propia (<code>Self-Custody</code>):</strong> "Not your keys, not your coins". Máxima seguridad y soberanía. Incluye Hot Wallets (<code>MetaMask</code>), Cold Wallets (<code>Ledger</code>) y Smart Wallets (<code>Safe</code>).</li>
+                    <li><strong>Delegada (<code>Custodial</code>):</strong> Exchanges como Binance o Coinbase. Conveniente pero con riesgo de contraparte (ej: FTX).</li>
+                </ul>
+                <h4>Exchanges y Agregadores</h4>
+                 <ul>
+                    <li><strong>CEX:</strong> Operan con un libro de órdenes (order book) fuera de la cadena. Rápidos y baratos.</li>
+                    <li><strong>DEX:</strong> Usan AMMs (Automated Market Maker). <code>Uniswap v3</code> introdujo la <strong>liquidez concentrada</strong> para mayor eficiencia.</li>
+                    <li><strong>Agregadores (<code>1inch</code>):</strong> Enrutan las órdenes a través de múltiples DEX para encontrar el mejor precio.</li>
+                </ul>
+                <h4>El Problema del Oráculo</h4>
+                <p>Las blockchains no pueden acceder a datos externos de forma segura. Redes descentralizadas de oráculos como <code>Chainlink</code> resuelven esto, usando múltiples fuentes y precios promedio (<code>TWAP</code>/<code>VWAP</code>) para evitar manipulaciones.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">1.6 Casos de Uso y Aplicaciones</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <ul>
+                    <li><strong>Pagos y Remesas:</strong> Stablecoins en L2s (<code>Polygon</code>, <code>Arbitrum</code>) para transferencias globales, rápidas y baratas.</li>
+                    <li><strong>DeFi (Finanzas Descentralizadas):</strong> Un sistema financiero paralelo, abierto y componible (préstamos, seguros, derivados).</li>
+                    <li><strong>Identidad y Credenciales (<code>DID/VC</code>):</strong> "Sign-In with Ethereum" permite una identidad soberana sin contraseñas.</li>
+                    <li><strong>Gaming y Metaverso:</strong> Propiedad real de activos de juego (NFTs) y economías abiertas.</li>
+                    <li><strong>Tokenización de RWAs:</strong> Traer activos ilíquidos del mundo real a la liquidez y eficiencia de DeFi.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Notas Prácticas y de Seguridad</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <ul>
+                    <li><strong>Seguridad en Capas:</strong> Una auditoría no es una bala de plata. Se requiere una combinación de auditorías, bug bounties, monitoreo en tiempo real (<code>Forta</code>) y pausas de emergencia.</li>
+                    <li><strong>El MEV es un Impuesto Oculto:</strong> El Valor Máximo Extraíble (MEV) es una realidad. Usa soluciones con protección anti-MEV como <code>Flashbots</code>.</li>
+                    <li><strong>La Abstracción es la Clave para la Adopción:</strong> La complejidad es la mayor barrera. <code>ERC-4337</code> y las wallets inteligentes son el futuro de la UX.</li>
+                    <li><strong>La Regulación es Inevitable:</strong> Los proyectos que construyan con el cumplimiento normativo en mente tendrán una ventaja competitiva.</li>
+                    <li><strong>Verifica el Contrato, no solo el Nombre:</strong> Siempre interactúa con la dirección del contrato oficial verificada en exploradores como <code>Etherscan</code> para evitar estafas.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+        
+        const firstTopic = document.querySelector('.topic-card');
+        if(firstTopic) firstTopic.classList.add('open');
+    })();
+  </script>
+</body>
+</html>

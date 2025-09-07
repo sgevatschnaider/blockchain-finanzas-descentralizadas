@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Minería de Bitcoin: Guía Exhaustiva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #f97700 0%, #f5b100 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.9);
+      --bg-tertiary: rgba(248, 250, 252, 0.85);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #f97700;
+      --accent-secondary: #f5b100;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.9);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.9);
+      --bg-tertiary: rgba(45, 55, 72, 0.8);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #f97700;
+      --accent-secondary: #f5b100;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 8000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin: 2rem 0 1rem 0; font-weight: 700; border-left: 4px solid var(--accent-primary); padding-left: 1rem; }
+    .topic-content ul { padding-left: 20px; list-style-type: '✔ '; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; padding-left: 10px;}
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content em { font-style: italic; color: var(--accent-primary); }
+    
+    code { background-color: rgba(249, 119, 0, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500; }
+    pre { background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+    pre code { background: none; padding: 0; color: #f7fafc; }
+    [data-theme="dark"] code { background-color: rgba(249, 119, 0, 0.2); }
+    [data-theme="dark"] pre code { color: #f5b100; }
+
+    .diagram-container { background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .icon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; text-align: center; }
+    .grid-item { padding: 1.5rem; border-radius: 10px; background-color: var(--bg-tertiary); transition: var(--transition); }
+    .grid-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-card); }
+    .grid-item i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-primary); }
+    .grid-item h5 { color: var(--text-primary); font-size: 1rem; margin-bottom: 0.5rem; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">La Minería de Bitcoin</h1>
+      <p class="subtitle">Una Guía Exhaustiva para la Era Web3: Del Proceso Técnico a la Implementación con Python.</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">1. ¿Qué es la Minería y Cómo Funciona?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La minería de Bitcoin es la columna vertebral que sostiene la primera y más robusta red de criptomonedas. Lejos de ser una simple "fábrica de monedas digitales", es un complejo proceso computacional que valida transacciones, asegura la red contra ataques y emite nuevos bitcoins de manera predecible y descentralizada. Este mecanismo de consenso, denominado <strong>Prueba de Trabajo (<code>Proof of Work - PoW</code>)</strong>, es fundamental para el funcionamiento seguro de Bitcoin.</p>
+                
+                <h4>El Proceso Técnico Detallado</h4>
+                <p>El proceso sigue una serie de pasos rigurosos para añadir nueva información a la blockchain de forma segura.</p>
+                <ul>
+                    <li><strong>Recepción de Transacciones:</strong> Los nodos mineros recopilan las transacciones que los usuarios emiten a la red, las cuales esperan en un área de espera llamada <code>mempool</code>.</li>
+                    <li><strong>Construcción de un Bloque Candidato:</strong> El minero selecciona un conjunto de transacciones de la <code>mempool</code>, priorizando generalmente aquellas con las comisiones más altas, y las organiza en un nuevo bloque.</li>
+                    <li><strong>Resolución del Problema Criptográfico (PoW):</strong> El núcleo del proceso. El minero debe encontrar un valor (<code>nonce</code>) tal que al aplicar la función de hash <code>SHA-256</code> dos veces a la cabecera del bloque, el resultado sea un número inferior al objetivo de dificultad de la red. Este proceso es una "lotería" computacional que requiere una inmensa cantidad de intentos.</li>
+                    <li><strong>Verificación y Propagación:</strong> Una vez que un minero encuentra una solución válida, propaga su bloque resuelto al resto de la red. Los demás nodos verifican la validez. Si es correcta, añaden el bloque a su copia de la blockchain y comienzan a trabajar en el siguiente.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Recompensas y Economía de la Minería</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los mineros reciben dos tipos de incentivos económicos por su contribución a la red, asegurando que siempre haya participantes dispuestos a mantener la seguridad del sistema.</p>
+                <h4>Subsidio de Bloque</h4>
+                <p>Es una cantidad fija de bitcoins nuevos que se crea con cada bloque. Esta recompensa se reduce a la mitad cada 210,000 bloques (aproximadamente cada cuatro años), en un evento conocido como <em>halving</em>.</p>
+                <ul>
+                    <li><strong>Inicio (2009):</strong> 50 BTC por bloque.</li>
+                    <li><strong>Halving de 2024:</strong> La recompensa actual es de 3.125 BTC por bloque. [1, 2, 3]</li>
+                    <li><strong>Próximo Halving:</strong> Aproximadamente en 2028.</li>
+                </ul>
+                <h4>Tarifas de Transacción (Fees)</h4>
+                <p>Son las comisiones que los usuarios adjuntan a sus transacciones para incentivar a los mineros a incluirlas en un bloque. A medida que el subsidio de bloque disminuye, se espera que las comisiones se conviertan en la principal fuente de ingresos para los mineros, asegurando la sostenibilidad a largo plazo de la red. [3]</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. El Papel Crucial en la Seguridad de la Red</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La minería es el pilar de la seguridad de Bitcoin a través de varios mecanismos interconectados.</p>
+                <div class="diagram-container">
+                    <div class="icon-grid">
+                        <div class="grid-item">
+                            <i class="fas fa-link"></i>
+                            <h5>Inmutabilidad</h5>
+                            <p>Para modificar un bloque, un atacante necesitaría rehacer todo el trabajo de ese bloque y de los posteriores, superando el poder de cómputo de toda la red, lo cual es económicamente inviable.</p>
+                        </div>
+                        <div class="grid-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h5>Prevención del Doble Gasto</h5>
+                            <p>Al confirmar las transacciones en bloques inmutables, la minería asegura que una misma moneda no pueda ser gastada dos veces.</p>
+                        </div>
+                        <div class="grid-item">
+                            <i class="fas fa-globe"></i>
+                            <h5>Descentralización</h5>
+                            <p>Miles de mineros operando de forma independiente garantizan que ninguna entidad única pueda controlar la red o censurar transacciones. [4]</p>
+                        </div>
+                         <div class="grid-item">
+                            <i class="fas fa-balance-scale"></i>
+                            <h5>Dificultad Adaptativa</h5>
+                            <p>La dificultad se ajusta cada 2016 bloques (≈2 semanas) para mantener el tiempo de bloque en torno a 10 minutos, sin importar cambios en el poder de cómputo total. [5]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. Requisitos y Tendencias Actuales</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Requisitos para Minar Bitcoin</h4>
+                <p>La era de la minería con ordenadores personales ha quedado atrás. Hoy en día, la minería de Bitcoin es una industria altamente especializada.</p>
+                <ul>
+                    <li><strong>Hardware (ASICs):</strong> El único equipo viable son los <code>ASICs</code> (Circuitos Integrados de Aplicación Específica), diseñados exclusivamente para el algoritmo <code>SHA-256</code>. [6, 7]</li>
+                    <li><strong>Energía Eléctrica:</strong> Es el principal costo operativo. El acceso a energía barata y estable es crucial para la rentabilidad.</li>
+                    <li><strong>Infraestructura:</strong> Se requiere una conexión a internet estable y sistemas de refrigeración adecuados para el calor que generan los ASICs.</li>
+                </ul>
+
+                <h4>Evolución y Sostenibilidad</h4>
+                <p>El alto consumo energético del Proof-of-Work ha sido objeto de debate. Sin embargo, la industria está mostrando una creciente tendencia hacia la sostenibilidad.</p>
+                <ul>
+                    <li><strong>Fuentes Renovables:</strong> Una parte significativa y creciente de la minería utiliza energía hidroeléctrica, solar o eólica. [8, 9]</li>
+                    <li><strong>Energía Desperdiciada:</strong> La minería puede monetizar fuentes de energía que de otro modo se desperdiciarían, como el gas natural quemado en pozos petroleros (gas flaring).</li>
+                    <li><strong>Pools de Minería y Stratum V2:</strong> La mayoría de los mineros se unen a pools. El nuevo protocolo <code>Stratum V2</code> mejora la eficiencia y la descentralización al dar a los mineros más control sobre la selección de transacciones. [2, 5, 7]</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Guía Práctica para Desarrolladores Python</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los conceptos de blockchain y criptomonedas se pueden explorar y aplicar de manera práctica utilizando el ecosistema de librerías de Python.</p>
+                
+                <h4>Interactuando con Ethereum: <code>web3.py</code></h4>
+                <p>Para la blockchain de Ethereum, la librería <code>web3.py</code> es el estándar. Permite conectarse a un nodo, enviar transacciones, interactuar con contratos inteligentes y consultar datos.</p>
+                <pre><code>from web3 import Web3
+
+# Conectar a un nodo de Ethereum (ej. Infura)
+w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/TU_PROJECT_ID'))
+
+# Consultar el saldo de una dirección
+address = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+balance_wei = w3.eth.get_balance(address)
+balance_eth = w3.from_wei(balance_wei, 'ether')
+print(f"Saldo: {balance_eth} ETH")</code></pre>
+
+                <h4>Transacciones EIP-1559 en Python</h4>
+                <p><code>EIP-1559</code> introdujo un nuevo mecanismo de tarifas en Ethereum. La librería <code>web3.py</code> soporta completamente este tipo de transacciones, que incluyen una "tarifa base" (quemada) y una "propina" (para el validador).</p>
+                <pre><code># Transacción tipo EIP-1559 (ejemplo conceptual)
+transaction = {
+    'to': '0xRecipientAddress...',
+    'value': w3.to_wei(0.01, 'ether'),
+    'maxFeePerGas': w3.to_wei('250', 'gwei'),
+    'maxPriorityFeePerGas': w3.to_wei('3', 'gwei'),
+    # ... otros campos como nonce y chainId
+}
+# Firmar y enviar la transacción...
+</code></pre>
+
+                <h4>Seguridad y Soberanía: Gestión de Carteras</h4>
+                <p>El principio <em>"not your keys, not your coins"</em> es fundamental. Python puede ayudar a gestionar claves de forma segura.</p>
+                <ul>
+                    <li><strong>Hardware Wallets:</strong> La librería <code>HWI</code> (Hardware Wallet Interface) proporciona una API para interactuar con dispositivos como Ledger o Trezor, permitiendo firmar transacciones sin exponer las claves privadas.</li>
+                    <li><strong>Multi-Signature (Multisig):</strong> Se pueden crear scripts en Python para gestionar carteras multisig, que requieren múltiples firmas para autorizar una transacción, aumentando drásticamente la seguridad de los fondos.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const parentCard = header.parentElement;
+                const wasOpen = parentCard.classList.contains('open');
+                
+                // Cierra todas las tarjetas
+                document.querySelectorAll('.topic-card').forEach(card => {
+                    card.classList.remove('open');
+                });
+
+                // Si la tarjeta no estaba abierta, ábrela
+                if (!wasOpen) {
+                    parentCard.classList.add('open');
+                }
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+        
+        const firstTopic = document.querySelector('.topic-card');
+        if(firstTopic) firstTopic.classList.add('open');
+    })();
+  </script>
+</body>
+</html>

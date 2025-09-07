@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Monederos Web3: Con Custodia vs. Sin Custodia</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d0f1a;
+            --bg-gradient: linear-gradient(135deg, #101425 0%, #0d0f1a 100%);
+            --card-bg: rgba(22, 26, 44, 0.8);
+            --card-border: rgba(138, 43, 226, 0.2);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-accent: #A777FF;
+            --custodial-color: #ff9f43;
+            --non-custodial-color: #0abde3;
+            --warning-color: #f39c12;
+            --glow-custodial: rgba(255, 159, 67, 0.3);
+            --glow-non-custodial: rgba(10, 189, 227, 0.3);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-glow: 0 8px 32px rgba(138, 43, 226, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(138, 43, 226, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(10, 189, 227, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            background: var(--card-bg);
+            box-shadow: var(--shadow-glow);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(13, 15, 26, 0.9) 100%);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-accent), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .system-panel {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .system-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .custodial-panel {
+            border-right: 1px solid var(--card-border);
+        }
+
+        .custodial-panel::before {
+            background: linear-gradient(135deg, var(--glow-custodial) 0%, transparent 70%);
+        }
+
+        .non-custodial-panel::before {
+            background: linear-gradient(135deg, var(--glow-non-custodial) 0%, transparent 70%);
+        }
+
+        .system-panel:hover::before {
+            opacity: 1;
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .panel-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .custodial-title { color: var(--custodial-color); }
+        .non-custodial-title { color: var(--non-custodial-color); }
+
+        .panel-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .network-visualization {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .network-svg {
+            width: 280px;
+            height: 280px;
+            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        /* SVG Styles */
+        .node, .icon { transition: var(--transition); cursor: pointer; }
+        .link { stroke-width: 2; opacity: 0.5; transition: var(--transition); }
+        .system-panel:hover .link { opacity: 1; stroke-width: 3; }
+        .system-panel:hover .node { transform: scale(1.1); }
+        
+        .custodial-panel .link { stroke: var(--custodial-color); }
+        .custodial-panel .central-vault { fill: var(--custodial-color); filter: drop-shadow(0 0 10px var(--glow-custodial)); }
+        .custodial-panel .user-node { fill: #64748b; }
+
+        .non-custodial-panel .link { stroke: var(--non-custodial-color); }
+        .non-custodial-panel .user-node { fill: var(--non-custodial-color); filter: drop-shadow(0 0 8px var(--glow-non-custodial)); }
+        .non-custodial-panel .blockchain-node { fill: #64748b; }
+        
+        .key-icon { fill: var(--text-accent); }
+
+        .technical-specs {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .spec-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex; align-items: center; font-size: 0.9rem;
+            color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;
+        }
+
+        .spec-icon { margin-right: 0.75rem; font-size: 1.1rem; }
+        .good { color: #2ed573; }
+        .bad { color: #ff4757; }
+        .warning { color: var(--warning-color); }
+
+        .use-cases { margin-top: auto; }
+
+        .use-cases-title {
+            font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-accent);
+        }
+
+        .use-case {
+            display: flex; align-items: center; margin-bottom: 0.75rem;
+            padding: 0.5rem; border-radius: 8px; background: rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .use-case:hover {
+            background: rgba(167, 119, 255, 0.05); transform: translateX(5px);
+        }
+        
+        .use-case-icon { margin-right: 1rem; font-size: 1.2rem; width: 24px; text-align: center; }
+        .use-case-text { font-size: 0.9rem; color: var(--text-secondary); }
+        
+        .example-list {
+            display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem;
+        }
+
+        .example-tag {
+            background: rgba(167, 119, 255, 0.1); color: var(--text-accent);
+            padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(167, 119, 255, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+            .custodial-panel { border-right: none; border-bottom: 1px solid var(--card-border); }
+            .main-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1 class="main-title">Monederos Web3: El Dilema de la Custodia</h1>
+            <p class="subtitle">¿Quién controla realmente tus llaves privadas?</p>
+        </div>
+
+        <div class="comparison-grid">
+            <!-- Monedero con Custodia -->
+            <div class="system-panel custodial-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title custodial-title">
+                        <i class="fas fa-building-lock"></i> Con Custodia
+                    </h2>
+                    <p class="panel-description">
+                        "Un tercero (exchange) guarda tus llaves. Confías en ellos para proteger tus fondos."
+                    </p>
+                </div>
+
+                <div class="network-visualization">
+                    <svg viewBox="0 0 300 300" class="network-svg">
+                        <defs>
+                            <g id="user-icon">
+                                <circle cx="0" cy="-8" r="8"/>
+                                <path d="M -12 12 a 12 12 0 0 1 24 0 z"/>
+                            </g>
+                        </defs>
+                        <!-- Vault -->
+                        <rect class="central-vault node" x="100" y="100" width="100" height="100" rx="10"/>
+                        <circle class="central-vault node" cx="150" cy="140" r="10" />
+                        <rect class="central-vault node" x="147" y="150" width="6" height="15" />
+
+                        <!-- Key inside vault -->
+                        <path class="key-icon icon" d="M145 115 h-5 v-5 a10 10 0 1 1 20 0 v5 h-5 m5 -5 v-5" stroke-width="3" stroke="#A777FF" fill="none" />
+
+                        <!-- Users -->
+                        <g transform="translate(50,50)"><use href="#user-icon" class="user-node node"/></g>
+                        <g transform="translate(250,50)"><use href="#user-icon" class="user-node node"/></g>
+                        <g transform="translate(50,250)"><use href="#user-icon" class="user-node node"/></g>
+                        <g transform="translate(250,250)"><use href="#user-icon" class="user-node node"/></g>
+                        
+                        <!-- Links -->
+                        <line class="link" x1="60" y1="60" x2="110" y2="110"/>
+                        <line class="link" x1="240" y1="60" x2="190" y2="110"/>
+                        <line class="link" x1="60" y1="240" x2="110" y2="190"/>
+                        <line class="link" x1="240" y1="240" x2="190" y2="190"/>
+                    </svg>
+                </div>
+
+                <div class="technical-specs">
+                    <div class="spec-grid">
+                        <div class="spec-item"><i class="fas fa-check-circle spec-icon good"></i><span>Conveniencia</span></div>
+                        <div class="spec-item"><i class="fas fa-undo spec-icon good"></i><span>Recuperación fácil</span></div>
+                        <div class="spec-item"><i class="fas fa-key spec-icon bad"></i><span>No son tus llaves</span></div>
+                        <div class="spec-item"><i class="fas fa-ban spec-icon bad"></i><span>Riesgo de censura</span></div>
+                    </div>
+                </div>
+
+                <div class="use-cases">
+                    <h3 class="use-cases-title">Ideal Para:</h3>
+                    <div class="use-case"><i class="fas fa-user-graduate use-case-icon"></i><span class="use-case-text">Principiantes en cripto</span></div>
+                    <div class="use-case"><i class="fas fa-chart-line use-case-icon"></i><span class="use-case-text">Traders de alta frecuencia</span></div>
+                    <div class="example-list">
+                        <span class="example-tag">Binance</span>
+                        <span class="example-tag">Coinbase</span>
+                        <span class="example-tag">Kraken</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monedero sin Custodia -->
+            <div class="system-panel non-custodial-panel">
+                 <div class="panel-header">
+                    <h2 class="panel-title non-custodial-title">
+                        <i class="fas fa-user-shield"></i> Sin Custodia
+                    </h2>
+                    <p class="panel-description">
+                        "Tú y solo tú controlas tus llaves. Eres tu propio banco, con total soberanía y responsabilidad."
+                    </p>
+                </div>
+
+                <div class="network-visualization">
+                    <svg viewBox="0 0 300 300" class="network-svg">
+                         <!-- User -->
+                        <g transform="translate(150,150)"><use href="#user-icon" class="user-node node"/></g>
+                        <!-- Key in user's hand -->
+                        <path class="key-icon icon" d="M170 150 h-5 v-5 a10 10 0 1 1 20 0 v5 h-5 m5 -5 v-5" stroke-width="4" stroke="#A777FF" fill="none" transform="translate(-5, -5) rotate(45, 175, 145)" />
+
+                        <!-- Blockchain network -->
+                        <circle class="blockchain-node node" cx="50" cy="50" r="15"/>
+                        <circle class="blockchain-node node" cx="250" cy="50" r="15"/>
+                        <circle class="blockchain-node node" cx="50" cy="250" r="15"/>
+                        <circle class="blockchain-node node" cx="250" cy="250" r="15"/>
+                        <circle class="blockchain-node node" cx="150" cy="25" r="15"/>
+                        
+                        <!-- Links -->
+                        <line class="link" x1="150" y1="130" x2="50" y2="65"/>
+                        <line class="link" x1="150" y1="130" x2="250" y2="65"/>
+                        <line class="link" x1="150" y1="170" x2="50" y2="235"/>
+                        <line class="link" x1="150" y1="170" x2="250" y2="235"/>
+                        <line class="link" x1="150" y1="130" x2="150" y2="40"/>
+                    </svg>
+                </div>
+
+                 <div class="technical-specs">
+                    <div class="spec-grid">
+                        <div class="spec-item"><i class="fas fa-lock spec-icon good"></i><span>Control total</span></div>
+                        <div class="spec-item"><i class="fas fa-globe-americas spec-icon good"></i><span>Acceso a DeFi/dApps</span></div>
+                        <div class="spec-item"><i class="fas fa-exclamation-triangle spec-icon warning"></i><span>100% Responsabilidad</span></div>
+                        <div class="spec-item"><i class="fas fa-skull-crossbones spec-icon bad"></i><span>Riesgo de pérdida total</span></div>
+                    </div>
+                </div>
+
+                <div class="use-cases">
+                    <h3 class="use-cases-title">Esencial Para:</h3>
+                    <div class="use-case"><i class="fas fa-atom use-case-icon"></i><span class="use-case-text">Usuarios de DeFi y Staking</span></div>
+                    <div class="use-case"><i class="fas fa-palette use-case-icon"></i><span class="use-case-text">Coleccionistas de NFTs</span></div>
+                    <div class="example-list">
+                        <span class="example-tag">MetaMask</span>
+                        <span class="example-tag">Ledger</span>
+                        <span class="example-tag">Phantom</span>
+                        <span class="example-tag">Trust Wallet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+</body>
+</html>
