@@ -15,7 +15,31 @@
 - Evaluar **riesgos**: privacidad/PII, *key management*, disponibilidad de datos.
 
 ---
+### Parte I: Fundamentos de Ciberseguridad
 
+| Recurso / Descripción | Enlace Directo |
+| :--- | :--- |
+| **Teoría: Fundamentos de Ciberseguridad** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Explora los pilares de la seguridad digital: la tríada CIA, la diferencia entre amenaza, vulnerabilidad y riesgo, los principios de Zero Trust, la criptografía esencial (hash, cifrado, firmas), GRC y el ciclo de respuesta a incidentes.</p></details> | [![Abrir Teoría](https://img.shields.io/badge/Leer_Teoría-HTML5-blue?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Parte%20I%20%E2%80%94%20Fundamentos%20de%20Ciberseguridad-Teoria.html) |
+| **Cuestionario (FAQ): Fundamentos** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Responde a las preguntas más comunes sobre los conceptos básicos de ciberseguridad en un formato interactivo y visual. Cada pregunta incluye un diagrama Mermaid para reforzar el aprendizaje.</p></details> | [![Abrir Cuestionario](https://img.shields.io/badge/Iniciar_FAQ-HTML5-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Parte%20I%20%E2%80%94%20Fundamentos%20de%20Ciberseguridad-Cuestionario.html) |
+| **Glosario: Fundamentos** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Define de manera visual e interactiva los términos clave de la ciberseguridad fundamental, como `AES-GCM`, `BIA`, `RTO`, `RPO`, `MFA` y `Zero Trust`, entre otros.</p></details> | [![Abrir Glosario](https://img.shields.io/badge/Ver_Glosario-HTML5-purple?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Parte%20I-Fundamentos%20de%20Ciberseguridad-Glosario.html) |
+
+---
+
+### Parte II: Tipos y Dominios de Ciberseguridad
+
+| Recurso / Descripción | Enlace Directo |
+| :--- | :--- |
+| **Teoría: Dominios de Ciberseguridad** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Profundiza en las áreas especializadas de la ciberseguridad moderna: seguridad de redes, endpoints, aplicaciones (DevSecOps), nube (Cloud Security), datos, identidad (IAM/PAM) y sistemas industriales (OT/ICS).</p></details> | [![Abrir Teoría](https://img.shields.io/badge/Leer_Teoría-HTML5-blue?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Parte%20II%20%E2%80%94%20Tipos%20de%20Ciberseguridad%E2%80%94Teoria.html) |
+| **Cuestionario (FAQ): Avanzado** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Responde preguntas clave sobre dominios avanzados: segmentación de red, diferencias entre WAF y NGFW, ventajas de ZTNA sobre VPN, hardening de endpoints, EDR/XDR, seguridad en CI/CD y el modelo de responsabilidad compartida en la nube.</p></details> | [![Abrir Cuestionario](https://img.shields.io/badge/Iniciar_FAQ-HTML5-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Parte%20II%20%E2%80%94%20Tipos%20de%20Ciberseguridad%E2%80%94Cuestionario.html) |
+| **Glosario: Avanzado** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Define conceptos profesionales y herramientas específicas de los dominios de ciberseguridad, como `ABAC`, `API Gateway`, `CIEM`, `SBOM` y el ciclo de vida de identidades `JML`.</p></details> | [![Abrir Glosario](https://img.shields.io/badge/Ver_Glosario-HTML5-purple?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Parte%20II%20%E2%80%94%20Tipos%20de%20Ciberseguridad%E2%80%94Glosario.html) |
+
+---
+
+### Anexo: Aplicación Práctica
+
+| Recurso / Descripción | Enlace Directo |
+| :--- | :--- |
+| **Demo Interactiva: Del Sensor al Smart Contract** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una página interactiva que visualiza la arquitectura completa de un pipeline IoT a Blockchain. Muestra el flujo desde el sensor, pasando por el gateway y el almacenamiento IPFS, hasta la ejecución en un smart contract, con métricas de latencia y costo.</p></details> | [![Abrir Demo](https://img.shields.io/badge/Abrir_Demo-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Del%20sensor%20al%20smart%20contract.html) |
 ## 🗺️ Plan de trabajo (visión general)
 
 - **Sección 3 (3 días)**
