@@ -15,6 +15,24 @@
 - Evaluar **riesgos**: privacidad/PII, *key management*, disponibilidad de datos.
 
 ---
+
+# Módulo de Integración Avanzada: IoT, IA y Blockchain
+
+Este módulo explora las arquitecturas y técnicas para construir sistemas ciberfísicos confiables, combinando la captura de datos del mundo real (IoT), la inteligencia predictiva (IA/ML) y una capa de confianza y automatización (Blockchain).
+
+| Recurso / Descripción | Enlace Directo |
+| :--- | :--- |
+| **Teoría: Integración ML, IoT, Blockchain** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Documento técnico exhaustivo que detalla la arquitectura de referencia para sistemas ciberfísicos. Cubre desde la identidad del dispositivo y la gobernanza de datos hasta el diseño de oráculos, contratos inteligentes, integración de IA/ML, seguridad y tokenomics, con casos de uso aplicados a Cadena de Frío y Microrredes de Energía.</p></details> | [![Abrir Teoría](https://img.shields.io/badge/Leer_Teoría-HTML5-blue?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-iot-ia-metaverso/html/Integracion%20ML%2C%20IOT%2C%20Blockchain-Teoria.html) |
+| **Cuestionario (FAQ): Integración Avanzada** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Responde a 20 preguntas técnicas clave sobre los desafíos de integrar IoT, IA y Blockchain. Explora cómo garantizar la integridad de los datos, diseñar oráculos seguros, gestionar costos de gas, implementar SLAs on-chain y resolver disputas con evidencia criptográfica verificable.</p></details> | [![Abrir Cuestionario](https://img.shields.io/badge/Iniciar_FAQ-HTML5-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-iot-ia-metaverso/html/Integracion%20ML%2C%20IOT%2C%20Blockchain-Cuestionario.html) |
+| **Glosario: Integración Avanzada** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Referencia visual e interactiva de los conceptos técnicos avanzados para la integración de IoT y Blockchain. Define términos como `Anclaje on-chain`, `Aprendizaje federado`, `DID`, `Oráculo`, `Slashing`, `Timelock` y `Pruebas de Conocimiento Cero`.</p></details> | [![Abrir Glosario](https://img.shields.io/badge/Ver_Glosario-HTML5-purple?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-iot-ia-metaverso/html/Integracion%20ML%2C%20IOT%2C%20Blockchain-Glosario.html) |
+
+---
+
+### Visualizaciones y Demos
+
+| Demostración / Descripción | Enlace Directo |
+| :--- | :--- |
+| **Dashboard: Gemelos Digitales** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Dashboard interactivo que visualiza el estado de un Gemelo Digital en tiempo real. Muestra KPIs clave, la salud del activo físico, series temporales de sensores, un timeline de eventos críticos y el flujo de datos desde el sensor hasta el anclaje en blockchain.</p></details> | [![Abrir Dashboard](https://img.shields.io/badge/Ver_Visualización-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-iot-ia-metaverso/html/gemelos_digitales.html) |
 ### Parte I: Fundamentos de Ciberseguridad
 
 | Recurso / Descripción | Enlace Directo |
