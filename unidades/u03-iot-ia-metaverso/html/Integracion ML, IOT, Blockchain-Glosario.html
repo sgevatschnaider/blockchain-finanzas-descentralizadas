@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glosario Avanzado: IoT, Blockchain y Ciberseguridad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --danger-color: #e74c3c;
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+      --danger-color: #ff7979;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 15000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    
+    .mermaid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .mermaid-container {
+        background: rgba(0,0,0,0.2);
+    }
+    .mermaid {
+        width: 100%;
+        text-align: center;
+    }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Glosario Avanzado de IoT y Blockchain</h1>
+      <p class="subtitle">Conceptos clave para la integración de sistemas físicos y digitales descentralizados.</p>
+    </header>
+
+    <div class="lesson-container">
+
+        <!-- A -->
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">Anclaje on-chain</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El anclaje on-chain es la práctica de registrar en una cadena de bloques un compromiso criptográfico —generalmente un <code>hash</code>— que representa un conjunto de datos almacenados fuera de la cadena. En la cadena de frío, cada ventana de lecturas de temperatura y shock se resume en un <code>Merkle root</code> y se escribe en un contrato, permitiendo demostrar después que un archivo en <code>IPFS</code> con todas las mediciones no ha sido alterado. En la microrred, el oráculo de energía publica anclajes de los paquetes de lecturas del medidor para que cualquier disputa sobre <code>kWh</code> consumidos pueda resolverse verificando firmas y hashes.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Datos Off-chain<br>(Lecturas, Archivos)"] --> B{"Cálculo de Hash<br>(Merkle Root)"};
+                        B -- "Anclaje" --> C[("Blockchain L2/L1")];
+                        C -- "Verifica integridad de" --> A;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Aprendizaje federado</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El aprendizaje federado es un enfoque de entrenamiento de modelos de ML donde los datos permanecen en su origen y solo se comparten actualizaciones de parámetros o gradientes. Es útil cuando existen restricciones de privacidad o de ancho de banda. Un operador logístico podría mantener los datos brutos de sensores en sus instalaciones y contribuir a un modelo de predicción de excursiones térmicas enviando únicamente pesos actualizados; la cadena de bloques puede recompensar esas contribuciones en función de la mejora del modelo registrada y auditada.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Sitio 1 (Edge)"
+                            A["Datos Locales"] --> B{"Modelo Local"}
+                        end
+                        subgraph "Sitio 2 (Edge)"
+                            C["Datos Locales"] --> D{"Modelo Local"}
+                        end
+                        B -- "Envía Actualizaciones" --> E("Modelo Global Agregado")
+                        D -- "Envía Actualizaciones" --> E
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Auditor on-chain</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El auditor on-chain es una entidad con permisos definidos en un contrato que certifica o impugna eventos basándose en evidencia anclada. En el SLA de cadena de frío, el auditor marca un envío como incumplido si las ventanas ancladas muestran minutos acumulados fuera de rango; en energía, podría validar reportes del oráculo antes de que se habiliten retiros de fondos. Puede ser un <code>multisig</code>, un comité con <code>staking</code> o una <code>DAO</code> con quórum.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Evidencia Anclada"] --> B{"Auditor On-Chain"};
+                        B -- "Certifica" --> C["Acción Válida (ej. Pago)"];
+                        B -- "Impugna" --> D["Acción Inválida (ej. Penalización)"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- B -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Batching</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El batching es la agrupación de múltiples eventos en un solo lote para reducir costos y mejorar rendimiento. El oráculo de cadena de frío agrega cientos de lecturas en una ventana de cinco minutos y publica un único compromiso on-chain; el oráculo de energía procesa lecturas acumuladas y deriva un único delta por ventana, minimizando transacciones y <code>gas</code>.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Evento 1"] --> D{"Agregador (Oráculo)"};
+                        B["Evento 2"] --> D;
+                        C["..."] --> D;
+                        D -- "Publica Lote" --> E["Una Transacción On-Chain"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Blockchain L1/L2</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una <code>L1</code> es una cadena base con seguridad propia, como Ethereum. Una <code>L2</code> es una solución de escalado que hereda seguridad anclándose periódicamente a una L1, como un rollup. Los casos descritos favorecen L2 para abaratar anclajes frecuentes de telemetría y dejan a la L1 el rol de árbitro de última instancia. La elección equilibra costo por transacción, latencia de finalización y herramientas disponibles.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "L2 (Rollup - Alta Frecuencia)"
+                            A["Transacciones de Telemetría"]
+                        end
+                        subgraph "L1 (Ethereum - Baja Frecuencia)"
+                            B["Capa de Seguridad y Consenso"]
+                        end
+                        A -- "Anclaje Periódico de Pruebas" --> B;
+                        B -- "Hereda Seguridad" --> A;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Bridge (puente)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un puente es un mecanismo para mover activos o mensajes entre cadenas distintas. En estos proyectos se usa para coordinar pagos o verificaciones cuando el anclaje de datos vive en una <code>L2</code> y la tesorería del comprador en una <code>L1</code>; el diseño debe considerar seguridad del puente y tiempos de finalización para evitar inconsistencias durante disputas.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Blockchain A (L2)"] <--> C{"Puente"};
+                        C <--> B["Blockchain B (L1)"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- C -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">CBOR</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>CBOR</code> (Concise Binary Object Representation) es un formato binario eficiente para codificar mensajes. Frente a <code>JSON</code> reduce tamaño y consumo de energía, algo crítico en sensores de cadena de frío o medidores AMI. El gateway suele traducir CBOR a JSON para depuración y a estructuras firmadas que el oráculo entiende y valida.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Sensor<br>Dato Nativo"] -- "Formato CBOR (eficiente)" --> B("Gateway");
+                        B -- "Formato JSON (legible)" --> C["Plataforma Cloud<br>(Depuración)"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Canal contable M2M</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un canal contable M2M es la relación contractual que registra consumos y pagos entre dos máquinas. En la microrred, el comprador abre un canal con un límite de gasto y un precio por <code>kWh</code>; el oráculo acredita montos a favor del vendedor a medida que se publican deltas de consumo y el vendedor retira fondos contra una aprobación <code>ERC-20</code> del comprador. El canal puede cerrarse cuando se alcanza el tope o termina la sesión.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Comprador
+                        participant Contrato
+                        participant Oráculo
+                        participant Vendedor
+                        Comprador->>Contrato: 1. Abrir canal (Aprobar ERC-20)
+                        Oráculo->>Contrato: 2. Acreditar consumo (kWh)
+                        Vendedor->>Contrato: 3. Retirar fondos
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Cadena de frío</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La cadena de frío es la logística que mantiene productos sensibles dentro de un rango térmico. El sistema propuesto instrumenta sensores que firman lecturas, gateways que normalizan y oráculos que anclan ventanas y reportes. El contrato <code>SLA</code> liquida automáticamente pagos o penalizaciones según umbrales, dejando trazabilidad completa para auditorías regulatorias.</p>
+                <div class="mermaid-container">
+                     <pre class="mermaid">
+                     graph LR
+                        A["Sensor"] -- "Firma Lecturas" --> B("Gateway");
+                        B -- "Normaliza" --> C("Oráculo");
+                        C -- "Ancla en" --> D[("Blockchain")];
+                        D -- "Ejecuta" --> E{"Contrato SLA"};
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">CID</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un <code>CID</code> (Content Identifier) es el identificador de contenido de <code>IPFS</code> derivado del hash del archivo. En ambos casos, lecturas, reportes de calidad, modelos y datasets se suben a IPFS y se referencian por su CID desde la cadena. Esta relación asegura que cualquier parte pueda recuperar exactamente la versión auditada.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Archivo de Datos"] -- "Hash" --> B("CID");
+                        B -- "Usado como Dirección" --> C["Contenido en IPFS"];
+                        D[("Contrato On-Chain")] -- "Guarda Referencia al CID" --> B;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Capa de disponibilidad de datos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La capa de disponibilidad de datos es una infraestructura para publicar grandes volúmenes de datos de manera barata pero verificable, cuya integridad se asegura anclándola a una cadena segura. Es útil cuando se quiere anclar telemetría de alta frecuencia sin saturar la cadena. Los contratos conservan solo los compromisos criptográficos y referencias a esta capa.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Datos Masivos (Telemetría)"] --> B["Capa de Disponibilidad de Datos"];
+                        B -- "Genera Compromiso (Hash)" --> C[("Blockchain Segura L1")];
+                        C -- "Ancla y asegura" --> B;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Credenciales verificables</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Las credenciales verificables son afirmaciones firmadas criptográficamente sobre una entidad. Un fabricante puede emitir una credencial al sensor indicando su calibración; el gateway la presenta al oráculo para reforzar confianza. El verificador comprueba la firma sin contactar al emisor, preservando privacidad y resiliencia.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Emisor
+                        participant Sujeto
+                        participant Verificador
+                        Emisor->>Sujeto: Emite Credencial Firmada
+                        Sujeto->>Verificador: Presenta Credencial
+                        Verificador->>Verificador: Verifica Firma
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- D -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">DAO</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una <code>DAO</code> (organización autónoma descentralizada) es un esquema de gobernanza coordinado por contratos inteligentes. Puede administrar parámetros de un protocolo de datos IoT, como requisitos de staking para oráculos o tarifas por suscripción, usando votaciones on-chain y timelocks para cambios sensibles.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Miembros con Tokens"] -- "Proponen y Votan" --> B{"Contratos de Gobernanza"};
+                        B -- "Ejecutan Cambios" --> C["Contratos del Protocolo"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Delta de kWh</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El delta de kWh es la energía consumida entre dos lecturas acumuladas de un medidor. Calcular deltas a partir de un contador monotónico evita errores si se pierden paquetes. El oráculo de energía valida que la lectura total no disminuya y deriva el delta para contabilizar pagos.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                        gantt
+                            title Cálculo de Delta
+                            dateFormat  X
+                            axisFormat %s
+                            section Lecturas
+                            Lectura 1 (100 kWh) : 0, 1
+                            Lectura 2 (105 kWh) : 10, 1
+                            Delta (5 kWh)       : crit, 0, 10
+                     </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">DID</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un <code>DID</code> (Decentralized Identifier) es un identificador criptográfico que no depende de una autoridad central y que puede resolverse para obtener claves y metadatos. Dispositivos, gateways y oráculos usan DIDs para afirmar su identidad; los contratos almacenan claves públicas asociadas para validar permisos y acciones.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Verificador
+                        participant "DID Resolver"
+                        participant "DID Document"
+                        Verificador->>"DID Resolver": "resolve(did:xyz:123)"
+                        "DID Resolver"->>"DID Document": "Busca y recupera"
+                        "DID Document"-->>Verificador: "Contiene Claves Públicas"
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">DevSecOps</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>DevSecOps</code> integra seguridad a lo largo del ciclo de vida de desarrollo y operación. En estos proyectos implica firmas de artefactos, análisis estático de contratos, pruebas de carga del oráculo, monitoreo continuo y playbooks de respuesta. El objetivo es que cada cambio de firmware, modelo o contrato deje evidencia y pueda revertirse rápidamente si algo falla.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Plan"] --> B["Code"] --> C["Build"] --> D["Test"] --> E["Release"] --> F["Deploy"] --> G["Operate"] --> H["Monitor"]
+                        subgraph "Seguridad Continua"
+                            direction LR
+                            B -- "SAST" --> C -- "Firmas" --> D -- "Fuzzing" --> G -- "Alertas" --> H
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- E -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Edge computing</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El edge computing acerca el procesamiento al lugar donde se generan los datos. El gateway ejecuta validaciones, inferencia de modelos pequeños y filtrado antes de enviar a la nube o a la cadena, reduciendo latencias y consumo de ancho de banda. En frío detecta tempranamente tendencia a excursión y dispara alertas locales; en energía señala anomalías de consumo.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Sensor"] --> B{"Gateway (Edge)"};
+                        B -- "Procesa y Filtra" --> C["Cloud / Blockchain"];
+                        B -- "Alerta Local Inmediata" --> D["Actuador Local"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">EIP-712</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>EIP-712</code> define firmas de datos estructurados en Ethereum para evitar ataques de “firma ciega”. En versiones avanzadas, el oráculo podría publicar mensajes firmados EIP-712 por el medidor y permitir que el contrato verifique on-chain, aumentando garantías a costa de más gas.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Datos Estructurados<br>(Ej: Lectura de Medidor)"] --> B{"Firma EIP-712"};
+                        B -- "Firma legible y segura" --> C["Usuario/Dispositivo"];
+                        C --> D{Contrato};
+                        D -- "Verifica On-chain" --> B
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">ERC-20 y allowance</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>ERC-20</code> es el estándar de tokens fungibles. El <code>allowance</code> (permiso) es la autorización que un usuario otorga a un contrato para transferir en su nombre hasta un monto. En la microrred, el comprador aprueba al contrato de liquidación para que el vendedor pueda retirar pagos cuando el oráculo acredita consumo. Esto evita múltiples firmas interactivas y hace fluido el cobro.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Comprador
+                        participant ContratoSLA
+                        participant Vendedor
+                        Comprador->>ContratoSLA: approve(vendedor, 100)
+                        Note right of Comprador: "Permito al contrato<br>mover hasta 100 tokens"
+                        Vendedor->>ContratoSLA: transferFrom(comprador, 20)
+                        Note right of Vendedor: "Cobro 20 tokens<br>con el permiso del comprador"
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Eventos de contrato</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los eventos son logs emitidos por contratos que indexadores pueden escuchar. Son esenciales para auditar y construir paneles. Cada compromiso de ventana, marca de incumplimiento de SLA o publicación de delta de kWh emite un evento con identificadores y CIDs que conectan on-chain y off-chain.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A{Contrato Inteligente} -- "Emite Evento" --> B[("Log en Blockchain")];
+                        B --> C["Servicio Indexador"];
+                        C --> D["API / Panel de Control"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Excursión térmica</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una excursión térmica es la permanencia del producto fuera de su rango de temperatura permitido. El contrato <code>SLA</code> codifica umbrales, tolerancias de minutos acumulados y consecuencias económicas. La evidencia de excursión se fundamenta en lecturas firmadas y ancladas que el auditor puede verificar.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Lectura de Temperatura<br>(Fuera de Rango)"] --> B{"Contrato SLA"};
+                        B -- "Acumula Minutos" --> C{"Supera Umbral?"};
+                        C -- "Sí" --> D["Aplica Penalización"];
+                        C -- "No" --> E["Continúa Monitoreo"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- F -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Feature store</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La feature store es el repositorio consistente de variables derivadas usadas por modelos. En frío guarda, por lote y ventana, gradientes de temperatura, tiempos fuera de rango y patrones de vibración; en energía conserva factores de potencia, estacionalidad y picos. Cada snapshot se versiona y se enlaza a un hash on-chain para trazabilidad.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Datos Crudos"] --> B["Proceso de<br>Ingeniería de Características"];
+                        B --> C{"Feature Store"};
+                        C --> D["Entrenamiento de Modelo"];
+                        C --> E["Inferencia en Producción"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Finalidad (finality)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La finalidad es el punto a partir del cual una transacción es irreversible con alta probabilidad. Afecta cuándo liberar pagos o cerrar disputas. En L2 optimistas hay una ventana de desafío más larga; en L2 de validez la finalidad efectiva es más rápida. Las políticas de negocio deben alinearse con estas propiedades.</p>
+                <div class="mermaid-container">
+                     <pre class="mermaid">
+                        gantt
+                            title Comparación de Finalidad
+                            dateFormat  X
+                            axisFormat %s min
+                            section L2 Optimista
+                            Transacción       : 0, 1
+                            Finalidad en L1   : 10, 1
+                            Ventana de Desafío : crit, 0, 10
+                            
+                            section L2 ZK (Validez)
+                            Transacción : 0, 1
+                            Finalidad en L1 : 2, 1
+                     </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- G -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Gas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El <code>gas</code> es el costo computacional de ejecutar operaciones en EVM. Diseñar estructuras compactas, usar batching y separar lectura en indexadores reduce gas. Es clave dimensionar cuánto cuesta, por envío o por sesión de carga, la parte on-chain para asegurar viabilidad económica.</p>
+                <div class="mermaid-container">
+                     <pre class="mermaid">
+                        pie title Factores de Costo de Gas
+                        "Escritura en Storage" : 45
+                        "Lógica Compleja" : 30
+                        "Llamadas a otros Contratos" : 15
+                        "Otros" : 10
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Gateway IoT</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El gateway es el concentrador de borde que recibe mensajes de dispositivos, normaliza formatos, enriquece con metadatos (hora, firmware, ubicación), aplica reglas de calidad y reenvía al oráculo. También hospeda modelos ligeros y administra actualizaciones OTA. Es el primer filtro contra relojes erráticos y mensajes mal formados.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Sensor 1"] -- MQTT --> C{Gateway};
+                        B["Sensor 2"] -- LoRaWAN --> C;
+                        C -- "Normaliza y Agrega" --> D["Oráculo / Cloud"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Gobernanza on-chain</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La gobernanza on-chain es el proceso de cambiar parámetros y módulos del sistema mediante reglas codificadas. Permite ajustar precios de suscripción, requisitos de staking o pausas de emergencia con transparencia. Un timelock evita cambios súbitos y da tiempo a la comunidad a reaccionar.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Comunidad
+                        participant "Contrato de Votación"
+                        participant Timelock
+                        participant "Contrato de Protocolo"
+                        Comunidad->>"Contrato de Votación": Propone y Vota Cambio
+                        "Contrato de Votación"->>Timelock: Encola Transacción si se aprueba
+                        Timelock->>"Contrato de Protocolo": Ejecuta tras el retraso
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Gemelo digital</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El gemelo digital es la representación virtual de un activo físico que se actualiza con eventos del mundo real. En frío, el gemelo de un envío integra estado térmico, posición y cumplimiento. En energía, el gemelo de un cargador refleja sesiones, potencias y salud. El respaldo con anclajes on-chain da auditoría fuerte al gemelo.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Activo Físico<br>(Sensor)"] -- "Datos en Tiempo Real" --> B{"Gemelo Digital"};
+                        B -- "Anclaje de Estados Críticos" --> C[("Blockchain")];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- H -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Hash y árbol de Merkle</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un <code>hash</code> es una huella criptográfica de tamaño fijo; un árbol de Merkle combina muchos hashes hoja en un único <code>hash raíz</code>. Publicar el Merkle root de miles de lecturas permite probar que una lectura específica estaba incluida sin revelar todas. Es el vehículo perfecto para anclar telemetría a bajo costo.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Árbol de Merkle"
+                            H1234("Merkle Root")
+                            H12("Hash 1-2") --> H1234
+                            H34("Hash 3-4") --> H1234
+                            H1["Hash(Lectura 1)"] --> H12
+                            H2["Hash(Lectura 2)"] --> H12
+                            H3["Hash(Lectura 3)"] --> H34
+                            H4["Hash(Lectura 4)"] --> H34
+                        end
+                        H1234 -- "Anclado en" --> Blockchain[("Blockchain")];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">HSM, TPM, SE y eSIM IoT SAFE</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Estos son módulos de hardware que almacenan y usan claves de manera segura. Un <code>HSM</code> protege claves de servidores; un <code>TPM</code> o un <code>Secure Element</code> embebido en el sensor firma lecturas; una <code>eSIM</code> con perfil <code>IoT SAFE</code> puede realizar operaciones criptográficas. Su uso asegura que las firmas de dispositivo no puedan extraerse ni falsificarse fácilmente.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Clave Privada"] -- "Resguardada en" --> B{"Hardware Seguro (TPM/SE)"};
+                        B -- "Realiza Firma Interna" --> C["Firma Criptográfica"];
+                        D["Software del Dispositivo"] -- "No puede acceder a" --> A;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- I -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Identidad de dispositivo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La identidad de dispositivo es el conjunto de atributos y claves que permiten reconocer y autorizar a un equipo. Se materializa con un <code>DID</code> y una clave pública registrada on-chain. La gestión contempla alta, rotación, revocación y atestación del estado del firmware antes de permitirle publicar.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                        graph TD
+                            A("Identificador Único (DID)")
+                            B("Clave Pública")
+                            C("Estado: Activo/Revocado")
+                            subgraph "Registro On-Chain de Dispositivo"
+                                A --- B --- C
+                            end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Indexador</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un indexador es un servicio que consume eventos de la cadena y construye vistas de consulta eficientes. Facilita paneles y auditorías, por ejemplo listando envíos con ventanas en incumplimiento o sesiones de carga con deltas y montos. Reduce lecturas on-chain costosas y provee APIs a productos de negocio.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[("Blockchain")] -- "Emite Eventos" --> B{Indexador};
+                        B -- "Procesa y Almacena" --> C["Base de Datos Optimizada"];
+                        C -- "Sirve Datos a" --> D["API / Frontend"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">IPFS y pinning</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>IPFS</code> es un sistema de archivos distribuido direccionado por contenido. El <code>pinning</code> (fijado) es el compromiso de mantener copias de un <code>CID</code> para asegurar su disponibilidad. Reportes, lecturas brutas y pesos de modelos se suben y se pinean en nodos controlados por el operador y, opcionalmente, por terceros de confianza.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Archivo"] --> B{"IPFS"};
+                        B -- "Pinning" --> C["Nodo 1"];
+                        B -- "Pinning" --> D["Nodo 2"];
+                        C -- "Asegura Disponibilidad" --> B
+                        D -- "Asegura Disponibilidad" --> B
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- J-L -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">JSON</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>JSON</code> es un formato de texto legible usado para depurar y para integraciones con sistemas empresariales. Aunque menos eficiente que <code>CBOR</code>, es útil en etapas iniciales y en herramientas de observabilidad. En producción, se suele transportar CBOR en el dispositivo y traducir a JSON en el gateway.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                        graph TD
+                            A["CBOR (Binario, Compacto)"] -- "Ideal para Dispositivo -> Gateway" --> B;
+                            B["JSON (Texto, Legible)"] -- "Ideal para Gateway -> Cloud/Humano" --> A;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">KPIs y SLOs</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los <code>KPIs</code> son indicadores clave de desempeño y los <code>SLOs</code> son objetivos de nivel de servicio. En frío importan la tasa de envíos sin excursión, la latencia lectura-anclaje y el costo por envío. En energía destacan costo por sesión, latencia a acreditación y tasa de disputas resueltas. Se instrumentan con eventos on-chain correlacionados con logs de oráculos y gateways.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Métrica (ej. Latencia de anclaje)"] --> B{"KPI: Mide el rendimiento"};
+                        B --> C{"SLO: Establece un objetivo (ej. < 5 min)"};
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Latencia</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La latencia es el tiempo entre un evento y su efecto útil. El diseño define presupuestos por tramo: sensor a gateway, gateway a oráculo, oráculo a anclaje y anclaje a liquidación o alerta. En una excursión térmica, la ventana de reacción puede ser de minutos; en pagos M2M, segundos bastan si el canal contable acumula y permite retiros por tandas.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Sensor
+                        participant Gateway
+                        participant Oráculo
+                        participant Blockchain (L2)
+                        participant Contrato SLA
+
+                        autonumber
+                        Sensor->>Gateway: Envía paquete de lecturas
+                        note right of Gateway: Latencia Sensor->Gateway: ~5s
+                        Gateway->>Oráculo: Reenvía lote normalizado
+                        note right of Oráculo: Latencia Gateway->Oráculo: ~2s
+                        Oráculo->>Oráculo: Agrega datos y genera Merkle Root
+                        Oráculo->>Blockchain (L2): Publica anclaje (transacción)
+                        note right of Blockchain (L2): Latencia Oráculo->Anclaje: ~10s
+                        Blockchain (L2)-->>Contrato SLA: Evento de anclaje emitido
+                        note right of Contrato SLA: Latencia total para liquidación: ~17s + finalidad
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Linaje de datos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El linaje describe el recorrido de un dato, sus transformaciones y artefactos derivados. Sellar datasets y modelos con hashes y CIDs, y referenciarlos en contratos, permite reconstruir qué lecturas, qué código y qué versión de modelo generaron una alerta o un cobro, algo esencial para auditorías regulatorias o comerciales.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Datos Crudos (CID: Qm1)"] --> B["Modelo v1 (CID: Qm2)"];
+                        B --> C["Inferencia/Reporte (Anclado on-chain)"];
+                        C -- "Referencia a" --> A;
+                        C -- "Referencia a" --> B;
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- M-O -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Oráculo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El oráculo es el middleware que valida datos del mundo real y los publica on-chain. Verifica firmas de dispositivos, agrega por ventanas, calcula deltas, evalúa calidad y sostiene <code>staking</code>. Su reputación depende de publicar a tiempo y con coherencia; un mal actuar puede implicar <code>slashing</code> o pérdida de confianza.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Datos del Mundo Real<br>(Sensores, APIs)"] --> B{"Oráculo"};
+                        B -- "Valida, Agrega, Firma" --> C["Transacción de Datos"];
+                        C --> D[("Blockchain")];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- P-Z -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Slashing y staking</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El <code>staking</code> es un depósito de garantía que operadores u oráculos bloquean para alinear incentivos. El <code>slashing</code> es la penalización que quema o confisca ese depósito si se demuestra mal comportamiento. Publicar datos incoherentes, tarde o con firmas inválidas puede implicar slashing según reglas del protocolo.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    stateDiagram-v2
+                        [*] --> Activo
+                        Activo --> Activo: "Publica Datos Válidos"
+                        Activo --> Penalizado: "Demuestra Mal Comportamiento"
+                        state Penalizado {
+                            direction LR
+                            [*] --> Slashed
+                            Slashed: "Staking es reducido"
+                        }
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Timelock</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un timelock introduce un retraso obligatorio entre una decisión de gobernanza y su ejecución. Permite auditoría social y reacción ante cambios de riesgo. Es recomendable para upgrades de contratos y ajustes de parámetros sensibles como slashing o umbrales de SLA.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Gobernanza
+                        participant Timelock
+                        participant Contrato
+                        Gobernanza->>Timelock: queueTransaction()
+                        Note over Timelock: "Pasa tiempo de espera (ej. 48h)"
+                        Gobernanza->>Timelock: executeTransaction()
+                        Timelock->>Contrato: "Se ejecuta el cambio"
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Pruebas de conocimiento cero y ZK-ML</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Las pruebas de conocimiento cero permiten demostrar que cierta afirmación es verdadera sin revelar datos subyacentes. <code>ZK-ML</code> aplica esta idea a inferencias o evaluaciones de modelos. Aunque hoy su costo aún es alto en producción general, ofrecen un camino para verificar cálculos sensibles preservando privacidad, por ejemplo probar que un delta de kWh fue derivado de lecturas firmadas correctas sin exponer cada paquete.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Probador<br>(Conoce el secreto)"] -- "Genera Prueba ZK" --> B["Prueba"];
+                        B --> C{"Verificador"};
+                        C -- "Verifica la prueba" --> D["Resultado: Válido/Inválido"];
+                        A -. "Secreto no revelado" .-> C
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        const mermaidConfig = {
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: '"Inter", sans-serif'
+        };
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Re-render mermaid charts with the correct theme
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach(div => {
+                const svg = div.querySelector('svg');
+                if(svg) {
+                    svg.remove();
+                }
+                div.removeAttribute('data-processed');
+                const newConfig = {...mermaidConfig, theme: theme === 'dark' ? 'dark' : 'default' };
+                mermaid.initialize(newConfig);
+                mermaid.init(undefined, div);
+            });
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const initialConfig = {...mermaidConfig, theme: savedTheme === 'dark' ? 'dark' : 'default' };
+        mermaid.initialize(initialConfig);
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+                // Re-render mermaid chart inside when opening, in case it wasn't visible
+                if (card.classList.contains('open')) {
+                    const mermaidDiv = card.querySelector('.mermaid');
+                    if (mermaidDiv && !mermaidDiv.querySelector('svg')) {
+                         const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+                         const config = {...mermaidConfig, theme: currentTheme === 'dark' ? 'dark' : 'default' };
+                         mermaid.initialize(config);
+                         mermaid.init(undefined, mermaidDiv);
+                    }
+                }
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>

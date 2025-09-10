@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis Profundo: Integrando IoT, IA y Blockchain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --danger-color: #e74c3c;
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+      --danger-color: #ff7979;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 15000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    
+    .mermaid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .mermaid-container {
+        background: rgba(0,0,0,0.2);
+    }
+    .mermaid {
+        width: 100%;
+        text-align: center;
+    }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Análisis Profundo: Integrando IoT, IA y Blockchain</h1>
+      <p class="subtitle">Una exploración técnica de los desafíos y soluciones en la construcción de sistemas ciberfísicos de confianza.</p>
+    </header>
+
+    <div class="lesson-container">
+
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. ¿Qué problema central resuelve la integración de blockchain con IoT, IA y ML?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La integración ataca la falta de <code>confianza</code> y <code>trazabilidad</code> en sistemas ciberfísicos. IoT genera datos del mundo real, pero sin garantías fuertes es difícil demostrar que no fueron manipulados y que provienen de un dispositivo legítimo. Blockchain aporta <code>inmutabilidad</code>, <code>consenso</code> y un <code>plano económico programable</code> para automatizar permisos y pagos; <code>IA</code> y <code>ML</code> convierten los datos en predicciones y decisiones. Al unirlos, cada lectura se firma en el origen, se ancla una huella verificable en la cadena, los modelos se entrenan con <code>linaje</code> claro y las acciones económicas (pagos, penalizaciones, bonificaciones) se ejecutan de forma automática según reglas transparentes. En la cadena de frío esto implica liberar pagos solo si no hubo <code>excursiones térmicas</code>; en la microrred de energía, pagar por <code>kWh</code> en tiempo casi real basándose en mediciones firmadas y auditablemente ancladas.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. ¿Cómo se garantiza la integridad de los datos desde el sensor hasta la cadena?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se asegura con una cadena de confianza que comienza en el hardware del dispositivo. El sensor o medidor lleva un elemento seguro (<code>TPM</code>/<code>SE</code>/<code>eSIM IoT SAFE</code>) que resguarda la clave privada y firma cada medición junto con un sello de tiempo coherente. El gateway de borde valida formatos, añade metadatos operativos (firmware, calibración, ubicación), sincroniza el reloj con <code>NTP</code>/<code>PTP</code> y reenvía al oráculo por un canal autenticado. El oráculo verifica las firmas, agrupa lecturas en ventanas y publica on-chain un compromiso criptográfico (por ejemplo un <code>Merkle root</code>) más referencias a los datos completos en <code>IPFS</code>. De esta forma, cualquier intento de alterar una medición se detecta comparando el hash anclado con el archivo recuperado y verificando firmas y marcas de tiempo. Esta tubería convierte la telemetría en evidencia forense sólida.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Sensor con Elemento Seguro<br>(Firma de datos en origen)"] --> B{"Gateway de Borde<br>(Validación y enriquecimiento)"};
+                        B --> C{"Oráculo<br>(Verificación y agregación)"};
+                        C -- "Ancla Merkle Root" --> D[("Blockchain<br>(Registro Inmutable)")];
+                        C -- "Almacena Datos Crudos" --> E["IPFS<br>(Almacenamiento Verificable)"];
+                        D -- "Referencia a" --> E;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. ¿Qué papel cumplen los DIDs y las credenciales verificables?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><code>DIDs</code> y <code>credenciales verificables</code> dan identidad criptográfica portátil a dispositivos, gateways y operadores sin depender de un único emisor central. Un dispositivo obtiene un DID cuyos documentos publican su clave pública y metadatos; además, puede portar una credencial verificable emitida por el fabricante que atesta su modelo y calibración. El gateway y el oráculo verifican esas credenciales sin contactar al emisor, preservando resiliencia y privacidad. En contratos inteligentes se almacenan las claves asociadas a los DIDs para controlar altas, bajas y rotación, y para registrar quién está autorizado a reportar o auditar. En la práctica, esta capa evita suplantaciones y simplifica auditorías: si un sensor marcado como retirado envía lecturas, el oráculo las descarta al comprobar on-chain que su DID está inactivo.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. ¿Cómo se diseña un oráculo IoT seguro y resistente a manipulación?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un oráculo robusto combina controles criptográficos, operativos y económicos. Criptográficamente, valida firmas de dispositivo y gateway, exige <code>monotonía</code> cuando aplica (contadores de kWh) y chequea coherencia temporal para prevenir ataques de repetición. Operativamente, usa ventanas de agregación, calcula indicadores de calidad (pérdida de paquetes, jitter, batería, deriva de reloj) y conserva trazas y <code>CIDs</code> con evidencia. Económicamente, opera con <code>staking</code> y queda expuesto a <code>slashing</code> si publica datos incoherentes respecto de las firmas o incumple <code>SLOs</code> de publicación. La publicación on-chain es minimalista: solo los compromisos y banderas; los datos crudos viven en <code>IPFS</code> y se recuperan si hay disputa. La reputación del oráculo se actualiza según disponibilidad y precisión, guiando su selección para futuros lotes o sesiones.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. ¿Cómo se anclan grandes volúmenes de telemetría sin costos prohibitivos?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se usa un patrón de <code>batching</code> y compromisos. El oráculo agrupa lecturas en ventanas de tiempo y construye un <code>árbol de Merkle</code> sobre los registros; escribe en la cadena solo la <code>raíz</code> y metadatos clave (rango temporal, identificadores, CID del lote). Para tráfico aún mayor, puede apoyarse en una <code>capa de disponibilidad de datos</code> donde publica el bloque de lecturas a muy bajo costo y ancla periódicamente su hash a una <code>L2</code> o <code>L1</code>. Este diseño preserva verificabilidad: si una parte impugna, presenta la lectura, la ruta de Merkle hasta la raíz anclada y las firmas originales. En cadena de frío permite anclar cada cinco minutos; en energía, cada pocos segundos para sesiones de carga, manteniendo el <code>gas</code> por evento controlado.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Off-Chain (Oráculo)"
+                            L1["Lectura 1"] --> H1["Hash 1"];
+                            L2["Lectura 2"] --> H2["Hash 2"];
+                            L3["..."] --> H3["..."];
+                            LN["Lectura N"] --> HN["Hash N"];
+                            H1 & H2 & H3 & HN --> MR("Merkle Root");
+                        end
+                        MR -- "Única transacción de anclaje" --> OC[("Blockchain")];
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. ¿Cómo luce un acuerdo de nivel de servicio (SLA) on-chain para cadena de frío?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un <code>SLA on-chain</code> codifica umbrales, tolerancias y consecuencias económicas. El comprador crea el envío con el operador logístico, define rango térmico (por ejemplo 2–8 °C), minutos acumulados fuera de rango permitidos y precio a pagar si todo cumple. El operador deposita una garantía; el oráculo comitea ventanas con banderas de cumplimiento; un <code>auditor on-chain</code>, que puede ser un <code>multisig</code> o un rol con <code>staking</code>, marca incumplimientos en base a evidencia anclada. Al finalizar, el contrato libera el pago y devuelve el depósito si no hubo excursiones, o ejecuta penalizaciones si hubo violaciones. Todo el proceso queda trazado por <code>eventos</code> y <code>CIDs</code>, permitiendo demostrar ante reguladores qué datos y qué evaluaciones sustentaron la liquidación.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7. ¿Cómo funciona el pago máquina-a-máquina por kWh en una microrred?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El comprador abre un <code>canal contable</code> con el vendedor (prosumidor) fijando precio por kWh y un límite de gasto. El medidor reporta lecturas acumuladas firmadas; el oráculo deriva el <code>delta de kWh</code> entre lecturas consecutivas, verifica coherencia y publica on-chain el monto a acreditar. El contrato acumula saldos a favor del vendedor, y este retira de forma periódica usando un <code>token estable</code> y un <code>allowance</code> previamente otorgado por el comprador para evitar interacciones constantes. Se define una <code>ventana de disputa</code> corta para impugnaciones acompañadas de firmas originales. Este flujo reduce gas al evitar microtransferencias, protege al comprador con límites y hace que el valor fluya casi en tiempo real conforme a evidencia verificable.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant Comprador
+                        participant Contrato
+                        participant Oráculo
+                        participant Vendedor
+                        Comprador->>Contrato: 1. Abrir canal (Aprobar allowance)
+                        Oráculo->>Contrato: 2. Acreditar consumo (delta kWh)
+                        Vendedor->>Contrato: 3. Retirar fondos periódicamente
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">8. ¿Cómo se integra ML de forma verificable y auditada sin perder velocidad?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se gestionan datos, código y modelos con versionado estricto y anclaje de hashes. Cada dataset de entrenamiento, script y pesos de modelo se sella con un <code>hash</code> y se publica su <code>CID</code> en <code>IPFS</code>; el hash se ancla on-chain al momento de desplegar o actualizar la versión en producción. Durante inferencia, el servicio registra qué modelo usó para cada decisión importante y emite un evento o registro enlazando el ID del modelo. Así, ante una inspección, se reconstruye el contexto completo y se comprueba que el modelo no fue alterado. En el borde se despliegan modelos comprimidos (por ejemplo <code>ONNX</code>) y se registran métricas de deriva; cuando la deriva supera umbrales, se programa reentrenamiento y se ancla la nueva versión antes de activarla, manteniendo un historial auditable.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">9. ¿Cómo se protege la privacidad en estos sistemas sin degradar utilidad?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se combina control de acceso, cifrado por rol y técnicas avanzadas. El acceso a datos crudos se limita mediante políticas on-chain que definen quién puede descifrar qué campos. Para compartir estadísticas agregadas sin riesgo de reidentificación se aplica <code>privacidad diferencial</code>, añadiendo ruido controlado. Cuando varias partes necesitan calcular sobre datos sensibles, el <code>cómputo multipartito</code> permite obtener resultados sin exponer inputs; y para validar propiedades sin revelar valores, las <code>pruebas de conocimiento cero</code> demuestran cumplimiento de rangos o reglas. El principio rector es minimizar exposición: el contrato nunca almacena datos personales, solo compromisos y referencias; los datos identificables quedan cifrados off-chain bajo controles auditables.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">10. ¿Cómo elegir entre una L1, una L2 o una sidechain para el despliegue?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La elección depende de seguridad, costo, latencia y herramientas. Una <code>L1</code> generalista ofrece máxima seguridad pero costos más altos; una <code>L2 de validez</code> brinda finalización rápida y tarifas bajas, ideal para anclajes frecuentes; una <code>L2 optimista</code> reduce tarifas pero introduce ventanas de desafío más largas; una <code>sidechain</code> da control total a costa de asumir su propia seguridad y la del puente. Para cadena de frío y micropagos energéticos, una <code>L2</code> suele ser el punto óptimo, con anclajes periódicos a <code>L1</code> para heredar seguridad de última instancia. También pesan factores prácticos: compatibilidad <code>EVM</code>, disponibilidad de indexadores, soporte de <code>stablecoins</code> y cumplimiento jurisdiccional.</p>
+                    <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Máxima Seguridad"
+                            L1["L1 (Ethereum)"]
+                        end
+                        subgraph "Escalabilidad con Seguridad Heredada"
+                            L2["L2 (Rollups)"]
+                        end
+                        subgraph "Soberanía y Flexibilidad"
+                            SC["Sidechain"]
+                        end
+                        L2 -- "Ancla Pruebas" --> L1;
+                        SC -- "Conectada vía Puente" --- L1;
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">11. ¿Cómo se gestiona la escalabilidad y los presupuestos de latencia?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se define un presupuesto de latencia por tramo y se diseña para amortiguar picos. En el borde, el firmware toma y firma lecturas a intervalos estables; el gateway prioriza mensajes críticos; el oráculo agrega en ventanas cortas para casos sensibles y más largas cuando el costo prima; en la cadena, las transacciones se agrupan. La <code>lectura monotónica</code> y los deltas toleran pérdida de paquetes sin inconsistencias. La elasticidad se logra escalando horizontalmente oráculos y pipelines de ingesta, y dimensionando indexadores para consultas analíticas en tiempo casi real. El resultado es una ruta de datos donde las alertas llegan a minutos en frío y los cobros a segundos en energía, manteniendo costos bajo control.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">12. ¿Cómo se aseguran actualizaciones OTA y atestación remota?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El dispositivo solo acepta firmware firmado por claves autorizadas. El hash de la versión permitida puede anclarse en la cadena, lo que permite a gateways y oráculos rechazar lecturas de dispositivos con firmware no autorizado. La <code>atestación remota</code>, cuando el hardware lo soporta, prueba criptográficamente al gateway que el dispositivo ejecuta un binario genuino dentro de un <code>TEE</code> (Entorno de Ejecución Confiable). El gateway adjunta al mensaje una prueba de atestación reciente; el oráculo la verifica y, si falla, descarta la telemetría. Este ciclo reduce el riesgo de malware y de manipulación física.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">13. ¿Cómo se instrumentan KPIs y SLOs para operar el sistema?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se eligen métricas que reflejen salud técnica y valor de negocio. En IoT se sigue <code>uptime</code> de dispositivos, pérdida de paquetes y deriva de reloj. En cadena se monitorea costo por transacción, tiempos a <code>finalización</code> y colas de <code>mempool</code>. En ML se observan métricas de modelo y deriva de datos. En negocio se mide porcentaje de envíos sin excursión o costo por sesión. Todos los <code>eventos on-chain</code> incluyen IDs y <code>CIDs</code> que indexadores correlacionan con logs de gateways y oráculos, alimentando tableros unificados. Los <code>SLOs</code> fijan umbrales (por ejemplo, anclar ventanas de frío en < 60s el 99% del tiempo) y guían la optimización.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">14. ¿Cómo se diseñan incentivos y tokenomics sin promover especulación?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El diseño económico debe alinear comportamientos útiles con recompensas y castigar el mal actuar con pérdida de depósitos. Productores de datos reciben ingresos por información verificada; oráculos ganan comisiones por publicación consistente y arriesgan <code>staking</code> sujeto a <code>slashing</code>. Si existe un token nativo, su emisión se liga a actividad real. Siempre se prioriza operar con <code>stablecoins</code> para liquidaciones, manteniendo el token como instrumento de <code>gobernanza</code> o incentivos técnicos. La gobernanza on-chain ajusta tarifas y parámetros con <code>timelocks</code> y <code>quórums</code>, introduciendo fricción saludable a cambios de riesgo.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">15. ¿Cómo se resuelven disputas de datos o pagos con evidencia verificable?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Las disputas se apoyan en los anclajes y en la disponibilidad de datos firmados. Tras cada publicación del oráculo se abre una <code>ventana de disputa</code> durante la cual cualquier parte puede impugnar presentando el registro original, su firma y la <code>prueba de inclusión en el Merkle root</code>. El contrato pausa la liquidación y delega en un <code>auditor on-chain</code> o en un módulo de arbitraje. Si se confirma la inconsistencia, el oráculo sufre <code>slashing</code> y se corrige el saldo; si la publicación era correcta, se penaliza al impugnante malicioso. Este proceso programático reduce tiempos y ambigüedades.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">16. ¿Cómo se estructura un pipeline de MLOps adecuado para este entorno?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El pipeline cubre desde ingesta hasta despliegue y monitoreo con trazabilidad estricta. La ingesta normaliza y valida datos, los almacena en un <code>data lake</code> y los sincroniza con una <code>feature store</code>. El entrenamiento se orquesta en jobs reproducibles que versionan código, datos y artefactos; cada release produce un “manifest” cuyo <code>hash</code> se ancla on-chain. El despliegue utiliza canales separados para nube y borde, con pruebas A/B o <code>canary</code> y <code>rollback</code> automatizado. La operación monitorea deriva y latencias; cuando se superan umbrales, se programa reentrenamiento y se sigue el mismo ciclo de versionado y anclaje.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">17. ¿Cómo se prueban y auditan los contratos inteligentes?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se aplican pruebas unitarias y de integración exhaustivas, <code>fuzzing</code> de entradas y análisis estático para detectar patrones peligrosos. Los escenarios cubren rutas felices y fallas: reentrancia, desbordes, etc. La arquitectura favorece contratos pequeños y específicos. Antes del despliegue en producción se realiza <code>auditoría externa</code> independiente. Se implementa además un plan de respuesta a incidentes on-chain que incluya <code>pausas de emergencia</code> y <code>timelocks</code> para upgrades, reduciendo el impacto de vulnerabilidades.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">18. ¿Cómo se estiman y optimizan los costos de gas de la solución?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se modela el costo por unidad de negocio: por envío o por sesión. Se estima la frecuencia de anclajes y el tamaño de los payloads on-chain. Con ese baseline se optimiza reduciendo escrituras (<code>SSTORE</code>), reutilizando storage, comprimiendo datos y separando lectura intensiva a indexadores. El <code>batching</code> y la publicación por ventanas bajan órdenes de magnitud el costo. La selección de una <code>L2</code> con tarifas adecuadas completa la estrategia. El objetivo es que el gas represente un porcentaje pequeño del valor que protege o liquida.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">19. ¿Cómo se aborda el cumplimiento regulatorio en farmacéutica y energía?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Se parte de un mapeo de normativa aplicable. En cadena de frío, las buenas prácticas de distribución (<code>GDP</code>) exigen demostrar condiciones y trazabilidad; el diseño registra evidencia verificable y conserva registros. En energía, las reglas pueden exigir medición certificada y tarifas transparentes; el sistema usa medidores con credenciales y publica reglas económicas en contratos. La <code>residencia de datos</code> se respeta manteniendo los crudos en jurisdicciones permitidas y anclando solo hashes globalmente. Los procesos incluyen auditorías periódicas y controles de acceso revisables.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">20. ¿Cuál es un roadmap realista de implementación desde MVP hasta producción?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El camino comienza con un <code>MVP</code> estrecho y una flota pequeña de dispositivos. Se integra identidad, se levanta un oráculo mínimo, se ancla en una <code>L2</code> económica y se miden latencias y costos. La <code>fase piloto</code> amplía dispositivos, introduce staking liviano, añade indexadores y prueba el ciclo completo de MLOps. La <code>entrada a producción</code> endurece seguridad, incorpora alta disponibilidad, formaliza auditorías externas, define SLOs y playbooks de incidentes. Por último, el <code>escalado</code> agrega automatización de aprovisionamiento, expansión geográfica y ajustes de incentivos, manteniendo una cultura de mejora continua y evidencia criptográfica.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    gantt
+                        title Roadmap de Implementación
+                        dateFormat  YYYY-MM-DD
+                        axisFormat %Y-%m
+                        
+                        section MVP (3 Meses)
+                        Diseño y Prototipo : crit, 2025-09-01, 1m
+                        Desarrollo Core : crit, after 2025-09-01, 2m
+                        
+                        section Piloto (4 Meses)
+                        Expansión de Flota : 2025-12-01, 2m
+                        Endurecimiento y Métricas : after 2025-12-01, 2m
+
+                        section Producción (Continuo)
+                        Lanzamiento v1 : milestone, 2026-04-01
+                        Escalado y Optimización : 2026-04-01, 6m
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        const mermaidConfig = {
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: '"Inter", sans-serif'
+        };
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Re-render mermaid charts with the correct theme
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach(div => {
+                const svg = div.querySelector('svg');
+                if(svg) {
+                    svg.remove();
+                }
+                div.removeAttribute('data-processed');
+                const newConfig = {...mermaidConfig, theme: theme === 'dark' ? 'dark' : 'default' };
+                mermaid.initialize(newConfig);
+                mermaid.init(undefined, div);
+            });
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const initialConfig = {...mermaidConfig, theme: savedTheme === 'dark' ? 'dark' : 'default' };
+        mermaid.initialize(initialConfig);
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+                // Re-render mermaid chart inside when opening, in case it wasn't visible
+                if (card.classList.contains('open')) {
+                    const mermaidDiv = card.querySelector('.mermaid');
+                    if (mermaidDiv && !mermaidDiv.querySelector('svg')) {
+                         const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+                         const config = {...mermaidConfig, theme: currentTheme === 'dark' ? 'dark' : 'default' };
+                         mermaid.initialize(config);
+                         mermaid.init(undefined, mermaidDiv);
+                    }
+                }
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>

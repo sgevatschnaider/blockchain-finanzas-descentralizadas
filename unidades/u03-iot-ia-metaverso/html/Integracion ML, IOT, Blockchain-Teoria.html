@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integración Avanzada: Blockchain, IoT y IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --danger-color: #e74c3c;
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+      --danger-color: #ff7979;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .index-container {
+      background: var(--bg-secondary);
+      backdrop-filter: blur(20px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-card);
+      border: 2px solid var(--border-color);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .index-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .index-list {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 0.75rem;
+    }
+    .index-list li a {
+      display: block;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+    .index-list li a:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      transform: translateX(5px);
+    }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 15000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h3 { color: var(--text-primary); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; }
+    .topic-content h4 { color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .topic-content ul { padding-left: 20px; }
+    
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    pre code {
+        display: block;
+        padding: 1rem;
+        border-radius: 10px;
+        background-color: rgba(0,0,0,0.05);
+        font-size: 0.85em;
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    [data-theme="dark"] pre code {
+       background-color: rgba(0,0,0,0.25);
+    }
+    
+    .mermaid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .mermaid-container {
+        background: rgba(0,0,0,0.2);
+    }
+    .mermaid {
+        width: 100%;
+        text-align: center;
+    }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Integración Avanzada: Blockchain, IoT y IA</h1>
+      <p class="subtitle">Una arquitectura experta para sistemas ciberfísicos confiables, desde el sensor hasta el smart contract.</p>
+    </header>
+
+    <div class="index-container">
+        <h3 class="index-title"><i class="fas fa-list-ol"></i> Índice de Contenidos</h3>
+        <ol class="index-list">
+            <li><a href="#section-1">1. Introducción y Alcance</a></li>
+            <li><a href="#section-2">2. Casos de Uso Prioritarios</a></li>
+            <li><a href="#section-3">3. Arquitectura de Referencia</a></li>
+            <li><a href="#section-4">4. Identidad, Autenticación y Confianza</a></li>
+            <li><a href="#section-5">5. Gestión y Gobernanza de Datos</a></li>
+            <li><a href="#section-6">6. Oráculos y Puentes</a></li>
+            <li><a href="#section-7">7. Diseño de Smart Contracts</a></li>
+            <li><a href="#section-8">8. Integración de IA/ML</a></li>
+            <li><a href="#section-9">9. Escalabilidad y Rendimiento</a></li>
+            <li><a href="#section-10">10. Seguridad y Cumplimiento</a></li>
+            <li><a href="#section-11">11. Token-Economics e Incentivos</a></li>
+            <li><a href="#section-12">12. Observabilidad, KPIs y SLOs</a></li>
+            <li><a href="#section-13">13. Plan de Implementación</a></li>
+            <li><a href="#section-14">14. Stack Tecnológico</a></li>
+            <li><a href="#section-15">15. Pruebas y Certificación</a></li>
+            <li><a href="#section-16">16. Anexos</a></li>
+            <li><a href="#section-17">17. Caso 1: Cadena de Frío</a></li>
+            <li><a href="#section-18">18. Caso 2: Microrred de Energía</a></li>
+        </ol>
+    </div>
+
+    <div class="lesson-container">
+
+        <!-- Sections 1-16 remain identical -->
+        <div class="topic-card" id="section-1">
+            <div class="topic-header"><span class="topic-title">1. Introducción y Alcance</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                 <p>La integración de blockchain con IoT, IA y ML persigue un objetivo central: crear sistemas ciberfísicos confiables donde los datos que nacen en sensores y dispositivos se puedan verificar, compartir y monetizar con reglas claras y automáticas, mientras los modelos de inteligencia aprendan y se desplieguen sin perder trazabilidad ni privacidad. El alcance incluye desde la captura segura de telemetría en el borde, su transporte y normalización, el anclaje criptográfico en redes públicas o permisionadas, la ejecución de contratos inteligentes para automatizar pagos o permisos, y la explotación analítica mediante pipelines de machine learning. Se busca resolver problemas conocidos del ecosistema IoT y de la analítica de datos, como la manipulación de registros, los silos propietarios, la falta de identidad robusta para máquinas, la dificultad para auditar modelos y datasets, y la ausencia de incentivos que alineen a productores, validadores y consumidores de información. Blockchain aporta inmutabilidad, consenso y un plano económico-programable; IoT provee el vínculo con el mundo físico; IA y ML convierten datos en decisiones y predicciones accionables.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[IoT - Mundo Físico] -- Datos Crudos --> B{Blockchain - Capa de Confianza};
+                        C[IA/ML - Inteligencia] -- Decisiones --> A;
+                        B -- Datos Verificados --> C;
+                        B -- Automatiza Interacciones --> A;
+                        subgraph "Problemas Resueltos"
+                           direction LR
+                           D(Inmutabilidad)
+                           E(Identidad Descentralizada)
+                           F(Trazabilidad Auditable)
+                        end
+                        B --- D & E & F
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-2">
+            <div class="topic-header"><span class="topic-title">2. Casos de Uso Prioritarios</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los casos de uso más valiosos se articulan alrededor de la trazabilidad, la automatización máquina a máquina y la predicción rentable. En una cadena de suministro o una cadena de frío, cada evento de sensor se firma en origen y se ancla a la red, de modo que cualquier actor puede verificar trayectoria, responsable y condiciones ambientales, y ejecutar automáticamente garantías, alertas o penalizaciones. En pagos M2M, un medidor inteligente puede emitir pruebas de lectura y recibir micropagos en tiempo real por energía entregada o por excedentes devueltos a la red, como parte de un contrato que liquida flujos con latencias de segundos y evita conciliaciones manuales. Para mantenimiento predictivo, los dispositivos comparten de manera controlada sus series temporales con un mercado de datos, donde consumidores adquieren acceso verificado y entrenan modelos que luego se retribuyen a los contribuidores según su aporte medido. Los gemelos digitales se enriquecen con eventos firmados y se auditan con facilidad cuando hay discrepancias entre simulación y comportamiento real. El aprendizaje federado permite que múltiples empresas o ubicaciones entrenen un modelo sin centralizar datos sensibles; la contribución se recompensa con tokens o créditos según mejora del rendimiento validada on-chain.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    mindmap
+                      root((Casos de Uso))
+                        Trazabilidad
+                          ::icon(fa fa-boxes-stacked)
+                          Cadena de Suministro
+                          Cadena de Frío
+                        Pagos M2M
+                          ::icon(fa fa-robot)
+                          Energía y Smart Grids
+                          Movilidad Autónoma
+                        Mantenimiento Predictivo
+                          ::icon(fa fa-chart-line)
+                          Marketplace de Datos
+                        Auditoría
+                          ::icon(fa fa-clipboard-check)
+                          Gemelo Digital
+                          Aprendizaje Federado
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-3">
+            <div class="topic-header"><span class="topic-title">3. Arquitectura de Referencia (Capas)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La arquitectura se organiza por capas bien definidas. En el borde residen sensores, actuadores y gateways corriendo sistemas operativos en tiempo real y firmware capaz de firmar mediciones con claves en hardware seguro. La mensajería se apoya en protocolos ligeros como MQTT o AMQP y en formatos binarios compactos como CBOR cuando la conectividad es limitada; el gateway normaliza esquemas, aplica control de calidad y adjunta metadatos como marcas de tiempo sincronizadas y el estado del firmware. Entre el mundo IoT y la cadena se ubica un middleware de oráculos que agrega, valida y publica eventos hacia contratos inteligentes, siguiendo estrategias push para alertas críticas y pull para consultas por lotes. Los contratos gobiernan identidad y permisos, registran políticas de acceso, gestionan depósitos de garantía y ejecutan pagos o sanciones. El almacenamiento masivo y a largo plazo se resuelve off-chain con IPFS, lagos de datos o capas de disponibilidad de datos; solo se anclan hashes y resúmenes criptográficos para mantener costos bajos sin perder verificabilidad. La capa de analítica opera en modalidad batch y streaming, expone APIs para inferencia online y alimenta tableros de observabilidad. Finalmente, una columna vertebral de DevSecOps asegura despliegues reproducibles, escaneo de vulnerabilidades, monitoreo y respuesta ante incidentes.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph Capa de Aplicación
+                            G[Analítica/ML y APIs <br/> Batch/Stream, Inferencia]
+                        end
+                        subgraph Capa On-Chain
+                            D[Smart Contracts <br/> Lógica, Liquidación, Gobernanza]
+                            E[Anclaje On-Chain <br/> Hashes de Datos]
+                        end
+                        subgraph Capa Off-Chain
+                            F[Almacenamiento Off-Chain <br/> IPFS/DA, Lagos de Datos]
+                        end
+                        subgraph Capa de Integración
+                            C[Middleware de Oráculos <br/> Agregación, Validación, Quorum]
+                        end
+                        subgraph Capa Física y de Red
+                            A[Dispositivo/Edge <br/> Sensores, RTOS, TPM/SE]
+                            B[Mensajería IoT <br/> MQTT/AMQP, CBOR/JSON]
+                        end
+                        
+                        A --> B --> C --> D;
+                        F -- Hashes de Datos --> E;
+                        D -- Verifica con --> E;
+                        C -- Publica en --> D;
+                        F --> G;
+                        style A fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                        style G fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-4">
+            <div class="topic-header"><span class="topic-title">4. Identidad, Autenticación y Confianza</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La identidad de dispositivos y usuarios se modela con identificadores descentralizados y credenciales verificables, de modo que cada entidad pueda probar atributos y permisos sin depender de un único emisor ni filtrar más información de la necesaria. La raíz de confianza vive en hardware: módulos seguros, TPM o eSIM con perfiles IoT SAFE que custodien claves, impidan extracción y permitan firmas a bajo consumo. El proceso de alta y baja contempla aprovisionamiento en fábrica o en campo, desafío-respuesta para activar, rotación periódica de claves y revocación inmediata ante compromiso o retiro. La atestación remota mediante entornos de ejecución confiable permite verificar que el dispositivo corre el firmware esperado y no ha sido manipulado, lo que condiciona el acceso a temas de mensajería o a funciones de los contratos. La combinación de estos elementos reduce el riesgo de identidades falsas, ataques de repetición y suplantaciones que erosionan la calidad de los datos.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph DispositivoIoT["Dispositivo IoT"]
+                            A["Hardware Root of Trust <br> (TPM, eSIM, SE)"]
+                            B["Identificador Descentralizado (DID)"]
+                            C["Credenciales Verificables (VC)"]
+                        end
+
+                        subgraph ProcesoDeConfianza["Ciclo de Vida de Confianza"]
+                            direction LR
+                            D("Aprovisionamiento y Alta") --> E("Atestación Remota");
+                            E -- Verifica Integridad de Firmware --> F("Firma de Datos");
+                            F -- Autentica origen --> G("Autorización Basada en VC");
+                        end
+
+                        A -- Custodia Claves para --> B;
+                        DispositivoIoT -- Inicia --> D;
+                        G --> H((Acceso Concedido al Sistema));
+
+                        style DispositivoIoT fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                        style H fill:#22c5a2,stroke:#fff,stroke-width:2px,color:#fff
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-5">
+            <div class="topic-header"><span class="topic-title">5. Gestión y Gobernanza de Datos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La gestión de datos se fundamenta en esquemas explícitos, controles de calidad y linaje verificable. Cada mensaje incorpora una marca de tiempo firmada y referencias a calibraciones, versión de firmware y ubicación para que los análisis posteriores puedan contextualizar las señales y detectar deriva. Las políticas de acceso se expresan en contratos con control de roles y listas de permisos, y se refuerzan con cifrado a nivel de registro o campo, utilizando llaves por rol o por consumidor. La privacidad se preserva con técnicas como pruebas de conocimiento cero para demostrar pertenencia a rangos o cumplimiento de límites sin revelar valores crudos, cómputo multipartito cuando varias partes procesan datos sensibles, y privacidad diferencial para publicar estadísticas agregadas sin reidentificar a individuos. La indexación aprovecha servicios de consulta sobre subgrafos o católogos que facilitan búsquedas eficientes, mientras que las políticas de retención equilibran requisitos normativos con costo y utilidad analítica.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A(Dato Firmado en Origen) -- Con Linaje --> B{Control de Calidad};
+                        B --> C[Anclaje de Hash On-Chain];
+                        B --> D(Almacenamiento Off-Chain);
+                        D --> E{Políticas de Acceso On-Chain};
+                        E -- Aplica Cifrado/ZKP --> F[Consumo de Datos Autorizado];
+                        E -- Deniega --> G[Acceso Bloqueado];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-6">
+            <div class="topic-header"><span class="topic-title">6. Oráculos y Puentes</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El diseño del oráculo IoT determina la seguridad del vínculo entre el mundo físico y la cadena. Un esquema robusto combina firmas de dispositivo con firmas del gateway y, cuando aplica, redundancia de fuentes para alcanzar quórums antes de publicar. Se emplean mecanismos de staking y slashing para alinear incentivos de operadores: quien publica datos coherentes y oportunos gana comisiones; quien manipula o degrada la calidad pierde depósitos. La reputación se actualiza con evidencia on-chain y guía la selección de oráculos. En entornos multired, los puentes intercadena permiten que eventos y pagos se crucen entre L1 y L2 o entre ecosistemas distintos. La selección de red considera finalidad, costos, herramientas disponibles y requisitos de cumplimiento, lo que puede conducir a arquitecturas híbridas donde la lógica vive en un rollup de propósito general y los anclajes periódicos se hacen a una L1 de alta seguridad.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A[Evento Físico] --> B(Sensor IoT);
+                        B -- Dato Firmado --> C{Gateway/Oráculo};
+                        subgraph Consenso y Garantías
+                            C -- Valida y Publica --> D[Contrato Inteligente];
+                            E[Operador del Oráculo] -- Hace Stake --> F{Depósito de Garantía};
+                            D -- Recompensa --> E;
+                            G[Dato Malicioso/Erróneo] -- Detectado --> C;
+                            C -- Penalización (Slashing) --> F;
+                        end
+                        D --> H[Estado Actualizado On-Chain];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-7">
+            <div class="topic-header"><span class="topic-title">7. Diseño de Smart Contracts</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los contratos inteligentes constituyen el plano de control del sistema. Un registro de dispositivos mantiene el estado de alta, baja, claves públicas, metadatos y políticas de acceso, administrado con control de acceso basado en roles que separa operadores, auditores y consumidores. El modelo económico contempla depósitos de garantía para operadores de oráculos y validadores de datos, con reglas de penalización por latencia, incoherencia o fraude detectado mediante pruebas o disputas. Los contratos de suscripción permiten que consumidores de datos paguen por acceso por volumen o por tiempo, y los flujos de micropagos se instrumentan con canales de estado o protocolos de streaming para reducir costos y mejorar previsibilidad. La actualizabilidad se maneja con patrones de proxy y gobernanza prudente, que incorpora demoras temporales, quórums y la posibilidad de pausar en emergencia. La instrumentación de eventos facilita auditorías y la integración con indexadores y tableros.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                     graph TD
+                        subgraph "Módulos de Contratos Inteligentes"
+                            A["Registro de Dispositivos (Identidad, RBAC)"]
+                            B["Lógica Económica (Staking/Slashing)"]
+                            C["Suscripción y Pagos"]
+                        end
+
+                        subgraph "Infraestructura y Gobernanza"
+                            D["Patrón de Proxy (Actualizabilidad)"]
+                            E["Gobernanza (Timelock, Votación)"]
+                            F["Emisión de Eventos"]
+                        end
+                        
+                        subgraph Actores
+                            Op(Operador)
+                            Or(Oráculo/Validador)
+                            Con(Consumidor)
+                        end
+
+                        Op -- Administra --> A;
+                        Or -- Interactúa con --> B;
+                        Con -- Paga a --> C;
+                        
+                        A -- Actualizable vía --> D;
+                        B -- Actualizable vía --> D;
+                        C -- Actualizable vía --> D;
+                        
+                        D -- Controlado por --> E;
+                        
+                        A -- Emite --> F;
+                        B -- Emite --> F;
+                        C -- Emite --> F;
+                        
+                        F --> Index((Indexadores y Tableros Off-Chain));
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-8">
+            <div class="topic-header"><span class="topic-title">8. Integración de IA/ML</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La integración de modelos comienza con un pipeline reproducible de features, con versionado estricto de datos, código y artefactos de entrenamiento. Los conjuntos de entrenamiento se sellan con hashes anclados a la cadena, y lo mismo ocurre con pesos y arquitectura del modelo, de modo que cualquier inferencia posterior se pueda atribuir a una versión exacta. El entrenamiento puede ocurrir de manera centralizada, en el borde o de forma federada, según restricciones de latencia, privacidad o conectividad. En aprendizaje federado, un agregador combina gradientes o pesos recibidos de clientes autenticados, y la contribución de cada parte se evalúa con métricas ciegas, recompensando con tokens o créditos según la mejora marginal. La inferencia se ubica donde lo exija el negocio: en el edge para respuestas en milisegundos o en la nube cuando se requiere mayor capacidad. Para proteger propiedad intelectual y evitar modelos corruptos, se emplean huellas digitales y verificación contra hashes anclados; además, cuando la transparencia es crucial, se exploran técnicas de pruebas de inferencia verificables que permiten demostrar que una salida proviene de un modelo comprometido con anterioridad sin revelar los pesos. La supervisión continua detecta deriva de datos y de modelo, gatilla reentrenamientos y ajusta umbrales operativos, y todo cambio relevante queda registrado de forma auditable.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph MLOps Auditable
+                            A[Datos Crudos] --> B(Procesamiento y Feature Engineering);
+                            B --> C{Dataset de Entrenamiento v1.0};
+                            C -- Hash(Dataset) --> D[Anclaje On-Chain];
+                            C --> E[Entrenamiento del Modelo];
+                            E --> F(Modelo v1.0);
+                            F -- Hash(Modelo) --> D;
+                            F --> G[Despliegue para Inferencia];
+                            G -- Inferencia --> H{Resultado};
+                            D -- Provee Verificabilidad --> G;
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-9">
+            <div class="topic-header"><span class="topic-title">9. Escalabilidad, Rendimiento y Costos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La escalabilidad se aborda desde la selección de red y el diseño de datos. Para casos con alto volumen de eventos y bajo valor por transacción, los rollups y las capas de disponibilidad de datos reducen costos sin sacrificar seguridad, siempre que se ancle periódicamente a una cadena de alta confianza. El batching y la compresión de eventos permiten publicar resúmenes por ventana de tiempo en vez de cada lectura individual, conservando verificabilidad mediante árboles de Merkle o compromisos polinomialiales. La arquitectura define tolerancias de latencia en cada eslabón: desde la captura en el borde, pasando por la agregación del oráculo, hasta la finalización on-chain. La optimización de gas obliga a diseñar estructuras compactas, evitar escrituras innecesarias y separar rutas de lectura intensiva en indexadores off-chain, mientras que la capacidad de cómputo para IA se planifica con escalado horizontal y despliegues en GPU o aceleradores cuando corresponde.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A{Estrategias de Escalado}
+                        A -- A Nivel de Red --> B[Selección de Red <br> L1 vs L2/Rollups]
+                        A -- A Nivel de Datos --> C[Técnicas de Datos <br> Batching, Compresión, DA]
+                        A -- A Nivel de Contrato --> D[Optimización de Gas <br> Lecturas off-chain]
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-10">
+            <div class="topic-header"><span class="topic-title">10. Seguridad y Cumplimiento</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La seguridad se define desde el modelo de amenazas. En IoT, los riesgos incluyen dispositivos físicos capturados, identidades clonadas, ataques de repetición y saturación de enlaces; en blockchain, se consideran actores sibila, manipulación de oráculos y errores en contratos. La defensa comienza con firmware firmado y actualizaciones OTA controladas por políticas registradas on-chain, de modo que la flota solo acepte imágenes autorizadas. Los secretos se gestionan en HSM o KMS con políticas de rotación y segregación de funciones; las llaves operativas jamás deben residir en texto claro en memoria prolongada. La conformidad regulatoria se aborda identificando marcos aplicables como GDPR o normativas sectoriales, clasificando datos personales y sensibles, y diseñando rutas de procesamiento que minimicen exposición y respeten residencia por jurisdicción. Los procedimientos de auditoría incluyen revisión de código de contratos, pruebas de penetración de infraestructura IoT y ejercicios de respuesta a incidentes con roles, tiempos y comunicación definidos.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        subgraph Amenazas
+                           A[IoT: Captura Física, Replay]
+                           B[Blockchain: Sybil, Bugs]
+                           C[Datos: Privacidad, Residencia]
+                        end
+                        subgraph Mitigaciones
+                           D[Defensa en Profundidad]
+                           E[Auditorías y Pruebas]
+                           F[Cumplimiento Normativo]
+                        end
+                        A --> D
+                        B --> E
+                        C --> F
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-11">
+            <div class="topic-header"><span class="topic-title">11. Token-Economics e Incentivos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El diseño económico no se orienta a especulación sino a alinear aportes y beneficios. Los productores de datos, como operadores de dispositivos o gateways, reciben recompensas por información útil, oportuna y verificada; los oráculos y validadores obtienen comisiones por su trabajo y arriesgan depósitos en caso de falta; los consumidores pagan por acceso y por garantías de calidad. La emisión de tokens, si existe, debe ser conservadora y ligada a actividad real, con mecanismos anti-abuso como límites de extracción, pruebas de trabajo útil o reputación que modula recompensas. La gobernanza permite ajustar parámetros como tarifas, requisitos de staking y criterios de calidad mediante procesos transparentes, con participación proporcional y salvaguardas para evitar captura por minorías coordinadas. Los modelos de distribución incentivan el largo plazo y desincentivan comportamientos oportunistas, manteniendo siempre la posibilidad de operar el sistema sin necesidad del token cuando los flujos fiduciarios o stablecoins sean preferibles.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        PD(Productor de Datos) -- Envía Datos Verificados --> OR(Oráculo/Validador);
+                        OR -- Publica en --> SC[Smart Contract];
+                        C(Consumidor de Datos) -- Paga Acceso --> SC;
+                        SC -- Recompensa --> PD;
+                        SC -- Paga Comisión --> OR;
+                        OR -- Hace Staking --> D{Depósito de Garantía};
+                        SC -- Penaliza (Slashing) por Mal Comportamiento --> D;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-12">
+            <div class="topic-header"><span class="topic-title">12. Observabilidad, KPIs y SLOs</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La operación saludable requiere métricas claras y objetivos de nivel de servicio. En el plano IoT se monitorea disponibilidad de dispositivos, pérdida de paquetes, latencia de mensajería, sincronización de reloj y tasas de actualización de firmware. En la cadena se siguen el rendimiento efectivo, el costo por transacción, los tiempos de finalización y la salud de los puentes. En IA y ML se rastrean precisión, recall, AUC, deriva de datos y modelos, así como latencias de inferencia y tasas de error por tipo. Los paneles combinan vistas por caso de uso y por componente, y los umbrales de alerta están atados a impactos de negocio como brechas en cadena de frío o incumplimientos en acuerdos de servicio. La correlación de eventos on-chain con logs de gateways y pipelines de datos facilita el diagnóstico y acelera la recuperación.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[Observabilidad Integral]
+                        A --> B(Métricas IoT <br> Uptime, Latencia, Paquetes)
+                        A --> C(Métricas Blockchain <br> TPS, Costo/Tx, Finality)
+                        A --> D(Métricas ML <br> AUC/F1, Deriva de Modelo)
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-13">
+            <div class="topic-header"><span class="topic-title">13. Plan de Implementación (Roadmap)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El recorrido comienza con un producto mínimo viable enfocado en uno o dos casos de uso donde el retorno pueda medirse rápidamente. En esta fase se trabaja en red de prueba o en una L2 de bajo costo, se integra una pequeña flota de dispositivos, se implementa el registro de identidad, se configura el oráculo y se anclan eventos críticos. El piloto controlado amplía el alcance, introduce mecanismos de staking liviano, refuerza seguridad end to end, añade indexación y tableros, y valida procesos de actualización de modelos y firmware. La entrada a producción consolida la arquitectura con rollups o capas de disponibilidad de datos, oráculos redundantes, monitoreo 24/7, planes de continuidad y auditorías externas. La etapa de escalado adopta multired y multipaís cuando sea necesario, automatiza el aprovisionamiento de dispositivos y afina el modelo económico con telemetría real de uso y costos.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[Fase 1: MVP] --> B[Fase 2: Piloto Controlado];
+                        B --> C[Fase 3: Producción];
+                        C --> D[Fase 4: Escalado];
+                        subgraph A
+                            A1(1-2 Casos de Uso)
+                            A2(Testnet/L2)
+                            A3(Telemetría Básica)
+                        end
+                        subgraph B
+                            B1(Seguridad E2E)
+                            B2(Staking Liviano)
+                            B3(Monitoreo Inicial)
+                        end
+                        subgraph C
+                            C1(Rollups/DA)
+                            C2(Oráculos Redundantes)
+                            C3(Auditorías Externas)
+                        end
+                         subgraph D
+                            D1(Multired/Multipaís)
+                            D2(Aprovisionamiento Auto)
+                            D3(Afinado Económico)
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-14">
+            <div class="topic-header"><span class="topic-title">14. Stack Tecnológico y Herramientas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El plano de contratos puede implementarse en Solidity con herramientas modernas de desarrollo, pruebas y despliegue que facilitan automatización, simulación de escenarios y verificación formal selectiva. Cuando se requieren blockchains a medida o lógica en cadena con alto rendimiento, el desarrollo en Rust sobre marcos de construcción permite definir pallets específicos para identidad, oráculos y gobernanza. El backend de integración y las APIs se benefician de un entorno TypeScript con frameworks que aportan modularidad y validación fuerte; la mensajería IoT se conecta a colas persistentes y a buses de streaming que alimentan tanto al oráculo como a la analítica. En ML, el entrenamiento suele realizarse en Python con bibliotecas consolidadas, mientras que el despliegue en el borde se apoya en formatos portables y optimizaciones para hardware limitado. El almacenamiento combina IPFS para artefactos inmutables, servicios de pinning y lagos de datos para análisis profundos. La cadena de CI/CD integra análisis estático y dinámico, escáneres de contratos, fuzzing, pruebas de carga y firmas de artefactos, además de pipelines de MLOps que versionan datasets y modelos y publican metadatos auditables.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph Smart Contracts
+                            S1[Solidity/Rust]; S2[Hardhat/Foundry];
+                        end
+                        subgraph Backend
+                            B1[TS/NodeJS]; B2[MQTT/Kafka];
+                        end
+                        subgraph Machine Learning
+                            M1[Python/PyTorch]; M2[ONNX/TVM para Edge];
+                        end
+                        subgraph Almacenamiento
+                            ST1[IPFS/Pinning]; ST2[Data Lake];
+                        end
+                        subgraph DevSecOps
+                            D1[CI/CD]; D2[SAST/DAST/Fuzzing];
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-15">
+            <div class="topic-header"><span class="topic-title">15. Pruebas, Certificación y Ensayos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Las pruebas abarcan tanto software como hardware y redes. Se construyen bancos de prueba que simulan variabilidad de sensores, jitter, pérdida de conectividad, caídas de energía y ataques comunes, con escenarios reproducibles que generen evidencia y métricas. La resiliencia se verifica inyectando fallas en puntos críticos como el oráculo, el puente o la base de claves en hardware, observando degradación y tiempos de recuperación. Las auditorías de contratos se realizan con equipos externos e incluyen revisión manual, herramientas de detección de vulnerabilidades y pruebas de propiedades; en paralelo se auditan dispositivos, firmware y procesos de actualización. Los ensayos de campo permiten ajustar calibraciones, validar supuestos de latencia y consumo, y detectar fricciones operativas, mientras que el plan de respuesta a incidentes define responsabilidades, canales de comunicación y criterios para activar pausas de emergencia en contratos o revocaciones masivas de credenciales.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[Ciclo de Validación] --> B(Bancos de Prueba y Simulación);
+                        B --> C(Pruebas de Resiliencia);
+                        C --> D(Auditorías de Seguridad Externas);
+                        D --> E(Ensayos de Campo);
+                        E --> F{Certificación y Go-Live};
+                        A -- Informa --> G[Plan de Respuesta a Incidentes];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card" id="section-16">
+            <div class="topic-header"><span class="topic-title">16. Anexos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los anexos consolidan material operativo y de diseño. Se incluyen diagramas de secuencia que describen paso a paso el flujo de datos desde el sensor hasta el contrato y de vuelta al actuador, con tiempos y puntos de verificación. Se documentan los esquemas de mensajería, los namespaces de tópicos y los contratos base con sus interfaces públicas, eventos y consideraciones de seguridad, de manera que equipos externos puedan integrarse con mínima fricción. Un checklist de cumplimiento y hardening guía a equipos de infraestructura y de datos en tareas periódicas como rotación de llaves, revisión de permisos, pruebas de restauración y verificación de anclajes. Este conjunto de artefactos acelera la incorporación de nuevas unidades de negocio y facilita auditorías técnicas y regulatorias, asegurando que el sistema crezca de forma ordenada, segura y medible.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[Contenido de Anexos]
+                        A --> B[Diagramas de Secuencia]
+                        A --> C[Esquemas de Datos y Contratos]
+                        A --> D[Checklists de Cumplimiento]
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section-17">
+            <div class="topic-header"><span class="topic-title">17. Caso Práctico Aplicado: Cadena de Frío Farmacéutica</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El siguiente análisis detallado aplica los conceptos teóricos de las secciones anteriores a un caso de uso concreto y de alto valor: garantizar la integridad de la cadena de frío para productos farmacéuticos mediante una arquitectura que combina IoT, Blockchain e IA. El objetivo es crear un sistema de **confianza verificable** donde cada dato y cada decisión sean auditables y automáticos.</p>
+                <h3>1. Análisis Arquitectónico y Flujo de Datos</h3>
+                <p>La arquitectura propuesta separa claramente las responsabilidades para optimizar qué información debe residir on-chain (costosa pero de alta confianza) versus off-chain (económica y escalable). El flujo de datos, desde el sensor hasta la liquidación del pago, está diseñado para garantizar la integridad en cada etapa.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Capa Física (Edge)"
+                            A["Sensor T°/Shock con Módulo Seguro (SE/TPM)<br><i>Firma de datos en origen</i>"]
+                        end
+                        subgraph "Capa de Comunicación"
+                            B["Protocolo Ligero y Seguro<br><i>MQTT/CBOR sobre TLS</i>"]
+                        end
+                        subgraph "Capa de Integración"
+                            C["Gateway de Borde (Operador)<br><i>- DID del Gateway<br>- Sincronización de tiempo (NTP/PTP)<br>- Enriquecimiento de metadatos</i>"]
+                            D["Oráculo IoT<br><i>- Agregación de ventanas<br>- Validación de firmas (dispositivo y gateway)<br>- Preparación para anclaje</i>"]
+                        end
+                        subgraph "Capa de Confianza y Lógica (On-Chain - L2)"
+                            E["Smart Contracts (EVM)<br><b>DeviceRegistry:</b> Identidad<br><b>DataAnchor:</b> Notarización<br><b>ColdChainSLA:</b> Lógica de negocio"]
+                        end
+                        subgraph "Capa de Datos y Analítica (Off-Chain)"
+                            F["Almacenamiento Descentralizado<br><i>IPFS / Capas de Disponibilidad de Datos (DA)</i>"]
+                            G["Pipeline de Analítica y ML<br><i>- Feature Store<br>- Entrenamiento de Modelos<br>- Inferencia Predictiva</i>"]
+                        end
+                        subgraph "Capa de Aplicación y Auditoría"
+                            H["Consumidores Finales<br><i>- Paneles de Monitoreo<br>- Alertas automáticas<br>- Herramientas de Auditoría y Cumplimiento</i>"]
+                        end
+                        A -- "1. Datos firmados" --> B; B -- "2. Telemetría segura" --> C; C -- "3. Mensaje enriquecido y firmado" --> D; D -- "4. Compromiso criptográfico (Merkle Root)" --> E; D -- "5. Payloads completos y pruebas" --> F; F -- "6. Datasets y pesos de modelos" --> G; E -- "7. Eventos on-chain" --> H; G -- "8. Predicciones y alertas" --> H; H -- "9. Consultas de auditoría" --> E; H -- "10. Verificación de datos" --> F;
+                        style A fill:#007991,stroke:#fff,color:#fff; style E fill:#22c5a2,stroke:#fff,color:#fff;
+                    </pre>
+                </div>
+                <h4>Puntos Clave de la Arquitectura:</h4>
+                <ul>
+                    <li><strong>Raíz de Confianza en Hardware:</strong> La confianza del sistema nace en el sensor con el Módulo Seguro (SE/TPM), previniendo la inyección de datos falsos en el origen.</li>
+                    <li><strong>Doble Firma:</strong> El sensor firma la telemetría y el gateway firma el paquete completo. Esto crea una cadena de custodia criptográfica irrefutable.</li>
+                    <li><strong>Eficiencia On-Chain:</strong> Solo se ancla un <code>Merkle Root</code> en la blockchain, reduciendo costos y manteniendo la escalabilidad.</li>
+                    <li><strong>Separación de Roles:</strong> Los contratos dividen la lógica en módulos cohesivos y auditables.</li>
+                </ul>
+                <h3>2. Análisis del Código Solidity</h3>
+                <p>El código proporcionado es una base sólida y segura. A continuación se presenta el código completo de los contratos inteligentes, seguido de un análisis de sus fortalezas y consideraciones para una implementación en producción.</p>
+                <pre><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+interface IERC20 {
+    function transfer(address to, uint256 amt) external returns (bool);
+    function transferFrom(address from, address to, uint256 amt) external returns (bool);
+}
+contract DeviceRegistry {
+    address public admin;
+    struct Device { address signer; bool active; string metaCID; }
+    mapping(bytes32 => Device) public devices;
+    event DeviceUpsert(bytes32 indexed deviceId, address signer, bool active, string metaCID);
+    modifier onlyAdmin() { require(msg.sender == admin, "not admin"); _; }
+    constructor() { admin = msg.sender; }
+    function upsertDevice(bytes32 deviceId, address signer, bool active, string calldata metaCID) external onlyAdmin {
+        devices[deviceId] = Device({signer: signer, active: active, metaCID: metaCID});
+        emit DeviceUpsert(deviceId, signer, active, metaCID);
+    }
+}
+contract DataAnchor {
+    address public admin;
+    struct WindowAnchor { bytes32 merkleRoot; uint64 startTs; uint64 endTs; string offchainCID; }
+    mapping(bytes32 => WindowAnchor[]) public windows;
+    event WindowCommitted(bytes32 indexed shipmentId, uint256 index, bytes32 merkleRoot, string offchainCID);
+    modifier onlyAdmin() { require(msg.sender == admin, "not admin"); _; }
+    constructor() { admin = msg.sender; }
+    function commitWindow(bytes32 shipmentId, bytes32 mr, uint64 start, uint64 end, string calldata cid) external onlyAdmin {
+        windows[shipmentId].push(WindowAnchor(mr, start, end, cid));
+        emit WindowCommitted(shipmentId, windows[shipmentId].length - 1, mr, cid);
+    }
+}
+contract ColdChainSLA {
+    IERC20 public immutable stable;
+    address public buyer;
+    struct Shipment { address op; uint256 dep; uint256 price; bool finalized; bool breach; }
+    mapping(bytes32 => Shipment) public shipments;
+    event Finalized(bytes32 indexed shipmentId, bool paid, uint256 amount);
+    modifier onlyBuyer() { require(msg.sender == buyer, "not buyer"); _; }
+    address public auditor;
+    constructor(IERC20 stable_, address buyer_, address auditor_) { stable = stable_; buyer = buyer_; auditor = auditor_; }
+    function createShipment(bytes32 id, address op, uint256 dep, uint256 price) external onlyBuyer {
+        shipments[id] = Shipment(op, dep, price, false, false);
+        require(stable.transferFrom(op, address(this), dep));
+        require(stable.transferFrom(buyer, address(this), price));
+    }
+    function flagBreach(bytes32 id) external { require(msg.sender == auditor, "not auditor"); shipments[id].breach = true; }
+    function finalize(bytes32 id) external onlyBuyer {
+        Shipment storage s = shipments[id];
+        require(!s.finalized, "already");
+        s.finalized = true;
+        if (!s.breach) {
+            require(stable.transfer(s.op, s.price + s.dep));
+            emit Finalized(id, true, s.price + s.dep);
+        } else {
+            uint256 slash = s.dep;
+            require(stable.transfer(buyer, s.price + slash));
+            emit Finalized(id, false, s.price + slash);
+        }
+    }
+}</code></pre>
+                <h3>3. Integración de IA con Trazabilidad</h3>
+                <p>La IA se integra de forma que cada predicción sea auditable. Al anclar los hashes de los datasets de entrenamiento y los pesos de los modelos en <code>DataAnchor</code>, creamos un vínculo inmutable entre los datos, el modelo que aprendió de ellos y las decisiones que tomó.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Fase 1: Preparación y Entrenamiento"
+                            A["Datos de telemetría de IPFS"] --> B["Feature Engineering"];
+                            B --> C["Dataset de Entrenamiento v1.2"];
+                            C -- "1. Calcula Hash del Dataset" --> D{Anclaje en DataAnchor};
+                            C --> E["Entrenamiento del Modelo"];
+                            E --> F["Modelo Predictivo v1.2<br><i>(Pesos del Modelo)</i>"];
+                            F -- "2. Calcula Hash de los Pesos" --> D;
+                        end
+                        subgraph "Fase 2: Inferencia y Acción"
+                            G["Nuevos datos de telemetría"] --> H["Inferencia con Modelo v1.2"];
+                            H -- "Predicción: Riesgo de excursión" --> I{Generación de Alerta};
+                        end
+                        subgraph "Fase 3: Auditoría"
+                            J["Registro de Alerta<br><i>- Timestamp, shipmentId<br>- Hash del Modelo<br>- Hash del Dataset</i>"]
+                        end
+                        D -- "Provee Verificabilidad" --> J; I -- "Crea" --> J;
+                        style D fill:#22c5a2,stroke:#fff,color:#fff
+                    </pre>
+                </div>
+                <p>Este ciclo garantiza que, incluso meses después, un auditor pueda reconstruir criptográficamente la justificación de cualquier alerta o decisión automatizada, cumpliendo con las normativas más exigentes como las Buenas Prácticas de Distribución (GDP).</p>
+            </div>
+        </div>
+
+        <div class="topic-card open" id="section-18">
+            <div class="topic-header"><span class="topic-title">18. Caso Práctico Aplicado: Microrred de Energía</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h3>Análisis Experto del Caso 2: Microrred de Energía</h3>
+                <p>Este caso de uso es un avance significativo hacia la "Internet de la Energía", donde el valor fluye tan libremente como los electrones. La solución propuesta aborda los desafíos clave: la confianza en la medición, la eficiencia en la liquidación de micropagos y la seguridad del sistema M2M (Máquina-a-Máquina).</p>
+                
+                <h4>1. Arquitectura y Flujo de Valor</h4>
+                <p>El diseño arquitectónico es inteligente porque delega las tareas a la capa donde se realizan de manera más eficiente. La verificación criptográfica intensiva ocurre off-chain, mientras que la liquidación económica y la resolución de disputas se aseguran on-chain.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Capa de Borde (Prosumidor)"
+                            A["Medidor Inteligente (AMI) con Módulo Seguro (SE)<br><i>Firma lecturas <b>acumuladas</b> de kWh</i>"]
+                        end
+                        subgraph "Capa de Integración y Confianza Off-Chain"
+                            B["Gateway de Microrred<br><i>- Sincronización de Tiempo<br>- Detección de anomalías (IA/ML)</i>"]
+                            C["Oráculo de Energía<br><i>- Valida firmas del medidor<br>- Calcula <b>delta</b> de kWh<br>- Mantiene staking de seguridad</i>"]
+                        end
+                        subgraph "Capa de Lógica y Liquidación (On-Chain - L2)"
+                            D["Smart Contracts (EVM)<br><b>MeterRegistry:</b> Identidad del medidor<br><b>EnergySettlement:</b> Lógica de pago"]
+                        end
+                        subgraph "Capa de Datos y Auditoría Off-Chain"
+                            E["Almacenamiento Descentralizado (IPFS)<br><i>- Reportes de consumo<br>- Pruebas criptográficas para disputas</i>"]
+                        end
+                        subgraph "Actores y Aplicaciones"
+                            BUYER["Consumidor (ej. Cargador EV)<br><i>- Abre canal<br>- Provee 'allowance' ERC20</i>"]
+                            SELLER["Prosumidor (Dueño del Medidor)<br><i>- Retira fondos acumulados</i>"]
+                            DASH["Panel de Control / App de Disputas"]
+                        end
+                        A -- "1. Lectura firmada (kWh total)" --> B; B -- "2. Telemetría validada" --> C; C -- "3. Postea delta de kWh" --> D; C -- "4. Publica reporte detallado (CID)" --> E; BUYER -- "5. Llama a openChannel()" --> D; BUYER -- "6. Aprueba gasto (allowance) al contrato" --> D; SELLER -- "7. Llama a sellerWithdraw()" --> D; D -- "8. Mueve fondos con transferFrom()" --> SELLER; DASH -- "Consulta estado" --> D; DASH -- "Verifica pruebas" --> E;
+                        style A fill:#007991,stroke:#fff,color:#fff; style D fill:#22c5a2,stroke:#fff,color:#fff;
+                    </pre>
+                </div>
+                <h4>Decisiones Arquitectónicas Clave:</h4>
+                <ul>
+                    <li><strong>Lecturas Acumuladas:</strong> Es una elección de diseño crucial para la robustez. A diferencia de enviar deltas, donde un mensaje perdido rompe la contabilidad, las lecturas acumuladas permiten que el oráculo siempre pueda recalcular el consumo correcto.</li>
+                    <li><strong>Verificación Off-Chain, Disputa On-Chain:</strong> Se delega la verificación de firmas (costosa) al oráculo, que está incentivado económicamente (vía staking) a ser honesto. La posibilidad de presentar una prueba de fraude on-chain mantiene al oráculo bajo control.</li>
+                    <li><strong>Patrón "Pull" con `allowance`:</strong> El mecanismo de pago (`sellerWithdraw` usando `transferFrom`) es más seguro y eficiente. El comprador autoriza un gasto máximo y el vendedor agrupa los pagos en retiros más grandes, ahorrando gas.</li>
+                </ul>
+
+                <h4>2. Análisis del Código Solidity (`EnergySettlement.sol`)</h4>
+                <p>El contrato es un ejemplo de eficiencia y seguridad. Se enfoca en la lógica mínima necesaria para operar, reduciendo la superficie de ataque.</p>
+                <pre><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+interface IERC20 {
+    function transferFrom(address from, address to, uint256 amt) external returns (bool);
+}
+contract MeterRegistry {
+    address public admin;
+    struct Meter { address owner; address oracle; bool active; }
+    mapping(bytes32 => Meter) public meters;
+    modifier onlyAdmin() { require(msg.sender == admin, "not admin"); _; }
+    constructor() { admin = msg.sender; }
+    function upsert(bytes32 meterId, address owner, address oracle, bool active) external onlyAdmin {
+        meters[meterId] = Meter(owner, oracle, active);
+    }
+}
+contract EnergySettlement {
+    IERC20 public immutable stable;
+    MeterRegistry public immutable reg;
+    struct Channel {
+        address buyer; address seller; uint96 pricePerKWh; uint128 spent; uint128 limit; bool open;
+    }
+    mapping(bytes32 => Channel) public channels;
+    mapping(bytes32 => uint256) public sellerAccrual;
+    mapping(bytes32 => uint256) public lastTotalKWh;
+    event ConsumptionPosted(bytes32 indexed channelId, uint256 deltaKWh, uint256 amountDue);
+    event Withdrawn(bytes32 indexed channelId, address seller, uint256 amount);
+    constructor(IERC20 stable_, MeterRegistry reg_) { stable = stable_; reg = reg_; }
+    function openChannel(bytes32 chId, bytes32 meterId, address buyer, uint96 price, uint128 limit) external {
+        MeterRegistry.Meter memory m = reg.meters(meterId);
+        require(m.active, "meter inactive");
+        channels[chId] = Channel(buyer, m.owner, price, 0, limit, true);
+    }
+    function postConsumption(bytes32 chId, uint256 totalKWh) external {
+        Channel storage c = channels[chId];
+        require(c.open, "closed");
+        MeterRegistry.Meter memory m = reg.meters(chId); // Simplified for example, should link channel to meter
+        require(msg.sender == m.oracle, "not oracle");
+        uint256 delta = totalKWh - lastTotalKWh[chId];
+        lastTotalKWh[chId] = totalKWh;
+        uint256 amount = (delta * c.pricePerKWh) / 1e6;
+        require(c.spent + amount <= c.limit, "limit exceeded");
+        c.spent += uint128(amount);
+        sellerAccrual[chId] += amount;
+        emit ConsumptionPosted(chId, delta, amount);
+    }
+    function sellerWithdraw(bytes32 chId, uint256 amount) external {
+        Channel storage c = channels[chId];
+        require(msg.sender == c.seller, "not seller");
+                require(amount <= sellerAccrual[chId], "insufficient accrual");
+        sellerAccrual[chId] -= amount;
+        require(stable.transferFrom(c.buyer, c.seller, amount), "xfer fail");
+        emit Withdrawn(chId, c.seller, amount);
+    }
+    function closeChannel(bytes32 chId) external { require(msg.sender == channels[chId].buyer); channels[chId].open = false; }
+}</code></pre>
+                <h4>Consideraciones para Producción:</h4>
+                <ul>
+                    <li><strong>Mecanismo de Disputa Explícito:</strong> Añadir una función `raiseDispute()` que permita a un actor presentar una prueba criptográfica de fraude contra el oráculo, lo que llevaría a una penalización (slashing) de su stake.</li>
+                    <li><strong>Gestión de Precios Dinámicos:</strong> Integrar un oráculo de precios o un mecanismo de acuerdo mutuo para permitir que el precio por kWh se ajuste a las condiciones del mercado.</li>
+                    <li><strong>Prevención de Canales "Zombie":</strong> Implementar un `deadline` o un temporizador de inactividad para permitir el cierre forzoso de canales abandonados y la recuperación de fondos.</li>
+                </ul>
+
+                <h4>3. Integración de IA para Seguridad Operacional</h4>
+                <p>El uso de un modelo de aprendizaje supervisado en el gateway actúa como un sistema de alerta temprana para detectar patrones de consumo anómalos, añadiendo una capa de seguridad proactiva.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A[Flujo de Datos del Medidor<br><i>(kWh, voltaje, corriente)</i>] --> B{Modelo de Detección de Anomalias en Gateway};
+                        B -- "Patrón Normal" --> C[Reenviar al Oráculo];
+                        B -- "Patrón Anómalo<br><i>(Ej: Pico de consumo atípico)</i>" --> D[Etiquetar con 'Riesgo Elevado'];
+                        D --> C;
+                        C -- "Mensaje con/sin etiqueta de riesgo" --> E((Oráculo de Energía));
+                        style B fill:#ffc300
+                    </pre>
+                </div>
+                <p>La etiqueta de "riesgo", incluida en el reporte off-chain (`reportCID`), permite a las aplicaciones notificar a los usuarios o incluso sugerir la reducción automática del límite de gasto del canal.</p>
+
+                <h4>4. Hoja de Ruta y KPIs</h4>
+                <p>Un despliegue progresivo es clave, comenzando en un laboratorio para validar la contabilidad, pasando a un piloto de campo para probar la resiliencia, y finalmente a producción con redundancia de oráculos y auditorías completas.</p>
+                <ul>
+                    <li><strong>KPI de Eficiencia:</strong> Costo total de gas por kWh liquidado.</li>
+                    <li><strong>KPI de Rendimiento:</strong> Latencia desde la medición hasta la acreditación del saldo.</li>
+                    <li><strong>KPI de Seguridad:</strong> Número de disputas levantadas vs. resueltas.</li>
+                </ul>
+                
+                <h4>Conclusión Final</h4>
+                <p>Este caso de uso demuestra cómo la blockchain puede ser la capa de liquidación y confianza para la economía M2M. La arquitectura es pragmática y segura, utilizando la cadena de bloques para garantizar la ejecución de acuerdos económicos de manera transparente. Al combinar esto con IA en el borde y un diseño de contrato robusto, se crea una base sólida para las microrredes energéticas del futuro, donde cada kilovatio-hora se intercambia y paga con la misma facilidad y confianza que un correo electrónico.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        const mermaidConfig = {
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: '"Inter", sans-serif',
+            gantt: {
+                axisFormat: '%H:%M',
+            },
+            sequence: {
+                actorFontFamily: '"Inter", sans-serif',
+                noteFontFamily: '"Inter", sans-serif',
+            }
+        };
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach((div) => {
+                const svg = div.querySelector('svg');
+                if(svg) {
+                    svg.remove();
+                    div.removeAttribute('data-processed');
+                }
+                const newConfig = {...mermaidConfig, theme: theme === 'dark' ? 'dark' : 'default' };
+                mermaid.initialize(newConfig);
+                mermaid.init(undefined, div);
+            });
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const initialConfig = {...mermaidConfig, theme: savedTheme === 'dark' ? 'dark' : 'default' };
+        mermaid.initialize(initialConfig);
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>
