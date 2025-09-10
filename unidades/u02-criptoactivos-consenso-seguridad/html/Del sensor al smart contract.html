@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="color-scheme" content="dark light"/>
+<title>IoT → Blockchain: Flujo Completo</title>
+
+<!-- Tipografías -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* Paleta alto contraste */
+    --bg:#090d16; --panel:#101623; --panel-hover:#151b2e; --ink:#f0f4f8; --muted:#94a3c4;
+    --primary:#00e5ff; --secondary:#7a5cff; --accent:#ff5c8a; --success:#2ed573; --warning:#ffb020; --error:#ff3b4e;
+    --ring: rgba(0,229,255,.28);
+    --gradient-1: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+    --gradient-2: linear-gradient(135deg,#f093fb 0%,#f5576c 100%);
+    --gradient-3: linear-gradient(135deg,#32c5ff 0%,#00f2fe 100%);
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f7f9fc; --panel:#ffffff; --panel-hover:#f4f7ff; --ink:#0b1020; --muted:#5a6b8c; --ring: rgba(0,168,204,.25); }
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.6;
+    background:
+      radial-gradient(1100px 680px at 12% -8%, rgba(0,229,255,.28) 0%, transparent 60%),
+      radial-gradient(900px 620px at 88% 112%, rgba(122,92,255,.25) 0%, transparent 58%),
+      radial-gradient(700px 560px at 50% 120%, rgba(255,92,138,.20) 0%, transparent 65%),
+      linear-gradient(180deg, #070b12 0%, #0a0e17 55%, #060912 100%);
+  }
+  /* Modo Alto Contraste (toggle) */
+  body.hc-on{
+    background:
+      radial-gradient(1200px 720px at 10% -10%, rgba(0,229,255,.40) 0%, transparent 60%),
+      radial-gradient(1000px 700px at 90% 115%, rgba(122,92,255,.35) 0%, transparent 58%),
+      radial-gradient(760px 600px at 50% 120%, rgba(255,92,138,.28) 0%, transparent 65%),
+      linear-gradient(180deg, #060a12 0%, #0a0e17 50%, #05070d 100%);
+  }
+
+  a.skip{position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden}
+  a.skip:focus{position:static; width:auto; height:auto; padding:.5rem 1rem; background:#000; color:#fff; border-radius:8px}
+
+  .container{max-width:1200px; margin:0 auto; padding:2rem 1rem}
+  .main-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,229,255,0.20);
+    border-radius:24px;
+    box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(0,229,255,.10) inset;
+    padding:3rem; position:relative; overflow:hidden;
+  }
+  .main-card::before{content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background: linear-gradient(90deg,transparent,var(--primary),transparent); opacity:.6}
+  header{text-align:center; margin-bottom:2rem}
+  .title{font-size:clamp(2rem,5vw,3rem); font-weight:700; margin:0 0 .75rem;
+    background: linear-gradient(135deg,var(--primary),var(--secondary)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+  .subtitle{font-size:clamp(1rem,2.5vw,1.2rem); color:var(--muted); margin:0 0 1.25rem}
+  .flow-description{display:inline-flex; align-items:center; gap:.75rem; background:rgba(0,229,255,.12);
+    border:1px solid rgba(0,229,255,.35); padding:1rem 1.5rem; border-radius:50px; font-family:'JetBrains Mono',monospace; font-size:.9rem; font-weight:500}
+
+  .metrics-bar{display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin:2rem 0; padding:1.25rem;
+    background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px}
+  .metric{text-align:center; padding:1rem; border-radius:12px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); transition:.25s}
+  .metric:hover{transform:translateY(-2px); border-color:var(--primary); box-shadow:0 8px 25px rgba(0,229,255,.15)}
+  .metric-value{font-size:1.5rem; font-weight:700; color:var(--primary); margin-bottom:.25rem; text-shadow:0 0 14px rgba(0,229,255,.25)}
+  .metric-label{font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em}
+
+  .diagram-container{position:relative; margin:2.25rem 0; padding:2rem;
+    background: radial-gradient(circle at 25% 25%,rgba(124,58,237,.09) 0%,transparent 50%),
+                linear-gradient(180deg,rgba(255,255,255,.02) 0%,rgba(255,255,255,.01) 100%);
+    border:1px solid rgba(255,255,255,.1); border-radius:20px; overflow:hidden}
+  .nodes-grid{display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1.25rem; position:relative; z-index:2}
+  .node{background: linear-gradient(180deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.02) 100%); backdrop-filter: blur(10px);
+    border:1px solid rgba(0,229,255,.22); border-radius:16px; padding:1.25rem; position:relative; transition: all .3s; cursor:pointer; overflow:hidden}
+  .node::before{content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gradient-3); transform:scaleX(0); transition:transform .3s}
+  .node:hover{transform:translateY(-6px) scale(1.015); border-color:var(--primary); box-shadow:0 18px 44px rgba(0,229,255,.22), 0 0 0 1px rgba(0,229,255,.15)}
+  .node:hover::before{transform:scaleX(1)}
+  .node-icon{width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;
+    background:var(--gradient-3); position:relative; overflow:hidden}
+  .node-icon::before{content:''; position:absolute; inset:1px; background:var(--panel); border-radius:11px}
+  .node-icon svg{position:relative; z-index:1; filter: drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+  .node-title{font-size:1rem; font-weight:600; margin:0 0 .5rem}
+  .node-desc{font-size:.9rem; color:var(--muted); margin:0 0 .75rem}
+  .node-metrics{display:flex; gap:.5rem; flex-wrap:wrap}
+  .node-badge{font-size:.75rem; padding:.25rem .75rem; border-radius:20px; font-weight:600; display:inline-flex; align-items:center; gap:.25rem}
+  .badge-latency{background:rgba(255,176,32,.22); color:var(--warning); border:1px solid rgba(255,176,32,.35)}
+  .badge-cost{background:rgba(46,213,115,.22); color:var(--success); border:1px solid rgba(46,213,115,.3)}
+  .badge-security{background:rgba(122,92,255,.22); color:var(--secondary); border:1px solid rgba(122,92,255,.35)}
+
+  /* Conexiones dinámicas */
+  svg.connections{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1}
+  .wire{fill:none; stroke:url(#grad); stroke-width:3; stroke-linecap:round; stroke-dasharray:8 6; opacity:.85}
+  @media (prefers-reduced-motion:no-preference){
+    .wire{animation:flow 6s linear infinite}
+    @keyframes flow{to{stroke-dashoffset:-240}}
+  }
+
+  .controls{display:flex; gap:1rem; justify-content:center; margin:1.75rem 0; flex-wrap:wrap}
+  .btn{padding:1rem 1.25rem; border-radius:12px; border:1px solid rgba(255,255,255,.1); font-weight:700; font-size:.9rem; cursor:pointer; transition:.2s; background:rgba(255,255,255,.04); color:var(--ink)}
+  .btn-primary{background:var(--gradient-3); color:#fff; border:none; box-shadow:0 4px 12px rgba(0,229,255,.3)}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,229,255,.25)}
+  .btn[aria-pressed="true"]{outline:2px solid var(--primary)}
+
+  .stats-grid{display:grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap:1rem; margin:2rem 0}
+  .stat-card{background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1.25rem; text-align:center}
+  .stat-number{font-size:2rem; font-weight:700; color:var(--primary); margin-bottom:.5rem}
+  .stat-label{color:var(--muted); font-size:.9rem}
+
+  .tech-stack{text-align:center; margin:1.5rem 0}
+  .tech-tags{display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center; margin-top:.75rem}
+  .tech-tag{padding:.5rem 1rem; background:rgba(124,58,237,.1); border:1px solid rgba(124,58,237,.3); border-radius:20px; font-size:.85rem; font-weight:600; color:var(--secondary)}
+
+  footer{margin-top:2rem; text-align:center; color:var(--muted); font-size:.95rem}
+  .credit{margin-top:.5rem; opacity:.95}
+
+  @media (max-width:768px){
+    .main-card{padding:1.25rem}
+    .nodes-grid{grid-template-columns:1fr}
+  }
+  .highlight-security{border-color:var(--secondary)!important}
+  .highlight-performance{border-color:var(--warning)!important}
+  .highlight-cost{border-color:var(--success)!important}
+</style>
+
+<!-- === BOOST DE LEGIBILIDAD / CONTRASTE DE TEXTO === -->
+<style id="text-boost">
+  html, body{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  .title{
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow:
+      0 6px 24px rgba(0,229,255,.30),
+      0 2px 10px rgba(122,92,255,.25),
+      0 0 1px rgba(255,255,255,.65);
+  }
+  .subtitle{ color:#cfe3ff; font-weight:500; }
+  .flow-description{
+    color:#eaf8ff; border-color:rgba(0,229,255,.45);
+    box-shadow:0 0 0 2px rgba(0,229,255,.15) inset;
+  }
+  .metric-value{
+    font-weight:800; color:#66e6ff;
+    text-shadow:0 0 18px rgba(0,229,255,.35), 0 0 1px rgba(255,255,255,.75);
+  }
+  .metric-label{ color:#bcd1f5; letter-spacing:.14em; font-weight:700; }
+  .node-title{ color:#eaf4ff; font-weight:700; }
+  .node-desc{ color:#cbd6ee; }
+  .node-badge{ font-weight:700; box-shadow:0 0 0 1px rgba(255,255,255,.08) inset; }
+  .stat-label, footer{ color:#c2d0ea; }
+  .tech-tag{ color:#efeaff; border-color:rgba(124,58,237,.45); }
+  body.hc-on .title{ text-shadow:
+      0 10px 32px rgba(0,229,255,.38),
+      0 4px 14px rgba(122,92,255,.32),
+      0 0 1px rgba(255,255,255,.85); }
+  body.hc-on .metric-value{ color:#7ff0ff; }
+  body.hc-on .node-title{ color:#f4f9ff; }
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Saltar al contenido</a>
+
+<div class="container">
+  <main id="main" class="main-card" role="main">
+    <header>
+      <h1 class="title">IoT → Blockchain Pipeline</h1>
+      <p class="subtitle">Arquitectura completa desde sensores hasta smart contracts</p>
+      <div class="flow-description" aria-label="Flujo Sensor a Acción">
+        <span aria-hidden="true">🔗</span>
+        <code>Sensor → Gateway → IPFS → Contract → Action</code>
+      </div>
+      <div style="margin-top:.75rem">
+        <button class="btn" id="btnContrast" aria-pressed="false" title="Alternar fondo de mayor contraste">🎨 Contraste +</button>
+      </div>
+    </header>
+
+    <!-- KPIs -->
+    <section aria-label="Indicadores">
+      <div class="metrics-bar">
+        <div class="metric">
+          <div id="latTotal" class="metric-value" aria-live="polite">~3–20s</div>
+          <div class="metric-label">LATENCIA TOTAL</div>
+        </div>
+        <div class="metric">
+          <div id="costTx" class="metric-value" aria-live="polite">$0.001–0.50</div>
+          <div class="metric-label">COSTO POR TX</div>
+        </div>
+        <div class="metric">
+          <div id="availability" class="metric-value" aria-live="polite">99.90%</div>
+          <div class="metric-label">DISPONIBILIDAD</div>
+        </div>
+        <div class="metric">
+          <div id="sec" class="metric-value" aria-live="polite">SHA256 + PKI</div>
+          <div class="metric-label">SEGURIDAD</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Diagrama -->
+    <section class="diagram-container" aria-label="Diagrama del flujo">
+      <svg class="connections" id="connections" aria-hidden="true">
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--primary)"/>
+            <stop offset="50%" stop-color="var(--secondary)"/>
+            <stop offset="100%" stop-color="var(--accent)"/>
+          </linearGradient>
+        </defs>
+        <path class="wire" id="w12"/>
+        <path class="wire" id="w23"/>
+        <path class="wire" id="w34"/>
+        <path class="wire" id="w45"/>
+      </svg>
+
+      <div class="nodes-grid" id="nodesGrid">
+        <!-- 1 -->
+        <article class="node" data-step="1" tabindex="0" aria-label="Sensor IoT">
+          <div class="node-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="node-title">Sensor IoT</h3>
+          <p class="node-desc">Hardware certificado con PKI/DID para autenticación criptográfica de lecturas.</p>
+          <div class="node-metrics">
+            <span class="node-badge badge-latency" data-lat="40">⚡ 10–50ms</span>
+            <span class="node-badge badge-security">🔒 PKI/DID</span>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="node" data-step="2" tabindex="0" aria-label="Edge Gateway">
+          <div class="node-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+              <circle cx="7" cy="12" r="1" fill="currentColor"/>
+              <path d="m9.5 12 2 2 4-4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="node-title">Edge Gateway</h3>
+          <p class="node-desc">Agregación, validación inicial y normalización (MQTT/CoAP). Preprocesamiento de ruido.</p>
+          <div class="node-metrics">
+            <span class="node-badge badge-latency" data-lat="150">⚡ 100–200ms</span>
+            <span class="node-badge badge-cost" data-cost="0">💰 Off-chain</span>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="node" data-step="3" tabindex="0" aria-label="IPFS Storage">
+          <div class="node-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2"/>
+              <path d="M7.5 4.21l4.5 2.6 4.5-2.6M12 6.81v10.38" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="node-title">IPFS Storage</h3>
+          <p class="node-desc">Almacenamiento distribuido del payload; on-chain guardás hash y metadatos.</p>
+          <div class="node-metrics">
+            <span class="node-badge badge-latency" data-lat="1200">⚡ 0.5–2s</span>
+            <span class="node-badge badge-cost" data-cost="0.001">💰 ~$0.001</span>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="node" data-step="4" tabindex="0" aria-label="Smart Contract">
+          <div class="node-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" stroke="currentColor" stroke-width="2"/>
+              <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+              <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2"/>
+              <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2"/>
+              <polyline points="10,9 9,9 8,9" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="node-title">Smart Contract</h3>
+          <p class="node-desc">Validación, oráculos y reglas de negocio en L1/L2 con eventos para automatización.</p>
+          <div class="node-metrics">
+            <span class="node-badge badge-latency" data-lat="7000">⚡ 2–15s</span>
+            <span class="node-badge badge-cost" data-cost="0.05">💰 $0.01–0.50</span>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="node" data-step="5" tabindex="0" aria-label="Execution Layer">
+          <div class="node-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3v18" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="node-title">Execution Layer</h3>
+          <p class="node-desc">Webhooks, pagos automáticos, notificaciones e integración con sistemas externos.</p>
+          <div class="node-metrics">
+            <span class="node-badge badge-latency" data-lat="300">⚡ &lt;1s</span>
+            <span class="node-badge badge-cost" data-cost="0.001">💰 Variable</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-grid" aria-label="Estadísticas">
+      <div class="stat-card"><div class="stat-number" id="txDay">10M+</div><div class="stat-label">Transacciones/día</div></div>
+      <div class="stat-card"><div class="stat-number" id="uptime">99.95%</div><div class="stat-label">Uptime SLA</div></div>
+      <div class="stat-card"><div class="stat-number" id="avgCost">~$0.02</div><div class="stat-label">Costo promedio</div></div>
+      <div class="stat-card"><div class="stat-number" id="e2e">5–20s</div><div class="stat-label">E2E Latency</div></div>
+    </section>
+
+    <!-- Controles -->
+    <div class="controls" role="group" aria-label="Acciones">
+      <button class="btn btn-primary" id="btnBottlenecks" aria-pressed="false">🔍 Identificar cuellos de botella</button>
+      <button class="btn" id="btnOptimizations" aria-pressed="false">⚡ Ver optimizaciones</button>
+      <button class="btn" id="btnCosts" aria-pressed="false">💰 Análisis de costos</button>
+      <button class="btn" id="btnLive" aria-pressed="false" title="Conectar a /stream si existe">📡 Live (SSE)</button>
+    </div>
+
+    <!-- Stack -->
+    <section class="tech-stack" aria-label="Stack recomendado">
+      <h3 style="color:var(--muted); margin-bottom:.75rem">Stack Tecnológico Recomendado</h3>
+      <div class="tech-tags">
+        <span class="tech-tag">Python FastAPI</span>
+        <span class="tech-tag">Redis</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">IPFS</span>
+        <span class="tech-tag">Solidity</span>
+        <span class="tech-tag">Polygon/Arbitrum</span>
+        <span class="tech-tag">Chainlink Oracles</span>
+        <span class="tech-tag">Docker</span>
+        <span class="tech-tag">Grafana</span>
+      </div>
+    </section>
+
+    <footer>
+      <div>¿En qué punto de este flujo tenés más fricción hoy?</div>
+      <div class="credit">Material elaborado por el profesor <strong>Sergio Gevatschnaider</strong></div>
+    </footer>
+  </main>
+</div>
+
+<script>
+/* ===== Utilidades ===== */
+const fmtMs = ms => (ms<1000? `${Math.round(ms)}ms` : `${(ms/1000).toFixed(1)}s`);
+const sum = arr => arr.reduce((a,b)=>a+b,0);
+const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ===== Estado base ===== */
+const model = {
+  latencyMs: [40,150,1200,7000,300],          // Sensor, Gateway, IPFS, Contract, Exec
+  costUSD  : [0,0,0.001,0.05,0.001],
+  availability: 0.999,                        // 99.9%
+  security: 'SHA256 + PKI',
+  live: false
+};
+
+/* ===== Conexión SSE opcional ===== */
+let es = null;
+function toggleLive(){
+  const btn = document.getElementById('btnLive');
+  if(model.live){
+    es?.close(); model.live=false; btn.setAttribute('aria-pressed','false'); btn.textContent='📡 Live (SSE)';
+    return;
+  }
+  try{
+    es = new EventSource('/stream'); // espera JSON: {latencyMs:[...], costUSD:[...]}
+    es.onmessage = (e)=>{
+      try{
+        const data = JSON.parse(e.data);
+        if(Array.isArray(data.latencyMs)) model.latencyMs = data.latencyMs.map(Number);
+        if(Array.isArray(data.costUSD))   model.costUSD   = data.costUSD.map(Number);
+        updateAll();
+      }catch(err){ console.warn('SSE parse error',err); }
+    };
+    es.onerror = ()=>{ console.warn('SSE error; regresando a simulación'); es.close(); model.live=false; btn.setAttribute('aria-pressed','false'); btn.textContent='📡 Live (SSE)'; };
+    model.live=true; btn.setAttribute('aria-pressed','true'); btn.textContent='🟢 Live ON';
+  }catch(e){ console.warn('SSE no disponible', e); }
+}
+
+/* ===== Dibujo de conexiones responsivas ===== */
+function pathBetween(a,b,curve=0.25){
+  const dx = b.x-a.x, dy = b.y-a.y;
+  const c1 = {x:a.x + dx*curve, y:a.y - 40};
+  const c2 = {x:b.x - dx*curve, y:b.y - 40};
+  return `M${a.x},${a.y} C${c1.x},${c1.y} ${c2.x},${c2.y} ${b.x},${b.y}`;
+}
+function layoutWires(){
+  const grid = document.getElementById('nodesGrid');
+  const svg  = document.getElementById('connections');
+  const rect = grid.getBoundingClientRect();
+  svg.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
+  const nodes = [...grid.querySelectorAll('.node')];
+  const centers = nodes.map(n=>{
+    const r = n.getBoundingClientRect();
+    return { x: (r.left - rect.left) + r.width/2, y: (r.top - rect.top) + r.height/2 };
+  });
+  const ids = ['w12','w23','w34','w45'];
+  for(let i=0; i<centers.length-1; i++){
+    const p = document.getElementById(ids[i]);
+    p.setAttribute('d', pathBetween(centers[i], centers[i+1]));
+  }
+}
+
+/* ===== Interacciones ===== */
+function clearHighlights(){
+  document.querySelectorAll('.node').forEach(n=>{ n.style.opacity='1'; n.style.transform=''; });
+}
+function highlightTo(index){
+  const nodes = document.querySelectorAll('.node');
+  nodes.forEach((n,i)=>{
+    if(i<=index){ n.style.opacity='1'; n.style.transform='translateY(-6px) scale(1.015)'; }
+    else{ n.style.opacity='.6'; }
+  });
+}
+function showDetails(index){
+  const details = [
+    { title:"Sensor IoT", details:"• HW: ESP32/STM32\n• Protocolos: MQTT/CoAP\n• Seguridad: X.509/ECDSA\n• Optim.: batch, compresión, sleep" },
+    { title:"Edge Gateway", details:"• Queue + Validación\n• Normalización\n• Cache local\n• Balance y reintentos" },
+    { title:"IPFS Storage", details:"• Pinning + CDN\n• Deduplicación\n• Compresión\n• Capa de caché" },
+    { title:"Smart Contract", details:"• Gas-opt: eventos + batching\n• L2: Polygon/Arbitrum\n• Oráculos: Chainlink\n• Upgrades seguras (OZ)" },
+    { title:"Execution Layer", details:"• Webhooks (FastAPI)\n• Jobs async (Celery)\n• Alertas (PagerDuty)\n• Observabilidad (Grafana)" }
+  ];
+  const d = details[index];
+  const modal = document.createElement('dialog');
+  modal.style.padding='0'; modal.style.border='1px solid rgba(255,255,255,.15)'; modal.style.borderRadius='12px';
+  modal.innerHTML = `
+    <div style="background:var(--panel); padding:1rem 1.25rem; min-width:320px; max-width:520px">
+      <h2 style="margin:.25rem 0 0;font-size:1.15rem">${d.title}</h2>
+      <pre style="white-space:pre-wrap; margin:.75rem 0; color:var(--muted); font-family:'JetBrains Mono',monospace">${d.details}</pre>
+      <div style="display:flex; justify-content:flex-end; gap:.5rem">
+        <button id="ok" class="btn btn-primary">Entendido</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.showModal();
+  modal.querySelector('#ok').addEventListener('click',()=>{ modal.close(); modal.remove(); });
+  modal.addEventListener('cancel',()=>{ modal.close(); modal.remove(); });
+}
+
+/* ===== Métricas y simulación ===== */
+function computeTotals(){
+  const totalLatency = sum(model.latencyMs);
+  const avgCost = sum(model.costUSD);
+  return { totalLatency, avgCost };
+}
+function updateKpis(){
+  const { totalLatency, avgCost } = computeTotals();
+  document.getElementById('latTotal').textContent = fmtMs(totalLatency);
+  document.getElementById('costTx').textContent   = `$${avgCost.toFixed(avgCost<0.01? 4:2)}`;
+  document.getElementById('availability').textContent = `${(model.availability*100).toFixed(2)}%`;
+  document.getElementById('sec').textContent = model.security;
+  document.getElementById('e2e').textContent = fmtMs(totalLatency);
+  document.getElementById('avgCost').textContent = `$${avgCost.toFixed(3)}`;
+}
+function simulateTick(){
+  model.latencyMs = model.latencyMs.map(v => clamp(v*(1+(Math.random()-.5)*.1), 5, 20000));
+  model.costUSD   = model.costUSD.map(v => clamp(v*(1+(Math.random()-.5)*.06), 0, 2));
+  updateAll();
+}
+let simTimer=null;
+function startSimulation(){ if(simTimer) return; simTimer = setInterval(simulateTick, prefersReduced? 6000: 3000); }
+function stopSimulation(){ clearInterval(simTimer); simTimer=null; }
+
+/* ===== Acciones de botones ===== */
+function showBottlenecks(){
+  const idx = model.latencyMs.indexOf(Math.max(...model.latencyMs));
+  highlightTo(idx); setTimeout(clearHighlights, 2200);
+}
+function showOptimizations(){
+  const tips = [
+    "Batch & compresión en borde",
+    "Colas + validación + cache",
+    "Pinning + dedupe + CDN",
+    "Eventos + batching + L2",
+    "Async + reintentos + DLQ"
+  ];
+  document.querySelectorAll('.node').forEach((n,i)=>{
+    const hint = document.createElement('div');
+    hint.textContent = tips[i];
+    hint.style.position='absolute'; hint.style.bottom='.5rem'; hint.style.right='.75rem';
+    hint.style.fontSize='.75rem'; hint.style.opacity='.9';
+    hint.style.background='rgba(0,0,0,.25)'; hint.style.padding='.25rem .5rem'; hint.style.borderRadius='8px';
+    n.appendChild(hint);
+    setTimeout(()=>hint.remove(), 2400);
+  });
+}
+function showCosts(){
+  const nodes = document.querySelectorAll('.node');
+  const costs = model.costUSD;
+  const max = Math.max(...costs);
+  nodes.forEach((n,i)=>{ n.classList.toggle('highlight-cost', costs[i]===max); });
+  setTimeout(()=>nodes.forEach(n=>n.classList.remove('highlight-cost')), 2200);
+}
+
+/* ===== Actualización general ===== */
+function updateAll(){
+  updateKpis();
+  const nodes = document.querySelectorAll('.node');
+  nodes.forEach((n,i)=>{
+    const latBadge = n.querySelector('[data-lat]');
+    const costBadge = n.querySelector('[data-cost]');
+    if(latBadge){ latBadge.textContent = `⚡ ${fmtMs(model.latencyMs[i])}`; }
+    if(costBadge){ costBadge.textContent = `💰 $${model.costUSD[i].toFixed(model.costUSD[i]<0.01?4:3)}`; }
+  });
+}
+
+/* ===== Eventos y layout ===== */
+function attachEvents(){
+  const nodes = document.querySelectorAll('.node');
+  nodes.forEach((n,i)=>{
+    n.addEventListener('mouseenter', ()=>highlightTo(i));
+    n.addEventListener('mouseleave', clearHighlights);
+    n.addEventListener('click', ()=>showDetails(i));
+    n.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); showDetails(i); } });
+  });
+  document.getElementById('btnBottlenecks').addEventListener('click', showBottlenecks);
+  document.getElementById('btnOptimizations').addEventListener('click', showOptimizations);
+  document.getElementById('btnCosts').addEventListener('click', showCosts);
+  document.getElementById('btnLive').addEventListener('click', toggleLive);
+  document.getElementById('btnContrast').addEventListener('click', ()=>{
+    const on = document.body.classList.toggle('hc-on');
+    document.getElementById('btnContrast').setAttribute('aria-pressed', String(on));
+  });
+
+  const ro = new ResizeObserver(layoutWires);
+  ro.observe(document.getElementById('nodesGrid'));
+  window.addEventListener('load', layoutWires);
+  window.addEventListener('resize', layoutWires);
+}
+
+/* Init */
+attachEvents();
+updateAll();
+layoutWires();
+startSimulation();
+</script>
+</body>
+</html>

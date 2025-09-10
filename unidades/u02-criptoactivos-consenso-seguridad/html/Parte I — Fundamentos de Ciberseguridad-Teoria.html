@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundamentos de Ciberseguridad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --danger-color: #e74c3c;
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+      --danger-color: #ff7979;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 15000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content em { font-style: italic; color: var(--accent-primary); }
+
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    
+    .mermaid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .mermaid-container {
+        background: rgba(0,0,0,0.2);
+    }
+    .mermaid {
+        width: 100%;
+        text-align: center;
+    }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Fundamentos de Ciberseguridad</h1>
+      <p class="subtitle">Una guía experta sobre los pilares de la protección digital: desde la criptografía hasta la respuesta a incidentes.</p>
+    </header>
+
+    <div class="lesson-container">
+
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Introducción a la Ciberseguridad</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La ciberseguridad es la disciplina que protege la información, los sistemas y los servicios digitales frente a incidentes que puedan afectar su funcionamiento o confianza. Su brújula es la <code>tríada CIA</code>: <strong>confidencialidad</strong> (solo accede quien debe), <strong>integridad</strong> (la información no se altera indebidamente) y <strong>disponibilidad</strong> (los servicios están operativos cuando se necesitan). Piensa en un banco: que nadie vea tu saldo sin permiso (C), que las transacciones no se modifiquen (I) y que el cajero funcione 24/7 (D).</p>
+                <p>Para hablar con precisión, diferenciamos tres conceptos. <strong>Amenaza</strong>: todo aquello con capacidad de causar daño (un atacante, un error humano, un incendio). <strong>Vulnerabilidad</strong>: una debilidad explotable (un servidor desactualizado, una mala configuración). <strong>Riesgo</strong>: la posibilidad de que una amenaza explote una vulnerabilidad generando impacto para el negocio. En clase lo resumo así: <code>riesgo = probabilidad × impacto</code>, y se gestiona, no se elimina.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[Amenaza] -- Explota --> B(Vulnerabilidad);
+                        B -- Genera --> C{Impacto};
+                        subgraph Riesgo
+                            A --- C;
+                        end
+                    </pre>
+                </div>
+                <p>La <strong>superficie de ataque</strong> es el conjunto de puntos por donde te pueden afectar (usuarios, aplicaciones, APIs, terceros, nube, endpoints, red). Como contrapeso, aplicamos <strong>defensa en profundidad</strong>: varias capas de controles para que, si una falla, otra detenga o detecte el problema (autenticación fuerte, segmentación de red, EDR, copias de seguridad, monitoreo, etc.). Sobre esa base, el enfoque moderno es <code>Zero Trust</code>: no confiar por defecto en nada ni nadie, verificar explícitamente cada acceso, aplicar mínimo privilegio y asumir brecha como hipótesis de diseño. En práctica: autenticación multifactor, microsegmentación, verificación continua del contexto (dispositivo, ubicación, riesgo) y registros detallados de todo.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        subgraph Principios de Zero Trust
+                            A[Verificar Explícitamente]
+                            B[Usar Acceso de Mínimo Privilegio]
+                            C[Asumir Brecha Siempre]
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Criptografía Esencial</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La criptografía es el toolkit matemático que hace posible la confianza digital. Tres bloques la sostienen.</p>
+                <p><strong>Funciones hash</strong> (como <code>SHA-256</code>) convierten datos en una “huella” de longitud fija. Sus propiedades deseables son: determinismo, resistencia a preimagen y resistencia a colisiones. ¿Para qué sirve? Verificar integridad de archivos, encadenar bloques en blockchain, almacenar contraseñas con sal y KDF (p. ej., <code>bcrypt/Argon2</code>) para que no sean reversibles.</p>
+                <p><strong>Cifrado</strong> protege la confidencialidad. Con <strong>cifrado simétrico</strong> una misma clave sirve para cifrar y descrifrar (ej.: <code>AES-GCM</code>). Con <strong>cifrado asimétrico</strong> usamos un par de claves (pública/privada) para intercambiar secretos o verificar identidad (<code>RSA</code>, <code>ECC/Curve25519</code>). De aquí nacen las <strong>firmas digitales</strong>: con la clave privada firmo un mensaje y cualquiera, con la clave pública, puede verificar que proviene de mí y no fue alterado (autenticidad e integridad).</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph Cifrado Simétrico
+                            A[Dato Original] -- Clave Secreta --> B(Dato Cifrado);
+                            B -- Misma Clave Secreta --> A;
+                        end
+                        subgraph Cifrado Asimétrico
+                            C[Dato Original] -- Clave Pública --> D(Dato Cifrado);
+                            D -- Clave Privada --> C;
+                        end
+                        subgraph Firma Digital
+                            E[Hash del Mensaje] -- Clave Privada del Emisor --> F(Firma);
+                            G[Verificación] -- Clave Pública del Emisor --> H{Válida / Inválida};
+                            F --> G;
+                        end
+                    </pre>
+                </div>
+                <p><strong>PKI y TLS</strong> llevan estas ideas a Internet. Una infraestructura de clave pública (<code>PKI</code>) confía en Autoridades Certificadoras que emiten certificados. <code>TLS</code> crea un canal seguro entre cliente y servidor. Lo crítico está en gestionar bien las claves: generarlas con buena entropía, almacenarlas en <code>HSM</code> o cofres seguros, rotarlas, revocarlas si se exponen y limitar quién puede usarlas.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. Gobernanza, Riesgo y Cumplimiento (GRC)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><strong>Gobernanza</strong> es el “cómo decidimos” en seguridad: políticas claras, responsabilidades definidas y procesos repetibles. Una buena estructura distingue <strong>política</strong> (el “qué” y el “por qué”), <strong>estándares</strong> (el “cuánto” y “con qué requisitos”) y <strong>procedimientos</strong> (el “cómo paso a paso”).</p>
+                <p>La <strong>gestión de riesgos</strong> es un ciclo continuo: identificar activos y amenazas, descubrir vulnerabilidades, estimar probabilidad e impacto, y decidir tratamientos (mitigar, transferir, evitar o aceptar). Se materializa en un registro de riesgos y se monitorea con indicadores (ej: <code>vulnerabilidades críticas abiertas >30 días</code>).</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A[1. Identificar] --> B[2. Analizar];
+                        B --> C[3. Evaluar];
+                        C --> D{4. Tratar};
+                        D -- Mitigar/Transferir/Evitar/Aceptar --> E[5. Monitorear y Revisar];
+                        E --> A;
+                        style A fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                        style E fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                    </pre>
+                </div>
+                <p>En <strong>cumplimiento</strong>, alineamos la práctica con marcos y leyes. <code>ISO/IEC 27001</code> establece un Sistema de Gestión de Seguridad (SGSI); <code>NIST CSF</code> organiza capacidades en identificar, proteger, detectar, responder y recuperar; auditorías tipo <code>SOC 2</code> evalúan controles; y en privacidad, principios como minimización y derechos de titulares (<code>GDPR</code>) obligan a clasificar datos y gestionar su ciclo de vida. Nada de esto funciona sin gestión de terceros y una sólida cultura de seguridad.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. Operaciones y Respuesta a Incidentes</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El <strong>SOC</strong> (Security Operations Center) es la “sala de control”. Agrega y correlaciona registros con un <code>SIEM</code>, aplica reglas y prioriza alertas. La <strong>ingeniería de detecciones</strong> traduce hipótesis de ataque en reglas; el <strong>Threat Hunting</strong> busca actividad anómala antes de que alerte el <code>SIEM</code>; y <code>XDR/EDR</code> aportan visibilidad profunda en endpoints.</p>
+                <p>Cuando algo ocurre, seguimos un <strong>ciclo de respuesta</strong>. La <strong>preparación</strong> define herramientas y entrenamiento. La <strong>detección y análisis</strong> validan la alerta. La <strong>contención</strong> corta el sangrado. La <strong>erradicación</strong> elimina la causa raíz y la <strong>recuperación</strong> devuelve servicios a producción. Cerramos con <strong>lecciones aprendidas</strong> para que el incidente no se repita. Métricas como <code>MTTD</code> (tiempo hasta detectar) y <code>MTTR</code> (tiempo hasta recuperar) ayudan a demostrar mejora.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        subgraph Ciclo de Respuesta a Incidentes
+                            A(Preparación) --> B(Detección & Análisis);
+                            B --> C(Contención);
+                            C --> D(Erradicación);
+                            D --> E(Recuperación);
+                            E --> F(Lecciones Aprendidas);
+                            F -.-> A;
+                        end
+                    </pre>
+                </div>
+                <p>Todo debe documentarse cuidando la <strong>cadena de custodia</strong> de evidencias y la comunicación con partes interesadas (dirección, legal, clientes, regulador) con mensajes precisos y oportunos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Continuidad del Negocio</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La continuidad se ocupa de que la organización siga operando ante crisis. Comienza con un Análisis de Impacto al Negocio (<strong>BIA</strong>) que identifica procesos críticos. De allí nacen dos objetivos: <code>RTO</code> (tiempo máximo aceptable para recuperar un servicio) y <code>RPO</code> (pérdida máxima de datos permitida).</p>
+                <p>El Plan de Continuidad del Negocio (<strong>BCP</strong>) define cómo sostener operaciones en contingencia, mientras que el Plan de Recuperación ante Desastres (<strong>DRP</strong>) detalla la restauración tecnológica. La resiliencia moderna combina arquitectura (alta disponibilidad), procesos (cambios controlados) y datos (replicación).</p>
+                <p>Las <strong>copias de seguridad</strong> son la última línea de defensa y deben seguir la regla 3-2-1: tres copias, en dos medios distintos, con una de ellas <em>offline</em> o inmutable. Las pruebas de restauración regulares son obligatorias. Los ejercicios —desde simulaciones hasta pruebas de conmutación— validan que <code>RTO</code> y <code>RPO</code> se cumplen.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Mini Ejemplo Integrador</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Imagina que un atacante logra acceso por una contraseña filtrada.</p>
+                 <ul>
+                    <li><strong>(Sección 1)</strong> <code>Zero Trust</code> y <code>MFA</code> evitan el acceso directo.</li>
+                    <li><strong>(Sección 4)</strong> Los registros del <code>SIEM</code> y el <code>EDR</code> detectan intentos fallidos y ejecución sospechosa.</li>
+                    <li><strong>(Sección 3)</strong> La política de contraseñas y el proceso de gestión de riesgos se definieron en <code>GRC</code>.</li>
+                    <li><strong>(Sección 2)</strong> El <code>cifrado</code> y la gestión de claves protegen datos en reposo.</li>
+                    <li><strong>(Sección 5)</strong> Si pese a todo se encripta un servidor crítico, el <code>BCP/DRP</code> permite restaurar desde backups inmutables cumpliendo un <code>RPO</code> de 15 minutos y un <code>RTO</code> de 2 horas.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        const mermaidConfig = {
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: '"Inter", sans-serif',
+            gantt: {
+                axisFormat: '%H:%M',
+            },
+            sequence: {
+                actorFontFamily: '"Inter", sans-serif',
+                noteFontFamily: '"Inter", sans-serif',
+            }
+        };
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Re-render mermaid charts with the correct theme
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach((div, index) => {
+                // Remove the rendered SVG to force re-render
+                const svg = div.querySelector('svg');
+                if(svg) {
+                    svg.remove();
+                    div.removeAttribute('data-processed');
+                }
+                
+                // Set theme and re-render
+                const newConfig = {...mermaidConfig, theme: theme === 'dark' ? 'dark' : 'default' };
+                mermaid.initialize(newConfig);
+                mermaid.init(undefined, div);
+            });
+        }
+        
+        // Initial mermaid setup
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const initialConfig = {...mermaidConfig, theme: savedTheme === 'dark' ? 'dark' : 'default' };
+        mermaid.initialize(initialConfig);
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>

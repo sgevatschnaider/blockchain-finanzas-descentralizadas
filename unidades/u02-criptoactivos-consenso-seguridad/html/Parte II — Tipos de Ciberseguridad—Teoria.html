@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciberseguridad Avanzada: De Redes a la Nube</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --danger-color: #e74c3c;
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+      --danger-color: #ff7979;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 15000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    
+    .mermaid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .mermaid-container {
+        background: rgba(0,0,0,0.2);
+    }
+    .mermaid {
+        width: 100%;
+        text-align: center;
+    }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Dominios de Ciberseguridad</h1>
+      <p class="subtitle">Una exploración visual de las áreas clave de la protección digital moderna.</p>
+    </header>
+
+    <div class="lesson-container">
+
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">6. Seguridad de redes</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La seguridad de redes se basa en la <strong>segmentación</strong> para limitar el movimiento lateral de un atacante. La <strong>macro-segmentación</strong> separa dominios amplios (usuarios, servidores, <code>DMZ</code>), mientras que la <strong>micro-segmentación</strong> aplica reglas granulares entre servicios específicos. Controles modernos como <code>NGFW</code>, <code>WAF</code>, e <code>IDS/IPS</code> inspeccionan el tráfico, mientras que <code>ZTNA</code> y las <code>VPN</code> aseguran el acceso. La defensa moderna cifra todo el tráfico (<code>TLS</code>) y registra flujos para monitoreo continuo.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph Internet
+                            direction LR
+                            A[Atacante] --> B["Usuario Legítimo"];
+                        end
+                        subgraph "Red Corporativa (Segmentada)"
+                            direction LR
+                            C(DMZ) -- "WAF" --> D("Servidores Web");
+                            E("Red de Usuarios") -- "Reglas Mínimas" --> F("Servidores Internos");
+                            G["Atacante (Equipo Comprometido)"]-.->|"Movimiento Lateral BLOQUEADO"| F;
+                        end
+                        Internet --> C;
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7. Seguridad de endpoints y móviles</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Proteger el endpoint exige un enfoque por capas: <strong>endurecimiento</strong> del sistema (<code>CIS Baselines</code>, cifrado de disco), <strong>gestión de parches</strong> continua, <strong>control de aplicaciones</strong> (<code>allowlisting</code>), y <strong>detección y respuesta</strong> con <code>EDR/XDR</code>. Para móviles, la gestión con <code>MDM/MAM</code> aplica políticas de seguridad (cifrado, borrado remoto) en modelos como <code>BYOD</code> o <code>COPE</code>. La combinación de tecnología y formación del usuario es clave para frenar ataques de <code>phishing</code> y <code>smishing</code>.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Endpoint Seguro"]
+                        A --> B("1. Endurecimiento (Hardening)");
+                        A --> C("2. Gestión de Parches");
+                        A --> D("3. Control de Aplicaciones");
+                        A --> E("4. Detección y Respuesta (EDR)");
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">8. Seguridad de aplicaciones</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La seguridad se integra en todo el ciclo de vida del software (<strong><code>SDLC</code> seguro</strong>). Comienza con modelado de amenazas (<code>STRIDE</code>) y sigue con pruebas continuas en la tubería de <code>CI/CD</code>: <code>SAST</code> (código estático), <code>SCA</code> (dependencias), <code>DAST</code> (aplicación en ejecución) y <code>IAST</code>. Se debe proteger contra el <code>OWASP Top 10</code> y gestionar secretos (claves, tokens) en cofres seguros, nunca en el código.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A(Diseño) -- "Modelado de Amenazas" --> B(Desarrollo);
+                        B -- "SAST / SCA" --> C("Pruebas CI/CD");
+                        C -- "DAST / IAST" --> D(Despliegue);
+                        D -- "Monitoreo / RASP" --> E(Operación);
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">9. Seguridad en la nube</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La seguridad en la nube se rige por el <strong>modelo de responsabilidad compartida</strong>. La principal amenaza es la mala configuración. La defensa es <strong><code>identity-first</code></strong>, con un <code>IAM</code> bien diseñado y acceso de mínimo privilegio. Herramientas como <code>CSPM</code> auditan configuraciones, <code>CWPP</code> protege las cargas de trabajo y <code>CIEM</code> gobierna los permisos. En Kubernetes, se aplica <code>RBAC</code> estricto, <code>Network Policies</code> y políticas de admisión para bloquear despliegues inseguros.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Modelo de Responsabilidad Compartida (Ej: IaaS)"
+                            P["Proveedor Cloud (Seguridad 'de' la nube)"]
+                            C["Cliente (Seguridad 'en' la nube)"]
+                        end
+                        
+                        P_Resp["Responsable de: Infra. Física, Hipervisor"]
+                        C_Resp["Responsable de: SO, Red Virtual, IAM, Datos"]
+
+                        P --> P_Resp;
+                        C --> C_Resp;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">10. Seguridad de datos y privacidad</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La seguridad de datos sigue el <strong>ciclo de vida del dato</strong>: crear, almacenar, usar, compartir, archivar y destruir. Se aplican controles como clasificación, cifrado en reposo y tránsito, <strong>tokenización</strong> y <strong>enmascaramiento</strong>. La prevención de fugas (<code>DLP</code>) y la <strong>pseudonimización</strong> protegen la información. La privacidad añade principios legales como minimización y propósito, requiriendo <code>DPIA</code> para tratamientos de alto riesgo y garantizando los derechos de los titulares.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A(Crear) --> B(Almacenar) --> C(Usar) --> D(Compartir) --> E(Archivar) --> F(Destruir);
+                        style B fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                        style D fill:#007991,stroke:#fff,stroke-width:2px,color:#fff
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">11. Identidad y acceso (IAM y PAM)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La identidad es el nuevo perímetro. El gobierno de identidades (<code>IAM</code>) gestiona el ciclo de vida <strong><code>joiner-mover-leaver</code></strong> para identidades humanas y no humanas. La autenticación evoluciona a <code>MFA</code> y <code>passwordless</code> (<code>FIDO2</code>). La autorización usa <code>RBAC</code> o <code>ABAC</code>. El acceso privilegiado (<code>PAM</code>) requiere un tratamiento especial: acceso <strong>just-in-time</strong>, rotación de contraseñas y grabación de sesiones.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A("Alta - Joiner") --> B("Cambios - Mover");
+                        B --> C("Baja - Leaver");
+                        subgraph "Acceso Privilegiado (PAM)"
+                            D["Solicitud Just-in-Time"] --> E["Acceso Temporal Aprobado"];
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">12. OT/ICS, IoT e IIoT</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los sistemas de Tecnología Operativa (<code>OT</code>) priorizan la disponibilidad y seguridad física. La arquitectura segura usa el <strong>Modelo Purdue</strong> para separar la red corporativa (IT) de la red de la planta (OT) con una <code>DMZ</code> industrial. La visibilidad se logra con monitoreo de red pasivo. En <code>IoT</code>, la seguridad se enfoca en el inventario, el firmware firmado y la segmentación de la red para aislar los dispositivos.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        L5("Nivel 5: Red Corporativa (IT)") --> L4("Nivel 4: Logística del Sitio");
+                        L4 --> DMZ("Nivel 3.5: DMZ Industrial");
+                        DMZ --> L3("Nivel 3: Operaciones (OT)");
+                        L3 --> L2("Nivel 2: Control de Supervisión");
+                        L2 --> L1("Nivel 1: Control Básico");
+                    </pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">13. Pruebas y aseguramiento</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Asegurar es verificar. Un programa de <strong>gestión de vulnerabilidades</strong> opera en ciclos de descubrimiento y remediación. El <strong>pentesting</strong> evalúa qué puede lograr un atacante. La dinámica de equipos acelera la madurez: el <strong>Equipo Rojo</strong> (<code>Red Team</code>) simula ataques, el <strong>Equipo Azul</strong> (<code>Blue Team</code>) defiende, y el <strong>Equipo Púrpura</strong> (<code>Purple Team</code>) integra los aprendizajes de ambos para mejorar la postura general. La <strong>forense digital</strong> reconstruye incidentes preservando evidencias.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Red Team"] -- "Simula Ataques" --> B["Blue Team"];
+                        B -- "Defiende y Detecta" --> A;
+                        C("Purple Team") -- "Integra Aprendizajes" --> A & B;
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        const mermaidConfig = {
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: '"Inter", sans-serif'
+        };
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach(div => {
+                const svg = div.querySelector('svg');
+                if(svg) {
+                    svg.remove();
+                }
+                div.removeAttribute('data-processed');
+                const newConfig = {...mermaidConfig, theme: theme === 'dark' ? 'dark' : 'default' };
+                mermaid.initialize(newConfig);
+                mermaid.init(undefined, div);
+            });
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const initialConfig = {...mermaidConfig, theme: savedTheme === 'dark' ? 'dark' : 'default' };
+        mermaid.initialize(initialConfig);
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+                if (card.classList.contains('open')) {
+                    const mermaidDiv = card.querySelector('.mermaid');
+                    if (mermaidDiv && !mermaidDiv.querySelector('svg')) {
+                         const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+                         const config = {...mermaidConfig, theme: currentTheme === 'dark' ? 'dark' : 'default' };
+                         mermaid.initialize(config);
+                         mermaid.init(undefined, mermaidDiv);
+                    }
+                }
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>

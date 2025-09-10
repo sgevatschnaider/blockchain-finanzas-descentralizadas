@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glosario Interactivo de Ciberseguridad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --danger-color: #e74c3c;
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+      --danger-color: #ff7979;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 15000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    
+    code {
+      background-color: rgba(0, 121, 145, 0.1); color: var(--accent-primary); padding: 0.2em 0.4em; margin: 0 0.1em;
+      border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; font-weight: 500;
+    }
+    [data-theme="dark"] code {
+      background-color: rgba(72, 219, 251, 0.15); color: var(--accent-secondary);
+    }
+    
+    .mermaid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+    }
+    [data-theme="dark"] .mermaid-container {
+        background: rgba(0,0,0,0.2);
+    }
+    .mermaid {
+        width: 100%;
+        text-align: center;
+    }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Glosario de Ciberseguridad</h1>
+      <p class="subtitle">Una referencia visual e interactiva de los conceptos fundamentales de la seguridad digital.</p>
+    </header>
+
+    <div class="lesson-container">
+
+        <!-- A-B -->
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">AES-GCM (Advanced Encryption Standard – Galois/Counter Mode)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Modo moderno de cifrado simétrico que ofrece <code>confidencialidad</code> e <code>integridad</code> en una sola operación. Usa un contador para cifrar y un código de autenticación (<code>GHASH</code>) para detectar alteraciones. Muy usado en datos en reposo y en tránsito por su eficiencia y seguridad.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Datos Originales"] --> B{"Cifrado AES"};
+                        A --> C{"Autenticación GHASH"};
+                        subgraph "Salida Combinada"
+                            B["Texto Cifrado"] --- C["Tag de Integridad"];
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Alta disponibilidad (High Availability, HA)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Diseño y operación de sistemas para minimizar el tiempo fuera de servicio mediante redundancia y automatización (clústeres, balanceadores, zonas múltiples). Suele medirse con “n nueves” (ej., <code>99,99%</code>). Véase también: Conmutación por error, Zonas y regiones.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Usuario"] --> B{"Balanceador de Carga"};
+                        B --> C1["Servidor 1 (Activo)"];
+                        B --> C2["Servidor 2 (Redundante)"];
+                        C1 -. "Falla" .-> B;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Amenaza (Threat)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Cualquier agente, evento o condición con capacidad de causar daño a un activo: atacantes, errores humanos, fallas, desastres. Una amenaza solo se materializa en incidente si encuentra una vulnerabilidad explotable. Relacionado: <code>Riesgo</code>.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Amenaza"] -- "Explota" --> B("Vulnerabilidad");
+                        B -- "Causa" --> C{"Impacto/Daño"};
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Asumir brecha (Assume Breach)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Principio operativo: partir de la premisa de que el adversario ya está dentro o puede estarlo. Orienta a detección temprana, segmentación, mínimo privilegio y planes de respuesta a incidentes.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Mentalidad: 'Ya están dentro'"] --> B("Foco en Detección");
+                        A --> C("Foco en Respuesta Rápida");
+                        A --> D("Foco en Contención");
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Autenticación multifactor (MFA)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Verificación de identidad que combina al menos dos factores de distintas categorías: <code>algo que sabes</code> (contraseña), <code>algo que tienes</code> (token, app) y <code>algo que eres</code> (biometría). Reduce drásticamente el abuso de credenciales filtradas.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Factores de Autenticación"
+                            A["Sabes: Contraseña"]
+                            B["Tienes: Token/App"]
+                            C["Eres: Biometría"]
+                        end
+                        A -- "y" --> B;
+                        B -- "o" --> C;
+                        B --> D{"Acceso Concedido"};
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Autoridad Certificadora (Certificate Authority, CA)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Entidad de confianza en una <code>PKI</code> que valida identidades y firma certificados digitales. Su reputación y controles son críticos: una CA comprometida compromete a sus emisores.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        CA["Autoridad Certificadora"] -- "Emite y Firma" --> Cert1["Certificado para dominio.com"];
+                        CA -- "Emite y Firma" --> Cert2["Certificado para api.ejemplo.org"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">BIA (Business Impact Analysis)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Estudio que identifica procesos críticos, dependencias, impactos y tolerancias al tiempo de caída y pérdida de datos. Produce parámetros como <code>RTO</code> y <code>RPO</code> que guían <code>BCP/DRP</code>.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph LR
+                        A["Análisis de Procesos"] --> B{"BIA"};
+                        B --> C["Define RTO"];
+                        B --> D["Define RPO"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">BCP (Business Continuity Plan)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Plan para sostener operaciones esenciales durante interrupciones severas (personas, sitios alternos, comunicación, proveedores). Complementa al <code>DRP</code>, que es tecnológico.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    pie title "Foco del BCP"
+                        "Personas" : 30
+                        "Procesos" : 40
+                        "Proveedores" : 20
+                        "Comunicación" : 10
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- C -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Cadena de custodia (Chain of Custody)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Registro documentado y continuo del manejo de evidencias (quién, cuándo, cómo, dónde). Garantiza integridad y admisibilidad en auditorías o procesos legales.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    sequenceDiagram
+                        participant A as Analista 1
+                        participant B as Analista 2
+                        participant C as Almacén Seguro
+                        A->>B: "Entrega de Evidencia (Disco Duro)"
+                        B->>C: "Almacenamiento Seguro"
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Cifrado asimétrico (Public-Key Cryptography)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Criptografía con par de claves: pública (se comparte) y privada (se guarda). Permite intercambio de secretos, firmas digitales y autenticación sin compartir claves. Ejemplos: <code>RSA</code>, <code>ECC/Curve25519</code>.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Dato"] -- "Clave Pública" --> B("Dato Cifrado");
+                        B -- "Clave Privada" --> A;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Cifrado simétrico (Symmetric Encryption)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Mismo secreto para cifrar y descifrar. Es muy rápido y se usa para grandes volúmenes de datos. Ejemplo recomendado: <code>AES-GCM</code>.</p>
+                 <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Dato"] -- "Clave Secreta" --> B("Dato Cifrado");
+                        B -- "Misma Clave Secreta" --> A;
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Circuit breaker (Patrón de resiliencia)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Mecanismo que “abre” el circuito ante fallas repetidas para evitar cascadas y permitir recuperación controlada. Mejora estabilidad y tiempos de recuperación.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    stateDiagram-v2
+                        [*] --> Cerrado
+                        Cerrado --> Abierto: "Umbral de Fallos Superado"
+                        Cerrado --> Cerrado: "Éxito"
+                        Abierto --> Semiabierto: "Timeout"
+                        Semiabierto --> Cerrado: "Éxito en Petición de Prueba"
+                        Semiabierto --> Abierto: "Fallo en Petición de Prueba"
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Confidencialidad, Integridad, Disponibilidad (Tríada CIA)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Ejes de la seguridad de la información. Confidencialidad: acceso solo a quien corresponde. Integridad: datos no alterados indebidamente. Disponibilidad: sistemas operativos cuando se requieren. Todo control se justifica respecto de estos tres.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Seguridad de la Información"
+                            A("Confidencialidad") --- B("Integridad");
+                            B --- C("Disponibilidad");
+                            C --- A;
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Conmutación por error (Failover)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Cambio automático a un recurso redundante cuando falla el principal. Puede ser activo-activo o activo-pasivo. Clave en alta disponibilidad.</p>
+                <div class="mermaid-container">
+                     <pre class="mermaid">
+                    graph TD
+                        A["Servidor Primario"] -- "Falla!" --> B["Servidor Secundario"];
+                        B -- "Asume el Tráfico" --> C("Operación Normal");
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Contención (Containment)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Fase de respuesta a incidentes que busca “parar el sangrado”: aislar equipos, revocar credenciales, bloquear tráfico o deshabilitar servicios para limitar el alcance del ataque.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        A["Incidente Detectado"] --> B{"Contención"};
+                        B --> C["Aislar Host"];
+                        B --> D["Revocar Credenciales"];
+                        B --> E["Bloquear IP"];
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- RPO y RTO Combinados (NUEVA SECCIÓN) -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">RPO y RTO (Objetivos de Recuperación)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><strong>RPO (Recovery Point Objective):</strong> Máxima cantidad de datos que la organización está dispuesta a perder, medida hacia atrás en el tiempo desde el incidente. Define la frecuencia de los backups. Ej.: <code>RPO=15 minutos</code>.</p>
+                <p><strong>RTO (Recovery Time Objective):</strong> Tiempo máximo aceptable para recuperar un servicio tras una interrupción. Define la rapidez con la que debe actuar el plan de recuperación. Ej.: <code>RTO=30 minutos</code>.</p>
+                <div class="mermaid-container">
+                     <pre class="mermaid">
+                        gantt
+                            title RTO (Tiempo de Inactividad) vs. RPO (Pérdida de Datos)
+                            dateFormat  HH:mm:ss
+                            axisFormat  %H:%M:%S
+
+                            section Línea de Tiempo de Eventos
+                            Último Backup Válido :milestone, 10:00:00, 1s
+                            Incidente Crítico    :milestone, 10:15:00, 1s
+                            Servicio Restaurado  :milestone, 10:35:00, 1s
+
+                            section Objetivos de Recuperación
+                            Pérdida Máxima de Datos (RPO = 15m) :crit, 10:00:00, 15m
+                            Tiempo Máximo de Inactividad (RTO = 30m) :crit, 10:15:00, 30m
+                     </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zero Trust -->
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Zero Trust</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Modelo que elimina la confianza implícita en red o identidad. Requiere verificación explícita y continua, mínimo privilegio, microsegmentación, control de dispositivos y telemetría exhaustiva. Objetivo: limitar movimiento lateral y acortar <code>MTTD/MTTR</code>.</p>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+                    graph TD
+                        subgraph "Principios Zero Trust"
+                            A["Verificar Siempre"]
+                            B["Aplicar Mínimo Privilegio"]
+                            C["Asumir Brecha"]
+                        end
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        const mermaidConfig = {
+            startOnLoad: true,
+            theme: 'default',
+            fontFamily: '"Inter", sans-serif'
+        };
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Re-render mermaid charts with the correct theme
+            const mermaidDivs = document.querySelectorAll('.mermaid');
+            mermaidDivs.forEach(div => {
+                const svg = div.querySelector('svg');
+                if(svg) {
+                    svg.remove();
+                }
+                div.removeAttribute('data-processed');
+                const newConfig = {...mermaidConfig, theme: theme === 'dark' ? 'dark' : 'default' };
+                mermaid.initialize(newConfig);
+                mermaid.init(undefined, div);
+            });
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const initialConfig = {...mermaidConfig, theme: savedTheme === 'dark' ? 'dark' : 'default' };
+        mermaid.initialize(initialConfig);
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+                // Re-render mermaid chart inside when opening, in case it wasn't visible
+                if (card.classList.contains('open')) {
+                    const mermaidDiv = card.querySelector('.mermaid');
+                    if (mermaidDiv && !mermaidDiv.querySelector('svg')) {
+                         const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+                         const config = {...mermaidConfig, theme: currentTheme === 'dark' ? 'dark' : 'default' };
+                         mermaid.initialize(config);
+                         mermaid.init(undefined, mermaidDiv);
+                    }
+                }
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>
