@@ -58,6 +58,16 @@ Este módulo explora las arquitecturas y técnicas para construir sistemas ciber
 | Recurso / Descripción | Enlace Directo |
 | :--- | :--- |
 | **Demo Interactiva: Del Sensor al Smart Contract** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una página interactiva que visualiza la arquitectura completa de un pipeline IoT a Blockchain. Muestra el flujo desde el sensor, pasando por el gateway y el almacenamiento IPFS, hasta la ejecución en un smart contract, con métricas de latencia y costo.</p></details> | [![Abrir Demo](https://img.shields.io/badge/Abrir_Demo-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Del%20sensor%20al%20smart%20contract.html) |
+
+# 🌐 Módulo de Metaverso y Blockchain
+
+Este módulo analiza la sinergia fundamental entre los mundos virtuales inmersivos (Metaverso) y la tecnología de contabilidad distribuida (Blockchain), sentando las bases para la próxima generación de internet.
+
+| Recurso / Descripción | Enlace Directo |
+| :--- | :--- |
+| **Conceptos Clave: Metaverso y Blockchain** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Página de resumen que introduce la convergencia esencial entre el Metaverso (capa de experiencia) y Blockchain (capa de confianza). Explica los pilares fundamentales como NFTs, DAOs e Identidad Soberana a través de diagramas claros y contenido conciso, ideal para una primera aproximación.</p></details> | [![Abrir Resumen](https://img.shields.io/badge/Ver_Conceptos-HTML5-blue?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-iot-ia-metaverso/html/Metaverso.html) |
+| **Clase Interactiva: Ecosistema Metaverso-Blockchain** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Aplicación web interactiva y detallada que permite una exploración profunda del ecosistema. Incluye un mapa conceptual dinámico, una cronología de la evolución, casos de uso filtrables y una matriz de riesgos. Es un recurso avanzado para un análisis práctico y profundo.</p></details> | [![Abrir Clase](https://img.shields.io/badge/Clase_Interactiva-HTML5-purple?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-iot-ia-metaverso/html/metaverso-blockchain.html) |
+
 ## 🗺️ Plan de trabajo (visión general)
 
 - **Sección 3 (3 días)**
