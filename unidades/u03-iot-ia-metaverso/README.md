@@ -1,5 +1,11 @@
 ﻿# U3 — IoT · IA/ML · Metaverso (Casos y Prototipos)
 
+ > Vista previa de la Clase Interactiva: Ecosistema Metaverso-Blockchain.
+
+<img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/unidades/u03-iot-ia-metaverso/html/Metaverso-linkedin.gif" alt="Animación del Ecosistema Metaverso-Blockchain" width="900" />
+
+---
+
 **Material elaborado:** Dr. Sergio Gevatschnaider
 
 > Esta unidad une **trazabilidad** (IoT → IPFS/on-chain), **análisis de costos en L1/L2** (incluido EIP-4844 a nivel conceptual) y **mini-ML** para alertas/insights. El foco está en prototipos aplicados: desde anclar evidencias (hash/CID) hasta estimar costos de publicación y construir un *pipeline* sencillo de detección de anomalías.
