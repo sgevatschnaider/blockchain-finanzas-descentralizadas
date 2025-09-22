@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lightning Network — Simulador en Grafo (v2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- LÍNEA CORREGIDA: Ahora carga la librería desde la misma carpeta -->
+  <script src="d3.min.js"></script>
+  <script>
+    // Verificar que D3 se cargó correctamente
+    if (typeof d3 === 'undefined') {
+      console.error('D3 no se cargó correctamente');
+      document.body.innerHTML = '<div style="padding: 20px; color: red; font-family: Arial;">Error: D3 no se cargó. Verifica que d3.min.js esté en la misma carpeta.</div>';
+    }
+  </script>
+  
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#111a2e; --text:#e5e7eb; --muted:#94a3b8;
+      --border:#22314f; --accent:#7dd3fc; --accent2:#a78bfa;
+      --ok:#34d399; --warn:#f59e0b; --err:#ef4444; --ink:#0f172a;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#0b1220,#0e172a);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    #app{display:grid;grid-template-columns:340px 1fr;grid-template-rows:auto 1fr;gap:16px;height:100%;padding:16px;box-sizing:border-box}
+    header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between}
+    h1{margin:0;font-size:20px;font-weight:700}
+    .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px}
+    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
+    select,input{width:100%;padding:10px 12px;background:var(--ink);border:1px solid var(--border);border-radius:10px;color:var(--text);outline:none}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    button{all:unset;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#0b1220;font-weight:700;padding:10px 12px;border-radius:10px;cursor:pointer;margin-top:12px}
+    button.secondary{background:var(--ink);color:var(--text);border:1px solid var(--border)}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.35}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+    .card{background:var(--ink);border:1px solid var(--border);border-radius:10px;padding:8px}
+    .card h4{margin:0 0 4px;font-size:11px;color:var(--muted);font-weight:600}
+    .card .v{font-size:14px;font-weight:700}
+    .legend{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{display:inline-flex;gap:6px;align-items:center;background:var(--ink);border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .svg-wrap{position:relative}
+    svg{width:100%;height:calc(100vh - 120px);background:
+      radial-gradient(900px 500px at 20% 0%, rgba(125,211,252,.07), transparent 60%),
+      radial-gradient(900px 500px at 80% 0%, rgba(167,139,250,.07), transparent 60%)}
+    .link{stroke:#334155;stroke-width:2;opacity:.9;marker-end:url(#arrow)}
+    .link.active{stroke:var(--accent)}
+    .link.blocked{stroke:var(--err);stroke-dasharray:4 3}
+    .dirAB{stroke:url(#gradAB)}
+    .dirBA{stroke:url(#gradBA)}
+    .node circle{fill:#0ea5e9;stroke:#67e8f9;stroke-width:1.5}
+    .node text{font-size:12px;pointer-events:none;fill:#e2e8f0}
+    .edge-label{font-size:11px;fill:var(--muted);pointer-events:none;user-select:none}
+    .toast{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:var(--ink);border:1px solid var(--border);padding:10px 14px;border-radius:10px;font-size:13px;color:var(--text);display:none;min-width:240px;text-align:center}
+    .toast.show{display:block}
+    .toast.ok{border-color:var(--ok)}
+    .toast.warn{border-color:var(--warn)}
+    .toast.err{border-color:var(--err)}
+    .progress{height:4px;background:#0a1020;border-radius:999px;overflow:hidden;margin-top:8px}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+    @media (max-width: 980px){
+      #app{grid-template-columns:1fr;grid-template-rows:auto auto 1fr}
+      svg{height:60vh}
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Simulador Lightning como Grafo — v2</h1>
+    <div class="legend">
+      <span class="pill"><span class="dot" style="background:#7dd3fc"></span> Ruta activa</span>
+      <span class="pill"><span class="dot" style="background:#34d399"></span> Pago OK</span>
+      <span class="pill"><span class="dot" style="background:#ef4444"></span> Bloqueado / Sin liquidez</span>
+    </div>
+  </header>
+
+  <aside class="panel">
+    <h3 style="margin:0 0 8px">Controles</h3>
+    <label for="from">Origen</label>
+    <select id="from"></select>
+
+    <label for="to">Destino</label>
+    <select id="to"></select>
+
+    <div class="row">
+      <div>
+        <label for="amount">Monto (sats)</label>
+        <input id="amount" type="number" min="1" step="1" value="2000" inputmode="numeric">
+      </div>
+      <div>
+        <label for="algo">Algoritmo</label>
+        <select id="algo">
+          <option value="dijkstra" selected>Dijkstra (mín. costo)</option>
+          <option value="yen">Yen (k rutas)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="kAlt">k rutas (Yen)</label>
+        <input id="kAlt" type="number" min="2" max="6" step="1" value="3">
+      </div>
+      <div>
+        <label for="maxFee">Fee máx. total (sats)</label>
+        <input id="maxFee" type="number" min="0" step="1" value="100">
+      </div>
+    </div>
+
+    <button id="sendBtn">Enviar pago</button>
+    <button id="resetBtn" class="secondary">Reset</button>
+
+    <div class="hint">
+      La ruta se calcula con restricción de liquidez y costo mínimo (baseFee + monto×ppm/1e6). El pago se procesa con lock y cola para evitar condiciones de carrera. Solo se actualizan etiquetas y estilos sin reconstruir el SVG.
+    </div>
+
+    <div class="metrics">
+      <div class="card"><h4>Costo total</h4><div class="v" id="mCost">–</div></div>
+      <div class="card"><h4>Hops</h4><div class="v" id="mHops">–</div></div>
+      <div class="card"><h4>Capacidad media</h4><div class="v" id="mCap">–</div></div>
+      <div class="card"><h4>Éxito estimado</h4><div class="v" id="mProb">–</div></div>
+    </div>
+
+    <div class="progress"><div class="bar" id="bar"></div></div>
+  </aside>
+
+  <div class="panel svg-wrap">
+    <div id="toast" class="toast"></div>
+    <svg id="svg"></svg>
+  </div>
+</div>
+
+<script>
+/* ========= Utilidades ========= */
+const $ = id => document.getElementById(id);
+function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+function fmt(n){ return typeof n==="number" ? n.toFixed(0) : "–"; }
+
+/* ========= Datos demo ========= */
+const NODES_SEED = [
+  { id:"Alice" },{ id:"Bob" },{ id:"Carol" },{ id:"Dave" },
+  { id:"Eve" },{ id:"Frank" },{ id:"Grace" }
+];
+
+const LINKS_SEED = [
+  { a:"Alice", b:"Bob",    capAB:12000, capBA:8000,  baseFee:5,  ppm:500 },
+  { a:"Bob",   b:"Carol",  capAB:7000,  capBA:9000,  baseFee:1,  ppm:200 },
+  { a:"Carol", b:"Dave",   capAB:15000, capBA:10000, baseFee:2,  ppm:150 },
+  { a:"Alice", b:"Eve",    capAB:4000,  capBA:16000, baseFee:3,  ppm:800 },
+  { a:"Eve",   b:"Dave",   capAB:6000,  capBA:6000,  baseFee:2,  ppm:300 },
+  { a:"Bob",   b:"Eve",    capAB:3000,  capBA:11000, baseFee:1,  ppm:250 },
+  { a:"Eve",   b:"Frank",  capAB:5000,  capBA:5000,  baseFee:1,  ppm:200 },
+  { a:"Frank", b:"Grace",  capAB:12000, capBA:3000,  baseFee:2,  ppm:350 },
+  { a:"Carol", b:"Grace",  capAB:4000,  capBA:9000,  baseFee:1,  ppm:100 },
+  { a:"Dave",  b:"Grace",  capAB:2000,  capBA:17000, baseFee:3,  ppm:600 }
+];
+
+/* ========= MinHeap para Dijkstra ========= */
+class MinHeap {
+  constructor(){ this.a=[]; }
+  push(x){ this.a.push(x); this.bubbleUp(this.a.length-1); }
+  pop(){
+    if(this.a.length===0) return null;
+    const top=this.a[0], end=this.a.pop();
+    if(this.a.length>0){ this.a[0]=end; this.sink(0); }
+    return top;
+  }
+  size(){ return this.a.length; }
+  bubbleUp(i){
+    while(i>0){
+      const p=(i-1>>1);
+      if(this.a[p].dist<=this.a[i].dist) break;
+      [this.a[p],this.a[i]]=[this.a[i],this.a[p]]; i=p;
+    }
+  }
+  sink(i){
+    for(;;){
+      let l=i*2+1,r=i*2+2, m=i;
+      if(l<this.a.length && this.a[l].dist<this.a[m].dist) m=l;
+      if(r<this.a.length && this.a[r].dist<this.a[m].dist) m=r;
+      if(m===i) break; [this.a[i],this.a[m]]=[this.a[m],this.a[i]]; i=m;
+    }
+  }
+}
+
+/* ========= Estado de red ========= */
+class NetworkState {
+  constructor(){
+    this.nodes = NODES_SEED.map(d=>({id:d.id}));
+    this.links = LINKS_SEED.map((d,i)=>({id:`L${i}`, ...d}));
+  }
+  reset(){ this.constructor.call(this); }
+  capacityTotal(l){ return l.capAB + l.capBA; }
+  validate(){
+    // no capacidades negativas, enlaces definidos, nodos válidos
+    const ids = new Set(this.nodes.map(n=>n.id));
+    for(const l of this.links){
+      if(!ids.has(l.a) || !ids.has(l.b)) throw new Error("Enlace con nodos inexistentes");
+      ["capAB","capBA","baseFee","ppm"].forEach(k=>{
+        if(!(k in l) || typeof l[k]!=="number" || l[k]<0) throw new Error(`Valor inválido en ${l.id}:${k}`);
+      });
+    }
+  }
+}
+
+/* ========= Pathfinding ========= */
+class PathfindingEngine {
+  constructor(state){ this.state = state; }
+  hopCost(link, amount){ return link.baseFee + (amount * link.ppm / 1e6); }
+  buildAdj(amount, blockedIds=new Set()){
+    const adj = new Map(this.state.nodes.map(n=>[n.id, []]));
+    for(const l of this.state.links){
+      if(blockedIds.has(l.id)) continue;
+      if(l.capAB >= amount) adj.get(l.a).push({to:l.b, link:l, dir:"AB"});
+      if(l.capBA >= amount) adj.get(l.b).push({to:l.a, link:l, dir:"BA"});
+    }
+    return adj;
+  }
+  dijkstra(src, dst, amount, maxFee=Infinity, blockedIds=new Set()){
+    const adj = this.buildAdj(amount, blockedIds);
+    const dist = new Map(this.state.nodes.map(n=>[n.id, Infinity]));
+    const prev = new Map(), prevEdge = new Map();
+    const heap = new MinHeap();
+    dist.set(src, 0); heap.push({v:src, dist:0});
+
+    while(heap.size()){
+      const {v, dist:dv} = heap.pop();
+      if (dv!==dist.get(v)) continue;
+      if (dv > maxFee) return null; // poda por fee máxima
+      if (v===dst) break;
+      for(const e of adj.get(v)){
+        const w=e.to;
+        const ndv = dv + this.hopCost(e.link, amount);
+        if (ndv < dist.get(w)){
+          dist.set(w, ndv);
+          prev.set(w, v);
+          prevEdge.set(w, e);
+          heap.push({v:w, dist:ndv});
+        }
+      }
+    }
+    if(!prev.has(dst)) return null;
+    const path=[]; let u=dst;
+    while(u!==src){ const e=prevEdge.get(u); path.push(e); u=prev.get(u); }
+    path.reverse();
+    return { path, cost: dist.get(dst) };
+  }
+  yenK(src,dst,amount,K=3,maxFee=Infinity){
+    const A=[], B=[]; const blocked=new Set();
+    const first = this.dijkstra(src,dst,amount,maxFee,blocked);
+    if(!first) return [];
+    A.push(first);
+    for(let k=1;k<K;k++){
+      const prevPath = A[k-1].path;
+      for (let i=0; i<prevPath.length; i++){
+        const spurLinkId = prevPath[i].link.id;
+        const blocked2 = new Set([spurLinkId]); // bloqueo lógico sin mutar estado
+        const alt = this.dijkstra(src,dst,amount,maxFee,blocked2);
+        if (alt) B.push(alt);
+      }
+      if (!B.length) break;
+      B.sort((a,b)=>a.cost-b.cost);
+      A.push(B.shift()); // mejor alternativa
+    }
+    return A;
+  }
+}
+
+/* ========= Procesador de pagos (lock + cola) ========= */
+class PaymentProcessor {
+  constructor(state, renderer){ this.state = state; this.renderer = renderer; this.lock=false; this.queue=[]; }
+  enqueue(job){
+    this.queue.push(job);
+    this.run();
+  }
+  async run(){
+    if(this.lock) return;
+    this.lock = true;
+    while(this.queue.length){
+      const {path, amount, onProgress} = this.queue.shift();
+      await this.process(path, amount, onProgress);
+    }
+    this.lock = false;
+  }
+  process(path, amount, onProgress){
+    return new Promise(resolve=>{
+      let t=0; const T=400; // anim breve
+      const tick=()=>{
+        t+=16; if(onProgress) onProgress(clamp(t/T,0,1));
+        if(t<T){ requestAnimationFrame(tick); }
+        else{
+          for(const step of path){
+            const l = step.link;
+            if(step.dir==="AB"){ l.capAB -= amount; l.capBA += amount; }
+            else { l.capBA -= amount; l.capAB += amount; }
+          }
+          this.renderer.updateEdgeLabels();
+          resolve();
+        }
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+}
+
+/* ========= Render con D3 (incremental) ========= */
+class D3Renderer {
+  constructor(state){
+    this.state = state;
+    this.svg = d3.select("#svg");
+    this.toastEl = $("toast");
+    this.bar = $("bar");
+    this.gLinks = this.svg.append("g");
+    this.gLabels = this.svg.append("g");
+    this.gNodes = this.svg.append("g");
+
+    // defs: flechas y gradientes de direcciones
+    const defs = this.svg.append("defs");
+    defs.append("marker")
+      .attr("id","arrow").attr("viewBox","0 0 10 10")
+      .attr("refX",10).attr("refY",5).attr("markerWidth",6).attr("markerHeight",6).attr("orient","auto-start-reverse")
+      .append("path").attr("d","M 0 0 L 10 5 L 0 10 z").attr("fill","#7dd3fc");
+    const gradAB = defs.append("linearGradient").attr("id","gradAB").attr("x1","0%").attr("x2","100%");
+    gradAB.append("stop").attr("offset","0%").attr("stop-color","#60a5fa");
+    gradAB.append("stop").attr("offset","100%").attr("stop-color","#7dd3fc");
+    const gradBA = defs.append("linearGradient").attr("id","gradBA").attr("x1","100%").attr("x2","0%");
+    gradBA.append("stop").attr("offset","0%").attr("stop-color","#a78bfa");
+    gradBA.append("stop").attr("offset","100%").attr("stop-color","#c084fc");
+
+    this.sim = d3.forceSimulation(this.state.nodes)
+      .force("link", d3.forceLink(this.state.links).id(d=>d.id).distance(120).strength(.5))
+      .force("charge", d3.forceManyBody().strength(-300))
+      .force("center", d3.forceCenter(this.W()/2, this.H()/2))
+      .on("tick", ()=>this.ticked());
+
+    window.addEventListener("resize", ()=>{
+      this.sim.force("center", d3.forceCenter(this.W()/2, this.H()/2));
+      this.sim.alpha(.3).restart();
+    });
+
+    this.draw();
+  }
+  W(){ 
+    const svg = $("svg");
+    return svg ? svg.clientWidth || 800 : 800; 
+  }
+  H(){ 
+    const svg = $("svg");
+    return svg ? svg.clientHeight || 600 : 600; 
+  }
+
+  draw(){
+    // Enlaces
+    this.linkSel = this.gLinks.selectAll(".link")
+      .data(this.state.links, d=>d.id)
+      .join("line")
+      .attr("class","link")
+      .attr("stroke-width", d=> 2 + Math.sqrt(this.state.capacityTotal(d))/120);
+
+    // Etiquetas
+    this.labelSel = this.gLabels.selectAll(".edge-label")
+      .data(this.state.links, d=>d.id)
+      .join("text")
+      .attr("class","edge-label")
+      .text(d=> this.edgeText(d));
+
+    // Nodos
+    const node = this.gNodes.selectAll(".node")
+      .data(this.state.nodes, d=>d.id)
+      .join(enter=>{
+        const g = enter.append("g").attr("class","node").call(this.drag(this.sim));
+        g.append("circle").attr("r",12);
+        g.append("text").attr("dy",4).attr("text-anchor","middle").text(d=>d.id);
+        return g;
+      });
+
+    this.nodeSel = node;
+  }
+
+  ticked(){
+    this.linkSel
+      .attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
+      .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
+
+    this.nodeSel.attr("transform", d=>`translate(${d.x},${d.y})`);
+
+    this.labelSel
+      .attr("x", d => (d.source.x + d.target.x)/2)
+      .attr("y", d => (d.source.y + d.target.y)/2 - 6)
+      .text(d=> this.edgeText(d));
+  }
+
+  updateEdgeLabels(){ this.labelSel.text(d=> this.edgeText(d)); }
+
+  edgeText(d){
+    return `${d.baseFee}s + ${d.ppm}ppm  |  ${d.capAB} →  /  ${d.capBA} ←`;
+  }
+
+  highlight(path, mode="active"){
+    this.linkSel.classed("active", false).classed("blocked", false);
+    if(!path) return;
+    for(const step of path){
+      this.linkSel.filter(d=>d.id===step.link.id).classed(mode, true);
+    }
+  }
+
+  drag(sim){
+    function dragstarted(event,d){ if(!event.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }
+    function dragged(event,d){ d.fx=event.x; d.fy=event.y; }
+    function dragended(event,d){ if(!event.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }
+    return d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended);
+  }
+
+  toast(msg, level="ok", ms=2200){
+    const t=this.toastEl;
+    t.textContent = msg; t.className="toast show "+level;
+    clearTimeout(this._toastTo);
+    this._toastTo = setTimeout(()=>{ t.className="toast"; }, ms);
+  }
+  progress(p){ this.bar.style.width = `${Math.round(p*100)}%`; }
+}
+
+/* ========= Controlador principal ========= */
+class LightningNetworkSimulator {
+  constructor(){
+    this.state = new NetworkState();
+    this.state.validate();
+    this.renderer = new D3Renderer(this.state);
+    this.pathfinder = new PathfindingEngine(this.state);
+    this.payments = new PaymentProcessor(this.state, this.renderer);
+    this.initUI();
+    this.setMetrics({ });
+  }
+
+  initUI(){
+    // selects
+    const fromSel = $("from"), toSel=$("to");
+    fromSel.innerHTML=""; toSel.innerHTML="";
+    for(const n of this.state.nodes){
+      const o1=document.createElement("option"); o1.value=n.id; o1.textContent=n.id; fromSel.appendChild(o1);
+      const o2=document.createElement("option"); o2.value=n.id; o2.textContent=n.id; toSel.appendChild(o2);
+    }
+    fromSel.selectedIndex=0; toSel.selectedIndex=this.state.nodes.length-1;
+
+    $("sendBtn").onclick = ()=> this.handleSend();
+    $("resetBtn").onclick = ()=> this.reset();
+  }
+
+  validateInputs(){
+    const from=$("from").value, to=$("to").value;
+    if(from===to) throw new Error("Elegí nodos distintos para origen y destino.");
+    const amount = Number($("amount").value);
+    if(!Number.isFinite(amount) || amount<=0) throw new Error("Monto inválido.");
+    if(amount>1e7) throw new Error("Monto irreal para esta demo (>10M sats).");
+    const maxFee = clamp(Number($("maxFee").value)||0,0,1e6);
+    const algo = $("algo").value;
+    const k = clamp(Number($("kAlt").value)||3,2,6);
+    return {from,to,amount,maxFee,algo,k};
+  }
+
+  estimateSuccessProb(amount){
+    // heurística simple basada en porcentaje de aristas con liquidez suficiente
+    let ok=0, total=0;
+    for(const l of this.state.links){ total+=2; if(l.capAB>=amount) ok++; if(l.capBA>=amount) ok++; }
+    return total? (ok/total) : 0;
+  }
+
+  setMetrics({cost=NaN,hops=NaN}){
+    $("mCost").textContent = Number.isFinite(cost) ? `${fmt(cost)} sats` : "–";
+    $("mHops").textContent = Number.isFinite(hops) ? `${hops}` : "–";
+    const capAvg = this.state.links.reduce((s,l)=>s+(l.capAB+l.capBA),0)/this.state.links.length;
+    $("mCap").textContent = `${fmt(capAvg)} sats`;
+    const p = this.estimateSuccessProb(Number($("amount").value)||1);
+    $("mProb").textContent = p ? `${Math.round(p*100)}%` : "–";
+  }
+
+  handleSend(){
+    let from,to,amount,maxFee,algo,k;
+    try{ ({from,to,amount,maxFee,algo,k} = this.validateInputs()); }
+    catch(e){ this.renderer.toast(e.message,"err",2600); return; }
+
+    let result = null;
+    if (algo==="yen"){
+      const routes = this.pathfinder.yenK(from,to,amount,k,maxFee);
+      if(routes.length) result = routes[0];
+    } else {
+      result = this.pathfinder.dijkstra(from,to,amount,maxFee);
+    }
+
+    if (!result){
+      this.renderer.highlight(null);
+      this.renderer.toast("No hay ruta con liquidez o fee dentro del máximo.","err",2600);
+      return;
+    }
+
+    this.renderer.highlight(result.path,"active");
+    this.setMetrics({cost:result.cost,hops:result.path.length});
+
+    // confirmación simple para pagos grandes
+    if (amount>=100000 && !confirm(`Enviar ${amount} sats en ${result.path.length} hops (costo ~${fmt(result.cost)} sats)?`)){
+      return;
+    }
+
+    $("sendBtn").disabled = true;
+    this.renderer.progress(0);
+    this.payments.enqueue({
+      path: result.path,
+      amount,
+      onProgress: p => this.renderer.progress(p)
+    });
+    // desbloqueo post-cola
+    setTimeout(()=>{ $("sendBtn").disabled = false; this.renderer.toast(`Pago enviado: ${amount} sats`, "ok"); this.renderer.progress(0); }, 550);
+  }
+
+  reset(){
+    this.state = new NetworkState();
+    this.state.validate();
+    // Actualizar referencias
+    this.renderer.sim.stop();
+    d3.select("#svg").selectAll("*").remove();
+    this.renderer = new D3Renderer(this.state);
+    this.pathfinder = new PathfindingEngine(this.state);
+    this.payments = new PaymentProcessor(this.state, this.renderer);
+    this.initUI();
+    this.setMetrics({});
+    this.renderer.toast("Red restablecida","ok",1400);
+  }
+}
+
+/* ========= Boot ========= */
+// Esperar a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', function() {
+  // Verificar que D3 esté disponible antes de inicializar
+  if (typeof d3 !== 'undefined') {
+    try {
+      console.log('Inicializando simulador Lightning...');
+      const app = new LightningNetworkSimulator();
+      console.log('Simulador Lightning inicializado correctamente');
+    } catch (error) {
+      console.error('Error al inicializar el simulador:', error);
+      document.body.innerHTML = `
+        <div style="padding: 20px; color: red; font-family: Arial;">
+          <h2>Error al inicializar el simulador</h2>
+          <p>Error: ${error.message}</p>
+          <p>Verifica la consola del navegador para más detalles.</p>
+        </div>
+      `;
+    }
+  } else {
+    console.error('D3 no está disponible');
+    document.body.innerHTML = `
+      <div style="padding: 20px; color: red; font-family: Arial;">
+        <h2>Error: D3 no se cargó</h2>
+        <p>La librería D3 no se cargó correctamente. Verifica que d3.min.js esté en la misma carpeta.</p>
+      </div>
+    `;
+  }
+});
+</script>
+</body>
+</html>
