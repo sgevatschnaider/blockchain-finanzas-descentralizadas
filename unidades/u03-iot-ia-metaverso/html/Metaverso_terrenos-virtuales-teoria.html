@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Metaverso y los Bienes Raíces Virtuales</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #007991 0%, #78ffd6 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007991;
+      --accent-secondary: #22c5a2;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1dd1a1;
+      --accent-secondary: #48dbfb;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+    .particle { position: absolute; border-radius: 50%; animation: float 25s infinite linear; opacity: 0; background: rgba(255, 255, 255, 0.6);}
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.2s ease, padding 1.2s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content em { font-style: italic; color: var(--accent-primary); }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow, .diagram-grid { display: flex; justify-content: space-around; align-items: center; gap: 1rem; }
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.down::after { content: '↓'; display: block; margin: 0.5rem 0; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+    .diagram-col { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .diagram-section { padding: 1rem; border: 2px dashed var(--border-color); border-radius: var(--border-radius); width: 100%; }
+    .diagram-section-title { font-weight: 600; text-align: center; margin-bottom: 1rem; font-size: 0.9em; color: var(--text-primary); }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="particles" id="particles-container"></div>
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Bienes Raíces en el Metaverso</h1>
+      <p class="subtitle">Explorando la Nueva Frontera de la Propiedad Digital</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Introducción al Metaverso</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El metaverso se conceptualiza como una red interconectada de entornos virtuales tridimensionales, donde los usuarios, representados por avatares, pueden interactuar entre sí y con objetos digitales de manera inmersiva. No se trata de un único mundo, sino de una especie de realidad alternativa que fusiona los aspectos físicos y digitales de la vida cotidiana. Su objetivo es permitir actividades como socializar, trabajar, jugar y realizar transacciones económicas dentro de un espacio virtual persistente.</p>
+                <p>Una de las tecnologías fundamentales del metaverso es la <strong>blockchain</strong>, que actúa como un libro de contabilidad descentralizado. Esta tecnología es crucial porque permite la creación y verificación de la propiedad de activos digitales a través de los <strong>Tokens No Fungibles (NFTs)</strong>. Un NFT es un certificado digital único que demuestra la autenticidad y propiedad de un objeto virtual. Esta "propiedad digital" es verificable, transferible y segura, sentando las bases de una economía virtual funcional.</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Fundamento de la Propiedad Digital</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Metaverso</strong><span>Entorno Virtual</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">se apoya en</div></div>
+                        <div class="diagram-box"><strong>Blockchain</strong><span>Capa de Confianza</span></div>
+                    </div>
+                    <div class="diagram-arrow down"><div class="diagram-arrow-label">para permitir la</div></div>
+                    <div class="diagram-box">
+                        <strong>Propiedad Digital Verificable</strong>
+                        <span>(a través de NFTs)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Bienes raíces virtuales: concepto y fundamentos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los bienes raíces virtuales son parcelas de terreno digital dentro de un metaverso. Estas parcelas, conocidas como <em>lands</em>, son activos digitales en forma de NFTs, lo que garantiza la prueba de propiedad en una blockchain. Aunque no tienen una contraparte física, su valor se rige por principios económicos del mundo real.</p>
+                <p>Los desarrolladores de cada plataforma de metaverso limitan deliberadamente el número de parcelas disponibles para crear una escasez artificial. Este factor, combinado con la creciente demanda de individuos y marcas por tener presencia en estos mundos virtuales, es lo que les confiere valor. Al igual que en el mundo físico, los terrenos virtuales se pueden comprar, vender, alquilar y desarrollar.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Generación de Valor del Terreno Virtual</div>
+                     <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Escasez Digital</strong><span>Oferta Limitada</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">+</div></div>
+                        <div class="diagram-box"><strong>Demanda Creciente</strong><span>Marcas y Usuarios</span></div>
+                    </div>
+                    <div class="diagram-arrow down"><div class="diagram-arrow-label">Resulta en</div></div>
+                    <div class="diagram-box">
+                        <strong>Valor Económico</strong>
+                        <span>Activo Digital Transable</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. Plataformas principales de bienes raíces virtuales</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Varias plataformas se han consolidado como líderes en el mercado de bienes raíces virtuales, cada una con características distintivas:</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Ecosistema de Plataformas</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Decentraland (MANA)</strong><span>Gobernado por usuarios</span></div>
+                        <div class="diagram-box"><strong>The Sandbox (SAND)</strong><span>Enfoque en juegos</span></div>
+                        <div class="diagram-box"><strong>Cryptovoxels</strong><span>Estética pixel art</span></div>
+                        <div class="diagram-box"><strong>Somnium Space</strong><span>Integración VR inmersiva</span></div>
+                        <div class="diagram-box"><strong>Otherside</strong><span>Creado por Yuga Labs</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. Economía de los terrenos virtuales</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El valor de un terreno en el metaverso está determinado por factores similares a los del mundo real. Un ejemplo notorio fue la venta de una parcela en Decentraland por 2,4 millones de dólares para desarrollar un centro comercial de moda virtual.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Factores Clave del Valor</div>
+                     <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Ubicación Estratégica</strong><span>Cercanía a zonas populares</span></div>
+                        <div class="diagram-box"><strong>Demanda y Especulación</strong><span>Expectativa de revalorización</span></div>
+                        <div class="diagram-box"><strong>Utilidad y Monetización</strong><span>Potencial de generar ingresos</span></div>
+                    </div>
+                </div>
+                 <p>El valor también reside en el potencial de generar ingresos. Los propietarios pueden construir tiendas, galerías o casinos. Otro modelo es el alquiler de parcelas a empresas o la venta de espacios publicitarios.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Cómo se compra un terreno en el metaverso</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El proceso para adquirir una propiedad virtual es relativamente estandarizado entre las principales plataformas:</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Flujo de Compra de un Terreno Virtual</div>
+                    <div class="diagram-col">
+                        <div class="diagram-box"><strong>1. Crear Billetera Digital</strong><span>(Ej. MetaMask)</span></div>
+                        <div class="diagram-arrow down"></div>
+                        <div class="diagram-box"><strong>2. Adquirir Criptomonedas</strong><span>(Ej. MANA, SAND)</span></div>
+                        <div class="diagram-arrow down"></div>
+                        <div class="diagram-box"><strong>3. Conectar al Marketplace</strong><span>(Ej. OpenSea)</span></div>
+                        <div class="diagram-arrow down"></div>
+                        <div class="diagram-box"><strong>4. Seleccionar y Comprar</strong><span>Explorar el mapa y elegir</span></div>
+                        <div class="diagram-arrow down"></div>
+                        <div class="diagram-box"><strong>5. Confirmar Transacción</strong><span>El NFT llega a tu billetera</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. Usos prácticos de las tierras virtuales</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Más allá de la especulación, los terrenos virtuales tienen aplicaciones prácticas y funcionales que están siendo exploradas por individuos y grandes marcas:</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Aplicaciones y Casos de Uso</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Comercio y Retail</strong><span>Tiendas virtuales (Nike)</span></div>
+                        <div class="diagram-box"><strong>Arte y Entretenimiento</strong><span>Galerías NFT y conciertos</span></div>
+                        <div class="diagram-box"><strong>Eventos y Socialización</strong><span>Conferencias globales</span></div>
+                        <div class="diagram-box"><strong>Publicidad y Marketing</strong><span>Experiencias inmersivas</span></div>
+                        <div class="diagram-box"><strong>Educación</strong><span>Campus y aulas virtuales</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7. Riesgos y desafíos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La inversión en bienes raíces virtuales conlleva riesgos significativos que deben ser considerados antes de participar en este mercado emergente.</p>
+                 <div class="diagram-container">
+                    <div class="diagram-title">Principales Riesgos a Considerar</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Volatilidad Extrema</strong><span>Mercado especulativo</span></div>
+                        <div class="diagram-box"><strong>Seguridad Cibernética</strong><span>Riesgo de hackeos y estafas</span></div>
+                        <div class="diagram-box"><strong>Dependencia de Plataforma</strong><span>El valor está atado a su éxito</span></div>
+                        <div class="diagram-box"><strong>Incertidumbre Regulatoria</strong><span>Falta de un marco legal claro</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">8. Futuro de los bienes raíces virtuales</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El futuro de este mercado dependerá de la superación de sus desafíos actuales y de la continua innovación tecnológica. La interoperabilidad, donde los activos puedan moverse entre diferentes plataformas, es uno de los objetivos más importantes.</p>
+                 <div class="diagram-container">
+                    <div class="diagram-title">Hoja de Ruta Evolutiva</div>
+                    <div class="diagram-col">
+                        <div class="diagram-box"><strong>Presente</strong><span>Metaversos aislados (Silos)</span></div>
+                        <div class="diagram-arrow down"><div class="diagram-arrow-label">Impulsado por</div></div>
+                        <div class="diagram-box"><strong>Motores de Avance</strong><span>VR/AR, IA, Interoperabilidad</span></div>
+                        <div class="diagram-arrow down"><div class="diagram-arrow-label">Hacia un</div></div>
+                        <div class="diagram-box"><strong>Futuro</strong><span>Metaverso Abierto e Interconectado</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">9. Conclusiones</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los bienes raíces virtuales son un claro ejemplo de cómo el concepto de propiedad y valor se está expandiendo hacia el mundo digital. Aunque hoy en día están marcados por una alta especulación, también representan una puerta de entrada a nuevas formas de comercio, interacción social y creatividad.</p>
+                <p>El metaverso no es solo una evolución de los videojuegos, sino la construcción de una nueva capa de la realidad donde la economía digital y la propiedad de activos virtuales, verificada por la tecnología blockchain, están redefiniendo paradigmas. El éxito a largo plazo de este fenómeno dependerá de su capacidad para ofrecer utilidad y experiencias significativas, consolidándose como un espacio donde la innovación y la economía convergen.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+        const container = document.getElementById('particles-container');
+        if (container) {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 5 + 2) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = Math.random() * -20 + 's';
+                p.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+    })();
+  </script>
+</body>
+</html>

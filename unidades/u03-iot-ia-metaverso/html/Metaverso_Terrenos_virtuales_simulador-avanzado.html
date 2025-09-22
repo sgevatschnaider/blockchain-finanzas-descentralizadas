@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Metaverso EDU PRO · Bienes Raíces Virtuales</title>
+<style>
+:root{
+  --bg:#0f1116;--panel:#171a21;--muted:#9aa4b2;--text:#e6edf3;
+  --buy:#19c37d;--sell:#ff6b6b;--rent:#ffd166;--grid:#2a2f3a;--tile:#1e2530;
+  --you:#f1c40f;--npc:#8e44ad;--sale:#3498db;--plaza:#2ecc71;--auc:#f39c12;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(120deg,#0f1116,#0b0d12);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Arial}
+header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #202635;background:#0f1218;position:sticky;top:0;z-index:5}
+header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.4px}
+.wrap{display:grid;grid-template-columns:360px 1fr 420px;gap:14px;padding:14px;max-width:1600px;margin:0 auto}
+.panel{background:#161b22;border:1px solid #202635;border-radius:12px;box-shadow:0 1px 0 #000 inset}
+.panel h2{font-size:13px;text-transform:uppercase;color:var(--muted);letter-spacing:.8px;margin:0;padding:10px 12px;border-bottom:1px solid #202635}
+.panel section{padding:12px}
+.row{display:flex;align-items:center;justify-content:space-between;margin:6px 0;gap:8px}
+.row input[type="number"],.row input[type="text"]{width:130px;padding:6px;border-radius:8px;border:1px solid #2a3242;background:#0f131b;color:var(--text)}
+input[type="range"]{width:160px}
+.btn{border:0;border-radius:10px;padding:8px 10px;color:#0a0d14;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.buy{background:var(--buy)}
+.btn.sell{background:var(--sell)}
+.btn.rent{background:var(--rent);color:#14161d}
+.btn.muted{background:#2b3243;color:#dbe3f1}
+.btn.auction{background:var(--auc)}
+.kbd{background:#0f131b;border:1px solid #2a3242;border-radius:6px;padding:2px 6px;color:#dce7f6}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px;background:#0f131b;border:1px solid #243146;border-radius:999px;padding:4px 8px;color:#c6d3e1}
+.dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+.dot.sale{background:var(--sale)} .dot.you{background:#f1c40f}
+.dot.npc{background:#8e44ad} .dot.plaza{background:var(--plaza)}
+.dot.auc{background:var(--auc)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:12px}
+.tile{aspect-ratio:1;border-radius:4px;background:var(--tile);border:1px solid var(--grid);position:relative;cursor:pointer;transition:.1s transform,.2s box-shadow}
+.tile:hover{transform:translateY(-2px)}
+.tile .tag{position:absolute;right:4px;bottom:4px;background:#0008;color:#fff;font-size:10px;padding:2px 6px;border-radius:12px}
+.tile .fair{position:absolute;left:4px;top:4px;background:#0008;color:#fff;font-size:10px;padding:2px 6px;border-radius:12px}
+.tile.plaza{background:var(--plaza)}
+.tile.sale{background:linear-gradient(180deg,var(--sale),#246aa5)}
+.tile.you{background:linear-gradient(180deg,#f1c40f,#b88700)}
+.tile.npc{background:linear-gradient(180deg,#8e44ad,#5e337c)}
+.tile.auction{outline:2px dashed var(--auc)}
+.list{max-height:320px;overflow:auto;display:grid;gap:8px}
+.card{border:1px solid #263146;border-radius:10px;padding:10px;background:#101520}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+footer{padding:14px;color:#9aa4b2;text-align:center}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.metric{background:#0f131b;border:1px solid #2a3242;border-radius:10px;padding:10px}
+.metric b{font-size:18px}
+.small{font-size:12px;color:#aab4c0}
+.badge{display:inline-block;background:#0f131b;border:1px solid #2a3242;border-radius:8px;padding:2px 6px;margin-left:6px}
+.auclabel{display:inline-flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Metaverso EDU PRO · Compra/Venta/Alquiler · Subastas · Construcciones</h1>
+  <div>
+    <span class="kbd">MANA: <b id="mana">2,000</b></span>
+    <span class="kbd">ETH (gas): <b id="eth">0.500</b></span>
+    <span class="kbd">Día: <b id="day">1</b></span>
+    <span class="kbd">Tx hoy: <b id="txc">0</b></span>
+    <button class="btn muted" id="saveBtn">Guardar</button>
+    <button class="btn muted" id="loadBtn">Cargar</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- Panel de parámetros -->
+  <div class="panel">
+    <h2>Parámetros de mercado</h2>
+    <section>
+      <div class="row">
+        <label>Demanda (0–100)</label>
+        <input type="range" id="demand" min="0" max="100" value="55"/>
+        <span class="kbd" id="demandVal">55</span>
+      </div>
+      <div class="row">
+        <label>Volatilidad %</label>
+        <input type="range" id="vol" min="0" max="50" value="8"/>
+        <span class="kbd" id="volVal">8%</span>
+      </div>
+      <div class="row">
+        <label>Impuesto diario (‰)</label>
+        <input type="number" id="taxPermille" value="2" step="0.5" min="0"/>
+        <span class="small">‰ sobre valor justo</span>
+      </div>
+      <div class="row">
+        <label>Mantenimiento c/edificación</label>
+        <input type="number" id="maint" value="3" min="0" step="1"/>
+        <span class="small">MANA/día</span>
+      </div>
+      <div class="row">
+        <label>Gas base (ETH)</label>
+        <input type="number" id="gasBase" value="0.003" step="0.001" min="0"/>
+      </div>
+      <div class="row">
+        <label>Congestión activa</label>
+        <input type="checkbox" id="congestion" checked/>
+        <span class="small">gas ↑ con tx del día</span>
+      </div>
+      <div class="row">
+        <button class="btn muted" id="advance1">Avanzar 1 día</button>
+        <button class="btn muted" id="advance7">+7 días</button>
+      </div>
+      <div class="legend">
+        <span><i class="dot sale"></i>En venta</span>
+        <span><i class="dot you"></i>Tuya</span>
+        <span><i class="dot npc"></i>NPC</span>
+        <span><i class="dot plaza"></i>Plaza</span>
+        <span><i class="dot auc"></i>Subasta</span>
+      </div>
+    </section>
+
+    <h2>Métricas</h2>
+    <section class="metrics">
+      <div class="metric"><div>Parcelas propias</div><b id="m_owned">0</b></div>
+      <div class="metric"><div>Valor portafolio (≈)</div><b id="m_value">0</b> <span class="small">MANA</span></div>
+      <div class="metric"><div>Ingresos renta/día</div><b id="m_rent">0</b> <span class="small">MANA</span></div>
+      <div class="metric"><div>Cap rate (rent/valor)</div><b id="m_cap">0%</b></div>
+      <div class="metric"><div>P&L realizado</div><b id="m_pnl">0</b> <span class="small">MANA</span></div>
+      <div class="metric"><div>Impuestos+Mant. hoy</div><b id="m_costs">0</b> <span class="small">MANA</span></div>
+    </section>
+  </div>
+
+  <!-- Mapa -->
+  <div class="panel">
+    <h2>Mapa de la ciudad (12×12)</h2>
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <!-- Detalle / Marketplace -->
+  <div class="panel">
+    <h2>Detalle de Parcela / Marketplace</h2>
+    <section id="parcelDetail"><p class="small">Haz clic en una parcela para ver atributos, precio justo y acciones.</p></section>
+
+    <section>
+      <h3 style="margin:8px 0">Marketplace (ventas directas)</h3>
+      <div class="row">
+        <input type="number" id="minPrice" placeholder="Mín MANA"/>
+        <input type="number" id="maxPrice" placeholder="Máx MANA"/>
+        <button class="btn muted" id="applyFilter">Filtrar</button>
+      </div>
+      <div id="market" class="list"></div>
+    </section>
+
+    <section>
+      <h3 class="auclabel" style="margin:8px 0"><span class="dot auc"></span>Subastas activas</h3>
+      <div id="auctions" class="list"></div>
+    </section>
+  </div>
+</div>
+
+<div class="panel" style="max-width:1600px;margin:8px auto;">
+  <h2>Registro de Transacciones (Ledger simulado)</h2>
+  <section id="log" class="list mono"></section>
+</div>
+
+<footer>
+  Simulador educativo. No es consejo financiero. <br/>
+  <strong>Material elaborado por el profesor Sergio Gevatschnaider</strong>
+</footer>
+
+<script>
+/* ===========================
+   Estado y utilidades
+   =========================== */
+const SIZE=12, PLAZAS=[{x:5,y:5},{x:2,y:9}], YOUR="0xYOU", NPCS=["0xNPC1","0xNPC2","0xNPC3","0xNPC4"];
+let state={
+  day:1, mana:2000, eth:0.5,
+  demand:55, vol:8,
+  taxPermille:2, maintPerBuild:3,
+  gasBase:0.003, congestion:true,
+  txToday:0, pnlRealizado:0, costsToday:0,
+  parcels:[], bids:[], log:[]
+};
+const $=s=>document.querySelector(s);
+const fmt=n=>Number(n).toLocaleString("es-AR");
+const txHash=()=> "0x"+crypto.getRandomValues(new Uint8Array(8)).reduce((a,b)=>a+b.toString(16).padStart(2,"0"),"");
+const log=(m)=>{state.log.unshift(`[D${state.day}] ${m} · ${txHash()}`); renderLog();};
+const dist=(a,b)=>Math.hypot(a.x-b.x, a.y-b.y);
+
+/* ===========================
+   Generación del mundo
+   =========================== */
+function basePrice(x,y){
+  const center={x:(SIZE-1)/2,y:(SIZE-1)/2};
+  const d=dist({x,y},center);
+  const near=Math.min(...PLAZAS.map(p=>dist({x,y},p)));
+  const rarity = Math.random()<0.10?"Épica": (Math.random()<0.35?"Rara":"Común");
+  const centerF = 1.6 - (d/(Math.sqrt(2)*SIZE/2)); // ~0.6–1.6
+  const plazaB = near<2.5?1.35: (near<4.5?1.15:1.0);
+  const rarityB = rarity==="Épica"?2.0: (rarity==="Rara"?1.35:1.0);
+  const base = 110 * Math.max(0.5,centerF) * plazaB * rarityB;
+  return {price:Math.round(base),rarity};
+}
+function initWorld(){
+  state.parcels=[];
+  let id=0;
+  for(let y=0;y<SIZE;y++){
+    for(let x=0;x<SIZE;x++){
+      const isPlaza=PLAZAS.some(p=>p.x===x&&p.y===y);
+      const {price,rarity}=basePrice(x,y);
+      state.parcels.push({
+        id:id++, x,y, isPlaza, rarity,
+        owner: Math.random()<0.18? NPCS[Math.floor(Math.random()*NPCS.length)]:null,
+        forSale: Math.random()<0.35,
+        listPrice: Math.round(price*(0.9+Math.random()*0.4)),
+        lastFair: price,
+        traffic: Math.floor(Math.random()*4),
+        rentPerDay:0, tenant:null,
+        // construcciones
+        build:{shop:false,gallery:false,event:false},
+        // subastas
+        auction:{active:false,endDay:0,highestBid:0,highestBidder:"",minPrice:0}
+      });
+    }
+  }
+}
+
+/* ===========================
+   Valoración
+   =========================== */
+function fairPrice(p){
+  const vol=state.vol/100;
+  const demandF=0.8+(state.demand/100)*0.8; // 0.8-1.6
+  const noise=1+(Math.random()*2-1)*vol;
+  const plaza=p.isPlaza?1.2:1;
+  const rarity = p.rarity==="Épica"?1.6:(p.rarity==="Rara"?1.25:1);
+  const distCenter=Math.hypot(p.x-(SIZE-1)/2, p.y-(SIZE-1)/2);
+  const centerF=1.4 - distCenter/(Math.sqrt(2)*SIZE/2); // 0.4–1.4 aprox
+  const buildBoost = (p.build.shop?0.1:0)+(p.build.gallery?0.12:0)+(p.build.event?0.18:0);
+  const trafficBoost = 1 + Math.min(0.4, p.traffic/40); // hasta +40%
+  let f = Math.max(0.4,centerF) * plaza * rarity * demandF * noise * 100 * (1+buildBoost) * trafficBoost;
+  return Math.round(f);
+}
+function recalcAllFair(){
+  state.parcels.forEach(p=> p.lastFair=fairPrice(p));
+  renderAll();
+  // mantener detalle si estaba abierto
+  const pid=$("#parcelDetail").dataset.pid;
+  if(pid) showParcel(Number(pid));
+}
+
+/* ===========================
+   Gasto de gas con congestión
+   =========================== */
+function spendGas(){
+  const base=Number($("#gasBase").value||state.gasBase);
+  const congest= $("#congestion").checked;
+  const multiplier = congest? (1+ state.txToday*0.05):1; // +5% por tx del día
+  const g = +(base*multiplier).toFixed(6);
+  if(state.eth<g){ alert("ETH insuficiente para gas."); return false; }
+  state.eth -= g;
+  state.txToday++;
+  renderTop();
+  return true;
+}
+
+/* ===========================
+   Acciones de mercado
+   =========================== */
+function buyParcel(id, price, seller){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  if(state.mana<price){alert("MANA insuficiente.");return;}
+  state.mana-=price;
+  p.owner=YOUR; p.forSale=false; p.listPrice=0; p.auction.active=false; p.tenant=null; p.rentPerDay=0;
+  removeBids(id);
+  log(`Compra directa: Parcela #${id} por ${fmt(price)} MANA a ${seller}`);
+  renderAll(); showParcel(id);
+}
+function listParcel(id, ask){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  if(p.owner!==YOUR){alert("No eres el propietario.");return;}
+  p.forSale=true; p.listPrice=Math.max(10,Math.round(ask)); p.auction.active=false;
+  log(`Listado venta: Parcela #${id} a ${fmt(p.listPrice)} MANA`);
+  renderAll(); showParcel(id);
+}
+function updateListing(id, ask){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  p.listPrice=Math.max(10,Math.round(ask));
+  log(`Actualizado listado: Parcela #${id} → ${fmt(p.listPrice)} MANA`);
+  renderAll(); showParcel(id);
+}
+function unlist(id){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  p.forSale=false;
+  log(`Quitar de venta: Parcela #${id}`);
+  renderAll(); showParcel(id);
+}
+
+function makeBid(id, price, from=YOUR){
+  if(!spendGas())return;
+  if(price<=0){alert("Oferta inválida.");return;}
+  state.bids.push({id,from,price:Math.round(price)});
+  log(`Oferta: ${fmt(price)} MANA por Parcela #${id} de ${from}`);
+  showParcel(id);
+}
+function acceptBestBid(id){
+  const p=state.parcels.find(e=>e.id===id);
+  if(p.owner!==YOUR){alert("No eres el propietario.");return;}
+  const bids=state.bids.filter(b=>b.id===id).sort((a,b)=>b.price-a.price);
+  if(!bids.length){alert("No hay ofertas.");return;}
+  if(!spendGas())return;
+  const best=bids[0];
+  state.mana+=best.price;
+  p.owner=best.from; p.forSale=false; p.tenant=null; p.rentPerDay=0; p.auction.active=false;
+  removeBids(id);
+  state.pnlRealizado += (best.price - p.lastFair); // métrica simple de referencia
+  log(`Venta por oferta: Parcela #${id} a ${best.from} por ${fmt(best.price)} MANA`);
+  renderAll(); showParcel(id);
+}
+function removeBids(id){ state.bids=state.bids.filter(b=>b.id!==id); }
+
+/* ====== Alquiler ====== */
+function setRent(id, rent){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  if(p.owner!==YOUR){alert("No eres el propietario.");return;}
+  p.rentPerDay=Math.max(0,Math.round(rent));
+  if(p.rentPerDay===0) p.tenant=null;
+  log(`Renta fijada: Parcela #${id} → ${fmt(p.rentPerDay)} MANA/día`);
+  renderAll(); showParcel(id);
+}
+function kickTenant(id){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  p.tenant=null;
+  log(`Desalojo: Parcela #${id}`);
+  renderAll(); showParcel(id);
+}
+
+/* ====== Construcciones ====== */
+function buildOn(id, type){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  if(p.owner!==YOUR){alert("No eres el propietario.");return;}
+  if(p.build[type]){alert("Ya existe esta construcción.");return;}
+  const capex = type==="shop"? 60 : type==="gallery"? 80 : 120;
+  if(state.mana<capex){alert("MANA insuficiente para construir.");return;}
+  state.mana-=capex;
+  p.build[type]=true;
+  p.traffic += type==="shop"? 4 : type==="gallery"? 6 : 10;
+  log(`Construcción: ${type} en Parcela #${id} (CAPEX ${fmt(capex)} MANA)`);
+  renderAll(); showParcel(id);
+}
+
+/* ====== Subastas Inglesas ====== */
+function startAuction(id, minPrice, durationDays){
+  if(!spendGas())return;
+  const p=state.parcels.find(e=>e.id===id);
+  if(p.owner!==YOUR){alert("No eres el propietario.");return;}
+  p.forSale=false;
+  p.auction.active=true;
+  p.auction.minPrice=Math.max(10,Math.round(minPrice));
+  p.auction.endDay=state.day + Math.max(1,Math.round(durationDays));
+  p.auction.highestBid=0; p.auction.highestBidder="";
+  log(`Subasta iniciada: Parcela #${id} (mín ${fmt(p.auction.minPrice)} MANA) termina Día ${p.auction.endDay}`);
+  renderAll(); showParcel(id);
+}
+function placeBidAuction(id, price, from=YOUR){
+  const p=state.parcels.find(e=>e.id===id);
+  if(!p.auction.active){alert("No hay subasta activa.");return;}
+  const min = Math.max(p.auction.minPrice, p.auction.highestBid+1);
+  if(price<min){alert(`Oferta muy baja. Mínimo actual: ${fmt(min)} MANA`);return;}
+  if(!spendGas())return;
+  p.auction.highestBid=Math.round(price);
+  p.auction.highestBidder=from;
+  log(`Puja subasta: Parcela #${id} ${from} → ${fmt(price)} MANA`);
+  showParcel(id);
+}
+function settleAuction(p){
+  if(!p.auction.active) return;
+  if(state.day>=p.auction.endDay){
+    if(p.auction.highestBidder){
+      // vender a mayor postor (si el vendedor eres tú, cobrás; si es NPC, cambio de manos)
+      if(p.owner===YOUR){ state.mana += p.auction.highestBid; state.pnlRealizado += (p.auction.highestBid - p.lastFair); }
+      p.owner=p.auction.highestBidder; p.tenant=null; p.rentPerDay=0;
+      log(`Subasta cerrada: Parcela #${p.id} vendida por ${fmt(p.auction.highestBid)} MANA a ${p.auction.highestBidder}`);
+    }else{
+      log(`Subasta cerrada: Parcela #${p.id} sin ofertas`);
+    }
+    p.auction.active=false;
+  }
+}
+
+/* ===========================
+   Avance diario (tráfico, impuestos, NPCs)
+   =========================== */
+function simulateDay(){
+  state.day++; state.txToday=0; state.costsToday=0;
+
+  // 1) Tráfico: deriva por demanda y construcciones
+  state.parcels.forEach(p=>{
+    const baseInflow = Math.round(state.demand/50) + (p.isPlaza?2:0);
+    const buildInflow = (p.build.shop?2:0) + (p.build.gallery?3:0) + (p.build.event?5:0);
+    const centerBoost = Math.max(0, 2 - Math.hypot(p.x-(SIZE-1)/2, p.y-(SIZE-1)/2)/5);
+    p.traffic = Math.max(0, p.traffic + baseInflow + buildInflow + Math.round(centerBoost) + (Math.random()<0.5?1:-1));
+    // cap suave
+    p.traffic = Math.min(p.traffic, 60);
+  });
+
+  // 2) Recalcular valor justo
+  state.parcels.forEach(p=> p.lastFair=fairPrice(p));
+
+  // 3) Impuestos y mantenimiento (tuyas)
+  let costs=0;
+  state.parcels.filter(p=>p.owner===YOUR).forEach(p=>{
+    const tax = Math.round(p.lastFair * (state.taxPermille/1000));
+    const maint = (p.build.shop?1:0)+(p.build.gallery?1:0)+(p.build.event?1:0);
+    const maintCost = maint * state.maintPerBuild;
+    costs += tax + maintCost;
+  });
+  if(costs>0){
+    state.mana -= costs; state.costsToday = costs;
+    log(`Costos del día: Impuestos+Mantenimiento = ${fmt(costs)} MANA`);
+  }
+
+  // 4) Alquiler: ocupación y cobro
+  state.parcels.filter(p=>p.owner===YOUR && p.rentPerDay>0).forEach(p=>{
+    const fair=p.lastFair; const rentFair=Math.max(5,Math.round(fair*0.012)); // ~1.2%
+    if(!p.tenant){
+      const prob = Math.max(0, 0.85 - Math.max(0,(p.rentPerDay-rentFair)/rentFair));
+      if(Math.random()<prob){ p.tenant="0xTENANT"; log(`Nuevo inquilino Parcela #${p.id}`); }
+    }else{
+      state.mana += p.rentPerDay;
+      const leaveProb = Math.max(0, (p.rentPerDay-rentFair)/rentFair*0.25);
+      if(Math.random()<leaveProb){ p.tenant=null; log(`Inquilino abandonó Parcela #${p.id}`); }
+    }
+  });
+
+  // 5) Subastas: liquidar si corresponde
+  state.parcels.forEach(p=> settleAuction(p));
+
+  // 6) Mercado: NPCs compran listados atractivos
+  const desirability=state.demand/100;
+  state.parcels.filter(p=>p.forSale && p.owner!==YOUR).forEach(p=>{
+    const fair=p.lastFair;
+    const discount = fair>0? (fair - p.listPrice)/fair : 0;
+    const prob = Math.max(0, (discount*1.6) + desirability*0.25);
+    if(Math.random()<prob){
+      const npc=NPCS[Math.floor(Math.random()*NPCS.length)];
+      p.owner=npc;p.forSale=false;p.tenant=null;p.rentPerDay=0;
+      log(`NPC ${npc} compró Parcela #${p.id} por ${fmt(p.listPrice)} MANA`);
+    }
+  });
+
+  renderAll();
+}
+
+/* ===========================
+   Render
+   =========================== */
+const grid=$("#grid");
+function renderTop(){
+  $("#mana").textContent=fmt(state.mana);
+  $("#eth").textContent=state.eth.toFixed(3);
+  $("#day").textContent=state.day;
+  $("#txc").textContent=state.txToday;
+}
+function renderGrid(){
+  grid.innerHTML="";
+  state.parcels.forEach(p=>{
+    const d=document.createElement("div");
+    d.className="tile";
+    if(p.isPlaza) d.classList.add("plaza");
+    if(p.owner===YOUR) d.classList.add("you");
+    else if(p.owner && p.owner!==YOUR) d.classList.add("npc");
+    else if(p.forSale) d.classList.add("sale");
+    if(p.auction.active) d.classList.add("auction");
+
+    // glow por tráfico (heatmap)
+    const glow=Math.min(1,p.traffic/30);
+    d.style.boxShadow=`0 0 ${8*glow}px ${4*glow}px rgba(255,200,0,${0.35*glow})`;
+
+    const tag=document.createElement("div");
+    tag.className="tag";
+    if(p.auction.active) tag.textContent=`Subasta · fin D${p.auction.endDay}`;
+    else tag.textContent=p.forSale? `${p.listPrice} MANA` : p.isPlaza? "Plaza" : (p.owner? "Ocupado":"Libre");
+    d.appendChild(tag);
+
+    const fair=document.createElement("div");
+    fair.className="fair"; fair.textContent=`≈ ${p.lastFair}`;
+    d.appendChild(fair);
+
+    d.title=`#${p.id} (${p.x},${p.y}) · ${p.rarity}`;
+    d.onclick=()=>showParcel(p.id);
+    grid.appendChild(d);
+  });
+}
+function renderMarket(){
+  const min=Number($("#minPrice").value||0), max=Number($("#maxPrice").value||Infinity);
+  const list=state.parcels.filter(p=>p.forSale && p.listPrice>=min && p.listPrice<=max).sort((a,b)=>a.listPrice-b.listPrice);
+  $("#market").innerHTML = list.map(p=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between">
+        <b>#${p.id}</b><span class="small">(${p.x},${p.y}) · ${p.rarity} ${p.isPlaza?"· Plaza":""}</span>
+      </div>
+      <div class="row"><span>Precio</span><span><b>${fmt(p.listPrice)}</b> MANA</span></div>
+      <div class="row"><span>Precio justo (≈)</span><span><b>${fmt(p.lastFair)}</b> MANA</span></div>
+      <div class="row"><button class="btn buy" onclick="buyParcel(${p.id}, ${p.listPrice}, '${p.owner||"0xPOOL"}')">Comprar</button>
+      <button class="btn muted" onclick="showParcel(${p.id})">Ver</button></div>
+    </div>
+  `).join("") || `<p class="small">No hay listados que cumplan el filtro.</p>`;
+}
+function renderAuctions(){
+  const list=state.parcels.filter(p=>p.auction.active).sort((a,b)=>a.auction.endDay-b.auction.endDay);
+  $("#auctions").innerHTML = list.map(p=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between">
+        <b>#${p.id}</b>
+        <span class="small">Termina Día ${p.auction.endDay}</span>
+      </div>
+      <div class="row"><span>Mínimo</span><span><b>${fmt(p.auction.minPrice)}</b> MANA</span></div>
+      <div class="row"><span>Mejor puja</span><span><b>${fmt(p.auction.highestBid||0)}</b> ${p.auction.highestBidder? "por "+p.auction.highestBidder:""}</span></div>
+      <div class="row">
+        <input type="number" id="bid_${p.id}" placeholder="Tu puja" value="${Math.max(p.auction.minPrice,(p.auction.highestBid||0)+1)}"/>
+        <button class="btn auction" onclick="placeBidAuction(${p.id}, Number(document.getElementById('bid_${p.id}').value||0))">Pujar</button>
+        <button class="btn muted" onclick="showParcel(${p.id})">Ver</button>
+      </div>
+    </div>
+  `).join("") || `<p class="small">No hay subastas activas.</p>`;
+}
+function renderLog(){
+  $("#log").innerHTML = state.log.map(l=>`<div>${l}</div>`).join("");
+}
+function renderMetrics(){
+  const yours=state.parcels.filter(p=>p.owner===YOUR);
+  const owned=yours.length;
+  const value=yours.reduce((a,p)=>a+p.lastFair,0);
+  const rent=yours.reduce((a,p)=>a+(p.tenant? p.rentPerDay:0),0);
+  const cap=value? ((rent/value)*100).toFixed(2)+"%":"0%";
+  $("#m_owned").textContent=fmt(owned);
+  $("#m_value").textContent=fmt(value);
+  $("#m_rent").textContent=fmt(rent);
+  $("#m_cap").textContent=cap;
+  $("#m_pnl").textContent=fmt(state.pnlRealizado);
+  $("#m_costs").textContent=fmt(state.costsToday);
+}
+function renderAll(){
+  renderTop(); renderGrid(); renderMarket(); renderAuctions(); renderMetrics();
+}
+function showParcel(id){
+  const p=state.parcels.find(e=>e.id===id);
+  // refrescar fair a demanda
+  p.lastFair=fairPrice(p);
+  const youCanBuy = (!p.owner || p.forSale) && p.owner!==YOUR && !p.auction.active;
+  const canList=p.owner===YOUR;
+  const bids=state.bids.filter(b=>b.id===id).sort((a,b)=>b.price-a.price);
+  const canAccept= canList && bids.length>0;
+  const buildStr = Object.entries(p.build).filter(([k,v])=>v).map(([k])=>k).join(", ") || "Ninguna";
+  const auc=p.auction;
+
+  const detail = `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><b>Parcela #${p.id}</b> · (${p.x},${p.y}) · ${p.rarity} ${p.isPlaza?"· <span class='small'>Cerca de plaza</span>":""}</div>
+        <div class="small">${p.owner? ("Propietario: "+(p.owner===YOUR?"Tú":p.owner)):"Sin propietario"}</div>
+      </div>
+      <div class="row"><span>Precio justo (≈)</span><span><b>${fmt(p.lastFair)}</b> MANA</span></div>
+      <div class="row"><span>Tráfico</span><span>${fmt(p.traffic)}</span></div>
+      <div class="row"><span>Construcciones</span><span>${buildStr}</span></div>
+      <div class="row"><span>Estado</span><span>${p.owner? (p.owner===YOUR?"Tuya":"De NPC"):"Libre"}</span></div>
+      <div class="row"><span>Listado</span><span>${p.forSale? `<b>${fmt(p.listPrice)}</b> MANA`:"No"}</span></div>
+      <div class="row"><span>Subasta</span><span>${auc.active? `Activa · fin D${auc.endDay} · mín ${fmt(auc.minPrice)}`:"No"}</span></div>
+      <div class="row"><span>Renta</span><span>${p.rentPerDay? `${fmt(p.rentPerDay)} MANA/día (${p.tenant?"ocupada":"vacía"})`:"No alquilada"}</span></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${youCanBuy? `<button class="btn buy" id="buyBtn">Comprar (${fmt(p.listPrice)} MANA + gas)</button>`:""}
+        ${canList && !p.forSale && !auc.active ? `
+          <input type="number" id="ask" value="${Math.max(50,p.lastFair)}"/>
+          <button class="btn sell" id="listBtn">Listar venta</button>`:""}
+        ${canList && p.forSale? `
+          <input type="number" id="ask" value="${p.listPrice}"/>
+          <button class="btn sell" id="updBtn">Actualizar precio</button>
+          <button class="btn muted" id="unlistBtn">Quitar venta</button>`:""}
+        ${canList? `
+          <input type="number" id="rent" placeholder="MANA/día" value="${p.rentPerDay||''}"/>
+          <button class="btn rent" id="setRentBtn">${p.rentPerDay? "Actualizar renta":"Fijar renta"}</button>
+          ${p.tenant? `<button class="btn muted" id="kickBtn">Desalojar</button>`:""}
+        `:""}
+        ${!auc.active && !p.forSale && canList? `
+          <input type="number" id="amin" placeholder="Mínimo" value="${Math.round(p.lastFair*0.9)}"/>
+          <input type="number" id="adur" placeholder="Días" value="3"/>
+          <button class="btn auction" id="startAuc">Iniciar subasta</button>`:""}
+        ${auc.active? `
+          <input type="number" id="apu" placeholder="Tu puja" value="${Math.max(auc.minPrice,(auc.highestBid||0)+1)}"/>
+          <button class="btn auction" id="bidAuc">Pujar</button>`:""}
+        ${!p.forSale && p.owner!==YOUR && !auc.active ? `
+          <input type="number" id="bid" placeholder="Tu oferta (MANA)" value="${Math.round(p.lastFair*0.9)}"/>
+          <button class="btn buy" id="bidBtn">Hacer oferta</button>`:""}
+        ${canAccept? `<button class="btn buy" id="acceptBest">Aceptar mejor oferta (${fmt(bids[0].price)})</button>`:""}
+        </div>
+    </div>
+
+    <div class="card">
+      <div><b>Construcciones (CAPEX)</b> <span class="badge">Shop:60</span> <span class="badge">Galería:80</span> <span class="badge">Evento:120</span></div>
+      ${canList? `
+        <div class="row"><button class="btn muted" id="bShop">+ Tienda</button><span class="small">↑ tráfico, +10% valor</span></div>
+        <div class="row"><button class="btn muted" id="bGallery">+ Galería</button><span class="small">↑ tráfico, +12% valor</span></div>
+        <div class="row"><button class="btn muted" id="bEvent">+ Evento</button><span class="small">↑ tráfico, +18% valor</span></div>
+      `:`<p class="small">Solo el propietario puede construir.</p>`}
+    </div>
+
+    <div class="card">
+      <div><b>Ofertas</b></div>
+      ${bids.length? bids.map(b=>`<div class="row"><span>${b.from}</span><span>${fmt(b.price)} MANA</span></div>`).join(""):`<p class="small">Sin ofertas.</p>`}
+    </div>
+  `;
+  const box=$("#parcelDetail");
+  box.dataset.pid=String(id);
+  box.innerHTML=detail;
+
+  // listeners
+  $("#buyBtn")?.addEventListener("click",()=>buyParcel(p.id,p.listPrice,p.owner||"0xPOOL"));
+  $("#listBtn")?.addEventListener("click",()=>listParcel(p.id, Number($("#ask").value||0)));
+  $("#updBtn")?.addEventListener("click",()=>updateListing(p.id, Number($("#ask").value||0)));
+  $("#unlistBtn")?.addEventListener("click",()=>unlist(p.id));
+  $("#setRentBtn")?.addEventListener("click",()=>setRent(p.id, Number($("#rent").value||0)));
+  $("#kickBtn")?.addEventListener("click",()=>kickTenant(p.id));
+  $("#bidBtn")?.addEventListener("click",()=>makeBid(p.id, Number($("#bid").value||0)));
+  $("#acceptBest")?.addEventListener("click",()=>acceptBestBid(p.id));
+  $("#bShop")?.addEventListener("click",()=>buildOn(p.id,"shop"));
+  $("#bGallery")?.addEventListener("click",()=>buildOn(p.id,"gallery"));
+  $("#bEvent")?.addEventListener("click",()=>buildOn(p.id,"event"));
+  $("#startAuc")?.addEventListener("click",()=>startAuction(p.id, Number($("#amin").value||0), Number($("#adur").value||0)));
+  $("#bidAuc")?.addEventListener("click",()=>placeBidAuction(p.id, Number($("#apu").value||0)));
+}
+
+/* ===========================
+   Guardar / Cargar
+   =========================== */
+function saveState(){ localStorage.setItem("metaversoSimPRO", JSON.stringify(state)); alert("Estado guardado."); }
+function loadState(){
+  const raw=localStorage.getItem("metaversoSimPRO"); if(!raw){alert("No hay estado guardado.");return;}
+  state=JSON.parse(raw); renderAll(); $("#parcelDetail").innerHTML=`<p class="small">Estado cargado. Haz clic en una parcela.</p>`;
+}
+
+/* ===========================
+   Eventos UI
+   =========================== */
+$("#demand").addEventListener("input",e=>{state.demand=Number(e.target.value);$("#demandVal").textContent=state.demand;recalcAllFair();});
+$("#vol").addEventListener("input",e=>{state.vol=Number(e.target.value);$("#volVal").textContent=state.vol+"%";recalcAllFair();});
+$("#taxPermille").addEventListener("change",e=>state.taxPermille=Number(e.target.value||0));
+$("#maint").addEventListener("change",e=>state.maintPerBuild=Number(e.target.value||0));
+$("#gasBase").addEventListener("change",e=>state.gasBase=Number(e.target.value||0.003));
+$("#congestion").addEventListener("change",()=>{});
+$("#advance1").addEventListener("click",()=>simulateDay());
+$("#advance7").addEventListener("click",()=>{for(let i=0;i<7;i++) simulateDay();});
+$("#applyFilter").addEventListener("click",renderMarket);
+$("#saveBtn").addEventListener("click",saveState);
+$("#loadBtn").addEventListener("click",loadState);
+
+/* ===========================
+   Boot
+   =========================== */
+initWorld();
+recalcAllFair();
+renderAll();
+</script>
+</body>
+</html>

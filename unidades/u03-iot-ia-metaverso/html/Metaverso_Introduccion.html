@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Metaverso Industrial: Siemens y NVIDIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #3a3a3a 0%, #000000 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #009999; /* Siemens Teal */
+      --accent-secondary: #76B900; /* NVIDIA Green */
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #00a8a8;
+      --accent-secondary: #84cc16;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; list-style-position: outside; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content a.resource-link { display: inline-block; text-decoration: none; font-weight: 600; color: #fff; background: var(--accent-gradient); padding: 0.6rem 1.2rem; border-radius: 50px; transition: var(--transition); margin-top: 1rem;}
+    .topic-content a.resource-link:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent-secondary); }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow, .diagram-grid { display: flex; justify-content: space-around; align-items: center; gap: 1rem; flex-wrap: wrap;}
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.down::after { content: '↓'; display: block; margin: 0.5rem 0; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+    .diagram-col { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .diagram-section { padding: 1rem; border: 2px dashed var(--border-color); border-radius: var(--border-radius); width: 100%; }
+    .diagram-section-title { font-weight: 600; text-align: center; margin-bottom: 1rem; font-size: 0.9em; color: var(--text-primary); }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">El Metaverso Industrial</h1>
+      <p class="subtitle">La Alianza de Siemens y NVIDIA para la Fabricación del Futuro</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. La Alianza Estratégica: ¿Qué es el Metaverso Industrial?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Siemens y NVIDIA se han asociado para crear el <strong>metaverso industrial</strong>. No se trata de un espacio social, sino de una nueva era de automatización donde las fábricas enteras se replican en un entorno virtual con total fidelidad física. El objetivo es diseñar, optimizar y operar procesos de fabricación de manera más rápida, flexible y sostenible.</p>
+                <p>La pieza central de esta visión es el <strong>Gemelo Digital (Digital Twin)</strong>: una réplica virtual, viva y sincronizada de una fábrica, una línea de producción o un producto. Este gemelo digital no es estático; se alimenta de datos en tiempo real del mundo físico, permitiendo simulaciones precisas y la toma de decisiones basada en datos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. El Ecosistema Tecnológico</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La colaboración une dos plataformas líderes para crear una solución integral:</p>
+                <ul>
+                    <li><strong>Siemens Xcelerator:</strong> Es una plataforma de negocio digital abierta que incluye un porfolio completo de software para diseño (Siemens NX), simulación de procesos (Tecnomatix) y gestión del ciclo de vida del producto. Aporta la lógica de ingeniería y fabricación.</li>
+                    <li><strong>NVIDIA Omniverse:</strong> Es una plataforma de desarrollo y colaboración 3D en tiempo real, basada en el estándar abierto Universal Scene Description (USD). Aporta la visualización fotorrealista, la simulación física precisa y las capacidades de IA.</li>
+                </ul>
+                <div class="diagram-container">
+                    <div class="diagram-title">Sinergia Tecnológica</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Siemens Xcelerator</strong><span>Lógica de Ingeniería y Procesos</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">+</div></div>
+                        <div class="diagram-box"><strong>NVIDIA Omniverse</strong><span>Visualización y Simulación Física en Tiempo Real</span></div>
+                    </div>
+                    <div class="diagram-arrow down"><div class="diagram-arrow-label">Resulta en</div></div>
+                    <div class="diagram-box">
+                        <strong>Gemelo Digital Industrial en el Metaverso</strong>
+                        <span>Una réplica viva, fotorrealista y precisa de la fábrica</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. El Ciclo de Vida del Gemelo Digital</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El video muestra cómo los equipos pueden colaborar en un ciclo continuo para resolver problemas y optimizar la producción. Cuando ocurre un problema en la fábrica real, los datos (IoT) actualizan el gemelo digital.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Ciclo de Optimización Continua</div>
+                    <div class="diagram-col">
+                        <div class="diagram-box"><strong>1. Detección del Problema</strong><span>Datos en tiempo real (IoT) desde la planta física</span></div>
+                        <div class="diagram-arrow down"></div>
+                        <div class="diagram-box"><strong>2. Análisis y Solución</strong><span>Equipos colaboran en el gemelo digital para encontrar la causa raíz</span></div>
+                        <div class="diagram-arrow down"></div>
+                         <div class="diagram-box"><strong>3. Validación Virtual</strong><span>La solución se prueba en miles de escenarios simulados sin detener la producción</span></div>
+                         <div class="diagram-arrow down"></div>
+                         <div class="diagram-box"><strong>4. Despliegue en el Mundo Físico</strong><span>La solución validada se aplica a los robots y procesos reales</span></div>
+                    </div>
+                </div>
+                 <p>Este proceso elimina la necesidad de prototipos físicos costosos, reduce drásticamente el tiempo de inactividad y aumenta la agilidad de la fabricación.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. El Papel de la Inteligencia Artificial (IA)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una de las aplicaciones más potentes es el entrenamiento de robots. Los modelos de percepción de IA (los "ojos" de los robots) necesitan ser entrenados con miles de imágenes para aprender a identificar piezas y realizar tareas.</p>
+                <p>En lugar de usar datos reales, que son difíciles de obtener, se utiliza el gemelo digital para generar <strong>datos sintéticos</strong>. La plataforma puede crear miles de imágenes de una pieza bajo diferentes condiciones de iluminación, ángulos y posiciones, entrenando el modelo de IA de forma rápida y precisa antes de que el robot se instale en la fábrica.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Plataformas y Casos de Uso Reales</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El video muestra una comparación directa entre el software de simulación de Siemens y la renderización en tiempo real de NVIDIA, demostrando cómo se complementan. Además, se presentan ejemplos de empresas líderes que ya aplican estos principios:</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Comparación de Plataformas</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Siemens Tecnomatix</strong><span>Muestra la simulación del proceso, con la lógica de operaciones y los movimientos de los robots.</span></div>
+                        <div class="diagram-box"><strong>NVIDIA Omniverse</strong><span>Renderiza la misma escena con fotorrealismo, simulando materiales, luces y físicas con precisión.</span></div>
+                    </div>
+                </div>
+                <h4>Empresas que Lideran la Adopción</h4>
+                 <div class="diagram-container">
+                    <div class="diagram-title">Ecosistema de Adopción</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>BMW Group</strong><span>Usa gemelos digitales para planificar y optimizar sus plantas de producción de automóviles.</span></div>
+                        <div class="diagram-box"><strong>Volvo Cars</strong><span>Crea réplicas virtuales detalladas de sus vehículos para diseño y pruebas de seguridad.</span></div>
+                        <div class="diagram-box"><strong>Siemens Gamesa</strong><span>Simula el rendimiento de turbinas eólicas en entornos virtuales antes de su construcción.</span></div>
+                        <div class="diagram-box"><strong>Festo</strong><span>Utiliza gemelos digitales para desarrollar y probar sistemas de automatización y robótica.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. Beneficios y Futuro de la Fabricación</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La fusión de estas tecnologías impulsa una transformación digital basada en software e IA.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Beneficios Clave</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Agilidad</strong><span>Respuesta rápida a la demanda y problemas de suministro</span></div>
+                        <div class="diagram-box"><strong>Eficiencia</strong><span>Reducción de tiempos de inactividad y costes de prototipos</span></div>
+                        <div class="diagram-box"><strong>Colaboración</strong><span>Equipos de ingeniería, logística y producción trabajan en un mismo entorno virtual</span></div>
+                         <div class="diagram-box"><strong>Sostenibilidad</strong><span>Optimización del uso de recursos y energía</span></div>
+                    </div>
+                </div>
+                <p>El resultado final es una fábrica inteligente donde los humanos y los robots colaboran de forma segura y eficiente, y donde las decisiones se toman con un nivel de previsión y precisión sin precedentes.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7. Recursos Adicionales y Definiciones</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Enlace Recomendado: Charla TED</h4>
+                <p>Para profundizar en la visión de la propiedad digital en el metaverso, la siguiente charla de Yat Siu ofrece una perspectiva fundamental sobre cómo la tecnología Web3 puede potenciar este nuevo paradigma.</p>
+                <a href="https://www.ted.com/talks/yat_siu_the_dream_of_digital_ownership_powered_by_the_metaverse?subtitle=en" target="_blank" class="resource-link">Ver en TED.com: El sueño de la propiedad digital</a>
+
+                <h4>¿Qué es el Metaverso? Un Resumen</h4>
+                <p>El metaverso es un conjunto de mundos y experiencias digitales persistentes, interconectados y en tiempo real, donde las personas interactúan entre sí, con objetos y con servicios usando identidades digitales. Es una capa social y económica sobre internet que mezcla 3D/VR/AR, redes sociales y, en algunos casos, tecnologías Web3.</p>
+                <ul>
+                    <li><strong>Persistente y sin “pausa”:</strong> el mundo sigue existiendo aunque no estés conectado.</li>
+                    <li><strong>Sincronía:</strong> muchas personas comparten la misma experiencia en tiempo real.</li>
+                    <li><strong>Identidad y presencia:</strong> se participa a través de avatares, perfiles y reputación digital.</li>
+                    <li><strong>Economía propia:</strong> existen bienes digitales (skins, ítems, espacios) y mercados. En modelos Web3, estos bienes pueden ser propiedad real del usuario (NFTs).</li>
+                    <li><strong>Interoperabilidad (aspirada):</strong> la capacidad de llevar tu identidad y bienes entre diferentes experiencias es el objetivo final, aunque hoy es limitado.</li>
+                    <li><strong>Multidispositivo:</strong> se puede acceder desde VR/AR, móvil o PC, no requiere obligatoriamente un visor.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
