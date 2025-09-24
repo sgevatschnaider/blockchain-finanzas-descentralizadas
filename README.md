@@ -19,7 +19,7 @@
 [U1](unidades/u01-fundamentos-smart-contracts/) ·
 [U2](unidades/u02-criptoactivos-consenso-seguridad/) ·
 [U3](unidades/u03-iot-ia-metaverso/) ·
-[U4](unidades/u04-trafi-vs-defi-amms-mev-regulacion/) ·
+[U4](unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/) ·
 [U5](unidades/u05-indicadores-trading/) ·
 [U6](unidades/u06-python-blockchain-analytics/)
 
