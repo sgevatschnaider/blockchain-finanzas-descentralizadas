@@ -1,143 +1,218 @@
-# U5 — Trading Crypto · Indicadores, Estrategias y Gestión de Riesgo
+# U4 — Algoritmos y Criptografía para DeFi: Dijkstra en Lightning, ZKP y ZK-Rollups
 
-[![Unidad](https://img.shields.io/badge/Unidad-5-blueviolet)](#)
-[![Ethereum](https://img.shields.io/badge/base-Ethereum-3C3C3D?logo=ethereum&logoColor=white)](#)
+[![Unidad](https://img.shields.io/badge/Unidad-4-blueviolet)](#)
+[![Dominio](https://img.shields.io/badge/%C3%A1rea-Sistemas%20Financieros%20Digitales-0b7285)](#)
 [![Interactividad](https://img.shields.io/badge/recursos-HTML5-green?logo=HTML5)](#)
 
-> **Vista previa** · Ethereum PoS como capa base de mercado  
-> <img src="../u04-defi-trafi/etherum.gif" alt="Ethereum PoS" width="900"/>
+> **Vista previa** · Enrutamiento Lightning (Dijkstra) — simulación y registro paso a paso <img src="./simulacion.gif" alt="Lightning Dijkstra" width="900"/>
+
+**Carpeta de la unidad (GitHub):**
+`/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/`
 
 ---
 
-## 🎯 Objetivos
+## 🎯 Objetivos de aprendizaje
 
-- Entender **indicadores clave** (precio/volumen/volatilidad/on-chain básicos) y su impacto operativo.  
-- Diseñar **estrategias de trading** reproducibles (tendencia, reversión, breakout, DCA, grid).  
-- Aplicar **gestión de riesgo**: tamaño de posición, *R:R*, *max drawdown*, *stop-loss*, exposición.  
-- Conectar fundamentos de red (PoS, *finality*, L2) con **latencia, costos** y ejecución en exchanges.
-
----
-
-## 🗺️ Contenidos y recursos
-
-> Los HTML están en este directorio (o en U4). Abrilos en el navegador.
-
-| Recurso / Descripción | Enlace |
-| --- | --- |
-| **Teoría: Ethereum — arquitectura, consenso, tokens y costos**<br><sub>Base técnica para entender *fees*, *finality* y su efecto en trading/custodia.</sub> | [`../u04-defi-trafi/Etherum.html`](../u04-defi-trafi/Etherum.html) |
-| **Simulador: PoS de Ethereum (interactivo)**<br><sub>Slots/epochs, LMD-GHOST, FFG, penalizaciones, MEV/PBS, blobs.</sub> | [`../u04-defi-trafi/Etherum_simulacion.html`](../u04-defi-trafi/Etherum_simulacion.html) |
-| **Análisis: Ethereum en el Metaverso**<br><sub>Contexto de activos (ERC-20/721/1155) y economías digitales.</sub> | [`../u04-defi-trafi/Etherum-metaverso.html`](../u04-defi-trafi/Etherum-metaverso.html) |
-| **Opcional: Lightning Network (Bitcoin L2)**<br><sub>Canales/HTLCs, ruteo y comisiones como analogía de costos/latencia.</sub> | [`../u04-defi-trafi/Teoría-ligthling.html`](../u04-defi-trafi/Teor%C3%ADa-ligthling.html) |
+* **Modelar** Lightning Network como **grafo ponderado con restricciones de capacidad** (canales/HTLCs) y entender su **estructura de comisiones**.
+* **Aplicar Dijkstra** para ruteo de pagos minimizando costo total: `base_fee_msat + amount_msat * ppm / 1e6`.
+* **Comprender** fundamentos de **Zero-Knowledge Proofs (ZKP)**: *completeness, soundness, zero-knowledge*; compromisos y *hash preimage*.
+* **Analizar** la arquitectura de **ZK-Rollups**: secuenciamiento, lotes, pruebas de validez, publicación de *state roots* y riesgos de *data availability*.
+* **Conectar** con **TradFi vs DeFi**, **AMMs**, **MEV** y consideraciones **regulatorias** que afectan ejecución, costos y seguridad.
 
 ---
 
-## 📚 TL;DR — Lo esencial
+## 🗺️ Recursos de la unidad (HTML interactivos)
 
-- **Indicadores**:  
-  - **Precio/Volumen** (estructura de mercado, *breakouts*, confirmación).  
-  - **Volatilidad** (ATR, σ) para ajustar *stops* y *position sizing*.  
-  - **Tendencia** (EMA/SMA, MACD) vs **Reversión** (RSI/BB).  
-  - **On-chain básicos** (actividad, *gas/fees*, *finality*): contexto de fricción/latencia.
-- **Ejecución**: L2 y blobs ↓ costos; *finality* afecta riesgo de liquidación/settlement.  
-- **Riesgo primero**: define **pérdida máxima por trade** (ej. 0.5–1.5%), *risk:reward* ≥ 1:1.5 y limita correlación.
+> Abrilos en el navegador directamente desde esta carpeta.
 
----
+| Recurso                                           | Archivo                                                              |
+| ------------------------------------------------- | -------------------------------------------------------------------- |
+| **Lightning — Teoría**                            | [`Ligthling_Teoría.html`](./Ligthling_Teoría.html)                   |
+| **Lightning — Visualización Dijkstra (completo)** | [`Lighting_Dijstra_completo.html`](./Lighting_Dijstra_completo.html) |
+| **Lightning — Visualización Dijkstra (compacto)** | [`lightning.Dijstra.html`](./lightning.Dijstra.html)                 |
+| **ZKP — Teoría**                                  | [`ZPK_TEORIA.html`](./ZPK_TEORIA.html)                               |
+| **ZKP — Glosario**                                | [`ZPK_Glosario.html`](./ZPK_Glosario.html)                           |
+| **ZKP — Simulador Hash/Preimage**                 | [`ZPK_Simulador_hash.html`](./ZPK_Simulador_hash.html)               |
+| **ZK-Rollups — Teoría**                           | [`ZPK_Rollups.html`](./ZPK_Rollups.html)                             |
+| **ZK-Rollups — Simulador**                        | [`ZPK_ROLLUP_SIMULADOR.HTML`](./ZPK_ROLLUP_SIMULADOR.HTML)           |
 
-## 🧰 Playbook de estrategias (plantillas)
+**Links directos a GitHub (mismos archivos):**
 
-> No es consejo financiero. Usá estos esquemas como base de estudio/backtesting.
+* `Lighting_Dijstra_completo.html`
+  `https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/Lighting_Dijstra_completo.html`
+* `lightning.Dijstra.html`
+  `https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/lightning.Dijstra.html`
+* `Ligthling_Teoría.html`
+  `https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/Ligthling_Teoría.html`
+* `ZPK_TEORIA.html` · `ZPK_Glosario.html` · `ZPK_Simulador_hash.html` · `ZPK_Rollups.html` · `ZPK_ROLLUP_SIMULADOR.HTML` (en la misma ruta).
 
-### 1) Seguimiento de Tendencia (EMA x2)
-- **Idea**: entrar con cruce EMA rápida>lenta + confirmación de volumen.  
-- **Stop**: ATR·k por debajo del swing. **TP** por tramos (1R/2R).  
-- **Mejor en**: activos con momentum y liquidez.
-
-### 2) Reversión a la Media (RSI/BB)
-- **Idea**: sobreventa/sobrecompra + toque de banda → vuelta a media.  
-- **Stop**: fuera de la banda + *time stop*. **TP**: media o 1–1.5R.  
-- **Cuidado**: en fuertes tendencias “lo barato puede seguir barato”.
-
-### 3) Breakout de Rango
-- **Idea**: consolidación → ruptura con volumen.  
-- **Entrada**: *stop orders* sobre el rango. **Invalidación**: vuelta al rango.  
-- **TP**: proyección del rango (medida en % o ATRs).
-
-### 4) DCA / Grid (gestión de inventario)
-- **Idea**: promediar precio o reequilibrar por niveles.  
-- **Riesgo**: definir **máximo capital** y cortar si cambia el *regime*.
+> Nota: mantené acentos y mayúsculas tal como están; GitHub sirve esos nombres exactamente.
 
 ---
 
-## 🧷 Gestión de riesgo (cheat sheet)
+## 📚 Marco conceptual (TL;DR académico)
 
-- **Sizing**: `posición = (riesgo_$ por trade) / (stop_$)`; el stop se calibra con **ATR**.  
-- **Límites**: pérdida diaria/semana (ej. 3R/6R), *cooldown* tras 2–3 pérdidas.  
-- **Diversificación**: evita alta correlación (ALT/BTC/L2 del mismo ecosistema).  
-- **Operativa**: plan antes del click (setup, invalidación, ejecución, salida parcial).  
-- **Diario de trading**: hipótesis, captures, métricas (winrate, R promedio, *expectancy*).
+### 1) TradFi ↔ DeFi: plataformas y microestructura
+
+* **TradFi**: *order books* centralizados, *clearing*, custodia, KYC/AML.
+* **DeFi**: contratos, **AMMs** (x·y=k y variantes), *permissionless* y composables.
+* **Ejecución**: costos (fees), **finality**, latencia y calidad de liquidez afectan *slippage* y riesgo operacional.
+
+### 2) AMMs y MEV
+
+* **AMMs** fijan precio por función; el **slippage** depende de profundidad.
+* **MEV** redistribuye valor por ordenamiento de transacciones; **PBS** y L2 cambian incentivos.
+* Implicancias para estrategias, *front-running* y *commit-reveal*.
+
+### 3) Lightning como grafo de costos
+
+* Aristas = canales con **capacidad direccional**; pesos: `base_fee_msat` y `ppm`.
+* **Restricción**: sólo se consideran aristas con capacidad ≥ monto (poda).
+* **Objetivo**: camino de **menor costo** sujeto a factibilidad ⇒ Dijkstra con **cola de prioridad**.
+
+### 4) ZKP y ZK-Rollups
+
+* **ZKP**: verificar sin revelar el testigo (privacidad/verificabilidad).
+* **ZK-Rollups**: agregación off-chain + *validity proof* → heredan seguridad L1 y aumentan throughput.
+* **Trade-offs**: *data availability*, latencia de retiro, centralización del *sequencer*.
+
+### 5) Regulación (alto nivel)
+
+* Enfoque **risk-based**: custodia, *travel rule*, auditoría criptográfica, *on/off-ramps*.
+* Puntos de atención en **Lightning** y **Rollups**: operadores, puentes, y cumplimiento transfronterizo.
 
 ---
 
-## ⚙️ Mini-lab (pasos guiados)
+## 🔍 ¿Qué hace cada simulador?
 
-1) **Explora el simulador PoS** (`Etherum_simulacion.html`)  
-   - Observá *justification/finality* y cómo el **PBS/MEV** podría impactar tiempos de bloque.  
-   - Conectá esto con riesgo de **slippage** y ejecución en momentos de alta congestión.
+### A) **Lightning + Dijkstra**
 
-2) **Arma una estrategia mínima**  
-   - Elegí 1 activo y 1 *timeframe*. Define entradas/salidas, stop (ATR), *take profits* y riesgo fijo por trade.
+* **Genera** topologías (nodos/aristas) y permite setear **base fee**, **ppm**, **capacidad** y **monto (msat)**.
+* **Ejecuta** Dijkstra:
 
-3) **Backtest manual (rápido)**  
-   - 30–50 trades “a vela cerrada” para evitar *look-ahead*.  
-   - Registra *R* por trade, curva de capital y *drawdown*.
+  1. inicializa cola de prioridad; 2) relaja aristas válidas por capacidad;
+  2. actualiza costo acumulado y predecesores; 4) reconstruye ruta mínima.
+* **Muestra**: *logs* paso a paso, **costo total**, **hops** y etiquetas en SVG.
 
-4) **Informe corto**  
-   - Setup, reglas, métricas clave, mejoras y límites (p. ej., evita mercado lateral con filtro de tendencia).
+### B) **ZKP — Hash/Preimage**
+
+* Ilustra compromisos: `c = H(m)`; verificación pública de `H(m)=c` sin revelar `m`.
+* Observá el **efecto avalancha** al cambiar 1 byte en `m`.
+
+### C) **ZK-Rollups**
+
+* **Secuenciamiento** → **loteo** → **prueba** → **verificación** → actualización de **state root**.
+* Simula un lote inválido para discutir manejo de fallas.
 
 ---
 
-## 🧱 Requisitos y uso
+## 🧰 Guía de uso rápido
 
-- Sin instalación: abrí los HTML en un navegador moderno.  
-- Para clases/demos: *fullscreen* + zoom 110–125%.  
-- Mantener **rutas relativas** entre U4 y U5 (este README referencia archivos de U4).
+1. Abre **`Lighting_Dijstra_completo.html`** → “Generar red” → define **origen/destino** y **monto** → **“Ejecutar Dijkstra”**.
+2. Abre **`ZPK_Simulador_hash.html`** → ingresa un mensaje → genera/verifica **hash**.
+3. Abre **`ZPK_ROLLUP_SIMULADOR.HTML`** → agrega transacciones → **secuencia** → **prueba** → **verifica**.
 
-### Estructura sugerida
+---
+
+## 🧪 Laboratorios guiados
+
+**Lab 1 — Rutas y capacidad (Lightning)**
+
+* Para 10 instancias aleatorias, busca ruta para `monto = 500k msat`.
+* Registra: `instancia, monto, costo_total_msat, hops, factible(S/N)` y explica **cuellos de botella**.
+
+**Lab 2 — Sensibilidad a comisiones**
+
+* En una red fija, subí el `ppm` de un hub.
+* Medí cambio en **costo** y **ruta** óptima. Discute *pricing power*.
+
+**Lab 3 — Compromisos y verificación (ZKP)**
+
+* Publica `c = H(m)` para tres mensajes.
+* Otro equipo verifica sin conocer `m` (revelás al final). Relación con **commit-reveal/MEV**.
+
+**Lab 4 — Data Availability (ZK-Rollups)**
+
+* Inserta un lote inválido y observa el rechazo del verificador.
+* Debate: efectos de falla de disponibilidad de datos en **retiros** y confianza.
+
+---
+
+## 🧷 Rúbrica de evaluación (100 pts)
+
+| Criterio                | Descripción                                          | Pts |
+| ----------------------- | ---------------------------------------------------- | --: |
+| Modelado Lightning      | Ruteo correcto, análisis de capacidad/costos         |  25 |
+| Experimentos & Métricas | Tablas/gráficas, repetibilidad, interpretación       |  20 |
+| ZKP/Hash                | Comprensión de compromiso/verificación y límites     |  15 |
+| ZK-Rollups              | Flujo batch-prueba-verificación y análisis de fallas |  15 |
+| Integración TradFi/DeFi | AMMs, MEV, regulación conectados a ejecución         |  15 |
+| Documentación           | Informe claro + capturas/enlaces a simuladores       |  10 |
+
+---
+
+## 🧱 Estructura del directorio
 
 ```bash
-unidades/
-├── u04-defi-trafi/
-│   ├── Etherum.html
-│   ├── Etherum_simulacion.html
-│   ├── Etherum-metaverso.html
-│   ├── Teoría-ligthling.html
-│   └── etherum.gif
-└── u05-trading-estrategias/
-    └── README.md   # este archivo
-✅ Rúbrica personal (para autoevaluarte)
-Criterio	Descripción	Puntos
-Indicadores	Selección y parametrización (tendencia/volatilidad/volumen/on-chain)	25
-Estrategia	Reglas claras de entrada/salida/invalidación + lógica de mercado	30
-Riesgo	Sizing, stops, límites de pérdida, drawdown controlado	25
-Backtest	Muestra mínima de trades, métricas y conclusiones	10
-Documentación	README + capturas y plan de mejora	10
-Total		100
+u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
+├── README.md
+├── Lighting_Dijstra_completo.html
+├── lightning.Dijstra.html
+├── Ligthling_Teoría.html
+├── ZPK_TEORIA.html
+├── ZPK_Glosario.html
+├── ZPK_Rollups.html
+├── ZPK_ROLLUP_SIMULADOR.HTML
+├── ZPK_Simulador_hash.html
+└── simulacion.gif
+```
 
-🔐 Buenas prácticas
-Claves y custodia: nunca subas seed phrases ni llaves privadas; usa .env/hardware wallets si operás on-chain.
+---
 
-Datos y sesgos: evitá data snooping, peeking a vela abierta y sobreoptimización.
+## 🛠️ Apéndice técnico
 
-Disciplina: seguí el plan; cortar pérdidas es una característica, no un bug.
+**Dijkstra (Lightning):**
 
-📎 Referencias mínimas
-Documentación oficial de Ethereum (PoS, EVM, MEV/PBS, L2, EIP-4844).
+* Peso de arista: `w(u,v) = base_fee_msat + amount_msat * ppm / 1e6`.
+* Poda por **capacidad direccional**: si `cap(u,v) < amount_msat`, descartar.
+* Implementación típica: **cola de prioridad** (min-heap) sobre costo acumulado.
+* Extensiones: penalización por **confiabilidad**, **multi-criterio** (costo-vs-hops/latencia), *retries* probabilísticos.
 
-Textos clásicos de gestión de riesgo, position sizing y psicología del trading.
+**ZKP (esqueleto formal):**
 
-Material de U4 para conectar infraestructura ↔ ejecución ↔ costos.
+* *Completeness* (acepta si verdad), *Soundness* (difícil engañar), *Zero-Knowledge* (no filtra info del testigo).
+* Familias: Σ-protocols, zk-SNARKs (setup confiable), zk-STARKs (sin setup; pruebas más grandes).
 
-🔁 Conexión con otras unidades
-U4 → U5: de productos DeFi y costos de red a ejecución y estrategias.
+**ZK-Rollups:**
 
-Próximo: DAOs y tokenomics (gobernanza, incentivos y sostenibilidad de sistemas de trading/tesorerías).
+* Pipeline: usuario → **sequencer** → *batch* → **validity proof** → **verificador L1** → actualización de estado.
+* Riesgos: *data availability*, censura del sequencer, tiempos de retiro.
+
+---
+
+## 🔁 Conexión curricular
+
+* **Desde U3/U4**: plataformas DeFi, costos y latencia → aquí bajamos a **algoritmos** y **pruebas**.
+* **Hacia U5**: *trading* y gestión de riesgo; lo aprendido (costos, latencia, MEV) se traduce en **slippage**, *fills* y riesgo operativo.
+
+---
+
+## 🧩 Checklist rápido
+
+* [ ] Obtengo rutas válidas para `monto=500k msat` en ≥80% de instancias.
+* [ ] Entiendo cómo `ppm` y `base_fee` cambian el **costo marginal**.
+* [ ] Puedo explicar por qué `H(m)=c` permite verificación sin revelar `m`.
+* [ ] Describo el flujo de una tx en **ZK-Rollup** y qué se publica en L1.
+* [ ] Relaciono **AMMs/MEV/regulación** con ejecución y diseño de incentivos.
+
+---
+
+## 🤝 Contribuciones & buenas prácticas
+
+* PRs/Issues: enlaces relativos, sin secretos/llaves, respeto de licencias.
+* Nombres de archivo: evitá renombrar; si lo hacés, actualizá todos los enlaces.
+* Para clases: abrir en **pantalla completa**; si el SVG se ve vacío, **“Generar red”** → **“Ejecutar Dijkstra”**.
+
+---
+
+¿Quieres que agregue un **README-resumen** de 1 página para estudiantes o un **handout PDF** con los labs? ✔️
