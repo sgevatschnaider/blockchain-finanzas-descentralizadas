@@ -13,40 +13,36 @@
 
 ## 🎯 Objetivos de aprendizaje
 
-* **Modelar** Lightning Network como **grafo ponderado con restricciones de capacidad** (canales/HTLCs) y entender su **estructura de comisiones**.
-* **Aplicar Dijkstra** para ruteo de pagos minimizando costo total: `base_fee_msat + amount_msat * ppm / 1e6`.
-* **Comprender** fundamentos de **Zero-Knowledge Proofs (ZKP)**: *completeness, soundness, zero-knowledge*; compromisos y *hash preimage*.
-* **Analizar** la arquitectura de **ZK-Rollups**: secuenciamiento, lotes, pruebas de validez, publicación de *state roots* y riesgos de *data availability*.
-* **Conectar** con **TradFi vs DeFi**, **AMMs**, **MEV** y consideraciones **regulatorias** que afectan ejecución, costos y seguridad.
+*   **Modelar** Lightning Network como **grafo ponderado con restricciones de capacidad** (canales/HTLCs) y entender su **estructura de comisiones**.
+*   **Aplicar Dijkstra** para ruteo de pagos minimizando costo total: `base_fee_msat + amount_msat * ppm / 1e6`.
+*   **Comprender** fundamentos de **Zero-Knowledge Proofs (ZKP)**: *completeness, soundness, zero-knowledge*; compromisos y *hash preimage*.
+*   **Analizar** la arquitectura de **ZK-Rollups**: secuenciamiento, lotes, pruebas de validez, publicación de *state roots* y riesgos de *data availability*.
+*   **Conectar** con **TradFi vs DeFi**, **AMMs**, **MEV** y consideraciones **regulatorias** que afectan ejecución, costos y seguridad.
 
 ---
 
 ## 🗺️ Recursos de la unidad (HTML interactivos)
 
-> Abrilos en el navegador directamente desde esta carpeta.
+### Módulo 1: Lightning Network
 
-| Recurso                                           | Archivo                                                              |
-| ------------------------------------------------- | -------------------------------------------------------------------- |
-| **Lightning — Teoría**                            | [`Ligthling_Teoría.html`](./Ligthling_Teoría.html)                   |
-| **Lightning — Visualización Dijkstra (completo)** | [`Lighting_Dijstra_completo.html`](./Lighting_Dijstra_completo.html) |
-| **Lightning — Visualización Dijkstra (compacto)** | [`lightning.Dijstra.html`](./lightning.Dijstra.html)                 |
-| **ZKP — Teoría**                                  | [`ZPK_TEORIA.html`](./ZPK_TEORIA.html)                               |
-| **ZKP — Glosario**                                | [`ZPK_Glosario.html`](./ZPK_Glosario.html)                           |
-| **ZKP — Simulador Hash/Preimage**                 | [`ZPK_Simulador_hash.html`](./ZPK_Simulador_hash.html)               |
-| **ZK-Rollups — Teoría**                           | [`ZPK_Rollups.html`](./ZPK_Rollups.html)                             |
-| **ZK-Rollups — Simulador**                        | [`ZPK_ROLLUP_SIMULADOR.HTML`](./ZPK_ROLLUP_SIMULADOR.HTML)           |
+| Recurso Educativo | Enlace Directo |
+| :--- | :--- |
+| **Guía Teórica: Lightning Network** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía de estudio completa sobre la arquitectura de Lightning Network como solución de Capa 2. Explora desde conceptos básicos como canales de pago y HTLCs hasta su representación como un grafo ponderado. Incluye un ejemplo detallado del algoritmo de Dijkstra para el enrutamiento y analiza sus principales casos de uso, como micropagos y aplicaciones en el metaverso.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría-HTML-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/Ligthling_Teoría.html) |
+| **Visualización de Dijkstra (Simple)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una visualización interactiva en SVG que simula el algoritmo de Dijkstra para encontrar la ruta de menor costo en una red Lightning. Permite generar una topología de red, establecer un origen/destino, y animar el proceso paso a paso para observar cómo el algoritmo explora los nodos y relaja las aristas hasta encontrar el camino óptimo.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador-SVG-blue?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/lightning.Dijstra.html) |
+| **Visualización de Dijkstra (Completa)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una versión avanzada del simulador de Dijkstra que incluye un panel de "inspección" detallado. Además de la visualización del grafo, muestra en tiempo real el estado de la <strong>cola de prioridad</strong>, el conjunto de nodos visitados y las tablas de distancias (`dist[v]`) y predecesores (`prev[v]`). Es una herramienta pedagógica ideal para un análisis profundo del algoritmo.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Avanzado-SVG-blue?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/Lighting_Dijistra_completo.html) |
 
-**Links directos a GitHub (mismos archivos):**
+---
 
-* `Lighting_Dijstra_completo.html`
-  `https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/Lighting_Dijstra_completo.html`
-* `lightning.Dijstra.html`
-  `https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/lightning.Dijstra.html`
-* `Ligthling_Teoría.html`
-  `https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/Ligthling_Teoría.html`
-* `ZPK_TEORIA.html` · `ZPK_Glosario.html` · `ZPK_Simulador_hash.html` · `ZPK_Rollups.html` · `ZPK_ROLLUP_SIMULADOR.HTML` (en la misma ruta).
+### Módulo 2: Pruebas de Conocimiento Cero (ZKP) y ZK-Rollups
 
-> Nota: mantené acentos y mayúsculas tal como están; GitHub sirve esos nombres exactamente.
+| Recurso Educativo | Enlace Directo |
+| :--- | :--- |
+| **Guía Teórica: Pruebas de Conocimiento Cero (ZKP)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una introducción al paradigma de la "confianza cero" a través de las ZKP. El material explica las propiedades fundamentales (completitud, solidez, cero conocimiento), compara los tipos de ZKP más importantes (SNARKs vs. STARKs), y explora sus casos de uso en producción, con un enfoque en el escalado de blockchain, videojuegos y el metaverso.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_ZKP-HTML-blueviolet?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_TEORIA.html) |
+| **Guía Teórica: ZK-Rollups** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Guía enfocada en la arquitectura de los ZK-Rollups como la principal solución de escalado para blockchains. Desglosa el ciclo de vida de un lote, los componentes clave de la infraestructura (Secuenciador, Prover, Verificador) y los fundamentos de su seguridad, incluyendo el concepto de Disponibilidad de Datos (DA) que diferencia a un ZK-Rollup de un Validium.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_Rollups-HTML-blueviolet?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Rollups.html) |
+| **Glosario de Términos ZKP** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un glosario exhaustivo que define los términos y conceptos clave del ecosistema ZKP. Organizado en secciones temáticas, cubre desde los fundamentos y primitivas criptográficas hasta los componentes de un ZK-Rollup, su flujo operativo, métricas de rendimiento y el stack de herramientas para desarrolladores, convirtiéndolo en una referencia rápida y esencial.</p></details> | [![Abrir Glosario](https://img.shields.io/badge/Glosario-HTML-informational?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Glosario.html) |
+| **Simulador ZKP: Cueva de Alí Babá + Compromiso Hash** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una demo interactiva doble. La primera parte simula la famosa analogía de la "Cueva de Alí Babá" para ilustrar las propiedades de una ZKP. La segunda parte implementa un sistema de "Commit-Reveal" usando compromisos hash, permitiendo a los usuarios crear un compromiso a un secreto y luego probar que lo conocen sin revelarlo.</p></details> | [![Abrir Demo](https://img.shields.io/badge/Demo_ZKP-Interactiva-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html) |
+| **Simulador Interactivo de ZK-Rollups** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una simulación visual que modela la dinámica de un ZK-Rollup. Los usuarios pueden ajustar parámetros como el tamaño del lote, la tasa de llegada de transacciones y los costos de gas para observar en tiempo real su impacto en métricas clave como el TPS efectivo, el costo por transacción y la finalidad del lote. Permite comparar el modo ZK-Rollup (DA on-chain) vs. Validium (DA off-chain).</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Rollup-Interactivo-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_ROLLUP_SIMULADOR.HTML) |
+| **Animación: Flujo de un ZK-Rollup** <br><br>![Animación ZK-Rollup](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/simulacion.gif) | [![Ver GIF](https://img.shields.io/badge/Ver_Animación-GIF-lightgrey?style=for-the-badge&logo=html5)](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/simulacion.gif) |
 
 ---
 
@@ -54,32 +50,32 @@
 
 ### 1) TradFi ↔ DeFi: plataformas y microestructura
 
-* **TradFi**: *order books* centralizados, *clearing*, custodia, KYC/AML.
-* **DeFi**: contratos, **AMMs** (x·y=k y variantes), *permissionless* y composables.
-* **Ejecución**: costos (fees), **finality**, latencia y calidad de liquidez afectan *slippage* y riesgo operacional.
+*   **TradFi**: *order books* centralizados, *clearing*, custodia, KYC/AML.
+*   **DeFi**: contratos, **AMMs** (x·y=k y variantes), *permissionless* y composables.
+*   **Ejecución**: costos (fees), **finality**, latencia y calidad de liquidez afectan *slippage* y riesgo operacional.
 
 ### 2) AMMs y MEV
 
-* **AMMs** fijan precio por función; el **slippage** depende de profundidad.
-* **MEV** redistribuye valor por ordenamiento de transacciones; **PBS** y L2 cambian incentivos.
-* Implicancias para estrategias, *front-running* y *commit-reveal*.
+*   **AMMs** fijan precio por función; el **slippage** depende de profundidad.
+*   **MEV** redistribuye valor por ordenamiento de transacciones; **PBS** y L2 cambian incentivos.
+*   Implicancias para estrategias, *front-running* y *commit-reveal*.
 
 ### 3) Lightning como grafo de costos
 
-* Aristas = canales con **capacidad direccional**; pesos: `base_fee_msat` y `ppm`.
-* **Restricción**: sólo se consideran aristas con capacidad ≥ monto (poda).
-* **Objetivo**: camino de **menor costo** sujeto a factibilidad ⇒ Dijkstra con **cola de prioridad**.
+*   Aristas = canales con **capacidad direccional**; pesos: `base_fee_msat` y `ppm`.
+*   **Restricción**: sólo se consideran aristas con capacidad ≥ monto (poda).
+*   **Objetivo**: camino de **menor costo** sujeto a factibilidad ⇒ Dijkstra con **cola de prioridad**.
 
 ### 4) ZKP y ZK-Rollups
 
-* **ZKP**: verificar sin revelar el testigo (privacidad/verificabilidad).
-* **ZK-Rollups**: agregación off-chain + *validity proof* → heredan seguridad L1 y aumentan throughput.
-* **Trade-offs**: *data availability*, latencia de retiro, centralización del *sequencer*.
+*   **ZKP**: verificar sin revelar el testigo (privacidad/verificabilidad).
+*   **ZK-Rollups**: agregación off-chain + *validity proof* → heredan seguridad L1 y aumentan throughput.
+*   **Trade-offs**: *data availability*, latencia de retiro, centralización del *sequencer*.
 
 ### 5) Regulación (alto nivel)
 
-* Enfoque **risk-based**: custodia, *travel rule*, auditoría criptográfica, *on/off-ramps*.
-* Puntos de atención en **Lightning** y **Rollups**: operadores, puentes, y cumplimiento transfronterizo.
+*   Enfoque **risk-based**: custodia, *travel rule*, auditoría criptográfica, *on/off-ramps*.
+*   Puntos de atención en **Lightning** y **Rollups**: operadores, puentes, y cumplimiento transfronterizo.
 
 ---
 
@@ -87,30 +83,30 @@
 
 ### A) **Lightning + Dijkstra**
 
-* **Genera** topologías (nodos/aristas) y permite setear **base fee**, **ppm**, **capacidad** y **monto (msat)**.
-* **Ejecuta** Dijkstra:
+*   **Genera** topologías (nodos/aristas) y permite setear **base fee**, **ppm**, **capacidad** y **monto (msat)**.
+*   **Ejecuta** Dijkstra:
 
-  1. inicializa cola de prioridad; 2) relaja aristas válidas por capacidad;
-  2. actualiza costo acumulado y predecesores; 4) reconstruye ruta mínima.
-* **Muestra**: *logs* paso a paso, **costo total**, **hops** y etiquetas en SVG.
+    1.  inicializa cola de prioridad; 2) relaja aristas válidas por capacidad;
+    2.  actualiza costo acumulado y predecesores; 4) reconstruye ruta mínima.
+*   **Muestra**: *logs* paso a paso, **costo total**, **hops** y etiquetas en SVG.
 
 ### B) **ZKP — Hash/Preimage**
 
-* Ilustra compromisos: `c = H(m)`; verificación pública de `H(m)=c` sin revelar `m`.
-* Observá el **efecto avalancha** al cambiar 1 byte en `m`.
+*   Ilustra compromisos: `c = H(m)`; verificación pública de `H(m)=c` sin revelar `m`.
+*   Observá el **efecto avalancha** al cambiar 1 byte en `m`.
 
 ### C) **ZK-Rollups**
 
-* **Secuenciamiento** → **loteo** → **prueba** → **verificación** → actualización de **state root**.
-* Simula un lote inválido para discutir manejo de fallas.
+*   **Secuenciamiento** → **loteo** → **prueba** → **verificación** → actualización de **state root**.
+*   Simula un lote inválido para discutir manejo de fallas.
 
 ---
 
 ## 🧰 Guía de uso rápido
 
-1. Abre **`Lighting_Dijstra_completo.html`** → “Generar red” → define **origen/destino** y **monto** → **“Ejecutar Dijkstra”**.
-2. Abre **`ZPK_Simulador_hash.html`** → ingresa un mensaje → genera/verifica **hash**.
-3. Abre **`ZPK_ROLLUP_SIMULADOR.HTML`** → agrega transacciones → **secuencia** → **prueba** → **verifica**.
+1.  Abre **`Lighting_Dijstra_completo.html`** → “Generar red” → define **origen/destino** y **monto** → **“Ejecutar Dijkstra”**.
+2.  Abre **`ZPK_Simulador_hash.html`** → ingresa un mensaje → genera/verifica **hash**.
+3.  Abre **`ZPK_ROLLUP_SIMULADOR.HTML`** → agrega transacciones → **secuencia** → **prueba** → **verifica**.
 
 ---
 
@@ -118,36 +114,36 @@
 
 **Lab 1 — Rutas y capacidad (Lightning)**
 
-* Para 10 instancias aleatorias, busca ruta para `monto = 500k msat`.
-* Registra: `instancia, monto, costo_total_msat, hops, factible(S/N)` y explica **cuellos de botella**.
+*   Para 10 instancias aleatorias, busca ruta para `monto = 500k msat`.
+*   Registra: `instancia, monto, costo_total_msat, hops, factible(S/N)` y explica **cuellos de botella**.
 
 **Lab 2 — Sensibilidad a comisiones**
 
-* En una red fija, subí el `ppm` de un hub.
-* Medí cambio en **costo** y **ruta** óptima. Discute *pricing power*.
+*   En una red fija, subí el `ppm` de un hub.
+*   Medí cambio en **costo** y **ruta** óptima. Discute *pricing power*.
 
 **Lab 3 — Compromisos y verificación (ZKP)**
 
-* Publica `c = H(m)` para tres mensajes.
-* Otro equipo verifica sin conocer `m` (revelás al final). Relación con **commit-reveal/MEV**.
+*   Publica `c = H(m)` para tres mensajes.
+*   Otro equipo verifica sin conocer `m` (revelás al final). Relación con **commit-reveal/MEV**.
 
 **Lab 4 — Data Availability (ZK-Rollups)**
 
-* Inserta un lote inválido y observa el rechazo del verificador.
-* Debate: efectos de falla de disponibilidad de datos en **retiros** y confianza.
+*   Inserta un lote inválido y observa el rechazo del verificador.
+*   Debate: efectos de falla de disponibilidad de datos en **retiros** y confianza.
 
 ---
 
 ## 🧷 Rúbrica de evaluación (100 pts)
 
-| Criterio                | Descripción                                          | Pts |
-| ----------------------- | ---------------------------------------------------- | --: |
-| Modelado Lightning      | Ruteo correcto, análisis de capacidad/costos         |  25 |
-| Experimentos & Métricas | Tablas/gráficas, repetibilidad, interpretación       |  20 |
-| ZKP/Hash                | Comprensión de compromiso/verificación y límites     |  15 |
-| ZK-Rollups              | Flujo batch-prueba-verificación y análisis de fallas |  15 |
-| Integración TradFi/DeFi | AMMs, MEV, regulación conectados a ejecución         |  15 |
-| Documentación           | Informe claro + capturas/enlaces a simuladores       |  10 |
+| Criterio | Descripción | Pts |
+| :--- | :--- | --: |
+| Modelado Lightning | Ruteo correcto, análisis de capacidad/costos | 25 |
+| Experimentos & Métricas | Tablas/gráficas, repetibilidad, interpretación | 20 |
+| ZKP/Hash | Comprensión de compromiso/verificación y límites | 15 |
+| ZK-Rollups | Flujo batch-prueba-verificación y análisis de fallas | 15 |
+| Integración TradFi/DeFi | AMMs, MEV, regulación conectados a ejecución | 15 |
+| Documentación | Informe claro + capturas/enlaces a simuladores | 10 |
 
 ---
 
@@ -173,46 +169,44 @@ u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
 
 **Dijkstra (Lightning):**
 
-* Peso de arista: `w(u,v) = base_fee_msat + amount_msat * ppm / 1e6`.
-* Poda por **capacidad direccional**: si `cap(u,v) < amount_msat`, descartar.
-* Implementación típica: **cola de prioridad** (min-heap) sobre costo acumulado.
-* Extensiones: penalización por **confiabilidad**, **multi-criterio** (costo-vs-hops/latencia), *retries* probabilísticos.
+*   Peso de arista: `w(u,v) = base_fee_msat + amount_msat * ppm / 1e6`.
+*   Poda por **capacidad direccional**: si `cap(u,v) < amount_msat`, descartar.
+*   Implementación típica: **cola de prioridad** (min-heap) sobre costo acumulado.
+*   Extensiones: penalización por **confiabilidad**, **multi-criterio** (costo-vs-hops/latencia), *retries* probabilísticos.
 
 **ZKP (esqueleto formal):**
 
-* *Completeness* (acepta si verdad), *Soundness* (difícil engañar), *Zero-Knowledge* (no filtra info del testigo).
-* Familias: Σ-protocols, zk-SNARKs (setup confiable), zk-STARKs (sin setup; pruebas más grandes).
+*   *Completeness* (acepta si verdad), *Soundness* (difícil engañar), *Zero-Knowledge* (no filtra info del testigo).
+*   Familias: Σ-protocols, zk-SNARKs (setup confiable), zk-STARKs (sin setup; pruebas más grandes).
 
 **ZK-Rollups:**
 
-* Pipeline: usuario → **sequencer** → *batch* → **validity proof** → **verificador L1** → actualización de estado.
-* Riesgos: *data availability*, censura del sequencer, tiempos de retiro.
+*   Pipeline: usuario → **sequencer** → *batch* → **validity proof** → **verificador L1** → actualización de estado.
+*   Riesgos: *data availability*, censura del sequencer, tiempos de retiro.
 
 ---
 
 ## 🔁 Conexión curricular
 
-* **Desde U3/U4**: plataformas DeFi, costos y latencia → aquí bajamos a **algoritmos** y **pruebas**.
-* **Hacia U5**: *trading* y gestión de riesgo; lo aprendido (costos, latencia, MEV) se traduce en **slippage**, *fills* y riesgo operativo.
+*   **Desde U3/U4**: plataformas DeFi, costos y latencia → aquí bajamos a **algoritmos** y **pruebas**.
+*   **Hacia U5**: *trading* y gestión de riesgo; lo aprendido (costos, latencia, MEV) se traduce en **slippage**, *fills* y riesgo operativo.
 
 ---
 
 ## 🧩 Checklist rápido
 
-* [ ] Obtengo rutas válidas para `monto=500k msat` en ≥80% de instancias.
-* [ ] Entiendo cómo `ppm` y `base_fee` cambian el **costo marginal**.
-* [ ] Puedo explicar por qué `H(m)=c` permite verificación sin revelar `m`.
-* [ ] Describo el flujo de una tx en **ZK-Rollup** y qué se publica en L1.
-* [ ] Relaciono **AMMs/MEV/regulación** con ejecución y diseño de incentivos.
+*   [ ] Obtengo rutas válidas para `monto=500k msat` en ≥80% de instancias.
+*   [ ] Entiendo cómo `ppm` y `base_fee` cambian el **costo marginal**.
+*   [ ] Puedo explicar por qué `H(m)=c` permite verificación sin revelar `m`.
+*   [ ] Describo el flujo de una tx en **ZK-Rollup** y qué se publica en L1.
+*   [ ] Relaciono **AMMs/MEV/regulación** con ejecución y diseño de incentivos.
 
 ---
 
 ## 🤝 Contribuciones & buenas prácticas
 
-* PRs/Issues: enlaces relativos, sin secretos/llaves, respeto de licencias.
-* Nombres de archivo: evitá renombrar; si lo hacés, actualizá todos los enlaces.
-* Para clases: abrir en **pantalla completa**; si el SVG se ve vacío, **“Generar red”** → **“Ejecutar Dijkstra”**.
+*   PRs/Issues: enlaces relativos, sin secretos/llaves, respeto de licencias.
+*   Nombres de archivo: evitá renombrar; si lo hacés, actualizá todos los enlaces.
+*   Para clases: abrir en **pantalla completa**; si el SVG se ve vacío, **“Generar red”** → **“Ejecutar Dijkstra”**.
 
 ---
-
-¿Quieres que agregue un **README-resumen** de 1 página para estudiantes o un **handout PDF** con los labs? ✔️
