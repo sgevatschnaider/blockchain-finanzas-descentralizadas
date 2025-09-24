@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lightning + Dijkstra — Visualización SVG (Controlada)</title>
+<style>
+:root{
+  --bg:#0e1324; --panel:#161a33; --ink:#eaf0ff; --muted:#a9b0d6; --accent:#7c9cff;
+  --ok:#49d17b; --warn:#ffd166; --err:#ff6b6b; --chip:#243063; --edge:#cfd5ff;
+  --relax:#24ffd0; --src:#24d68a; --dst:#ffb454; --cur:#8aa1ff; --visited:#13385f;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background: radial-gradient(1200px 800px at 10% -10%, #18204a 0%, #0e1324 60%) fixed;
+  color:var(--ink); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
+}
+header{padding:22px 16px 8px; text-align:center;}
+header h1{margin:0 0 6px; font-size: clamp(20px,3vw,28px)}
+header p{margin:0 auto; color:var(--muted); font-size:14px; max-width:900px;}
+.app{display:grid; gap:14px; padding:10px 16px 22px; grid-template-columns: 440px 1fr; max-width: 1580px; margin:auto;}
+@media (max-width: 1100px){ .app{grid-template-columns:1fr;} }
+.card{ background: var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+h3{margin:4px 0 10px; font-size:14px; letter-spacing:.3px; color:#cfd6ff; text-transform:uppercase}
+.controls .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+input[type="text"], input[type="number"], select{ background:#0f132a; border:1px solid #26306d; color:var(--ink); padding:9px 10px; border-radius:10px; outline:none; font-family:inherit; }
+input[type="text"]{flex:1}
+button{ background: linear-gradient(180deg, #8aa1ff, #5b7cff); border:none; color:white; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:700; box-shadow: 0 6px 14px rgba(124,156,255,.35); transition: all .2s ease; }
+button:hover:not(:disabled){ transform: translateY(-2px); box-shadow:0 8px 16px rgba(124,156,255,.4); }
+button.ghost{ background:none; border:1px solid #4253a3; color:#cdd6ff; box-shadow:none }
+button.warn{ background: linear-gradient(180deg, #ffd166, #ffb200); color:#111 }
+button:disabled{opacity:.55; cursor:not-allowed}
+.small{font-size:12px; color:var(--muted)}
+.stats{ display:flex; gap:12px; flex-wrap:wrap; font-size:13px; color:#d9e1ff; margin-top:6px}
+.stat{ background:#0f132a; border:1px solid #2a346c; border-radius:10px; padding:6px 8px }
+.grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:10px }
+@media(max-width: 520px){ .grid2{grid-template-columns:1fr} }
+
+.chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+.chip{ background:var(--chip); color:#d5dcff; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer; border:1px solid #33407a }
+
+#graphWrap{position:relative; min-height:560px}
+#graph{ width:100%; aspect-ratio: 16/10; display:block; background: radial-gradient(700px 500px at 70% -50%, rgba(255,255,255,.05), transparent 60%); border-radius:12px; }
+.edge{ stroke:var(--edge); stroke-width:2.2; stroke-linecap:round; opacity:.88; }
+.edge.relax{ stroke: var(--relax); stroke-width:3.4; filter: drop-shadow(0 0 6px rgba(36,255,208,.9)); stroke-dasharray: 160; animation: dash 900ms ease forwards }
+.path{ stroke: var(--warn); stroke-width:4.6; filter: drop-shadow(0 0 5px rgba(255,209,102,.7)); }
+@keyframes dash{ 0%{stroke-dashoffset:160} 100%{stroke-dashoffset:0} }
+
+.node circle{ fill:#0f132a; stroke:#6b86ff; stroke-width:2; filter: drop-shadow(0 4px 10px rgba(124,156,255,.25)); transition: transform .2s ease; }
+.node.visited circle{ stroke:#8ce2ff; fill:var(--visited); }
+.node.src circle{ stroke:var(--src); transform: scale(1.06); }
+.node.dst circle{ stroke:var(--dst); transform: scale(1.06); }
+.node.cur circle{ stroke:var(--cur); transform: scale(1.08); }
+.node text.label{ font-weight:800; font-size:12px; fill:#eaf0ff }
+.node text.meta{ font-weight:500; font-size:11px; fill:#aab4ee }
+.node .halo{ fill:none; stroke:#8aa1ff; stroke-width:4; opacity:0; transform-box: fill-box; transform-origin:center; }
+.node.src .halo{ stroke:var(--src); opacity:.55; animation: halo 1.6s ease-out infinite; }
+.node.dst .halo{ stroke:var(--dst); opacity:.45; animation: halo 1.6s ease-out infinite; }
+@keyframes halo{ from{ transform:scale(1); opacity:.5 } to{ transform:scale(1.8); opacity:0 } }
+
+.log{ max-height:230px; overflow:auto; padding-right:4px; font-size:13px; line-height:1.4; color:#dbe2ff }
+.log p{margin:.35rem 0}
+.log .fail{ color: var(--err) } .log .ok{ color: var(--ok) } .muted{ color: var(--muted) }
+
+table.matrix{ width:100%; border-collapse: collapse; font-size:12px; color:#dfe6ff }
+.matrix th, .matrix td{ border:1px solid #2a3264; padding:4px 6px; text-align:center }
+.matrix th{ background:#12163b; position:sticky; top:0 } .matrix td.idx{ background:#12163b }
+
+.credit{margin-top:10px; text-align:center; color:#93a0d7; font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Enrutamiento Lightning con Dijkstra — Visualización SVG</h1>
+  <p>Canales con <b>base fee</b>, <b>ppm</b> y <b>capacidad</b>. Ejecuta Dijkstra para hallar el <b>menor costo</b> (msat). Controles para generar red, animar paso a paso y ajustar layout.</p>
+</header>
+
+<div class="app">
+  <!-- CONTROLES -->
+  <div class="card controls" style="grid-column: 1 / 2;">
+    <h3>Parámetros y Control</h3>
+    <div class="grid2">
+      <div class="row">
+        <span class="small">Nodos</span>
+        <input id="nNodes" type="number" value="12" min="6" max="40" style="width:80px"/>
+        <span class="small">Semilla</span>
+        <input id="seed" type="text" value="8" style="width:100px"/>
+      </div>
+      <div class="row">
+        <span class="small">Monto (msat)</span>
+        <input id="amount" type="number" value="500000" min="1000" step="1000" style="width:120px"/>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:6px">
+      <span class="small">Origen</span>
+      <select id="src" style="flex:1"></select>
+      <span class="small">Destino</span>
+      <select id="dst" style="flex:1"></select>
+    </div>
+
+    <div class="row" style="margin-top:6px">
+      <button id="genBtn" class="warn">Generar red</button>
+      <button id="runBtn">Ejecutar Dijkstra</button>
+      <button id="stepBtn" class="ghost">Paso</button>
+      <button id="autoBtn" class="ghost">Auto ▶</button>
+      <button id="pauseBtn" class="ghost">Pausa</button>
+      <button id="resetAnimBtn" class="ghost">Reset Anim.</button>
+    </div>
+
+    <div class="row" style="margin-top:6px; gap:16px">
+      <label style="display:flex;align-items:center;gap:6px">
+        <input type="checkbox" id="edgeLabels" checked> Mostrar etiquetas de aristas
+      </label>
+      <label style="display:flex;align-items:center;gap:6px">
+        <input type="checkbox" id="autoGen"> Autogenerar al cargar
+      </label>
+    </div>
+
+    <div class="row" style="margin-top:6px">
+      <span class="small">Velocidad (ms/step)</span>
+      <input id="speed" type="number" value="850" min="150" step="50" style="width:90px"/>
+      <span class="small">Layout</span>
+      <select id="layoutSel">
+        <option value="auto">Auto (Sunflower/Anillo)</option>
+        <option value="ring">Anillo</option>
+        <option value="radial">Radial por grado</option>
+        <option value="grid">Cuadrícula</option>
+        <option value="sun">Sunflower</option>
+      </select>
+      <button id="shuffleBtn" class="ghost" title="Rotar/Reordenar">Reordenar</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat">Costo total: <b id="mCost">—</b></div>
+      <div class="stat">Hops: <b id="mHops">—</b></div>
+      <div class="stat">Estado: <b id="mStatus" style="color:var(--ok)">Sin red</b></div>
+    </div>
+    <p class="small" style="margin-top:6px">Costo por salto: <i>base_fee_msat + amount_msat × ppm / 1e6</i>. Si <i>capacidad &lt; monto</i>, el canal es inválido.</p>
+  </div>
+
+  <!-- LOG -->
+  <div class="card" style="grid-column: 2 / 3;">
+    <h3>Registro</h3>
+    <div id="log" class="log"></div>
+  </div>
+
+  <!-- GRAFO -->
+  <div class="card" id="graphWrap" style="grid-column:1 / -1">
+    <h3>Grafo Lightning + Dijkstra</h3>
+    <svg id="graph" viewBox="0 0 1180 740" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <!-- MATRIZ -->
+  <div class="card" style="grid-column:1 / -1">
+    <h3>Matriz de Adyacencia</h3>
+    <div style="overflow:auto; max-height:320px">
+      <table id="matrix" class="matrix"></table>
+    </div>
+  </div>
+</div>
+
+<div class="credit">Material elaborado por el profesor Sergio Gevatschnaider</div>
+
+<script>
+/* ===================== Utiles ===================== */
+const $ = id => document.getElementById(id);
+const log = (msg, cls='') => { const p=document.createElement('p'); if(cls) p.className=cls; p.innerHTML=msg; $('log').appendChild(p); $('log').scrollTop=$('log').scrollHeight; };
+
+const RNG = (()=>{ // Mulberry32 + hash de texto
+  let a=1;
+  function seed(s){
+    if(typeof s==='string'){
+      let h=1779033703 ^ s.length;
+      for(let i=0;i<s.length;i++){ h = Math.imul(h ^ s.charCodeAt(i), 3432918353); h = (h<<13)|(h>>>19); }
+      a=(h>>>0)||1;
+    } else a=(s>>>0)||1;
+  }
+  function next(){ a|=0; a=(a+0x6D2B79F5)|0; let t=Math.imul(a ^ (a>>>15),1|a); t^=t>>>7; t=Math.imul(t,61|t)^t; return ((t^(t>>>14))>>>0)/4294967296; }
+  function choice(arr){ return arr[Math.floor(next()*arr.length)]; }
+  return {seed,next,choice};
+})();
+
+function shortMsat(x){ if(x>=1_000_000) return (x/1_000_000).toFixed(2)+'M msat'; if(x>=1_000) return (x/1_000).toFixed(1)+'K msat'; return x+' msat'; }
+
+/* ===================== Modelo Lightning ===================== */
+class Channel{ constructor(base, ppm, cap){ this.base=base; this.ppm=ppm; this.cap=cap; } }
+function edgeCost(chan, amount){ return amount>chan.cap ? Infinity : chan.base + amount*chan.ppm/1_000_000.0; }
+
+function buildGraph(n, seed){
+  RNG.seed(seed);
+  const base=[50,100,200,500], ppm=[100,300,500,900,1200], cap=[200000,500000,1000000,2000000];
+  const G={nodes:[...Array(n).keys()].map(i=>({id:i,deg:0})), edges:[], adj: Array.from({length:n},()=>[])};
+
+  const add=(u,v)=>{
+    const ch=new Channel(RNG.choice(base), RNG.choice(ppm), RNG.choice(cap));
+    G.edges.push({u,v,chan:ch,key:`${u}-${v}`});
+    G.adj[u].push({v,chan:ch});
+    G.nodes[u].deg++; G.nodes[v].deg++;
+  };
+
+  // anillo bidireccional
+  for(let i=0;i<n;i++){ const j=(i+1)%n; add(i,j); add(j,i); }
+  // cuerdas extra
+  for(let k=0;k<Math.floor(n/2);k++){ let u=Math.floor(RNG.next()*n), v=Math.floor(RNG.next()*n); if(u===v) v=(v+1)%n; add(u,v); if(RNG.next()<0.6) add(v,u); }
+
+  return G;
+}
+
+/* ===================== Dijkstra (con pasos) ===================== */
+function dijkstraSteps(G, src, dst, amount){
+  const N=G.nodes.length, dist=Array(N).fill(Infinity), prev=Array(N).fill(null), visited=new Set();
+  dist[src]=0;
+  const steps=[]; // {current, visited:Set, dist:[...], prev:[...], relax:[u,v]|null}
+
+  const pq=[[0,src]];
+  const popMin=()=>{ let idx=0; for(let i=1;i<pq.length;i++) if(pq[i][0]<pq[idx][0]) idx=i; const v=pq[idx]; pq.splice(idx,1); return v; };
+
+  while(pq.length){
+    const [d,u]=popMin(); if(visited.has(u)) continue; visited.add(u);
+    steps.push({current:u, visited:new Set([...visited]), dist:[...dist], prev:[...prev], relax:null});
+    if(u===dst) break;
+    for(const e of G.adj[u]){
+      const w=edgeCost(e.chan, amount); if(!isFinite(w)) continue;
+      const alt=d+w;
+      if(alt<dist[e.v]){ dist[e.v]=alt; prev[e.v]=u; pq.push([alt,e.v]); steps.push({current:u, visited:new Set([...visited]), dist:[...dist], prev:[...prev], relax:[u,e.v]}); }
+    }
+  }
+  const path=[]; if(isFinite(dist[dst])){ let u=dst; while(u!==null){ path.push(u); u=prev[u]; } path.reverse(); }
+  return {path, cost:dist[dst], steps};
+}
+
+/* ===================== Layouts ===================== */
+const svg = $('graph'); const vb = svg.viewBox.baseVal;
+function layoutRing(n, off=0){ const R=Math.min(vb.width,vb.height)*0.42, cx=vb.width/2, cy=vb.height/2, pts=[]; for(let i=0;i<n;i++){ const a=(i/n)*2*Math.PI - Math.PI/2 + off; pts.push({x:cx+R*Math.cos(a), y:cy+R*Math.sin(a)});} return pts; }
+function layoutSunflower(n, off=0){ const cx=vb.width/2, cy=vb.height/2, maxR=Math.min(vb.width,vb.height)*0.46, ga=2.3999632297, pts=[]; for(let i=0;i<n;i++){ const t=(i+0.5)/n, r=Math.sqrt(t)*maxR, a=i*ga + off; pts.push({x:cx+r*Math.cos(a), y:cy+r*Math.sin(a)});} return pts; }
+function layoutRadialByDegree(nodes, off=0){
+  const cx=vb.width/2, cy=vb.height/2, groups=[...new Set(nodes.map(n=>n.deg))].sort((a,b)=>b-a), rings=groups.length, maxR=Math.min(vb.width,vb.height)*0.46, step = rings>1 ? (maxR*0.85)/(rings-1) : 0;
+  const byDeg=new Map(groups.map(g=>[g,[]])); nodes.forEach(n=>byDeg.get(n.deg).push(n));
+  const pts=[]; let idx=0; groups.forEach((g,gi)=>{ const arr=byDeg.get(g).sort((a,b)=>a.id-b.id), r=Math.min(40+gi*step,maxR), m=arr.length;
+    for(let k=0;k<m;k++){ const a=((k/m)*2*Math.PI) - Math.PI/2 + off*(gi+1)*0.7; pts[idx++]={x:cx+r*Math.cos(a), y:cy+r*Math.sin(a)}; } });
+  return pts;
+}
+function layoutGrid(n){ const cx=vb.width/2, cy=vb.height/2, cols=Math.ceil(Math.sqrt(n)), rows=Math.ceil(n/cols), cell=Math.min(vb.width/(cols+1), vb.height/(rows+1)); const sx=cx-(cols-1)*cell/2, sy=cy-(rows-1)*cell/2; const pts=[]; for(let i=0;i<n;i++){ const r=Math.floor(i/cols), c=i%cols; pts.push({x:sx+c*cell, y:sy+r*cell}); } return pts; }
+
+/* ===================== Estado app ===================== */
+let app = { G:null, pos:[], src:0, dst:7, amount:500000, steps:[], stepIdx:0, timer:null, playing:false, speed:850, angleOffset:0, path:[], cost:Infinity, showLabels:true };
+
+function clearSVG(){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
+
+function setUIEnabled(enabled){
+  ['runBtn','stepBtn','autoBtn','pauseBtn','resetAnimBtn','src','dst','amount','layoutSel','shuffleBtn'].forEach(id=>{ $(id).disabled = !enabled; });
+  $('mStatus').textContent = enabled ? 'Listo' : 'Sin red';
+  if(!enabled){ $('mCost').textContent='—'; $('mHops').textContent='—'; }
+}
+
+function computeLayout(){
+  const n = app.G.nodes.length;
+  const mode=$('layoutSel').value;
+  if(mode==='ring') app.pos = layoutRing(n, app.angleOffset);
+  else if(mode==='radial') app.pos = layoutRadialByDegree(app.G.nodes, app.angleOffset);
+  else if(mode==='grid') app.pos = layoutGrid(n);
+  else if(mode==='sun') app.pos = layoutSunflower(n, app.angleOffset);
+  else app.pos = (n<=10)? layoutRing(n, app.angleOffset) : layoutSunflower(n, app.angleOffset);
+}
+
+function renderGraph(state=null){
+  clearSVG(); if(!app.G) return;
+  const rNode = Math.max(6, 20 - Math.floor(app.G.nodes.length/4));
+
+  // edges
+  for(const e of app.G.edges){
+    const p=app.pos[e.u], q=app.pos[e.v];
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',p.x); line.setAttribute('y1',p.y); line.setAttribute('x2',q.x); line.setAttribute('y2',q.y);
+    line.setAttribute('class','edge'); line.setAttribute('data-key', e.key);
+    svg.appendChild(line);
+  }
+
+  // relax edge
+  if(state?.relax){
+    const [u,v]=state.relax, p=app.pos[u], q=app.pos[v];
+    const hl=document.createElementNS('http://www.w3.org/2000/svg','line');
+    hl.setAttribute('x1',p.x); hl.setAttribute('y1',p.y); hl.setAttribute('x2',q.x); hl.setAttribute('y2',q.y);
+    hl.setAttribute('class','edge relax'); svg.appendChild(hl);
+  }
+
+  // final path
+  if(app.path && app.path.length>1){
+    for(let i=0;i<app.path.length-1;i++){
+      const u=app.path[i], v=app.path[i+1], p=app.pos[u], q=app.pos[v];
+      const pl=document.createElementNS('http://www.w3.org/2000/svg','line');
+      pl.setAttribute('x1',p.x); pl.setAttribute('y1',p.y); pl.setAttribute('x2',q.x); pl.setAttribute('y2',q.y);
+      pl.setAttribute('class','path'); svg.appendChild(pl);
+    }
+  }
+
+  // nodes
+  for(const n of app.G.nodes){
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    let cls='node'; if(state?.visited?.has(n.id)) cls+=' visited'; if(n.id===app.src) cls+=' src'; if(n.id===app.dst) cls+=' dst'; if(state?.current===n.id) cls+=' cur';
+    g.setAttribute('class',cls); g.setAttribute('transform',`translate(${app.pos[n.id].x},${app.pos[n.id].y})`);
+
+    const halo=document.createElementNS('http://www.w3.org/2000/svg','circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', String(rNode+2));
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle'); c.setAttribute('r', String(rNode));
+    const label=document.createElementNS('http://www.w3.org/2000/svg','text'); label.setAttribute('class','label'); label.setAttribute('text-anchor','middle'); label.setAttribute('dominant-baseline','central'); label.setAttribute('y',-2); label.textContent=String(n.id);
+    const meta=document.createElementNS('http://www.w3.org/2000/svg','text'); meta.setAttribute('class','meta'); meta.setAttribute('text-anchor','middle'); meta.setAttribute('dominant-baseline','hanging'); meta.setAttribute('y', Math.max(12, rNode-4));
+    const d = state? state.dist[n.id] : Infinity; meta.textContent = (isFinite(d)? `${Math.round(d)} msat` : '∞');
+
+    g.append(halo,c,label,meta); svg.appendChild(g);
+  }
+
+  // edge labels (opcional)
+  if(app.showLabels){
+    for(const e of app.G.edges){
+      const p=app.pos[e.u], q=app.pos[e.v];
+      const mx=p.x*0.4 + q.x*0.6, my=p.y*0.4 + q.y*0.6;
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', mx); t.setAttribute('y', my); t.setAttribute('fill','#bcd3ff'); t.setAttribute('font-size','10');
+      t.textContent = `${e.chan.base}+${e.chan.ppm}ppm  cap:${shortMsat(e.chan.cap)}`;
+      svg.appendChild(t);
+    }
+  }
+}
+
+function renderMatrix(){
+  const table=$('matrix'); if(!app.G){ table.innerHTML=''; return; }
+  const n=app.G.nodes.length; const M=Array.from({length:n},()=>Array(n).fill(0));
+  for(const e of app.G.edges){ M[e.u][e.v]=1; } // dirigido
+  let html='<thead><tr><th></th>'+Array.from({length:n},(_,j)=>`<th>${j}</th>`).join('')+'</tr></thead><tbody>';
+  for(let i=0;i<n;i++){ html+=`<tr><td class="idx">${i}</td>`; for(let j=0;j<n;j++){ html+=`<td>${(i===j)?'—':M[i][j]}</td>`; } html+='</tr>'; }
+  html+='</tbody>'; table.innerHTML=html;
+}
+
+/* ===================== Lógica app ===================== */
+function populateSelectors(){
+  const srcSel=$('src'), dstSel=$('dst'); srcSel.innerHTML=''; dstSel.innerHTML='';
+  const n=app.G.nodes.length;
+  for(let i=0;i<n;i++){ const o1=document.createElement('option'); o1.value=i; o1.textContent=String(i); srcSel.appendChild(o1);
+                        const o2=document.createElement('option'); o2.value=i; o2.textContent=String(i); dstSel.appendChild(o2); }
+  srcSel.value=String(app.src % n); dstSel.value=String(app.dst % n);
+}
+
+function recomputeDijkstra(){
+  const {path, cost, steps} = dijkstraSteps(app.G, app.src, app.dst, app.amount);
+  app.path=path; app.cost=cost; app.steps=steps; app.stepIdx= Math.min(app.stepIdx, Math.max(steps.length-1,0));
+  $('mCost').textContent = isFinite(cost)? `${Math.round(cost)} msat` : '—';
+  $('mHops').textContent = (path && path.length>1)? `${path.length-1}` : '—';
+  $('mStatus').textContent = isFinite(cost)? 'Ruta encontrada' : 'Sin ruta';
+}
+
+function computeLayoutAndRender(){
+  computeLayout();
+  const s = app.steps[app.stepIdx] || null;
+  renderGraph(s);
+  renderMatrix();
+}
+
+function play(){
+  if(app.playing || !app.G) return;
+  app.playing=true; $('mStatus').textContent='Reproduciendo…';
+  app.timer=setInterval(()=>{
+    if(app.stepIdx < app.steps.length-1){ app.stepIdx++; computeLayoutAndRender(); }
+    else{ pause(); $('mStatus').textContent=isFinite(app.cost)?'Ruta final':'Sin ruta'; computeLayoutAndRender(); }
+  }, app.speed);
+}
+function pause(){ app.playing=false; clearInterval(app.timer); }
+function resetAnim(){ pause(); app.stepIdx=0; computeLayoutAndRender(); $('mStatus').textContent= app.G ? 'Listo' : 'Sin red'; }
+
+/* ===================== Eventos ===================== */
+$('genBtn').addEventListener('click', ()=>{
+  const n=Math.max(6, Math.min(40, +$('nNodes').value||12));
+  const seed=$('seed').value||'8';
+  app.G=buildGraph(n, seed);
+  app.src=0; app.dst=Math.min(n-1, 7); app.amount=+$('amount').value||500000;
+  populateSelectors(); recomputeDijkstra(); computeLayoutAndRender();
+  $('log').innerHTML=''; log('<span class="muted">Red generada. Ejecuta Dijkstra o usa Auto/Paso.</span>');
+  setUIEnabled(true);
+});
+
+$('runBtn').addEventListener('click', ()=>{ if(!app.G) return; recomputeDijkstra(); app.stepIdx=app.steps.length-1; computeLayoutAndRender(); log('<b class="ok">Dijkstra completado</b> (camino óptimo resaltado).'); });
+$('stepBtn').addEventListener('click', ()=>{ if(!app.G) return; if(app.steps.length===0) {recomputeDijkstra();} if(app.stepIdx<app.steps.length-1) app.stepIdx++; computeLayoutAndRender(); });
+$('autoBtn').addEventListener('click', ()=>{ if(!app.G) return; if(app.steps.length===0) {recomputeDijkstra();} play(); });
+$('pauseBtn').addEventListener('click', ()=> pause());
+$('resetAnimBtn').addEventListener('click', ()=> resetAnim());
+
+$('src').addEventListener('change', e=>{ if(!app.G) return; app.src=+e.target.value; recomputeDijkstra(); computeLayoutAndRender(); });
+$('dst').addEventListener('change', e=>{ if(!app.G) return; app.dst=+e.target.value; recomputeDijkstra(); computeLayoutAndRender(); });
+$('amount').addEventListener('input', e=>{ if(!app.G) return; app.amount=+e.target.value; recomputeDijkstra(); computeLayoutAndRender(); });
+$('layoutSel').addEventListener('change', ()=> computeLayoutAndRender());
+$('shuffleBtn').addEventListener('click', ()=>{ app.angleOffset += Math.PI * (3 - Math.sqrt(5)); computeLayoutAndRender(); });
+$('speed').addEventListener('input', e=>{ app.speed=+e.target.value; if(app.playing){ pause(); play(); } });
+$('edgeLabels').addEventListener('change', e=>{ app.showLabels = e.target.checked; computeLayoutAndRender(); });
+
+/* ===================== Init ===================== */
+window.addEventListener('load', ()=>{
+  // Bloquea controles hasta crear una red
+  setUIEnabled(false);
+  // Autogenerar si el usuario lo marcó
+  if ($('autoGen').checked) $('genBtn').click();
+  else {
+    clearSVG(); $('matrix').innerHTML='';
+    $('mStatus').textContent='Sin red';
+    log('<span class="muted">Haz clic en “Generar red” para crear la topología y habilitar los controles.</span>');
+  }
+});
+</script>
+</body>
+</html>

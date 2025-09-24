@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Estudio: Lightning Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #ff9a00 0%, #ff5e00 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #ff8c00;
+      --accent-secondary: #f57c00;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #ff9a00;
+      --accent-secondary: #ffbe0b;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    
+    .diagram-container, .code-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container, [data-theme="dark"] .code-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow, .diagram-grid { display: flex; justify-content: space-around; align-items: center; gap: 1rem; flex-wrap: wrap;}
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.down::after { content: '↓'; display: block; margin: 0.5rem 0; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+    .diagram-col { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .diagram-section { padding: 1rem; border: 2px dashed var(--border-color); border-radius: var(--border-radius); width: 100%; }
+    .diagram-section-title { font-weight: 600; text-align: center; margin-bottom: 1rem; font-size: 0.9em; color: var(--text-primary); }
+
+    .dijkstra-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-family: 'JetBrains Mono', monospace; }
+    .dijkstra-table th, .dijkstra-table td { border: 1px solid var(--border-color); padding: 0.8rem; text-align: center; }
+    .dijkstra-table th { background-color: rgba(0,0,0,0.05); }
+    [data-theme="dark"] .dijkstra-table th { background-color: rgba(0,0,0,0.25); }
+
+    .code-container pre { background: transparent; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+    .code-container code { font-size: 0.9em; }
+    .code-container .comment { color: #8a99a8; }
+    .code-container .keyword { color: #c792ea; }
+    .code-container .string { color: #c3e88d; }
+    .code-container .number { color: #f78c6c; }
+    .code-container .function { color: #82aaff; }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Lightning Network</h1>
+      <p class="subtitle">Una Guía de Estudio sobre la Capa 2 de Bitcoin</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">1. Conceptos básicos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Lightning Network surge como una respuesta al problema de escalabilidad de Bitcoin. La red principal procesa pocas transacciones por segundo y cada bloque tarda alrededor de diez minutos en confirmarse. Esto hace que, aunque sea muy segura, resulte poco práctica para micropagos o para un uso masivo cotidiano.</p>
+                <p>Lightning se construye como una <strong>capa 2 sobre Bitcoin</strong>, lo que significa que aprovecha la seguridad de la red base pero mueve gran parte de la actividad fuera de ella. Su propósito principal es habilitar pagos casi instantáneos y con comisiones muy bajas, permitiendo que Bitcoin pueda usarse en el día a día para transacciones rápidas.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Arquitectura</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La base de Lightning son los <strong>canales de pago</strong>. Un canal se abre entre dos partes con una transacción en la blockchain de Bitcoin que bloquea fondos en una dirección multifirma. A partir de ahí, las dos partes pueden intercambiar dinero tantas veces como quieran sin necesidad de acudir de nuevo a la cadena principal. Cada transacción dentro del canal actualiza el balance, pero solo las aperturas y cierres se reflejan en Bitcoin.</p>
+                <p>Lightning utiliza contratos especiales llamados <strong>HTLCs (Hashed Time Locked Contracts)</strong> que permiten rutar pagos a través de varios nodos de manera segura. Además, el sistema incluye mecanismos de penalización: si un participante intenta engañar publicando un estado antiguo del canal, el otro puede reclamar todos los fondos como castigo.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Flujo de un Canal de Pago</div>
+                    <div class="diagram-col">
+                        <div class="diagram-section">
+                            <div class="diagram-section-title">Blockchain de Bitcoin (Capa 1)</div>
+                            <div class="diagram-box"><strong>Tx de Apertura</strong><span>Se crea canal 2-de-2 y se bloquean fondos</span></div>
+                        </div>
+                        <div class="diagram-arrow down"><div class="diagram-arrow-label">Habilita</div></div>
+                        <div class="diagram-section">
+                             <div class="diagram-section-title">Lightning Network (Capa 2)</div>
+                             <div class="diagram-box"><strong>Transacciones Off-chain</strong><span>Pagos instantáneos ilimitados</span></div>
+                        </div>
+                         <div class="diagram-arrow down"><div class="diagram-arrow-label">Finalmente</div></div>
+                        <div class="diagram-section">
+                             <div class="diagram-section-title">Blockchain de Bitcoin (Capa 1)</div>
+                             <div class="diagram-box"><strong>Tx de Cierre</strong><span>Se liquida el balance final en la cadena</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. Relación con Bitcoin</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Lightning no es independiente, depende directamente de Bitcoin para su funcionamiento. Cada canal comienza y termina con una transacción en la blockchain principal, y si surge un conflicto entre usuarios, siempre es posible acudir a la red base para hacer cumplir las reglas. Esto significa que la seguridad de Lightning está garantizada por el consenso de Bitcoin. Sin embargo, la congestión en la capa uno puede afectar a Lightning, porque abrir o cerrar canales en momentos de alta demanda se vuelve más caro. Una vez abierto el canal, las transacciones internas ya no dependen del estado de la red principal, pero la base sigue siendo indispensable.</p>
+            </div>
+        </div>
+
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">4. Lightning como grafo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La red Lightning puede representarse como un grafo en el que los <strong>nodos son los usuarios</strong> y las <strong>aristas son los canales de pago</strong> que los conectan. Cada canal tiene una capacidad (el monto de Bitcoin bloqueado) y puede tener liquidez diferente en cada dirección. De este modo, los canales son aristas ponderadas con pesos que representan liquidez y comisiones.</p>
+                <p>Un pago de un usuario a otro se interpreta como encontrar una ruta dentro de este grafo que tenga la liquidez suficiente y el costo más bajo. La red es dinámica porque los canales se abren, se cierran y su capacidad cambia con cada pago.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Red de Canales como Grafo</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Alice</strong></div>
+                        <div class="diagram-box"><strong>Bob</strong></div>
+                        <div class="diagram-box"><strong>Carol</strong></div>
+                        <div class="diagram-box"><strong>David</strong></div>
+                        <div class="diagram-box"><strong>Elisa</strong></div>
+                    </div>
+                    <p style="text-align:center; margin-top:1rem;">(Conectados por canales ponderados, no mostrados para simplificar)</p>
+                </div>
+                
+                <h4>Profundizando en los Canales Ponderados</h4>
+                <p>La simplificación en el diagrama anterior oculta la complejidad real de estas "aristas ponderadas". Cada canal no tiene un único peso, sino un conjunto de atributos dinámicos que determinan si un pago puede pasar y a qué costo:</p>
+                <ul>
+                    <li><strong>Capacidad:</strong> Es la cantidad total de satoshis bloqueada en el canal. Ningún pago que transite por él puede ser superior a esta cifra.</li>
+                    <li><strong>Liquidez Direccional:</strong> Es el factor más importante. Si un canal entre Alice y Bob tiene 1000 sats de capacidad, la liquidez indica cuántos de esos satoshis están del lado de Alice y cuántos del lado de Bob. Si Alice tiene 800 y Bob 200, Alice solo puede enviar hasta 800 sats a Bob, y Bob solo puede enviar hasta 200 a Alice. Cada pago modifica esta distribución.</li>
+                    <li><strong>Comisiones (Fees):</strong> Los nodos que enrutan pagos cobran una comisión. Esta suele tener dos componentes: una <strong>comisión base</strong> (una cantidad fija por transacción, ej. 1 satoshi) y una <strong>comisión proporcional</strong> (un porcentaje del monto enviado, medido en partes por millón).</li>
+                </ul>
+                <p>Por lo tanto, encontrar una ruta no solo implica buscar el camino más corto, sino uno que tenga suficiente liquidez en la dirección correcta en cada salto y que, al mismo tiempo, minimice las comisiones totales.</p>
+                
+                <h4>Representación del Grafo en Python</h4>
+                <p>Para un desarrollador, esta red se puede modelar con estructuras de datos. A continuación, un ejemplo conceptual en Python que representa una pequeña porción de la red, mostrando los atributos de cada canal:</p>
+                <div class="code-container">
+<pre><code><span class="comment"># Ejemplo conceptual de la estructura de datos para la red Lightning</span>
+
+<span class="keyword">class</span> LightningNode:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, name):
+        <span class="keyword">self</span>.name = name
+        <span class="keyword">self</span>.channels = {}
+
+    <span class="keyword">def</span> <span class="function">add_channel</span>(<span class="keyword">self</span>, peer_node, capacity, local_balance, fee_base_msat, fee_rate_ppm):
+        channel_id = <span class="string">f"</span>{<span class="keyword">self</span>.name}<span class="string">_</span>{peer_node.name}<span class="string">"</span>
+        <span class="keyword">self</span>.channels[peer_node.name] = {
+            <span class="string">'id'</span>: channel_id,
+            <span class="string">'capacity_sats'</span>: capacity,
+            <span class="string">'local_balance_sats'</span>: local_balance,  <span class="comment"># Esta es la liquidez que podemos enviar</span>
+            <span class="string">'remote_balance_sats'</span>: capacity - local_balance,
+            <span class="string">'peer'</span>: peer_node,
+            <span class="string">'fees'</span>: {
+                <span class="string">'base_msat'</span>: fee_base_msat,
+                <span class="string">'rate_ppm'</span>: fee_rate_ppm  <span class="comment"># Parts per million</span>
+            }
+        }
+        
+<span class="comment"># 1. Creamos los nodos (usuarios)</span>
+alice = LightningNode(<span class="string">'Alice'</span>)
+bob = LightningNode(<span class="string">'Bob'</span>)
+carol = LightningNode(<span class="string">'Carol'</span>)
+david = LightningNode(<span class="string">'David'</span>)
+elisa = LightningNode(<span class="string">'Elisa'</span>)
+
+<span class="comment"># 2. Creamos los canales con sus atributos (capacidad, balance, comisiones)</span>
+<span class="comment"># Canal Alice <-> Bob</span>
+alice.add_channel(peer_node=bob, capacity=<span class="number">100000</span>, local_balance=<span class="number">70000</span>, fee_base_msat=<span class="number">1000</span>, fee_rate_ppm=<span class="number">100</span>)
+bob.add_channel(peer_node=alice, capacity=<span class="number">100000</span>, local_balance=<span class="number">30000</span>, fee_base_msat=<span class="number">1000</span>, fee_rate_ppm=<span class="number">150</span>)
+
+<span class="comment"># Canal Bob <-> Carol</span>
+bob.add_channel(peer_node=carol, capacity=<span class="number">50000</span>, local_balance=<span class="number">50000</span>, fee_base_msat=<span class="number">2000</span>, fee_rate_ppm=<span class="number">200</span>)
+carol.add_channel(peer_node=bob, capacity=<span class="number">50000</span>, local_balance=<span class="number">0</span>, fee_base_msat=<span class="number">1000</span>, fee_rate_ppm=<span class="number">250</span>)
+
+<span class="comment"># Canal Carol <-> Elisa</span>
+carol.add_channel(peer_node=elisa, capacity=<span class="number">200000</span>, local_balance=<span class="number">150000</span>, fee_base_msat=<span class="number">3000</span>, fee_rate_ppm=<span class="number">50</span>)
+elisa.add_channel(peer_node=carol, capacity=<span class="number">200000</span>, local_balance=<span class="number">50000</span>, fee_base_msat=<span class="number">500</span>, fee_rate_ppm=<span class="number">100</span>)
+
+<span class="comment"># Ahora, para enviar un pago de Alice a Elisa, un algoritmo de ruteo</span>
+<span class="comment"># buscaría un camino (ej. Alice -> Bob -> Carol -> Elisa) y verificaría:</span>
+<span class="comment"># 1. Que el balance local de Alice hacia Bob sea suficiente.</span>
+<span class="comment"># 2. Que el balance local de Bob hacia Carol sea suficiente.</span>
+<span class="comment"># 3. Que el balance local de Carol hacia Elisa sea suficiente.</span>
+<span class="comment"># 4. Calcularía las comisiones totales y las compararía con otras rutas posibles.</span>
+</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Algoritmos de ruteo y ejemplo de Dijkstra</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Para encontrar una ruta válida se usan algoritmos de búsqueda de caminos mínimos, siendo <strong>Dijkstra</strong> uno de los más aplicados para hallar la ruta más barata (considerando las comisiones de cada nodo intermediario). También se exploran variantes como A\* o algoritmos específicos como Flare para balancear eficiencia y privacidad.</p>
+                
+                <h4>Ejemplo Numérico: Ruteo con Dijkstra</h4>
+                <p>Supongamos que <strong>Alice</strong> quiere pagar a <strong>Elisa</strong>. El algoritmo debe encontrar la ruta con la menor suma de comisiones. Las comisiones (en sats) se indican en cada canal.</p>
+                
+                 <div class="diagram-container">
+                    <div class="diagram-title">Grafo de Comisiones</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Alice</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">1 sat</div></div>
+                        <div class="diagram-box"><strong>Bob</strong></div>
+                         <div class="diagram-arrow"><div class="diagram-arrow-label">2 sats</div></div>
+                        <div class="diagram-box"><strong>Carol</strong></div>
+                         <div class="diagram-arrow"><div class="diagram-arrow-label">3 sats</div></div>
+                         <div class="diagram-box"><strong>Elisa</strong></div>
+                    </div>
+                     <div class="diagram-flow" style="margin-top: 1rem;">
+                        <div class="diagram-box" style="visibility:hidden;"><strong>Alice</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">10 sats</div></div>
+                        <div class="diagram-box"><strong>David</strong></div>
+                         <div class="diagram-arrow"><div class="diagram-arrow-label">1 sat</div></div>
+                         <div class="diagram-box"><strong>Carol</strong></div>
+                         <div class="diagram-arrow" style="visibility:hidden;"></div>
+                         <div class="diagram-box" style="visibility:hidden;"><strong>Elisa</strong></div>
+                    </div>
+                </div>
+
+                <p>El algoritmo de Dijkstra calcula el costo acumulado desde el nodo inicial (Alice) a todos los demás:</p>
+                <table class="dijkstra-table">
+                  <thead>
+                    <tr>
+                      <th>Nodo Visitado</th>
+                      <th>Costo Acumulado</th>
+                      <th>Ruta Parcial</th>
+                      <th>Descripción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Alice</td>
+                      <td>0</td>
+                      <td>Alice</td>
+                      <td>Nodo de inicio.</td>
+                    </tr>
+                    <tr>
+                      <td>Bob</td>
+                      <td>1</td>
+                      <td>Alice → Bob</td>
+                      <td>Se visita Bob (costo 1), más barato que David (costo 10).</td>
+                    </tr>
+                    <tr>
+                      <td>Carol (vía Bob)</td>
+                      <td>3 (1+2)</td>
+                      <td>Alice → Bob → Carol</td>
+                      <td>Desde Bob, se llega a Carol. Costo total: 1 (a Bob) + 2 (a Carol) = 3.</td>
+                    </tr>
+                     <tr>
+                      <td>David</td>
+                      <td>10</td>
+                      <td>Alice → David</td>
+                      <td>La ruta directa a David sigue siendo 10.</td>
+                    </tr>
+                    <tr>
+                      <td>Carol (vía David)</td>
+                      <td>11 (10+1)</td>
+                      <td>Alice → David → Carol</td>
+                      <td>Dijkstra evalúa la ruta Alice → David → Carol. Costo: 10 + 1 = 11. Como 11 es mayor que el costo ya conocido de 3, esta ruta se descarta.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Elisa</strong></td>
+                      <td><strong>6 (3+3)</strong></td>
+                      <td><strong>Alice → Bob → Carol → Elisa</strong></td>
+                      <td><strong>Desde Carol (costo 3), se llega a Elisa. Costo total: 3 (a Carol) + 3 (a Elisa) = 6. Esta es la ruta óptima.</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. Base matemática y criptográfica</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Lightning se sostiene en primitivas criptográficas de Bitcoin. Los contratos <strong>HTLC</strong> combinan funciones hash y timelocks para asegurar que un pago atraviese varios nodos de manera segura o se revierta automáticamente si algo falla. La <strong>multisig</strong> de dos de dos garantiza que ambos usuarios deben colaborar para abrir y cerrar un canal. Todo se apoya en la aritmética modular que ya utiliza Bitcoin en sus firmas digitales, lo que hace posible que las condiciones de gasto y los tiempos de bloqueo se cumplan sin intermediarios.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7. Casos de uso</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Lightning permite aplicaciones que con Bitcoin on-chain serían imposibles:</p>
+                <ul>
+                    <li><strong>Micropagos:</strong> Pagar un café, enviar propinas en redes sociales, pagar por segundo por streaming de contenido.</li>
+                    <li><strong>Remesas:</strong> Envíos internacionales con costos y tiempos reducidos.</li>
+                    <li><strong>Gaming:</strong> Recompensas instantáneas a jugadores con satoshis.</li>
+                    <li><strong>Adopción masiva:</strong> Ejemplos concretos incluyen la app Strike, la implementación en El Salvador y la función de propinas en redes sociales como Twitter (X).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">8. Lightning y el metaverso</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En un metaverso, Lightning puede ser el motor de micropagos entre usuarios y creadores: comprar ítems digitales, pagar entradas a eventos virtuales o enviar propinas a artistas en tiempo real. Su gran ventaja es la inmediatez y el bajo costo, ideal para economías con alto volumen de transacciones pequeñas. Sin embargo, <strong>Lightning no soporta contratos inteligentes complejos ni NFTs</strong>, lo que limita su uso a pagos simples. Por esa razón, en un metaverso se puede complementar Lightning con soluciones de Ethereum, donde las segundas capas permiten tanto micropagos como gestión de activos digitales más complejos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">9. Ventajas y limitaciones</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Ventajas</h4>
+                 <ul>
+                    <li><strong>Velocidad:</strong> Pagos casi instantáneos.</li>
+                    <li><strong>Bajo costo:</strong> Comisiones casi nulas, habilitando micropagos.</li>
+                    <li><strong>Escalabilidad:</strong> Alivia la carga de la red principal de Bitcoin.</li>
+                </ul>
+                <h4>Limitaciones y Futuro</h4>
+                <ul>
+                    <li><strong>Liquidez:</strong> Requiere bloquear fondos en canales.</li>
+                    <li><strong>Complejidad de uso:</strong> Aún no es trivial para el usuario promedio y requiere estar online.</li>
+                    <li><strong>Ruteo:</strong> Encontrar rutas con suficiente liquidez puede ser un desafío.</li>
+                </ul>
+                <p>El futuro promete mejoras con <strong>Taproot</strong>, que permitirá mayor privacidad, y con <strong>PTLCs (Point Time Locked Contracts)</strong>, una evolución más eficiente y privada de los HTLCs actuales.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
