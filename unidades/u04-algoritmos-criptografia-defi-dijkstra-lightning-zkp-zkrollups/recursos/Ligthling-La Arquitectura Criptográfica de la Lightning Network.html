@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Estudio: Arquitectura Criptográfica de Lightning Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #f5a623 0%, #f76b1c 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #ff9900;
+      --accent-secondary: #f5a623;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #f5a623;
+      --accent-secondary: #f76b1c;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    
+    .diagram-container, .code-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container, [data-theme="dark"] .code-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow, .diagram-grid { display: flex; justify-content: space-around; align-items: center; gap: 1rem; flex-wrap: wrap;}
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.down::after { content: '↓'; display: block; margin: 0.5rem 0; }
+    .diagram-arrow.rev::after { content: '←'; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+    .diagram-col { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .diagram-section { padding: 1rem; border: 2px dashed var(--border-color); border-radius: var(--border-radius); width: 100%; }
+    .diagram-section-title { font-weight: 600; text-align: center; margin-bottom: 1rem; font-size: 0.9em; color: var(--text-primary); }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">La Arquitectura Criptográfica de la Lightning Network</h1>
+      <p class="subtitle">Construyendo sobre los Pilares de Bitcoin</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Introducción: Aprovechando las Primitivas de Bitcoin</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La Lightning Network no es un sistema criptográfico inventado desde cero; es una ingeniosa capa de aplicación que aprovecha de manera brillante las primitivas ya existentes y probadas en la red Bitcoin. Su robustez y seguridad se derivan directamente del uso de firmas digitales (ECDSA/Schnorr), funciones hash (SHA256) y scripts de bloqueo por tiempo (timelocks).</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Los Pilares Fundamentales Heredados de Bitcoin</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Firmas Digitales</strong><span>Garantizan la propiedad y autorización (ECDSA / Schnorr).</span></div>
+                        <div class="diagram-box"><strong>Funciones Hash</strong><span>Crean compromisos irreversibles (SHA256).</span></div>
+                        <div class="diagram-box"><strong>Bloqueos por Tiempo</strong><span>Añaden una dimensión temporal a los contratos (CLTV / CSV).</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. La Fundación de un Canal: La Caja Fuerte Multifirma</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Todo canal en la Lightning Network comienza con la creación de una <strong>transacción multifirma 2-de-2</strong>. Este es el ancla fundamental que une a dos participantes a un conjunto de fondos compartidos en la blockchain de Bitcoin. Es análogo a una caja fuerte con dos cerraduras: para abrirla, se necesitan ambas llaves, imponiendo una cooperación obligatoria.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Mecanismo de un Canal Multifirma 2-de-2</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Alice</strong><span>Posee 1 de 2 llaves</span></div>
+                        <div class="diagram-arrow down"><div class="diagram-arrow-label">Deposita Fondos</div></div>
+                        <div class="diagram-box"><strong>Caja Fuerte Multisig 2-de-2</strong><span>Anclada en la blockchain de Bitcoin</span></div>
+                        <div class="diagram-arrow down"><div class="diagram-arrow-label">Requiere firma de AMBOS para gastar</div></div>
+                        <div class="diagram-box"><strong>Fondos Liberados</strong><span>Solo con el acuerdo de Alice y Bob</span></div>
+                         <div class="diagram-arrow up" style="transform: rotate(180deg); text-align: right;"><div class="diagram-arrow-label" style="transform: rotate(180deg);">Deposita Fondos</div></div>
+                         <div class="diagram-box"><strong>Bob</strong><span>Posee 1 de 2 llaves</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. El Motor de los Pagos: Contratos Hash-Bloqueados por Tiempo (HTLCs)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los HTLCs son el corazón que bombea los pagos a través de la red. Permiten que un pago "salte" de un nodo a otro de forma segura, garantizando que solo se complete si todos los intermediarios cumplen una condición criptográfica (revelar un secreto) dentro de un plazo estricto.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Flujo de un Pago Multi-salto con HTLCs</div>
+                    <h4>Paso 1: Generación del Secreto y el Hash</h4>
+                    <div class="diagram-flow" style="margin-bottom: 2rem;">
+                        <div class="diagram-box"><strong>Elisa (Receptora)</strong><span>Genera un secreto (R). Calcula H = SHA256(R).</span></div>
+                        <div class="diagram-arrow rev"><div class="diagram-arrow-label">Entrega solo el Hash (H)</div></div>
+                        <div class="diagram-box"><strong>Alice (Pagadora)</strong><span>Recibe el Hash (H) como prueba de pago.</span></div>
+                    </div>
+                    <h4>Paso 2: Encadenamiento de Contratos con Tiempos Decrecientes</h4>
+                     <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Alice</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">HTLC (Plazo: 100 bloques)</div></div>
+                        <div class="diagram-box"><strong>Bob</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">HTLC (Plazo: 80 bloques)</div></div>
+                        <div class="diagram-box"><strong>Carol</strong></div>
+                         <div class="diagram-arrow"><div class="diagram-arrow-label">HTLC (Plazo: 60 bloques)</div></div>
+                        <div class="diagram-box"><strong>Elisa</strong></div>
+                    </div>
+                     <h4>Paso 3: Resolución Atómica y Propagación del Secreto</h4>
+                     <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Alice</strong></div>
+                        <div class="diagram-arrow rev"><div class="diagram-arrow-label">Reclama con R</div></div>
+                        <div class="diagram-box"><strong>Bob</strong></div>
+                        <div class="diagram-arrow rev"><div class="diagram-arrow-label">Reclama con R</div></div>
+                        <div class="diagram-box"><strong>Carol</strong></div>
+                         <div class="diagram-arrow rev"><div class="diagram-arrow-label">Reclama con R</div></div>
+                        <div class="diagram-box"><strong>Elisa</strong><span>Revela el secreto (R)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. La Red de Seguridad: El Rol Crucial de los Bloqueos por Tiempo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los timelocks son temporizadores programables en las transacciones que impiden gastar fondos hasta que se cumpla una condición de tiempo, creando una red de seguridad contra nodos que no cooperan.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Tipos de Timelocks en Lightning</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>CLTV (CheckLockTimeVerify)</strong><span><strong>Timelock Absoluto.</strong> Impide el gasto antes de una altura de bloque o fecha específica. Usado como fecha de caducidad final del HTLC.</span></div>
+                        <div class="diagram-box"><strong>CSV (CheckSequenceVerify)</strong><span><strong>Timelock Relativo.</strong> Impide el gasto hasta que pasen X bloques. Usado para crear ventanas de tiempo para disputas y penalizaciones.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Mecánicas Avanzadas y Garantías de Seguridad</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>El Mecanismo de Castigo: Transacciones de Penalización</h4>
+                <p>Para evitar que una parte publique un estado antiguo y fraudulento del canal, cada actualización de estado viene con una "clave de revocación" para el estado anterior. Usar esa clave permite a la parte honesta reclamar <strong>todos</strong> los fondos del canal como penalización.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Flujo de una Transacción de Penalización</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Bob publica un estado antiguo</strong><span>Intenta hacer trampa para quedarse con más fondos.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Alice detecta el fraude</div></div>
+                        <div class="diagram-box"><strong>Alice usa la Clave de Revocación</strong><span>Que Bob le entregó para invalidar ese estado.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Consecuencia</div></div>
+                        <div class="diagram-box"><strong>¡Penalización!</strong><span>Alice reclama el 100% de los fondos del canal.</span></div>
+                    </div>
+                </div>
+                <h4>La Solución a la Desconexión: El Rol de los Watchtowers</h4>
+                <p>Un Watchtower es un servicio de terceros que vigila la blockchain en tu nombre. Si estás desconectado y alguien intenta hacer trampa, el watchtower puede ejecutar la transacción de penalización por ti.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Funcionamiento de un Watchtower</div>
+                     <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Nodo de Alice (se desconecta)</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Delega vigilancia</div></div>
+                        <div class="diagram-box"><strong>Watchtower</strong><span>Monitorea la blockchain 24/7.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Detecta publicación de estado revocado</div></div>
+                        <div class="diagram-box"><strong>Ejecuta Penalización</strong><span>Asegura los fondos de Alice en su nombre.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. La Eficiencia y Privacidad de las Operaciones Off-Chain</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Mientras todo funcione correctamente, las transacciones de compromiso y los HTLCs nunca se publican en la blockchain. Solo existen como acuerdos privados. El sistema solo recurre a la blockchain como un tribunal de justicia final en caso de una disputa.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Ventajas Monumentales de la Operación Off-Chain</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Escalabilidad Masiva</strong><span>Miles de transacciones se procesan sin consumir espacio en los bloques de Bitcoin.</span></div>
+                        <div class="diagram-box"><strong>Velocidad Instantánea</strong><span>Los pagos se confirman en milisegundos, sin esperar confirmaciones de la red.</span></div>
+                        <div class="diagram-box"><strong>Privacidad Mejorada</strong><span>Los detalles de los pagos intermedios no son visibles públicamente en la blockchain.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material de estudio sobre la Criptografía de la Lightning Network</p>
+      <p>Elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>```

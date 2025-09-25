@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Estudio: Anatomía de un Pago en Lightning Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #f5a623 0%, #f76b1c 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #ff9900;
+      --accent-secondary: #f5a623;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #f5a623;
+      --accent-secondary: #f76b1c;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow { display: flex; justify-content: space-around; align-items: center; gap: 1rem; flex-wrap: wrap;}
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.rev::after { content: '←'; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Anatomía de un Pago en la Lightning Network</h1>
+      <p class="subtitle">Un Viaje Criptográfico de Alice a Elisa</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Preparación: El Secreto y su Huella Digital</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El proceso comienza con el destinatario final, <strong>Elisa</strong>. Antes de que se mueva un solo satoshi, Elisa genera la clave criptográfica que desbloqueará todo el flujo: un número secreto (R) y su huella digital o hash (H).</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Paso 1: Generación del Hashlock</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Elisa (Receptora)</strong><span>1. Genera un secreto (R)<br>2. Calcula H = SHA256(R)</span></div>
+                        <div class="diagram-arrow rev"><div class="diagram-arrow-label">3. Envía solo el Hash (H)</div></div>
+                        <div class="diagram-box"><strong>Alice (Remitente)</strong><span>Recibe H como "condición de pago".</span></div>
+                    </div>
+                </div>
+                <p>La seguridad de este paso se apoya en la función hash <strong>SHA256</strong>, que garantiza que es computacionalmente imposible deducir el secreto R a partir de su hash H.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Construcción: Encadenando los Contratos HTLC</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Con el hash H, Alice construye una ruta de pago segura a través de la red (Alice → Bob → Carol → Elisa) iniciando una cadena de Contratos Hash-Bloqueados por Tiempo (HTLCs) con <strong>plazos de tiempo decrecientes</strong>.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Paso 2: Cadena de HTLCs con Timelocks Decrecientes</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Alice</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">HTLC (CLTV: 120 bloques)</div></div>
+                        <div class="diagram-box"><strong>Bob</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">HTLC (CLTV: 90 bloques)</div></div>
+                        <div class="diagram-box"><strong>Carol</strong></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">HTLC (CLTV: 60 bloques)</div></div>
+                        <div class="diagram-box"><strong>Elisa</strong></div>
+                    </div>
+                </div>
+                <p>Esta estructura de timelocks decrecientes es crucial. Proporciona a cada nodo intermedio un <strong>margen de seguridad</strong> para reaccionar y reclamar su pago una vez que el secreto se revela, o para recuperar sus fondos si el HTLC expira.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3 y 4. Liquidación: Revelación del Secreto y Cascada Atómica</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una vez que Elisa recibe la oferta de HTLC de Carol, revela el secreto <strong>R</strong> para reclamar su pago. Este secreto luego fluye hacia atrás a lo largo de la ruta, liquidando cada HTLC en una reacción en cadena atómica: o todo se completa, o todo falla sin pérdida de fondos.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Pasos 3 y 4: Liquidación en Cascada</div>
+                     <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Alice</strong></div>
+                        <div class="diagram-arrow rev"><div class="diagram-arrow-label">4b. Reclama con R</div></div>
+                        <div class="diagram-box"><strong>Bob</strong></div>
+                        <div class="diagram-arrow rev"><div class="diagram-arrow-label">4a. Reclama con R</div></div>
+                        <div class="diagram-box"><strong>Carol</strong></div>
+                         <div class="diagram-arrow rev"><div class="diagram-arrow-label">3. Reclama revelando R</div></div>
+                        <div class="diagram-box"><strong>Elisa</strong><span>Conoce R desde el inicio</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Conflicto: ¿Qué Pasa si Alguien Intenta Hacer Trampa?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Si un nodo malicioso (ej. Bob) publica un estado antiguo del canal para robar fondos, el protocolo tiene un mecanismo de defensa robusto: la <strong>transacción de penalización</strong>.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Escenario de Fraude y Penalización</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Bob publica estado antiguo</strong><span>Intenta hacer trampa en la blockchain.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Alice detecta el fraude (gracias al timelock CSV)</div></div>
+                        <div class="diagram-box"><strong>Alice usa la Clave de Revocación</strong><span>Que Bob le entregó para ese estado.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Resultado Final</div></div>
+                        <div class="diagram-box"><strong>¡CASTIGO!</strong><span>Alice reclama el 100% de los fondos del canal.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. Conflicto: ¿Qué Pasa si un Nodo se Desconecta?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Si un nodo honesto está desconectado, no puede monitorear la blockchain para detectar un intento de fraude. Los <strong>Watchtowers</strong> resuelven este problema actuando como vigilantes delegados.</p>
+                 <div class="diagram-container">
+                    <div class="diagram-title">Protección con Watchtowers</div>
+                     <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Nodo de Carol (se desconecta)</strong><span>Delega la vigilancia antes de desconectarse.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Detecta Tx fraudulenta</div></div>
+                        <div class="diagram-box"><strong>Watchtower</strong><span>Monitorea la blockchain 24/7 en nombre de Carol.</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Publica Tx de penalización</div></div>
+                        <div class="diagram-box"><strong>Fondos de Carol Asegurados</strong><span>El Watchtower reclama los fondos por ella.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material de estudio sobre la Criptografía de la Lightning Network</p>
+      <p>Elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
