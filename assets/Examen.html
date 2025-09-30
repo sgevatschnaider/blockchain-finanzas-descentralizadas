@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finanzas descentralizadas: Preguntas y Respuestas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #29b6f6;
+      --accent-secondary: #03a9f4;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #43cea2;
+      --accent-secondary: #185a9d;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content p:last-child { margin-bottom: 0; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Finanzas descentralizadas: Preguntas y Respuestas</h1>
+      <p class="subtitle">Un Análisis Profundo de la Computadora Global Descentralizada</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1) ¿Qué es Ethereum?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Ethereum es una plataforma blockchain de propósito general que no se limita a transferencias de valor como Bitcoin, sino que funciona como una computadora global descentralizada. Su particularidad es que permite ejecutar contratos inteligentes, programas que viven en la red y que automatizan reglas de negocio sin depender de intermediarios. Esto es posible gracias a la Ethereum Virtual Machine (EVM), el motor que asegura que todos los nodos procesen las mismas transacciones y lleguen al mismo resultado.</p>
+                <p>El token nativo de la red es el ether (ETH), que cumple dos funciones principales: pagar por los recursos computacionales consumidos en cada transacción y servir como capital de seguridad en el mecanismo de consenso de prueba de participación (PoS). Gracias a este diseño, Ethereum se convirtió en la base para aplicaciones como stablecoins, intercambios descentralizados, préstamos, NFTs, sistemas de identidad y organizaciones autónomas descentralizadas. Mientras Bitcoin demostró que es posible tener dinero sin bancos, Ethereum demostró que también se pueden programar contratos y servicios financieros completos sin servidores centrales.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2) ¿Qué es la EVM?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La Ethereum Virtual Machine, conocida como EVM, es el entorno de ejecución de contratos inteligentes. Puede imaginarse como una computadora abstracta que entiende instrucciones de muy bajo nivel llamadas opcodes. Cada operación tiene un costo en gas y se ejecuta de manera idéntica en todos los nodos de la red.</p>
+                <p>La EVM mantiene un estado global, estructurado en árboles de Merkle-Patricia, donde cada contrato tiene su propio almacenamiento interno. Su característica más importante es que es determinista: dos nodos que reciben la misma entrada y el mismo estado llegarán al mismo resultado, lo que permite verificar de forma independiente la validez de cada bloque.</p>
+                <p>En la práctica, esto significa que si alguien despliega un contrato de lotería que acepta entradas, guarda jugadores y reparte premios, esa lógica se ejecutará exactamente igual en cualquier parte del mundo, sin depender de un servidor central.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3) ¿Qué es un contrato inteligente?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un contrato inteligente es un programa desplegado en la blockchain que combina código y almacenamiento persistente. Se ejecuta automáticamente cuando recibe una transacción o una llamada y puede modificar su estado interno o interactuar con otros contratos. Normalmente se escriben en Solidity, se compilan a bytecode y se ejecutan dentro de la EVM.</p>
+                <p>Una vez que un contrato está desplegado, su código es inmutable. Esto garantiza confianza pero también obliga a los desarrolladores a diseñar cuidadosamente sus programas. Existen patrones de actualización mediante proxys, aunque estos agregan complejidad y posibles riesgos.</p>
+                <p>Un ejemplo clásico es un contrato de crowdfunding. Allí los usuarios pueden enviar fondos, el contrato mantiene la suma recaudada y, según si se alcanza o no la meta, transfiere el dinero al creador o lo devuelve a los donantes. Todo el proceso se ejecuta sin intervención humana ni necesidad de un intermediario.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4) Diferencia entre EOA y cuenta de contrato</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En Ethereum existen dos tipos de cuentas: las cuentas controladas externamente (EOA) y las cuentas de contrato. Una EOA pertenece a un usuario que posee una clave privada, lo que le permite iniciar transacciones y firmarlas digitalmente. En cambio, una cuenta de contrato no tiene clave privada ni puede iniciar transacciones por sí misma. Solo responde a mensajes que recibe y ejecuta el código que contiene.</p>
+                <p>Ambos tipos de cuentas tienen dirección y balance, pero cumplen roles diferentes. Un usuario interactúa desde su EOA y puede llamar a un contrato; a su vez, ese contrato puede ejecutar lógica propia y llamar a otros contratos. Por ejemplo, cuando una persona intercambia tokens en Uniswap, su EOA envía una transacción al contrato del exchange, y este procesa la operación de manera automática.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5) ¿Qué es el gas y por qué existe?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El gas es la unidad que mide el esfuerzo computacional necesario para ejecutar operaciones en Ethereum. Cada instrucción en la EVM consume una cantidad determinada de gas, y el usuario que envía una transacción debe definir el límite de gas que está dispuesto a gastar y el precio que pagará en ether por cada unidad.</p>
+                <p>La existencia del gas cumple tres funciones. Primero, protege a la red contra abusos: sin gas, alguien podría enviar un contrato con bucles infinitos que bloquearían la ejecución. Segundo, incentiva a los validadores a ejecutar y verificar transacciones, ya que reciben recompensas en ETH. Y tercero, ordena las transacciones en la cola: quienes pagan un precio mayor suelen ser incluidos antes en los bloques.</p>
+                <p>Si la transacción consume más gas del que tenía disponible, se revierte el cambio de estado, aunque el gas ya gastado no se devuelve. Una transferencia simple de ether cuesta aproximadamente 21.000 unidades de gas, mientras que operaciones más complejas como un intercambio en un DEX pueden requerir cientos de miles.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6) ¿Qué es un token ERC-20?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El estándar ERC-20 define cómo deben funcionar los tokens fungibles en Ethereum. Un token fungible significa que todas las unidades son indistinguibles entre sí, como ocurre con las monedas tradicionales. El estándar establece un conjunto mínimo de funciones que todo contrato debe implementar, como consultar el balance de una dirección, transferir tokens o aprobar que un tercero pueda gastar en nombre del usuario. También define eventos que notifican transferencias y aprobaciones.</p>
+                <p>La importancia del ERC-20 es que asegura interoperabilidad: cualquier billetera, exchange o aplicación que soporte este estándar puede interactuar con cualquier token ERC-20 sin necesidad de programación adicional. Así se construyó gran parte del ecosistema de stablecoins, tokens de gobernanza y monedas de utilidad en juegos y aplicaciones.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7) ¿Qué es un NFT (ERC-721)?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un NFT, o token no fungible, es un token único que representa un activo singular en la blockchain. A diferencia de los tokens fungibles, cada NFT tiene un identificador irrepetible llamado tokenId y puede estar asociado a metadatos que describen sus características o apuntan a archivos externos.</p>
+                <p>El estándar ERC-721 define funciones básicas como consultar el dueño de un token, transferirlo de manera segura y acceder a sus metadatos. Gracias a su unicidad, los NFTs se utilizan para representar arte digital, entradas a eventos, ítems de videojuegos, credenciales académicas o títulos de propiedad. Su valor radica en la trazabilidad y en la posibilidad de verificar públicamente su autenticidad y titularidad.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">8) ¿Qué es un árbol de Merkle y por qué importa?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un árbol de Merkle es una estructura criptográfica que permite resumir un conjunto de datos en un único hash, conocido como raíz de Merkle. Se construye tomando los hashes de los datos individuales como hojas, y luego combinándolos de dos en dos hasta llegar a la raíz.</p>
+                <p>La utilidad de esta estructura es que permite pruebas de inclusión eficientes. Para demostrar que un dato forma parte de un bloque no es necesario mostrar todas las transacciones, basta con proporcionar una ruta de hashes que conecta la transacción con la raíz. Esto reduce el costo de verificación y permite que nodos ligeros puedan validar información sin almacenar toda la blockchain.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">9) ¿Qué es una función hash criptográfica?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una función hash es un algoritmo que transforma una entrada de tamaño arbitrario en una salida de tamaño fijo. Las funciones hash criptográficas tienen tres propiedades clave: es difícil reconstruir la entrada original a partir de la salida (preimagen), es difícil encontrar otra entrada que produzca la misma salida (segunda preimagen) y es improbable que dos entradas distintas generen la misma salida (colisión).</p>
+                <p>En blockchain se utilizan varias funciones hash. Bitcoin usa SHA-256, perteneciente a la familia SHA-2, basada en la construcción Merkle-Damgård. Ethereum utiliza Keccak, que dio origen al estándar SHA-3, basado en la construcción de esponja. Ambas funciones sirven para verificar integridad de datos, asegurar firmas digitales y construir estructuras como árboles de Merkle o pruebas de trabajo.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">10) ¿Qué es ECDSA y qué problema resuelve?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>ECDSA es el algoritmo de firma digital basado en curvas elípticas que utiliza Ethereum. Permite que un usuario con una clave privada firme un mensaje o transacción, de modo que cualquiera pueda verificar la autenticidad usando la clave pública correspondiente.</p>
+                <p>Las garantías que ofrece ECDSA son tres: autenticidad, porque confirma quién generó la firma; integridad, porque asegura que el mensaje no fue modificado; y no repudio, porque el firmante no puede negar haber firmado. Gracias a este mecanismo, cada transacción en Ethereum puede ser atribuida de manera confiable a una cuenta controlada externamente.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">11) ¿Qué es Prueba de Trabajo (PoW)?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La Prueba de Trabajo es un mecanismo de consenso en el cual los mineros compiten para resolver un problema computacional. Deben encontrar un número llamado nonce que, al combinarse con los datos del bloque, produzca un hash menor a un objetivo de dificultad.</p>
+                <p>Este sistema asegura la red porque para manipularla sería necesario controlar más del cincuenta por ciento del poder de cómputo global, algo extremadamente costoso en términos de hardware y energía. La cadena válida es aquella con mayor trabajo acumulado y la finalidad es probabilística: cuantos más bloques se construyen sobre uno dado, menor es la probabilidad de que sea reemplazado por otra rama.</p>
+                <p>PoW es un sistema probado y robusto, aunque criticado por su alto consumo energético y por la latencia necesaria para obtener confirmaciones seguras.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">12) ¿Qué es Prueba de Participación (PoS) y cómo se compara con PoW?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En la Prueba de Participación, los validadores no compiten con cómputo sino que bloquean capital en forma de ETH para tener derecho a proponer y validar bloques. Si se comportan de manera maliciosa, arriesgan perder su stake mediante un castigo llamado slashing.</p>
+                <p>La seguridad proviene de que atacar la red requeriría comprar o controlar una gran parte del suministro de ETH, lo cual es económicamente disuasivo. A diferencia de PoW, la finalidad puede alcanzarse más rápido y con garantías económicas, ya que los validadores firman checkpoints que consolidan bloques de manera irreversible.</p>
+                <p>En resumen, PoW asegura con energía y hardware, mientras que PoS asegura con capital bloqueado. El primero es más intensivo en consumo energético, y el segundo introduce riesgos nuevos como los ataques de largo alcance, aunque estos pueden mitigarse con diseños adecuados.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">13) ¿Qué es la finalidad en blockchain?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La finalidad, o finality, es el punto en el cual un bloque se considera irreversible. En sistemas de PoW, la finalidad es probabilística: cuantos más bloques se acumulan después de uno, menor es la probabilidad de que sea revertido por una reorganización. Por eso en Bitcoin se suele recomendar esperar varias confirmaciones antes de dar una transacción como definitiva.</p>
+                <p>En sistemas de PoS como Ethereum después de la fusión, la finalidad puede lograrse de forma más rápida mediante checkpoints votados por validadores. Si un conjunto suficiente de validadores respalda un bloque y luego intenta revertirlo, arriesga perder el capital bloqueado. Esto otorga una finalidad económica más fuerte y más rápida que en PoW.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">14) ¿Qué es IPFS y qué significa direccionamiento por contenido?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>IPFS es un sistema de archivos distribuido que permite almacenar y compartir datos de forma descentralizada. La diferencia principal con sistemas tradicionales es que en IPFS los archivos no se identifican por su ubicación, sino por su contenido. Cada archivo recibe un hash único llamado CID, que actúa como identificador.</p>
+                <p>Esto significa que cuando se accede a un CID se obtiene exactamente el archivo que generó ese hash, sin importar desde qué nodo se descargue. En Ethereum, este modelo se integra guardando en la blockchain solo el CID, mientras que los archivos pesados se almacenan en IPFS. De esta manera se asegura verificabilidad sin pagar los altos costos de almacenamiento on-chain. Este esquema es habitual en NFTs, donde la metadata y las imágenes se alojan en IPFS y la blockchain almacena únicamente su referencia.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">15) ¿Qué es una Layer 2 y por qué reduce costos?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una Layer 2 es una solución que procesa transacciones fuera de la cadena principal (Layer 1) y luego publica pruebas o datos resumidos en ella. El objetivo es aumentar el rendimiento y reducir las tarifas manteniendo la seguridad de la capa base.</p>
+                <p>Existen distintos diseños, como los rollups optimistas y los rollups de conocimiento cero. En los primeros, las transacciones se asumen válidas salvo que alguien presente una prueba de fraude. En los segundos, cada lote de transacciones se acompaña con una prueba criptográfica que demuestra su validez. En ambos casos, el resultado es que muchas operaciones se agrupan y se publican juntas, lo que abarata los costos y libera espacio en la cadena principal.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">16) ¿Qué es un AMM y cómo funciona la liquidez concentrada?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un Automated Market Maker, o AMM, es un sistema que reemplaza los libros de órdenes tradicionales por pools de liquidez y funciones matemáticas que determinan los precios. En los modelos más básicos como Uniswap v2, el producto de las reservas de los dos activos en el pool debe mantenerse constante, de manera que cualquier operación de compra o venta ajusta el precio automáticamente.</p>
+                <p>La liquidez concentrada, introducida en Uniswap v3, permite a los proveedores de liquidez elegir el rango de precios en el cual aportan sus fondos. Esto aumenta la eficiencia del capital porque la liquidez se concentra donde realmente se realizan las operaciones, pero también implica riesgo: si el precio se mueve fuera del rango elegido, la posición deja de generar comisiones y queda expuesta de forma sesgada a uno de los activos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">17) ¿Qué es MEV y qué significa PBS?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El concepto de Maximal Extractable Value, o MEV, se refiere al valor adicional que puede obtener quien ordena, incluye o excluye transacciones dentro de un bloque. Ejemplos comunes de MEV son los arbitrajes entre exchanges, las liquidaciones de préstamos y los ataques de tipo sandwich contra traders.</p>
+                <p>PBS, o Proposer-Builder Separation, es una propuesta de separar el rol de quien propone bloques del rol de quien los construye. La idea es reducir externalidades negativas, fomentar la competencia en la construcción de bloques y aumentar la transparencia. En este esquema, los constructores compiten por armar el bloque más valioso y los validadores simplemente lo proponen, con lo cual se limita la concentración del poder de ordenar transacciones y se mitigan los efectos nocivos del MEV.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">18) ¿Qué son los eventos y por qué son clave para analytics?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los contratos inteligentes pueden emitir eventos durante su ejecución, como ocurre con la función Transfer en los tokens ERC-20. Estos eventos se registran en los logs de las transacciones y contienen información estructurada con índices que facilitan la búsqueda.</p>
+                <p>La importancia de los eventos es que permiten reconstruir la historia de interacciones sin necesidad de leer todo el estado de la blockchain, lo que sería costoso y poco eficiente. Gracias a ellos es posible construir dashboards de actividad, sistemas de alertas o auditorías on-chain. Por ejemplo, un explorador puede mostrar todas las transferencias de un token consultando únicamente los eventos emitidos por su contrato.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">19) ¿Qué métricas de trading y riesgo conviene calcular?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En el análisis de estrategias de trading y riesgo conviene medir distintos indicadores. La volatilidad realizada estima qué tan dispersos son los retornos históricos y suele expresarse de manera anualizada. El máximo drawdown calcula la mayor caída acumulada desde un pico hasta un valle en la curva de capital, reflejando el riesgo de pérdida sostenida.</p>
+                <p>El ratio de Sharpe relaciona el exceso de retorno de una estrategia respecto a un activo libre de riesgo con su volatilidad, ofreciendo una medida de eficiencia ajustada por riesgo. Finalmente, el backtesting consiste en simular la estrategia sobre datos históricos, incluyendo costos y deslizamientos, para obtener métricas reproducibles y comparar alternativas. Estas herramientas permiten tomar decisiones más fundamentadas y no basarse únicamente en intuiciones o resultados puntuales.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">20) ¿Cómo me conecto a la red con Web3.py y qué operaciones básicas puedo hacer?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Para conectarse a Ethereum desde Python se utiliza la librería Web3.py. El primer paso es crear una instancia de conexión, por ejemplo con <code>Web3(HTTPProvider("&lt;URL RPC&gt;"))</code>, y luego verificar con <code>w3.is_connected()</code> que la conexión sea válida.</p>
+                <p>Una vez conectado, es posible realizar operaciones de lectura como consultar balances de direcciones, acceder a funciones de contratos mediante llamadas o escuchar eventos emitidos. También se pueden enviar transacciones que modifican el estado de la red. Para esto es necesario construir la transacción, firmarla con la clave privada del usuario y enviarla mediante la función correspondiente.</p>
+                <p>Este tipo de conexión permite automatizar procesos, extraer datos de la blockchain para análisis o crear bots que interactúen con contratos de manera programática.</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
