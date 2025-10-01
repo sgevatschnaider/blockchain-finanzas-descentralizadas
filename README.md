@@ -7,10 +7,7 @@
   <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml">
     <img alt="CI Python" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-python.yml/badge.svg">
   </a>
-  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml">
-    <img alt="Markdown Links" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/links.yml/badge.svg">
-  </a>
-  <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml">
+    <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml">
     <img alt="Slides (Marp)" src="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/slides.yml/badge.svg?branch=main&event=push">
   </a>
 </p>
