@@ -1,4 +1,4 @@
-﻿# **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
+# **Dominando Blockchain y Finanzas Descentralizadas: De la Teoría al Laboratorio**
 
 <p align="center">
   <a href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-foundry.yml">
@@ -21,7 +21,8 @@
 [U3](unidades/u03-iot-ia-metaverso/) ·
 [U4](unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/) ·
 [U5](unidades/u05-indicadores-trading/) ·
-[U6](unidades/u06-python-blockchain-analytics/)
+[U6](unidades/u06-python-blockchain-analytics/) ·
+[Examen P&R](#finanzas-descentralizadas-preguntas-y-respuestas)
 
 > Vista previa del laboratorio (flujo y funcionamiento de la cadena de bloques).
 
@@ -181,7 +182,7 @@ def merkle_root(leaves: list[bytes]) -> bytes:
         if len(nxt) % 2 == 1:
             nxt.append(nxt[-1])
         level = nxt
-    return level[0]
+    return level
 ```
 
 ---
@@ -278,9 +279,20 @@ Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos d
 
 ---
 
-## Contratos (carpeta `contracts/`)
+### [FINANZAS DESCENTRALIZADAS: PREGUNTAS Y RESPUESTAS](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/Examen.html)
 
-Contratos de demostración listos para clase. Se pueden leer en GitHub y, **opcionalmente**, abrir en Remix cargando el **raw** del repo (no accede a tu PC ni a tu sesión).
+`assets/Examen.html`
+
+<details><summary><strong>Resumen (clic para expandir)</strong></summary>
+Cuestionario interactivo con 20 preguntas y respuestas clave para autoevaluar y consolidar el conocimiento sobre Ethereum, DeFi y los fundamentos de la tecnología blockchain.
+</details>
+
+**Recurso:** Cuestionario interactivo de autoevaluación.
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/Examen.html" target="_blank">
+  <img src="https://img.shields.io/badge/%20Abrir%20Cuestionario%20Interactivo-blueviolet?style=for-the-badge" alt="Abrir Cuestionario Interactivo">
+</a>
+
+---
 
 ## Contratos (carpeta `contracts/`)
 
@@ -396,9 +408,3 @@ print(ohlcv[:2])
 * Material educativo; **no** constituye asesoramiento financiero.
 * Licencia **MIT** — ver [LICENSE](LICENSE).
 * Contenido de terceros mantiene sus licencias y atribuciones.
-
-
-
-
-$UPDATED: link-check test
-
