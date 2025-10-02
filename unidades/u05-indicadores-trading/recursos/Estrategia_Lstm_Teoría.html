@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Estudio: Redes Neuronales LSTM para Trading</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #f5a623 0%, #f76b1c 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #ff9900;
+      --accent-secondary: #f5a623;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #f5a623;
+      --accent-secondary: #f76b1c;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    
+    .diagram-container, .code-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container, [data-theme="dark"] .code-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow, .diagram-grid { display: flex; justify-content: space-around; align-items: stretch; gap: 1rem; flex-wrap: wrap;}
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span, .diagram-box ul { font-size: 0.8em; text-align: left; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.down::after { content: '↓'; display: block; margin: 0.5rem 0; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+
+    .code-container pre { background: transparent; padding: 0; margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+    .code-container code { font-size: 0.9em; }
+    .code-container .comment { color: #8a99a8; }
+    .code-container .keyword { color: #c792ea; }
+    .code-container .string { color: #c3e88d; }
+    .code-container .number { color: #f78c6c; }
+    .code-container .function { color: #82aaff; }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Predicción de Mercados Cripto</h1>
+      <p class="subtitle">Un Análisis Profundo de las Redes Neuronales LSTM</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Introducción: La Memoria de la IA</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una LSTM (Long Short-Term Memory) es un tipo avanzado de red neuronal diseñada para analizar datos secuenciales, como series de precios. Su arquitectura le permite recordar patrones relevantes a largo plazo, a diferencia de las redes neuronales simples.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Anatomía de una Célula LSTM: Las Compuertas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La magia de una LSTM reside en su célula de memoria, equipada con tres "compuertas" que actúan como filtros inteligentes para regular el flujo de información.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Las Tres Compuertas de la Memoria LSTM</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box">
+                            <strong>🔐 Compuerta de Olvido</strong>
+                            <span>Decide qué información pasada es irrelevante y debe ser descartada.</span>
+                        </div>
+                        <div class="diagram-box">
+                            <strong>📥 Compuerta de Entrada</strong>
+                            <span>Decide qué nueva información es importante y debe ser almacenada.</span>
+                        </div>
+                        <div class="diagram-box">
+                            <strong>📤 Compuerta de Salida</strong>
+                            <span>Filtra la memoria para producir la predicción final en el paso actual.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. Aplicación Práctica: Predicción de Precios</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una LSTM puede ser entrenada con precios históricos para predecir el precio del día siguiente. El proceso implica preprocesar los datos, construir un modelo y entrenarlo.</p>
+                
+                <h4>Preprocesamiento: Creación de Ventanas</h4>
+                <p>El objetivo es usar los últimos 60 días de precios (X) para predecir el precio del día 61 (y).</p>
+                 <div class="diagram-container">
+                    <div class="diagram-title">Estructura de Ventanas de Datos</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>[Día 1 ... Día 60]</strong><span>Datos de Entrada (X)</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Predice</div></div>
+                        <div class="diagram-box"><strong>Día 61</strong><span>Etiqueta / Objetivo (y)</span></div>
+                    </div>
+                </div>
+
+                <h4>Construcción del Modelo con Keras</h4>
+                <div class="code-container">
+<pre><code><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential
+<span class="keyword">from</span> keras.layers <span class="keyword">import</span> LSTM, Dense, Dropout
+
+model = Sequential()
+<span class="comment"># Capa de entrada LSTM con 50 neuronas</span>
+model.add(LSTM(units=<span class="number">50</span>, return_sequences=<span class="keyword">True</span>, input_shape=(<span class="number">60</span>, <span class="number">1</span>)))
+<span class="comment"># Segunda capa LSTM</span>
+model.add(LSTM(units=<span class="number">50</span>))
+<span class="comment"># Capa de salida para predecir un valor</span>
+model.add(Dense(units=<span class="number">1</span>))
+
+<span class="comment"># Compilar y entrenar el modelo</span>
+model.compile(optimizer=<span class="string">'adam'</span>, loss=<span class="string">'mean_squared_error'</span>)
+model.fit(X_train, y_train, epochs=<span class="number">20</span>, batch_size=<span class="number">32</span>)
+</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. Limitaciones y Desafíos en el Trading</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>A pesar de su poder, las LSTM no son una bola de cristal y enfrentan importantes desafíos en el caótico entorno de los mercados financieros.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Desafíos Comunes y Soluciones Sugeridas</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box">
+                            <strong>Problema: Riesgo de Sobreajuste</strong>
+                            <span>El modelo "memoriza" los datos de entrenamiento y falla en datos nuevos.</span>
+                            <strong>Solución:</strong>
+                            <span>Usar técnicas como Dropout y validar rigurosamente.</span>
+                        </div>
+                        <div class="diagram-box">
+                            <strong>Problema: No Captura Eventos Externos</strong>
+                            <span>El modelo no sabe sobre noticias, regulaciones o tuits influyentes.</span>
+                            <strong>Solución:</strong>
+                             <span>Enriquecer el dataset con datos de sentimiento o métricas on-chain.</span>
+                        </div>
+                         <div class="diagram-box">
+                            <strong>Problema: "Caja Negra"</strong>
+                            <span>Es difícil entender por qué el modelo hizo una predicción específica.</span>
+                            <strong>Solución:</strong>
+                            <span>Utilizar técnicas de interpretabilidad de modelos (SHAP, LIME).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Glosario de Términos Clave</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>LSTM (Long Short-Term Memory)</h4>
+                <p>Un tipo de red neuronal recurrente capaz de aprender dependencias a largo plazo en datos secuenciales.</p>
+                <h4>Compuertas (Gates)</h4>
+                <p>Mecanismos internos de una célula LSTM (Olvido, Entrada, Salida) que regulan el flujo de información.</p>
+                <h4>Overfitting (Sobreajuste)</h4>
+                <p>Un problema que ocurre cuando un modelo se ajusta demasiado bien a los datos de entrenamiento y pierde su capacidad de generalizar a nuevos datos.</p>
+                <h4>Dropout</h4>
+                <p>Una técnica de regularización que "apaga" aleatoriamente un porcentaje de neuronas durante el entrenamiento para prevenir el sobreajuste.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material de estudio sobre Redes Neuronales LSTM</p>
+      <p>Elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
