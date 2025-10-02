@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finanzas descentralizadas: Preguntas y Respuestas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #29b6f6;
+      --accent-secondary: #03a9f4;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #43cea2;
+      --accent-secondary: #185a9d;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content p:last-child { margin-bottom: 0; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Finanzas descentralizadas: Preguntas y Respuestas</h1>
+      <p class="subtitle">Un Análisis Profundo de la Computadora Global Descentralizada</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1) ¿Qué es Ethereum?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Ethereum es una plataforma blockchain de propósito general que no se limita a transferencias de valor como Bitcoin, sino que funciona como una computadora global descentralizada. Su particularidad es que permite ejecutar contratos inteligentes, programas que viven en la red y que automatizan reglas de negocio sin depender de intermediarios. Esto es posible gracias a la Ethereum Virtual Machine (EVM), el motor que asegura que todos los nodos procesen las mismas transacciones y lleguen al mismo resultado.</p>
+                <p>El token nativo de la red es el ether (ETH), que cumple dos funciones principales: pagar por los recursos computacionales consumidos en cada transacción y servir como capital de seguridad en el mecanismo de consenso de prueba de participación (PoS). Gracias a este diseño, Ethereum se convirtió en la base para aplicaciones como stablecoins, intercambios descentralizados, préstamos, NFTs, sistemas de identidad y organizaciones autónomas descentralizadas. Mientras Bitcoin demostró que es posible tener dinero sin bancos, Ethereum demostró que también se pueden programar contratos y servicios financieros completos sin servidores centrales.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2) ¿Qué es la EVM?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La Ethereum Virtual Machine, conocida como EVM, es el entorno de ejecución de contratos inteligentes. Puede imaginarse como una computadora abstracta que entiende instrucciones de muy bajo nivel llamadas opcodes. Cada operación tiene un costo en gas y se ejecuta de manera idéntica en todos los nodos de la red.</p>
+                <p>La EVM mantiene un estado global, estructurado en árboles de Merkle-Patricia, donde cada contrato tiene su propio almacenamiento interno. Su característica más importante es que es determinista: dos nodos que reciben la misma entrada y el mismo estado llegarán al mismo resultado, lo que permite verificar de forma independiente la validez de cada bloque.</p>
+                <p>En la práctica, esto significa que si alguien despliega un contrato de lotería que acepta entradas, guarda jugadores y reparte premios, esa lógica se ejecutará exactamente igual en cualquier parte del mundo, sin depender de un servidor central.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3) ¿Qué es un contrato inteligente?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un contrato inteligente es un programa desplegado en la blockchain que combina código y almacenamiento persistente. Se ejecuta automáticamente cuando recibe una transacción o una llamada y puede modificar su estado interno o interactuar con otros contratos. Normalmente se escriben en Solidity, se compilan a bytecode y se ejecutan dentro de la EVM.</p>
+                <p>Una vez que un contrato está desplegado, su código es inmutable. Esto garantiza confianza pero también obliga a los desarrolladores a diseñar cuidadosamente sus programas. Existen patrones de actualización mediante proxys, aunque estos agregan complejidad y posibles riesgos.</p>
+                <p>Un ejemplo clásico es un contrato de crowdfunding. Allí los usuarios pueden enviar fondos, el contrato mantiene la suma recaudada y, según si se alcanza o no la meta, transfiere el dinero al creador o lo devuelve a los donantes. Todo el proceso se ejecuta sin intervención humana ni necesidad de un intermediario.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">4) Diferencia entre EOA y cuenta de contrato</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En Ethereum existen dos tipos de cuentas: las cuentas controladas externamente (EOA) y las cuentas de contrato. Una EOA pertenece a un usuario que posee una clave privada, lo que le permite iniciar transacciones y firmarlas digitalmente. En cambio, una cuenta de contrato no tiene clave privada ni puede iniciar transacciones por sí misma. Solo responde a mensajes que recibe y ejecuta el código que contiene.</p>
+                <p>Ambos tipos de cuentas tienen dirección y balance, pero cumplen roles diferentes. Un usuario interactúa desde su EOA y puede llamar a un contrato; a su vez, ese contrato puede ejecutar lógica propia y llamar a otros contratos. Por ejemplo, cuando una persona intercambia tokens en Uniswap, su EOA envía una transacción al contrato del exchange, y este procesa la operación de manera automática.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">5) ¿Qué es el gas y por qué existe?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El gas es la unidad que mide el esfuerzo computacional necesario para ejecutar operaciones en Ethereum. Cada instrucción en la EVM consume una cantidad determinada de gas, y el usuario que envía una transacción debe definir el límite de gas que está dispuesto a gastar y el precio que pagará en ether por cada unidad.</p>
+                <p>La existencia del gas cumple tres funciones. Primero, protege a la red contra abusos: sin gas, alguien podría enviar un contrato con bucles infinitos que bloquearían la ejecución. Segundo, incentiva a los validadores a ejecutar y verificar transacciones, ya que reciben recompensas en ETH. Y tercero, ordena las transacciones en la cola: quienes pagan un precio mayor suelen ser incluidos antes en los bloques.</p>
+                <p>Si la transacción consume más gas del que tenía disponible, se revierte el cambio de estado, aunque el gas ya gastado no se devuelve. Una transferencia simple de ether cuesta aproximadamente 21.000 unidades de gas, mientras que operaciones más complejas como un intercambio en un DEX pueden requerir cientos de miles.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">6) ¿Qué es un token ERC-20?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El estándar ERC-20 define cómo deben funcionar los tokens fungibles en Ethereum. Un token fungible significa que todas las unidades son indistinguibles entre sí, como ocurre con las monedas tradicionales. El estándar establece un conjunto mínimo de funciones que todo contrato debe implementar, como consultar el balance de una dirección, transferir tokens o aprobar que un tercero pueda gastar en nombre del usuario. También define eventos que notifican transferencias y aprobaciones.</p>
+                <p>La importancia del ERC-20 es que asegura interoperabilidad: cualquier billetera, exchange o aplicación que soporte este estándar puede interactuar con cualquier token ERC-20 sin necesidad de programación adicional. Así se construyó gran parte del ecosistema de stablecoins, tokens de gobernanza y monedas de utilidad en juegos y aplicaciones.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">7) ¿Qué es un NFT (ERC-721)?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un NFT, o token no fungible, es un token único que representa un activo singular en la blockchain. A diferencia de los tokens fungibles, cada NFT tiene un identificador irrepetible llamado tokenId y puede estar asociado a metadatos que describen sus características o apuntan a archivos externos.</p>
+                <p>El estándar ERC-721 define funciones básicas como consultar el dueño de un token, transferirlo de manera segura y acceder a sus metadatos. Gracias a su unicidad, los NFTs se utilizan para representar arte digital, entradas a eventos, ítems de videojuegos, credenciales académicas o títulos de propiedad. Su valor radica en la trazabilidad y en la posibilidad de verificar públicamente su autenticidad y titularidad.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">8) ¿Qué es un árbol de Merkle y por qué importa?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un árbol de Merkle es una estructura criptográfica que permite resumir un conjunto de datos en un único hash, conocido como raíz de Merkle. Se construye tomando los hashes de los datos individuales como hojas, y luego combinándolos de dos en dos hasta llegar a la raíz.</p>
+                <p>La utilidad de esta estructura es que permite pruebas de inclusión eficientes. Para demostrar que un dato forma parte de un bloque no es necesario mostrar todas las transacciones, basta con proporcionar una ruta de hashes que conecta la transacción con la raíz. Esto reduce el costo de verificación y permite que nodos ligeros puedan validar información sin almacenar toda la blockchain.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">9) ¿Qué es una función hash criptográfica?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una función hash es un algoritmo que transforma una entrada de tamaño arbitrario en una salida de tamaño fijo. Las funciones hash criptográficas tienen tres propiedades clave: es difícil reconstruir la entrada original a partir de la salida (preimagen), es difícil encontrar otra entrada que produzca la misma salida (segunda preimagen) y es improbable que dos entradas distintas generen la misma salida (colisión).</p>
+                <p>En blockchain se utilizan varias funciones hash. Bitcoin usa SHA-256, perteneciente a la familia SHA-2, basada en la construcción Merkle-Damgård. Ethereum utiliza Keccak, que dio origen al estándar SHA-3, basado en la construcción de esponja. Ambas funciones sirven para verificar integridad de datos, asegurar firmas digitales y construir estructuras como árboles de Merkle o pruebas de trabajo.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">10) ¿Qué es ECDSA y qué problema resuelve?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>ECDSA es el algoritmo de firma digital basado en curvas elípticas que utiliza Ethereum. Permite que un usuario con una clave privada firme un mensaje o transacción, de modo que cualquiera pueda verificar la autenticidad usando la clave pública correspondiente.</p>
+                <p>Las garantías que ofrece ECDSA son tres: autenticidad, porque confirma quién generó la firma; integridad, porque asegura que el mensaje no fue modificado; y no repudio, porque el firmante no puede negar haber firmado. Gracias a este mecanismo, cada transacción en Ethereum puede ser atribuida de manera confiable a una cuenta controlada externamente.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">11) ¿Qué es Prueba de Trabajo (PoW)?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La Prueba de Trabajo es un mecanismo de consenso en el cual los mineros compiten para resolver un problema computacional. Deben encontrar un número llamado nonce que, al combinarse con los datos del bloque, produzca un hash menor a un objetivo de dificultad.</p>
+                <p>Este sistema asegura la red porque para manipularla sería necesario controlar más del cincuenta por ciento del poder de cómputo global, algo extremadamente costoso en términos de hardware y energía. La cadena válida es aquella con mayor trabajo acumulado y la finalidad es probabilística: cuantos más bloques se construyen sobre uno dado, menor es la probabilidad de que sea reemplazado por otra rama.</p>
+                <p>PoW es un sistema probado y robusto, aunque criticado por su alto consumo energético y por la latencia necesaria para obtener confirmaciones seguras.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">12) ¿Qué es Prueba de Participación (PoS) y cómo se compara con PoW?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En la Prueba de Participación, los validadores no compiten con cómputo sino que bloquean capital en forma de ETH para tener derecho a proponer y validar bloques. Si se comportan de manera maliciosa, arriesgan perder su stake mediante un castigo llamado slashing.</p>
+                <p>La seguridad proviene de que atacar la red requeriría comprar o controlar una gran parte del suministro de ETH, lo cual es económicamente disuasivo. A diferencia de PoW, la finalidad puede alcanzarse más rápido y con garantías económicas, ya que los validadores firman checkpoints que consolidan bloques de manera irreversible.</p>
+                <p>En resumen, PoW asegura con energía y hardware, mientras que PoS asegura con capital bloqueado. El primero es más intensivo en consumo energético, y el segundo introduce riesgos nuevos como los ataques de largo alcance, aunque estos pueden mitigarse con diseños adecuados.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">13) ¿Qué es la finalidad en blockchain?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La finalidad, o finality, es el punto en el cual un bloque se considera irreversible. En sistemas de PoW, la finalidad es probabilística: cuantos más bloques se acumulan después de uno, menor es la probabilidad de que sea revertido por una reorganización. Por eso en Bitcoin se suele recomendar esperar varias confirmaciones antes de dar una transacción como definitiva.</p>
+                <p>En sistemas de PoS como Ethereum después de la fusión, la finalidad puede lograrse de forma más rápida mediante checkpoints votados por validadores. Si un conjunto suficiente de validadores respalda un bloque y luego intenta revertirlo, arriesga perder el capital bloqueado. Esto otorga una finalidad económica más fuerte y más rápida que en PoW.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">14) ¿Qué es IPFS y qué significa direccionamiento por contenido?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>IPFS es un sistema de archivos distribuido que permite almacenar y compartir datos de forma descentralizada. La diferencia principal con sistemas tradicionales es que en IPFS los archivos no se identifican por su ubicación, sino por su contenido. Cada archivo recibe un hash único llamado CID, que actúa como identificador.</p>
+                <p>Esto significa que cuando se accede a un CID se obtiene exactamente el archivo que generó ese hash, sin importar desde qué nodo se descargue. En Ethereum, este modelo se integra guardando en la blockchain solo el CID, mientras que los archivos pesados se almacenan en IPFS. De esta manera se asegura verificabilidad sin pagar los altos costos de almacenamiento on-chain. Este esquema es habitual en NFTs, donde la metadata y las imágenes se alojan en IPFS y la blockchain almacena únicamente su referencia.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">15) ¿Qué es una Layer 2 y por qué reduce costos?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una Layer 2 es una solución que procesa transacciones fuera de la cadena principal (Layer 1) y luego publica pruebas o datos resumidos en ella. El objetivo es aumentar el rendimiento y reducir las tarifas manteniendo la seguridad de la capa base.</p>
+                <p>Existen distintos diseños, como los rollups optimistas y los rollups de conocimiento cero. En los primeros, las transacciones se asumen válidas salvo que alguien presente una prueba de fraude. En los segundos, cada lote de transacciones se acompaña con una prueba criptográfica que demuestra su validez. En ambos casos, el resultado es que muchas operaciones se agrupan y se publican juntas, lo que abarata los costos y libera espacio en la cadena principal.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">16) ¿Qué es un AMM y cómo funciona la liquidez concentrada?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un Automated Market Maker, o AMM, es un sistema que reemplaza los libros de órdenes tradicionales por pools de liquidez y funciones matemáticas que determinan los precios. En los modelos más básicos como Uniswap v2, el producto de las reservas de los dos activos en el pool debe mantenerse constante, de manera que cualquier operación de compra o venta ajusta el precio automáticamente.</p>
+                <p>La liquidez concentrada, introducida en Uniswap v3, permite a los proveedores de liquidez elegir el rango de precios en el cual aportan sus fondos. Esto aumenta la eficiencia del capital porque la liquidez se concentra donde realmente se realizan las operaciones, pero también implica riesgo: si el precio se mueve fuera del rango elegido, la posición deja de generar comisiones y queda expuesta de forma sesgada a uno de los activos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">17) ¿Qué es MEV y qué significa PBS?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El concepto de Maximal Extractable Value, o MEV, se refiere al valor adicional que puede obtener quien ordena, incluye o excluye transacciones dentro de un bloque. Ejemplos comunes de MEV son los arbitrajes entre exchanges, las liquidaciones de préstamos y los ataques de tipo sandwich contra traders.</p>
+                <p>PBS, o Proposer-Builder Separation, es una propuesta de separar el rol de quien propone bloques del rol de quien los construye. La idea es reducir externalidades negativas, fomentar la competencia en la construcción de bloques y aumentar la transparencia. En este esquema, los constructores compiten por armar el bloque más valioso y los validadores simplemente lo proponen, con lo cual se limita la concentración del poder de ordenar transacciones y se mitigan los efectos nocivos del MEV.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">18) ¿Qué son los eventos y por qué son clave para analytics?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los contratos inteligentes pueden emitir eventos durante su ejecución, como ocurre con la función Transfer en los tokens ERC-20. Estos eventos se registran en los logs de las transacciones y contienen información estructurada con índices que facilitan la búsqueda.</p>
+                <p>La importancia de los eventos es que permiten reconstruir la historia de interacciones sin necesidad de leer todo el estado de la blockchain, lo que sería costoso y poco eficiente. Gracias a ellos es posible construir dashboards de actividad, sistemas de alertas o auditorías on-chain. Por ejemplo, un explorador puede mostrar todas las transferencias de un token consultando únicamente los eventos emitidos por su contrato.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">19) ¿Qué métricas de trading y riesgo conviene calcular?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En el análisis de estrategias de trading y riesgo conviene medir distintos indicadores. La volatilidad realizada estima qué tan dispersos son los retornos históricos y suele expresarse de manera anualizada. El máximo drawdown calcula la mayor caída acumulada desde un pico hasta un valle en la curva de capital, reflejando el riesgo de pérdida sostenida.</p>
+                <p>El ratio de Sharpe relaciona el exceso de retorno de una estrategia respecto a un activo libre de riesgo con su volatilidad, ofreciendo una medida de eficiencia ajustada por riesgo. Finalmente, el backtesting consiste en simular la estrategia sobre datos históricos, incluyendo costos y deslizamientos, para obtener métricas reproducibles y comparar alternativas. Estas herramientas permiten tomar decisiones más fundamentadas y no basarse únicamente en intuiciones o resultados puntuales.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">20) ¿Cómo me conecto a la red con Web3.py y qué operaciones básicas puedo hacer?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Para conectarse a Ethereum desde Python se utiliza la librería Web3.py. El primer paso es crear una instancia de conexión, por ejemplo con <code>Web3(HTTPProvider("&lt;URL RPC&gt;"))</code>, y luego verificar con <code>w3.is_connected()</code> que la conexión sea válida.</p>
+                <p>Una vez conectado, es posible realizar operaciones de lectura como consultar balances de direcciones, acceder a funciones de contratos mediante llamadas o escuchar eventos emitidos. También se pueden enviar transacciones que modifican el estado de la red. Para esto es necesario construir la transacción, firmarla con la clave privada del usuario y enviarla mediante la función correspondiente.</p>
+                <p>Este tipo de conexión permite automatizar procesos, extraer datos de la blockchain para análisis o crear bots que interactúen con contratos de manera programática.</p>
+            </div>
+        </div>
+
+        <!-- NEW QUESTIONS START HERE -->
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">21) ¿Cómo funciona la apertura y cierre de un canal en la Lightning Network y qué papel juega la blockchain de Bitcoin en este proceso?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un canal de pago en Lightning Network es un mecanismo que permite a dos usuarios intercambiar fondos de forma rápida y barata sin necesidad de registrar cada transacción en la blockchain.</p>
+                <p><strong>Apertura del canal:</strong> Los dos participantes bloquean una cierta cantidad de BTC en una transacción multifirma (2 de 2) en la blockchain de Bitcoin. Esta transacción inicial se conoce como funding transaction. Garantiza que los fondos quedan asegurados y que solo se pueden gastar con la cooperación de ambos.</p>
+                <p><strong>Transacciones dentro del canal (off-chain):</strong> Una vez abierto, los usuarios intercambian estados actualizados de quién posee qué parte del saldo. Estos estados son transacciones firmadas que aún no se transmiten a la blockchain, pero que pueden hacerse válidas en cualquier momento.</p>
+                <p><strong>Cierre del canal:</strong> Cuando se quiere cerrar, cualquiera de las dos partes puede publicar en la blockchain el último estado válido del canal, llamado commitment transaction. La red de Bitcoin actúa entonces como árbitro final y reparte los fondos según la última actualización acordada.</p>
+                <p><strong>Rol de la blockchain de Bitcoin:</strong> La blockchain sirve como capa de seguridad, asegurando que los fondos están bloqueados al inicio, que el último estado válido es el que decide el reparto de BTC y que si alguien intenta engañar publicando un estado antiguo, existen mecanismos de penalización que permiten a la contraparte reclamar todos los fondos.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">22) ¿Qué es un HTLC (Hashed Time-Locked Contract) en Lightning Network y cómo garantiza la seguridad de los pagos en rutas con múltiples nodos?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un HTLC (Hashed Time-Locked Contract) es un contrato especial que permite que los pagos se realicen a través de múltiples nodos en Lightning Network de manera segura y sin necesidad de confiar en intermediarios.</p>
+                <p><strong>Hashed (basado en hash):</strong> El receptor del pago crea un secreto (un número aleatorio) y comparte con el emisor solo su hash. Para que el pago sea liberado, el receptor debe revelar el secreto original que corresponde a ese hash.</p>
+                <p><strong>Time-Locked (bloqueado por tiempo):</strong> Si el secreto no se revela dentro de un plazo determinado, el contrato expira y los fondos vuelven automáticamente al emisor.</p>
+                <p><strong>¿Cómo garantiza la seguridad?</strong> Cuando se envía un pago a través de varios nodos intermedios, cada uno solo entrega los fondos al siguiente si recibe el secreto válido. Así, el receptor final asegura el pago al revelar el secreto, los nodos intermedios reciben su parte solo cuando reenvían correctamente el secreto y si el secreto nunca se revela, todos los participantes recuperan sus fondos gracias al límite de tiempo. Esto garantiza que o todos reciben lo que les corresponde, o nadie pierde nada.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">23) ¿Qué es el metaverso y en qué se diferencia de Internet tal como lo conocemos actualmente?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El metaverso es un espacio digital persistente y compartido en el que los usuarios interactúan entre sí y con entornos virtuales a través de avatares u objetos digitales en 3D, normalmente usando tecnologías como realidad virtual (VR), realidad aumentada (AR) y blockchain.</p>
+                <p>La diferencia clave con Internet actual es la inmersión y persistencia. En el Internet tradicional, interactuamos en 2D (páginas web, apps, videos). En el metaverso, se busca una experiencia tridimensional, donde se puede “estar presente” en espacios virtuales como si fueran físicos.</p>
+                <p>Además, el metaverso incorpora conceptos de propiedad digital y economía integrada, gracias a NFTs y criptomonedas, permitiendo a los usuarios poseer, transferir o comercializar bienes virtuales. En resumen: Internet es información; el metaverso es experiencia e interacción en un entorno digital inmersivo y persistente.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">24) ¿Cuál es el papel de la blockchain en el metaverso y por qué es fundamental para su desarrollo?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La blockchain cumple un rol central en el metaverso porque garantiza la propiedad, escasez y transferibilidad de los activos digitales.</p>
+                <p><strong>Propiedad verificable:</strong> A través de NFTs (tokens no fungibles), un usuario puede demostrar de manera criptográficamente segura que posee un objeto virtual único (ropa, avatar, terreno, arte digital, etc.), incluso si ese objeto existe en diferentes plataformas del metaverso.</p>
+                <p><strong>Economía descentralizada:</strong> Las criptomonedas funcionan como el dinero nativo del metaverso, permitiendo transacciones rápidas y sin intermediarios entre usuarios, sin depender de bancos o empresas centrales.</p>
+                <p><strong>Interoperabilidad:</strong> Gracias a estándares en blockchain, un mismo activo digital puede ser usado en múltiples entornos virtuales. Por ejemplo, una espada NFT obtenida en un juego podría ser llevada a otro mundo virtual compatible. Sin blockchain, el metaverso sería simplemente un videojuego centralizado; con blockchain, se transforma en un ecosistema abierto donde los usuarios son dueños de sus bienes digitales.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">25) ¿Qué es un protocolo de conocimiento cero (ZKP) y cuál es su utilidad principal en sistemas criptográficos?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un Zero-Knowledge Proof (ZKP) es un protocolo criptográfico que permite a una persona (el probador) demostrarle a otra (el verificador) que conoce cierta información, sin revelar la información en sí misma.</p>
+                <p>Un ejemplo intuitivo es demostrar que sabes la combinación de una caja fuerte abriéndola y cerrándola sin que el verificador vea la combinación. La utilidad principal es que permiten privacidad y seguridad simultáneamente. El verificador nunca obtiene el secreto (privacidad), pero se garantiza matemáticamente que el probador realmente lo conoce (seguridad).</p>
+                <p>Esto es fundamental en blockchain, donde los usuarios deben validar identidades, balances o transacciones sin exponer datos sensibles.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">26) ¿Cuáles son las propiedades fundamentales que debe cumplir un protocolo ZKP para ser considerado seguro?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un protocolo de conocimiento cero se considera válido y seguro si cumple con tres propiedades matemáticas esenciales:</p>
+                <p><strong>Completitud (Completeness):</strong> Si el probador realmente conoce el secreto, el verificador aceptará la prueba con alta probabilidad. Es decir, una prueba verdadera siempre se verificará como verdadera.</p>
+                <p><strong>Solidez (Soundness):</strong> Si el probador no conoce el secreto, no podrá engañar al verificador para que lo acepte, excepto con una probabilidad ínfima. Es decir, una prueba falsa casi nunca se verificará como verdadera.</p>
+                <p><strong>Conocimiento cero (Zero-Knowledge):</strong> El verificador no aprende nada nuevo más allá de la certeza de que el probador conoce el secreto. La prueba no revela ninguna información sobre el secreto en sí.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">27) ¿Cuál es la diferencia entre una estrategia de trading tendencial y una de reversión a la media?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p><strong>Trading tendencial (Trend Following):</strong> Se basa en la idea de que los precios tienden a seguir una dirección dominante (alcista o bajista). El trader busca entrar en la dirección de la tendencia y mantenerse en ella hasta que muestre señales de agotamiento. La filosofía es "la tendencia es tu amiga".</p>
+                <p><strong>Trading de reversión a la media (Mean Reversion):</strong> Se basa en la hipótesis de que el precio fluctúa alrededor de un “valor justo” (la media estadística) y que los desvíos extremos tienden a corregirse. El trader busca comprar en caídas excesivas y vender en subidas demasiado rápidas, esperando el regreso a la media. La filosofía es "todo lo que sube, tiene que bajar (a su promedio)".</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">28) ¿Por qué la gestión del riesgo es más importante que la estrategia de entrada en trading?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En trading, incluso la mejor estrategia puede fallar si no hay una adecuada gestión del riesgo, ya que los mercados son inciertos y ningún sistema tiene 100% de aciertos.</p>
+                <p>La gestión del riesgo incluye definir el <strong>tamaño de la posición</strong> (cuánto arriesgar por operación, ej. 1-2% del portafolio), usar <strong>Stop-Loss</strong> para limitar la pérdida máxima y <strong>Take-Profit</strong> para asegurar ganancias, y buscar un <strong>ratio Riesgo/Beneficio</strong> favorable (ganancias potenciales mayores a las pérdidas potenciales).</p>
+                <p>Evita que una sola pérdida grande destruya la cuenta y permite sobrevivir a las malas rachas para que la estadística de la estrategia juegue a favor a largo plazo.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">29) ¿Qué es el scalping en trading y cuáles son sus características principales?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El scalping es una estrategia de trading de muy corto plazo que busca obtener ganancias pequeñas pero frecuentes, aprovechando micro-movimientos en el precio.</p>
+                <p><strong>Características principales:</strong></p>
+                <p><strong>Temporalidad muy corta:</strong> Se opera en marcos de tiempo de segundos a minutos, abriendo y cerrando posiciones muy rápido.</p>
+                <p><strong>Alto volumen de operaciones:</strong> Un scalper ejecuta decenas o incluso cientos de operaciones al día, buscando que las pequeñas ganancias se acumulen.</p>
+                <p><strong>Bajo objetivo de ganancia:</strong> Las ganancias por operación son mínimas, por lo que se depende de la frecuencia.</p>
+                <p><strong>Dependencia de la liquidez y spreads:</strong> Funciona mejor en mercados muy líquidos con bajos costos de transacción, ya que las comisiones pueden anular las ganancias.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">30) ¿Cuáles son los principales riesgos del scalping y cómo se mitigan?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El scalping presenta riesgos importantes debido a su naturaleza ultrarrápida:</p>
+                <p><strong>Riesgos principales:</strong> Alta exposición a costos de transacción (comisiones y spreads), errores de ejecución por la rapidez, fatiga y estrés por la alta concentración requerida, y slippage (deslizamiento del precio) en mercados volátiles.</p>
+                <p><strong>Herramientas para mitigarlos:</strong> Uso de órdenes limitadas y stop-loss automáticos para controlar la ejecución, trading algorítmico (bots) para eliminar el factor humano, elección de mercados muy líquidos (como BTC/USDT o EUR/USD) y una gestión del riesgo extremadamente estricta, arriesgando un porcentaje muy pequeño del capital en cada operación.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">31) ¿Qué es el day trading y en qué se diferencia del scalping y el swing trading?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El day trading es una estrategia en la cual todas las posiciones se abren y cierran dentro de la misma sesión de mercado, sin dejar operaciones abiertas de un día para otro.</p>
+                <p><strong>Diferencias:</strong></p>
+                <p><strong>vs. Scalping:</strong> El scalper opera en segundos o minutos, mientras que el day trader mantiene posiciones durante minutos u horas, buscando movimientos más amplios dentro del día.</p>
+                <p><strong>vs. Swing Trading:</strong> El swing trader mantiene operaciones por varios días o semanas para capturar tendencias más largas. El day trader evita la exposición nocturna para reducir riesgos de eventos inesperados fuera del horario de mercado.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">32) ¿Cuáles son las principales estrategias utilizadas en el day trading?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El day trader se apoya en estrategias que aprovechan los movimientos intradía de los precios, combinando análisis técnico y de volumen.</p>
+                <p><strong>Estrategias comunes:</strong></p>
+                <p><strong>Breakout Trading (Rupturas):</strong> Entrar cuando el precio rompe soportes, resistencias o rangos consolidados con alto volumen.</p>
+                <p><strong>Momentum Trading:</strong> Aprovechar la fuerza de un movimiento causado por noticias, apertura de mercado o picos de volumen.</p>
+                <p><strong>Reversión intradía:</strong> Operar en contra de un movimiento fuerte que muestra señales de agotamiento, esperando un regreso al precio medio ponderado por volumen (VWAP) o a una media móvil.</p>
+                <p><strong>Gap Trading:</strong> Aprovechar las diferencias de precio entre el cierre de un día y la apertura del siguiente.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">33) ¿Qué es una red LSTM y por qué se utiliza en la predicción del precio de Bitcoin?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una LSTM (Long Short-Term Memory) es un tipo de red neuronal recurrente (RNN) diseñada para trabajar con secuencias de datos, como las series temporales de precios.</p>
+                <p>Se utiliza en el análisis de Bitcoin porque puede capturar dependencias a corto y largo plazo. El precio de BTC puede estar influenciado tanto por los movimientos de los últimos minutos como por tendencias de días anteriores. Una LSTM está diseñada para recordar información relevante del pasado y olvidar la irrelevante gracias a su arquitectura de "puertas" (gates).</p>
+                <p>Esto le permite modelar las relaciones no lineales y la volatilidad características del mercado cripto, que los modelos estadísticos tradicionales a menudo no pueden capturar bien.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">34) ¿Cuáles son los principales desafíos al aplicar LSTM en el trading de Bitcoin?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Aunque las LSTM son poderosas, aplicarlas en el trading de Bitcoin presenta retos importantes:</p>
+                <p><strong>Sobreajuste (Overfitting):</strong> El modelo puede memorizar el ruido de los datos históricos y fallar en predecir el futuro. Se mitiga con técnicas de regularización y más datos.</p>
+                <p><strong>Volatilidad y eventos inesperados:</strong> Noticias sobre regulaciones, hackeos o tuits de figuras influyentes pueden generar movimientos que ningún modelo basado en históricos puede anticipar.</p>
+                <p><strong>Calidad de los datos:</strong> El mercado cripto opera 24/7, generando una cantidad masiva de datos de alta frecuencia que pueden ser ruidosos y costosos de procesar.</p>
+                <p><strong>Retraso operacional:</strong> El tiempo que tarda el modelo en procesar los datos y ejecutar una señal puede ser suficiente para que la oportunidad de trading desaparezca.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">35) ¿Qué es el colateral en DeFi y cómo se utiliza?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El colateral es un criptoactivo que se deposita como garantía en un protocolo de finanzas descentralizadas (DeFi) para poder acceder a un préstamo o para generar (mintear) otro activo, como una stablecoin.</p>
+                <p>Funciona de forma similar a una hipoteca en las finanzas tradicionales, pero de manera automatizada y sin intermediarios. Por ejemplo, en protocolos como Aave o MakerDAO, un usuario puede bloquear ETH como colateral para tomar prestado USDC o generar DAI.</p>
+                <p>Debido a la alta volatilidad de los criptoactivos, los préstamos en DeFi suelen estar sobrecolateralizados, lo que significa que el valor del colateral depositado debe ser significativamente mayor que el valor del préstamo solicitado.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">36) ¿Qué papel juegan los smart contracts en la gestión de colateral?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Los smart contracts son fundamentales para la gestión de colateral en DeFi, ya que automatizan todo el proceso sin necesidad de intermediarios humanos, lo que garantiza transparencia y confianza.</p>
+                <p><strong>Funciones críticas:</strong></p>
+                <p><strong>Bloqueo de activos:</strong> El smart contract actúa como una bóveda digital que custodia el colateral de forma segura.</p>
+                <p><strong>Emisión de deuda:</strong> El contrato emite automáticamente el préstamo o la stablecoin una vez que se deposita el colateral.</p>
+                <p><strong>Control de riesgo y liquidaciones:</strong> El contrato monitorea constantemente el valor del colateral. Si cae por debajo de un umbral predefinido (el ratio de liquidación), el contrato liquida automáticamente el colateral para pagar la deuda y mantener la solvencia del protocolo.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">37) ¿Cuál es la diferencia entre una hot wallet y una cold wallet?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La diferencia principal es su conexión a Internet, lo que determina su nivel de seguridad y conveniencia.</p>
+                <p><strong>Hot Wallet (Billetera Caliente):</strong> Está conectada a Internet (ej. apps móviles como Trust Wallet, extensiones de navegador como MetaMask). Son muy convenientes para transacciones frecuentes y rápidas, pero son más vulnerables a hackeos y malware.</p>
+                <p><strong>Cold Wallet (Billetera Fría):</strong> No tiene conexión a Internet (ej. hardware wallets como Ledger o Trezor, paper wallets). Ofrecen un nivel de seguridad mucho mayor al mantener las claves privadas offline, lo que las hace ideales para almacenar grandes cantidades de criptoactivos a largo plazo (HODL). Sin embargo, son menos prácticas para el uso diario.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">38) ¿Qué diferencia hay entre una custodial wallet y una non-custodial wallet?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La diferencia radica en quién tiene el control de las claves privadas, que son las que dan acceso a los fondos.</p>
+                <p><strong>Custodial Wallet:</strong> Un tercero (el custodio, como un exchange tipo Binance o Coinbase) gestiona las claves privadas en nombre del usuario. Son más fáciles de usar y permiten recuperar el acceso si se olvida la contraseña, pero el usuario no tiene soberanía real sobre sus fondos y está expuesto a riesgos del custodio (hackeos, congelamiento de fondos). El lema aquí es "not your keys, not your coins".</p>
+                <p><strong>Non-Custodial Wallet:</strong> El usuario tiene control total y exclusivo de sus claves privadas (ej. MetaMask, Ledger, Trezor). Ofrece soberanía financiera total, pero conlleva una gran responsabilidad: si el usuario pierde su frase semilla (seed phrase), pierde el acceso a sus fondos para siempre, sin posibilidad de recuperación.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">39) ¿Cuál es la diferencia entre la criptografía simétrica y la asimétrica?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Son dos métodos diferentes para cifrar y descifrar información basados en el manejo de las claves.</p>
+                <p><strong>Criptografía simétrica:</strong> Utiliza la misma clave tanto para cifrar (bloquear) como para descifrar (desbloquear) un mensaje. Es muy rápida y eficiente, pero su principal debilidad es el intercambio seguro de esa única clave entre las partes. Si la clave es interceptada, la comunicación queda comprometida.</p>
+                <p><strong>Criptografía asimétrica (o de clave pública):</strong> Utiliza un par de claves matemáticamente relacionadas: una clave pública y una clave privada. La clave pública se puede compartir con cualquiera y se usa para cifrar el mensaje. La clave privada se mantiene en secreto y es la única que puede descifrar el mensaje. Resuelve el problema del intercambio de claves, pero es computacionalmente más lenta que la simétrica.</p>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">40) ¿Cómo se utilizan la criptografía simétrica y asimétrica en Bitcoin?</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Bitcoin utiliza principalmente la criptografía asimétrica como pilar de su seguridad, complementada con funciones hash que comparten propiedades con la criptografía simétrica.</p>
+                <p><strong>Criptografía asimétrica:</strong> Es el corazón de Bitcoin. Cada usuario tiene un par de claves (pública y privada) basado en el Algoritmo de Firma Digital de Curva Elíptica (ECDSA).</p>
+                <ul>
+                    <li>La <strong>clave privada</strong> se usa para firmar digitalmente las transacciones, demostrando la propiedad de los fondos sin revelar la clave.</li>
+                    <li>La <strong>clave pública</strong> se usa para generar la dirección de Bitcoin y para que la red verifique la autenticidad de la firma.</li>
+                </ul>
+                <p><strong>Funciones hash (similares a simétrica en propósito):</strong> Bitcoin usa intensivamente funciones hash como SHA-256. Aunque no son un cifrado, actúan de forma simétrica en el sentido de que verifican la integridad de los datos. Se usan para crear el identificador de una transacción, conectar los bloques en una cadena (blockchain) y en el proceso de minería (Prueba de Trabajo).</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
