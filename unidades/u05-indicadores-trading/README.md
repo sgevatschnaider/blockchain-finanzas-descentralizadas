@@ -13,30 +13,30 @@
 
 ## 🎯 Objetivos de aprendizaje
 
-*   **Modelar** el impacto del **slippage** en Automated Market Makers (AMMs) y su relación con la profundidad de la liquidez.
-*   **Calcular y visualizar** la **Pérdida Impermanente (Impermanent Loss)** para un proveedor de liquidez (LP) en un pool `x·y=k`.
-*   **Analizar** los mecanismos de **préstamos colateralizados (lending)** y los umbrales de **liquidación** forzosa.
+*   **Comprender** los fundamentos de la tecnología blockchain, los criptoactivos y la dinámica de los mercados centralizados (CEX) y descentralizados (DEX).
+*   **Analizar** los mecanismos de **préstamos colateralizados (lending)**, los umbrales de **liquidación** y la **Pérdida Impermanente (Impermanent Loss)**.
+*   **Aplicar** conceptos de gestión de riesgo, seguridad (autocustodia) y psicología del trading en diferentes estrategias.
 *   **Comprender** la microestructura de mercado y la mecánica de las estrategias de **scalping** de alta frecuencia.
 *   **Evaluar** la viabilidad de una estrategia algorítmica mediante **métricas de performance** profesionales (Sharpe, Drawdown, Expectancy).
-*   **Identificar** los principales vectores de riesgo en DeFi: **riesgo de mercado**, **riesgo de contrato inteligente** y **riesgo operativo**.
+*   **Identificar** tendencias emergentes como DeFi, NFTs, tokenización de RWA y el panorama regulatorio global.
 
 ## 🗺️ Recursos de la unidad (HTML interactivos)
 
-### Módulo 1: Estrategias de Mercado y Riesgo en AMMs
+### Módulo 1: Fundamentos del Ecosistema Cripto y Trading
 
 | Recurso Educativo | Enlace Directo |
 | :--- | :--- |
-| **Guía Teórica: Dominando el Trading de Criptomonedas** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía completa que abarca desde las estrategias de trading clásicas (Scalping, Day/Swing Trading) hasta la gestión de riesgo y la psicología del trader (Stop-Loss, FOMO/FUD). Introduce conceptos avanzados como el trading algorítmico con Machine Learning (LSTM) y Reinforcement Learning, y finaliza con el análisis de sentimiento del mercado a través de herramientas como el Fear & Greed Index.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría-HTML-orange?style=for-the-badge&logo=html5)](https://#LINK_PARA_REEMPLAZAR_1) |
-| **Calculadora Interactiva de Slippage** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una herramienta visual para entender el slippage. Permite a los usuarios definir la liquidez de un pool de AMM (ej. ETH/DAI) y simular el impacto de órdenes de compra/venta de distintos tamaños. Muestra gráficamente cómo el precio de ejecución se desvía del precio de mercado a medida que aumenta el tamaño de la orden, cuantificando el costo del slippage.</p></details> | [![Abrir Calculadora](https://img.shields.io/badge/Calculadora-Interactiva-blue?style=for-the-badge&logo=javascript)](https://#LINK_PARA_REEMPLAZAR_2) |
-| **Simulador de Pérdida Impermanente (IL)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una simulación interactiva que modela el P&L (Profit and Loss) de un proveedor de liquidez. Los usuarios pueden establecer una posición inicial, simular cambios en el precio de los activos y comparar el valor de su inversión en el pool de liquidez frente al valor que tendrían si simplemente hubieran mantenido los activos (HODL). Es clave para visualizar el concepto de Impermanent Loss.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_IL-Interactivo-blue?style=for-the-badge&logo=javascript)](https://#LINK_PARA_REEMPLAZAR_3) |
+| **Guía: Fundamentos de Criptoactivos y Blockchain** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía introductoria que cubre la definición de criptomonedas, los principios clave de la tecnología blockchain (descentralización, transparencia, seguridad, inmutabilidad), el rol de Bitcoin, Ethereum y las Altcoins, y compara los modelos de exchanges centralizados (CEX) vs. descentralizados (DEX), destacando sus riesgos y beneficios.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Guía_Fundamentos-HTML-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Introduccion_Fundamentos%20de%20Criptoactivos%20y%20Blockchain.html) |
+| **Guía: Dominando el Trading de Criptomonedas** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Explora el espectro de estrategias de trading clásicas, desde Scalping hasta Position Trading. Profundiza en los pilares esenciales de la gestión de riesgo (Stop-loss, diversificación) y la psicología del trader (FOMO/FUD). Además, introduce conceptos avanzados de trading algorítmico como Machine Learning (LSTM) y Reinforcement Learning.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Guía_Trading-HTML-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Introduccion_Dominando%20el%20Trading%20de%20Criptomonedas.html) |
+| **Guía: Navegando el Ecosistema Cripto** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Se enfoca en aspectos críticos más allá del trading: prácticas de seguridad (hardware wallets vs. custodia en exchanges), el complejo panorama regulatorio y fiscal internacional, y el futuro del ecosistema, analizando tendencias clave como DeFi, NFTs, Web3, la tokenización de Activos del Mundo Real (RWA) y el auge de las CBDCs.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Guía_Ecosistema-HTML-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Introduccion_Navegando%20el%20Ecosistema%20Cripto.html) |
 
 ---
 
-### Módulo 2: Riesgo en Protocolos de Préstamos y Derivados
+### Módulo 2: Riesgo en Protocolos DeFi
 
 | Recurso Educativo | Enlace Directo |
 | :--- | :--- |
-| **Guía Teórica: Riesgos Sistémicos en DeFi** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía completa que clasifica y explica los riesgos inherentes a DeFi. Cubre el riesgo de mercado (volatilidad), de crédito (incumplimiento en préstamos under-collateralized), de contratos inteligentes (bugs, exploits), de liquidación (cascadas), de oráculos (manipulación de precios) y operativo (fallas de gobernanza).</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_Riesgos-HTML-blueviolet?style=for-the-badge&logo=html5)](https://#LINK_PARA_REEMPLAZAR_4) |
+| **Simulador de Pérdida Impermanente (IL)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una simulación interactiva que modela el P&L (Profit and Loss) de un proveedor de liquidez. Los usuarios pueden establecer una posición inicial, simular cambios en el precio de los activos y comparar el valor de su inversión en el pool de liquidez frente al valor que tendrían si simplemente hubieran mantenido los activos (HODL). Es clave para visualizar el concepto de Impermanent Loss.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_IL-Interactivo-blue?style=for-the-badge&logo=javascript)](https://#LINK_PARA_REEMPLAZAR_3) |
 | **Simulador de Préstamos y Liquidaciones** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una demo interactiva que simula un protocolo de préstamos como Aave o Compound. Los usuarios pueden depositar un colateral, tomar un préstamo y observar cómo su "Factor de Salud" (Health Factor) cambia con la volatilidad del mercado. Permite visualizar el umbral de liquidación y el impacto de una liquidación forzosa en su posición.</p></details> | [![Abrir Demo](https://img.shields.io/badge/Demo_Lending-Interactiva-green?style=for-the-badge&logo=javascript)](https://#LINK_PARA_REEMPLAZAR_5) |
 
 ---
@@ -45,7 +45,7 @@
 
 | Recurso Educativo | Enlace Directo |
 | :--- | :--- |
-| **Guía Teórica: Scalping en Criptomonedas** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía exhaustiva que cubre todos los aspectos del scalping. Explora los fundamentos de la microestructura del mercado (liquidez, spread), la mecánica de la estrategia (marcos temporales, objetivos), las herramientas (indicadores, bots), la gestión de riesgo (stop loss, apalancamiento) y la crucial psicología del trader de alta frecuencia.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_Scalping-HTML-orange?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_Teor%C3%ADa.html) |
+| **Guía Teórica: Scalping en Criptomonedas** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía exhaustiva que cubre todos los aspectos del scalping. Explora los fundamentos de la microestructura del mercado (liquidez, spread), la mecánica de la estrategia (marcos temporales, objetivos), las herramientas (indicadores, bots), la gestión de riesgo (stop loss, apalancamiento) y la crucial psicología del trader de alta frecuencia.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_Scalping-HTML-informational?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_Teor%C3%ADa.html) |
 | **Simulador Básico de Scalping** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un simulador interactivo para entender los fundamentos de una estrategia de "captura de spread". Permite al usuario ajustar parámetros clave del mercado (volatilidad, spread) y de la estrategia (comisiones, stop loss, probabilidad de fill) para observar visualmente el impacto en el PNL y el comportamiento del algoritmo en un gráfico de precios en tiempo real.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Básico-Interactivo-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Simulador_Simulaci%C3%B3n%20de%20Scalping.html) |
 | **Análisis del Simulador Básico** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía de interpretación para el simulador básico. Desglosa cada parámetro, métrica y gráfico, explicando cómo diagnosticar el rendimiento de la estrategia. Utiliza una analogía intuitiva ("revendedor de entradas") para dejar claro por qué los costos de salida y la baja probabilidad de ejecución pueden hacer que una estrategia de scalping fracase.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Análisis-HTML-informational?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_Analisis_simulador.html) |
 | **Simulador Profesional de Scalping** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un dashboard de backtesting avanzado que simula una estrategia de scalping con un modelo de precios más realista (reversión a la media, saltos). Proporciona un log de operaciones detallado que explica cada decisión del algoritmo, un libro de órdenes L1 y, lo más importante, calcula métricas de rendimiento profesionales como Sharpe Ratio, Max Drawdown y Expectancy.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Pro-Interactivo-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_Simulador_Profesional.html) |
@@ -98,7 +98,7 @@
 
 ## 🧰 Guía de uso rápido
 
-1.  Abre la **`Calculadora de Slippage`** → Define liquidez (ej. 10M USD) → Simula un swap de 100k USD y observa el impacto.
+1.  Abre el **`Simulador de Préstamos`** → Deposita colateral y pide prestado al 75% LTV → Simula una caída del 30% en el colateral y observa el riesgo de liquidación.
 2.  Abre el **`Simulador Básico de Scalping`** → Inicia la simulación y observa cómo los stops (salidas Taker costosas) impactan negativamente el PNL.
 3.  Abre el **`Simulador Profesional de Scalping`** → Ejecuta una simulación → Analiza las métricas: un Sharpe negativo y un Hit Rate bajo indican una estrategia no viable.
 
@@ -106,10 +106,10 @@
 
 ## 🧪 Laboratorios guiados
 
-**Lab 1 — Slippage vs. Profundidad**
+**Lab 1 — Análisis de Rentabilidad LP (Pérdida Impermanente)**
 
-*   Para un swap fijo de 50,000 USD, mide el slippage en pools con 1M, 5M, 10M y 50M de liquidez total.
-*   Grafica `Liquidez (X) vs. Slippage % (Y)`. Discute la relación no lineal.
+*   Usa el **Simulador de IL** para un par volátil (ej. WETH/MEMECOIN) y uno estable (USDC/DAI).
+*   Simula un cambio de precio del 40% en ambos. Estima qué Tasa de Porcentaje Anual (APR) de comisiones se necesitaría en cada caso para compensar la IL.
 
 **Lab 2 — El Costo de las Comisiones Taker (Scalping)**
 
@@ -118,7 +118,7 @@
 
 **Lab 3 — Gestión de Colateral**
 
-*   En el simulador de préstamos, determina el "crash" de precio máximo que tu posición puede soportar con un LTV inicial del 80% vs. un LTV del 40%.
+*   En el **Simulador de Préstamos**, determina el "crash" de precio máximo que tu posición puede soportar con un LTV inicial del 80% vs. un LTV del 40%.
 *   Define una política de "re-colateralización" (cuándo y cuánto añadirías).
 
 **Lab 4 — Viabilidad de Estrategia (Scalping Pro)**
@@ -132,10 +132,10 @@
 
 | Criterio | Descripción | Pts |
 | :--- | :--- | --: |
-| Modelado de Microestructura | Análisis de slippage, IL y mecánicas de scalping | 30 |
+| Modelado de Microestructura | Análisis de IL y mecánicas de scalping | 30 |
 | Gestión de Riesgo (Lending/Scalping) | Cálculo de umbrales de liquidación y uso de stop loss | 25 |
 | Análisis de Performance Algorítmica | Interpretación correcta de Sharpe, Drawdown, Expectancy | 20 |
-| Conexión con Ecosistema | Relacionar conceptos con MEV, oráculos y comisiones | 15 |
+| Conexión con Ecosistema | Relacionar conceptos con seguridad, regulación y DeFi | 15 |
 | Documentación | Informe claro + capturas/enlaces a simuladores | 10 |
 
 ---
@@ -146,6 +146,9 @@
 u05-indicadores-trading/
 ├── README.md
 ├── recursos/
+│   ├── Introduccion_Fundamentos de Criptoactivos y Blockchain.html
+│   ├── Introduccion_Dominando el Trading de Criptomonedas.html
+│   ├── Introduccion_Navegando el Ecosistema Cripto.html
 │   ├── Scalping_Teoría.html
 │   ├── Scalping_glosario.html
 │   ├── Scalping_Cuestionario.html
