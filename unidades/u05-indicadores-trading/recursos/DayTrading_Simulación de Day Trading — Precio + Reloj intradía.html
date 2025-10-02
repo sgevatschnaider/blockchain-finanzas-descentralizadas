@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulación Day Trading (Velas + Reloj)</title>
+
+<!-- SOLUCIÓN: Usar solo Chart.js core para máxima estabilidad. Se elimina el plugin de velas y el adaptador de fecha. -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+
+<style>
+  :root { color-scheme: dark; }
+  body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#0f1220;color:#e6e6f0}
+  header, footer{padding:14px 18px;border-bottom:1px solid #2a2f45}
+  footer{border-top:1px solid #2a2f45;border-bottom:none;opacity:.9}
+  .credit{display:block;margin-top:4px;font-size:.95rem;opacity:.95}
+  .wrap{display:grid;grid-template-columns:340px 1fr;gap:18px;padding:18px}
+  .card{background:#171b2e;border:1px solid #2a2f45;border-radius:12px;padding:14px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+  label{font-size:12px;opacity:.9;min-width:130px}
+  input[type="number"]{width:110px;background:#0f1220;border:1px solid #2a2f45;border-radius:8px;color:#e6e6f0;padding:6px}
+  button{background:#5b7cff;border:0;color:white;padding:8px 12px;border-radius:10px;cursor:pointer;transition: background-color 0.2s}
+  button:disabled{background:#2a2f45;opacity:0.7;cursor:not-allowed}
+  button.secondary{background:#2a2f45}
+  .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+  .stat div{background:#0f1220;border:1px solid #2a2f45;border-radius:10px;padding:10px;text-align:center}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  canvas{max-height:460px}
+  .clockBox{display:flex;align-items:center;gap:10px}
+  .progress{flex:1;height:10px;background:#0f1220;border:1px solid #2a2f45;border-radius:99px;overflow:hidden}
+  .progress > div{height:100%;background:#5b7cff;width:0%;transition:width 0.1s linear}
+  small{opacity:.8}
+  ul.legend{margin:0;padding-left:18px;opacity:.95}
+</style>
+</head>
+<body>
+<header>
+  <h2>Simulación de Day Trading — Precio + Reloj intradía</h2>
+  <small>Didáctico. No es consejo financiero.</small>
+  <span class="credit">Material elaborado por el profesor <strong>Sergio Gevatschnaider</strong>.</span>
+</header>
+
+<div class="wrap">
+  <!-- Panel -->
+  <section class="card">
+    <h3>Parámetros</h3>
+    <div class="row"><label>Precio inicial</label><input id="p0" type="number" step="0.01" value="100.00"></div>
+    <div class="row"><label>Tamaño de tick</label><input id="tick" type="number" step="0.001" value="0.01"></div>
+    <div class="row"><label>Volatilidad por minuto (σ)</label><input id="sigma" type="number" step="0.001" value="0.08"></div>
+    <div class="row"><label>Prob. de salto</label><input id="jumpProb" type="number" step="0.001" value="0.002"></div>
+    <div class="row"><label>Tam. salto (ticks)</label><input id="jumpScale" type="number" step="1" value="8"></div>
+    <div class="row"><label>EMA rápida / lenta</label>
+      <input id="emaFast" type="number" step="1" value="12">
+      <input id="emaSlow" type="number" step="1" value="26">
+    </div>
+    <div class="row"><label>TP / SL (ticks)</label>
+      <input id="tpTicks" type="number" step="1" value="12">
+      <input id="slTicks" type="number" step="1" value="8">
+    </div>
+    <div class="row"><label>Maker fee / Taker fee (bps)</label>
+      <input id="makerFee" type="number" step="0.1" value="1.0">
+      <input id="takerFee" type="number" step="0.1" value="5.0">
+    </div>
+    <div class="row"><label>Slippage taker (ticks)</label><input id="slip" type="number" step="1" value="1"></div>
+
+    <div class="row">
+      <button id="startBtn">Iniciar</button>
+      <button id="pauseBtn" class="secondary">Pausar</button>
+      <button id="resetBtn" class="secondary">Reset</button>
+    </div>
+
+    <h3>Reloj intradía</h3>
+    <div class="clockBox">
+      <div class="mono" id="clock">08:00</div>
+      <div class="progress"><div id="progressFill"></div></div>
+      <div class="mono">16:00</div>
+    </div>
+    <small>Sesión: 480 min. Entradas al cruce de EMAs. Cierre forzoso al final del día.</small>
+
+    <h3>Estado</h3>
+    <div class="stat">
+      <div><div>Posición</div><div class="mono" id="pos">0</div></div>
+      <div><div>PNL</div><div class="mono" id="pnl">0.00</div></div>
+      <div><div>Trades</div><div class="mono" id="trades">0</div></div>
+      <div><div>Precio</div><div class="mono" id="last">—</div></div>
+      <div><div>EMA12/26</div><div class="mono" id="emas">—</div></div>
+      <div><div>Minuto</div><div class="mono" id="tickNum">0 / 480</div></div>
+    </div>
+
+    <h3>Estrategia</h3>
+    <ul class="legend">
+      <li><span class="mono">▲ verde</span>: entrada long — cruce EMA12↑EMA26</li>
+      <li><span class="mono">▼ roja</span>: entrada short — cruce EMA12↓EMA26</li>
+      <li><span class="mono">● verde</span>: salida TP; <span class="mono">● roja</span>: salida SL/Fin de día</li>
+    </ul>
+  </section>
+
+  <!-- Gráficos -->
+  <section class="card">
+    <h3>Gráfico de Precios (1 min) + Señales</h3>
+    <canvas id="priceChart"></canvas>
+  </section>
+  <section class="card">
+    <h3>PNL acumulado</h3>
+    <canvas id="pnlChart"></canvas>
+  </section>
+</div>
+
+<footer>
+  <span class="credit">Material elaborado por el profesor <strong>Sergio Gevatschnaider</strong>. Uso educativo.</span>
+</footer>
+
+<script>
+/* ===================== Utilidades ===================== */
+// SOLUCIÓN: Simplificado a Math.random() como sugeriste, es suficiente y más simple.
+const rnd = {
+  n: (m = 0, s = 1) => (Math.random() - 0.5 + Math.random() - 0.5) * s + m, // Distribución aprox. normal
+  u: () => Math.random()
+};
+const roundTo = (x, step) => Math.round(x / step) * step;
+const fmt = (x, dec = 2) => Number.isFinite(x) ? x.toFixed(dec) : '—';
+
+function timeFromStart(mins) {
+  const h = Math.floor(8 + mins / 60);
+  const m = mins % 60;
+  return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+}
+
+/* ===================== Estado Global ===================== */
+let cfg, timer = null, alphaF, alphaS;
+const sessionLen = 480;
+
+// MEJORA: Estructura de estado limpia y centralizada
+const state = {
+  t: 0,
+  pos: 0, entryPx: null, cash: 0, trades: 0,
+  lastClose: 0,
+  emaFast: 0, emaSlow: 0,
+  emaFastPrev: 0, emaSlowPrev: 0,
+  pnlSeries: [],
+  signals: []
+};
+
+function readCfg() {
+  return {
+    p0: parseFloat(document.getElementById('p0').value),
+    tick: parseFloat(document.getElementById('tick').value),
+    sigma: parseFloat(document.getElementById('sigma').value),
+    jumpProb: parseFloat(document.getElementById('jumpProb').value),
+    jumpScale: parseFloat(document.getElementById('jumpScale').value),
+    emaFast: parseInt(document.getElementById('emaFast').value),
+    emaSlow: parseInt(document.getElementById('emaSlow').value),
+    tpTicks: parseInt(document.getElementById('tpTicks').value),
+    slTicks: parseInt(document.getElementById('slTicks').value),
+    makerFee: parseFloat(document.getElementById('makerFee').value) / 1e4,
+    takerFee: parseFloat(document.getElementById('takerFee').value) / 1e4,
+    slip: parseInt(document.getElementById('slip').value)
+  };
+}
+
+function reset() {
+  cfg = readCfg();
+  
+  state.t = 0; state.pos = 0; state.entryPx = null; state.cash = 0;
+  state.trades = 0; state.pnlSeries = []; state.signals = [];
+  
+  state.lastClose = cfg.p0;
+  state.emaFast = state.lastClose;
+  state.emaSlow = state.lastClose;
+  state.emaFastPrev = state.lastClose;
+  state.emaSlowPrev = state.lastClose;
+
+  alphaF = 2 / (cfg.emaFast + 1);
+  alphaS = 2 / (cfg.emaSlow + 1);
+  
+  // Limpiar gráficos
+  priceChart.data.labels = [];
+  priceChart.data.datasets.forEach(d => d.data = []);
+  priceChart.data.datasets[3].data = state.signals; // El dataset de señales apunta directamente al array
+  
+  pnlChart.data.labels = [];
+  pnlChart.data.datasets[0].data = [];
+
+  updateUI();
+  priceChart.update('none');
+  pnlChart.update('none');
+}
+
+/* ===================== Simulación ===================== */
+function generateNextPrice(prevClose) {
+  let c = prevClose + rnd.n(0, cfg.sigma);
+  if (rnd.u() < cfg.jumpProb) c += rnd.n(0, cfg.jumpScale * cfg.tick);
+  return Math.max(cfg.tick, roundTo(c, cfg.tick));
+}
+
+function step() {
+  if (state.t >= sessionLen) {
+    if (state.pos !== 0) exitPosition('exitEOD', state.lastClose);
+    pause();
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('pauseBtn').disabled = true;
+    return;
+  }
+
+  // 1. Generar nuevo precio de cierre
+  const currentClose = generateNextPrice(state.lastClose);
+  state.lastClose = currentClose;
+
+  // 2. Actualizar EMAs
+  state.emaFast = alphaF * currentClose + (1 - alphaF) * state.emaFast;
+  state.emaSlow = alphaS * currentClose + (1 - alphaS) * state.emaSlow;
+
+  // 3. Lógica de Trading (Entradas y Salidas)
+  if (state.pos === 0 && state.t > 1) { // Si estamos flat
+    if (state.emaFastPrev <= state.emaSlowPrev && state.emaFast > state.emaSlow) {
+      enterPosition(1, currentClose, 'entryL');
+    } else if (state.emaFastPrev >= state.emaSlowPrev && state.emaFast < state.emaSlow) {
+      enterPosition(-1, currentClose, 'entryS');
+    }
+  } else if (state.pos !== 0) { // Si tenemos posición abierta
+    const tp = state.entryPx + state.pos * cfg.tpTicks * cfg.tick;
+    const sl = state.entryPx - state.pos * cfg.slTicks * cfg.tick;
+    if ((state.pos === 1 && currentClose >= tp) || (state.pos === -1 && currentClose <= tp)) {
+      exitPosition('exitTP', currentClose);
+    } else if ((state.pos === 1 && currentClose <= sl) || (state.pos === -1 && currentClose >= sl)) {
+      exitPosition('exitSL', currentClose);
+    }
+  }
+
+  // 4. Actualizar datos para gráficos y UI
+  pushDataToCharts(currentClose);
+  updateUI();
+  
+  // 5. Preparar para el siguiente paso
+  state.emaFastPrev = state.emaFast;
+  state.emaSlowPrev = state.emaSlow;
+  state.t++;
+}
+
+function enterPosition(side, px, type) {
+  const fee = px * cfg.makerFee;
+  state.pos = side;
+  state.entryPx = px;
+  state.cash -= (side * px) + fee;
+  state.trades++;
+  state.signals.push({ x: state.t, y: px, type });
+}
+
+function exitPosition(type, px) {
+  const slipPx = px - state.pos * cfg.slip * cfg.tick;
+  const fee = Math.abs(slipPx) * cfg.takerFee;
+  state.cash += (state.pos * slipPx) - fee;
+  state.pos = 0;
+  state.entryPx = null;
+  state.trades++;
+  state.signals.push({ x: state.t, y: slipPx, type });
+}
+
+/* ===================== Gráficos ===================== */
+const pnlChart = new Chart('pnlChart', {
+  type: 'line',
+  data: { labels: [], datasets: [{ label: 'PNL Acumulado', data: [], borderColor: '#a78bfa', pointRadius: 0, tension: 0.1, fill: true, backgroundColor: 'rgba(167, 139, 250, 0.1)' }] },
+  options: { responsive: true, animation: false, scales: { x: { display: false } } }
+});
+
+const priceChart = new Chart('priceChart', {
+  // SOLUCIÓN: Cambiado a un gráfico de líneas, mucho más estable.
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      { label: 'Precio', data: [], borderColor: '#94a3b8', pointRadius: 0, tension: 0.1 },
+      { label: 'EMA Rápida', data: [], borderColor: '#22d3ee', pointRadius: 0, tension: 0.1 },
+      { label: 'EMA Lenta', data: [], borderColor: '#f59e0b', pointRadius: 0, tension: 0.1 },
+      {
+        label: 'Señales', type: 'scatter', data: state.signals, pointRadius: 7, pointHoverRadius: 9,
+        pointStyle: ctx => ctx.raw?.type?.startsWith('entry') ? 'triangle' : 'circle',
+        rotation: ctx => ctx.raw?.type === 'entryS' ? 180 : 0,
+        backgroundColor: ctx => {
+          const type = ctx.raw?.type;
+          if (type === 'entryL' || type === 'exitTP') return '#34d399';
+          if (type === 'entryS' || type === 'exitSL' || type === 'exitEOD') return '#ef4444';
+          return '#fff';
+        },
+        borderColor: '#fff', borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true, animation: false,
+    scales: { x: { ticks: { color: '#cbd5e1' } }, y: { ticks: { color: '#cbd5e1' } } }
+  }
+});
+
+function pushDataToCharts(currentClose) {
+  const tickLabel = timeFromStart(state.t);
+  
+  // Gráfico de Precios
+  priceChart.data.labels.push(tickLabel);
+  priceChart.data.datasets[0].data.push(currentClose);
+  priceChart.data.datasets[1].data.push(state.emaFast);
+  priceChart.data.datasets[2].data.push(state.emaSlow);
+  
+  // Gráfico de PNL
+  const equity = state.cash + (state.pos * currentClose);
+  state.pnlSeries.push(equity);
+  pnlChart.data.labels.push(tickLabel);
+  pnlChart.data.datasets[0].data.push(equity);
+
+  // Actualizar ambos gráficos
+  priceChart.update('none');
+  pnlChart.update('none');
+}
+
+/* ===================== UI y Controles ===================== */
+function updateUI() {
+  document.getElementById('clock').textContent = timeFromStart(state.t);
+  document.getElementById('progressFill').style.width = (state.t / sessionLen * 100) + '%';
+  document.getElementById('tickNum').textContent = `${state.t} / ${sessionLen}`;
+  
+  document.getElementById('pos').textContent = state.pos;
+  document.getElementById('last').textContent = fmt(state.lastClose, 2);
+  document.getElementById('pnl').textContent = fmt(state.pnlSeries.at(-1) ?? 0, 2);
+  document.getElementById('trades').textContent = state.trades;
+  document.getElementById('emas').textContent = `${fmt(state.emaFast, 2)} / ${fmt(state.emaSlow, 2)}`;
+}
+
+function start() {
+  if (timer || state.t >= sessionLen) return;
+  timer = setInterval(step, 40); // 40ms para una simulación fluida
+}
+function pause() {
+  clearInterval(timer);
+  timer = null;
+}
+function doReset() {
+  pause();
+  reset();
+  document.getElementById('startBtn').disabled = false;
+  document.getElementById('pauseBtn').disabled = false;
+}
+
+document.getElementById('startBtn').addEventListener('click', start);
+document.getElementById('pauseBtn').addEventListener('click', pause);
+document.getElementById('resetBtn').addEventListener('click', doReset);
+
+// Inicializar al cargar la página
+reset();
+</script>
+</body>
+</html>
