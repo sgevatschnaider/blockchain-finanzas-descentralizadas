@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundamentos de Criptoactivos y Blockchain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #6a11cb;
+      --accent-secondary: #2575fc;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #8e44ad;
+      --accent-secondary: #3498db;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content h4:first-of-type { margin-top: 0; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'Inter', sans-serif; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Fundamentos de Criptoactivos y Blockchain</h1>
+      <p class="subtitle">Una Guía Completa</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Introducción a los Criptoactivos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Definición y Propósito de las Criptomonedas</h4>
+                <p>Las criptomonedas son activos digitales nativos de internet, asegurados por criptografía, que operan sin intermediarios centrales como bancos. Se apoyan en redes descentralizadas que validan y registran operaciones colectivamente. Pueden servir como medio de pago, reserva de valor o instrumento de inversión.</p>
+
+                <h4>La Tecnología Subyacente: Blockchain y Descentralización</h4>
+                <p>La tecnología que hace posible a las criptomonedas es la <strong>blockchain</strong>, un libro contable digital, distribuido e inmutable. Las transacciones se agrupan en "bloques" enlazados criptográficamente, formando una cadena continua.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Características Clave de la Blockchain</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Descentralización</strong><span>No hay un servidor central. La red es mantenida por una comunidad de nodos, haciéndola resistente a la censura.</span></div>
+                        <div class="diagram-box"><strong>Transparencia</strong><span>Todas las transacciones son públicas y auditables por cualquier persona en un explorador de bloques.</span></div>
+                        <div class="diagram-box"><strong>Seguridad</strong><span>La integridad se protege con criptografía y mecanismos de consenso (PoW/PoS).</span></div>
+                        <div class="diagram-box"><strong>Inmutabilidad</strong><span>Una vez confirmada, una transacción es computacionalmente inviable de alterar o eliminar.</span></div>
+                    </div>
+                </div>
+
+                <h4>Los Pilares del Ecosistema: Bitcoin, Ethereum y Altcoins</h4>
+                <p>El ecosistema cripto se sostiene sobre tres pilares principales, cada uno con un propósito y una tecnología distintiva.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Comparativa de los Pilares del Ecosistema</div>
+                    <div class="diagram-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                        <div class="diagram-box"><strong>Bitcoin (BTC)</strong><span>El "oro digital". Su propósito es ser un sistema monetario descentralizado con una oferta finita (21 millones), actuando como reserva de valor.</span></div>
+                        <div class="diagram-box"><strong>Ethereum (ETH)</strong><span>Una plataforma de computación descentralizada. Permite la ejecución de contratos inteligentes y DApps, siendo la base de DeFi y NFTs.</span></div>
+                        <div class="diagram-box"><strong>Altcoins (ej. SOL, ADA)</strong><span>Todas las demás criptomonedas. Buscan innovar en áreas como velocidad, escalabilidad o privacidad. Representan un campo de alta innovación y alto riesgo.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Mercados y Plataformas de Intercambio</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>El Duelo de Modelos: CEX vs. DEX</h4>
+                <p>Un exchange es el mercado para comprar y vender criptomonedas. Se dividen en dos modelos radicalmente diferentes: Centralizados (CEX) y Descentralizados (DEX).</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Exchanges Centralizados (CEX) vs. Descentralizados (DEX)</div>
+                    <div class="diagram-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="diagram-box"><strong>CEX (ej. Binance, Coinbase)</strong><span><strong>Modelo:</strong> Empresa privada que actúa como intermediario de confianza.<strong>Ventajas:</strong> Alta liquidez, facilidad de uso, rampas de dinero fiduciario.<strong>Riesgo Principal:</strong> Custodia. "Not your keys, not your coins".</span></div>
+                        <div class="diagram-box"><strong>DEX (ej. Uniswap, PancakeSwap)</strong><span><strong>Modelo:</strong> Opera sin intermediarios, basado en contratos inteligentes.<strong>Ventajas:</strong> Autocustodia, resistencia a la censura, acceso a más activos.<strong>Riesgo Principal:</strong> Vulnerabilidades en el código, complejidad.</span></div>
+                    </div>
+                </div>
+
+                <h4>Un Vistazo al Panorama de las Plataformas de Trading</h4>
+                <p>El ecosistema de exchanges es vasto y especializado. Entre los más influyentes se encuentran:</p>
+                <ul>
+                    <li><strong>Binance:</strong> El CEX más grande del mundo por volumen.</li>
+                    <li><strong>KuCoin:</strong> Conocido por listar altcoins emergentes.</li>
+                    <li><strong>Coinbase:</strong> Fuerte presencia regulatoria en EE. UU., ideal para principiantes.</li>
+                    <li><strong>Bitget y Bybit:</strong> CEX especializados en trading de derivados y apalancamiento.</li>
+                    <li><strong>Uniswap:</strong> El DEX líder en el ecosistema de Ethereum.</li>
+                </ul>
+
+                <h4>Conceptos Críticos: Liquidez y Riesgos</h4>
+                <p>La <strong>liquidez</strong> es la facilidad con la que un activo puede ser comprado o vendido a un precio estable. Una alta liquidez permite ejecutar órdenes grandes sin afectar el precio, mientras que una baja liquidez puede causar alta volatilidad y "deslizamiento" (slippage).</p>
+                <p>Operar en exchanges conlleva riesgos significativos:</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Riesgos Inherentes a los Exchanges</div>
+                    <div class="diagram-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                        <div class="diagram-box"><strong>Riesgo de Hackeo</strong><span>Los CEX son objetivos de alto valor para ciberdelincuentes, con un historial de robos millonarios.</span></div>
+                        <div class="diagram-box"><strong>Riesgo de Contraparte</strong><span>Un CEX puede quebrar o volverse insolvente (ej. FTX), resultando en la pérdida total de los fondos depositados.</span></div>
+                        <div class="diagram-box"><strong>Riesgo Regulatorio</strong><span>Acciones gubernamentales pueden llevar a un CEX a congelar fondos o suspender operaciones para ciertos usuarios.</span></div>
+                    </div>
+                </div>
+                <p>Por estas razones, la mejor práctica es usar exchanges para operar, pero almacenar los activos a largo plazo en una <strong>hardware wallet</strong> bajo control propio.</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navegando el Ecosistema Cripto: Seguridad, Regulación y Futuro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #005aa7 0%, #fffde4 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #005aa7;
+      --accent-secondary: #3a7bd5;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #4e9eff;
+      --accent-secondary: #87CEEB;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content h4:first-of-type { margin-top: 0; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'Inter', sans-serif; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Navegando el Ecosistema Cripto</h1>
+      <p class="subtitle">Seguridad, Regulación y el Horizonte Futuro</p>
+    </header>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Seguridad: Soberanía Financiera y Responsabilidad</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Riesgos Inherentes a la Custodia en Exchanges</h4>
+                <p>Confiar la custodia de fondos a exchanges centralizados (CEX) a largo plazo es una práctica de alto riesgo. Se resume en la regla de oro del ecosistema: <strong>“Not your keys, not your coins”</strong>. Si no controlas las llaves privadas, no eres el verdadero dueño de tus activos.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Principales Riesgos de los Exchanges Centralizados (CEX)</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Vulnerabilidad a Hackeos</strong><span>Los exchanges son objetivos de alto valor para ciberdelincuentes (ej. Mt. Gox, FTX).</span></div>
+                        <div class="diagram-box"><strong>Riesgo de Contraparte</strong><span>Un exchange puede quebrar o volverse insolvente, congelando o perdiendo los fondos de los clientes.</span></div>
+                        <div class="diagram-box"><strong>Riesgo Regulatorio</strong><span>Acciones gubernamentales pueden llevar a un exchange a bloquear cuentas o restringir retiros.</span></div>
+                    </div>
+                </div>
+
+                <h4>Hardware Wallets: El Estándar de Oro del Almacenamiento Seguro</h4>
+                <p>Las hardware wallets (ej. Ledger, Trezor, Ellipal, SafePal) son dispositivos físicos que almacenan las llaves privadas fuera de línea (cold storage), aislándolas de ataques online. Son la herramienta fundamental para la autocustodia.</p>
+                
+                <h4>Custodia Propia vs. Custodia de Terceros: Un Trade-off Fundamental</h4>
+                <p>La elección de la custodia se reduce a un compromiso entre control y conveniencia.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">El Trade-off de la Custodia de Criptoactivos</div>
+                    <div class="diagram-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="diagram-box"><strong>Custodia Propia (Self-Custody)</strong><span><strong>Herramienta:</strong> Hardware Wallet.<strong>Ventaja:</strong> Soberanía y control total sobre los activos. Sin riesgo de contraparte.<strong>Responsabilidad:</strong> El usuario es 100% responsable de la seguridad de su frase de recuperación.</span></div>
+                        <div class="diagram-box"><strong>Custodia de Terceros</strong><span><strong>Herramienta:</strong> Exchange Centralizado (CEX).<strong>Ventaja:</strong> Conveniencia, facilidad de uso para principiantes y traders activos.<strong>Responsabilidad:</strong> Se delega la seguridad, introduciendo los riesgos de hackeo, quiebra y regulación.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. El Laberinto Regulatorio y Fiscal</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>Regulaciones Internacionales: Un Mosaico de Enfoques</h4>
+                <p>A medida que la industria madura, los marcos regulatorios se vuelven más definidos, pero extremadamente fragmentados a nivel global.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Panorama Regulatorio Global</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Estados Unidos</strong><span>Enfoque sectorial y complejo (SEC vs. CFTC). Muchos tokens son considerados "valores".</span></div>
+                        <div class="diagram-box"><strong>Unión Europea</strong><span>Marco unificado con la regulación MiCA, que ofrece normas claras y protección al inversor.</span></div>
+                        <div class="diagram-box"><strong>Latinoamérica</strong><span>Panorama diverso, desde la adopción de Bitcoin como moneda legal (El Salvador) hasta marcos en desarrollo.</span></div>
+                        <div class="diagram-box"><strong>Asia</strong><span>Fuerte contraste, desde la prohibición en China hasta marcos pro-innovación en Japón y Singapur.</span></div>
+                    </div>
+                </div>
+
+                <h4>Obligaciones Fiscales y Diferencias entre Países</h4>
+                <p>En la mayoría de las jurisdicciones, las criptomonedas son tratadas como activos de capital, y sus transacciones están sujetas a impuestos. Generalmente, se deben declarar las <strong>ganancias de capital</strong> (al vender) y los <strong>ingresos pasivos</strong> (staking, yield farming). La no declaración puede acarrear severas sanciones. La tributación varía significativamente: algunos países eximen las ganancias a largo plazo (Alemania), mientras que otros consideran cada operación como un evento fiscal (EE. UU., España).</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. El Futuro: Casos de Uso y Tendencias Emergentes</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Más allá de la especulación, la tecnología blockchain está habilitando una nueva generación de aplicaciones y sistemas económicos.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Tendencias Emergentes en el Ecosistema Cripto</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>DeFi (Finanzas Descentralizadas)</strong><span>Recrea servicios bancarios (préstamos, intercambios) en la blockchain sin intermediarios.</span></div>
+                        <div class="diagram-box"><strong>NFTs y Web3</strong><span>Certificados de propiedad digital que son la base para una nueva internet descentralizada propiedad de los usuarios.</span></div>
+                        <div class="diagram-box"><strong>Tokenización de RWA</strong><span>Representación digital de Activos del Mundo Real (bienes raíces, arte) para fraccionar y negociar su valor.</span></div>
+                        <div class="diagram-box"><strong>CBDC (Monedas Digitales de Bancos Centrales)</strong><span>Monedas digitales emitidas por gobiernos, que buscan modernizar los pagos pero plantean preocupaciones sobre la privacidad.</span></div>
+                    </div>
+                </div>
+
+                <h4>DeFi (Finanzas Descentralizadas)</h4>
+                <p>Un ecosistema de aplicaciones financieras que permite a cualquier persona acceder a servicios como préstamos colateralizados, generar ingresos pasivos (staking, yield farming) e intercambiar activos en DEXs. Su ventaja es la accesibilidad global; su riesgo, las vulnerabilidades de los contratos inteligentes.</p>
+
+                <h4>NFTs y Web3</h4>
+                <p>Los NFTs (Tokens No Fungibles) son certificados digitales de propiedad para activos únicos. Son un pilar de la Web3, la visión de una internet descentralizada donde los usuarios son dueños de sus datos, identidad y activos, transformando el gaming, el metaverso y la propiedad intelectual.</p>
+
+                <h4>Tokenización de Activos del Mundo Real (RWA)</h4>
+                <p>Es el proceso de crear un token que representa un activo del mundo real en la blockchain. Esto permite fraccionar y negociar activos tradicionalmente ilíquidos como bienes raíces u obras de arte, desbloqueando liquidez global y creando mercados más eficientes.</p>
+                
+                <h4>CBDC (Monedas Digitales de Bancos Centrales)</h4>
+                <p>Como respuesta a las criptomonedas, muchos gobiernos están desarrollando sus propias monedas digitales. Buscan modernizar los pagos y mantener el control, pero plantean serias preocupaciones sobre la privacidad financiera al permitir una trazabilidad total de las transacciones.</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+    })();
+  </script>
+</body>
+</html>
