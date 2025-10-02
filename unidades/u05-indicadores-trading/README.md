@@ -1,3 +1,11 @@
+¡Entendido! He analizado el código del nuevo "Simulador Profesional de Scalping" y lo he integrado en la estructura del `README.md`.
+
+Este simulador es una adición clave, ya que conecta la teoría del scalping con las métricas de rendimiento profesionales (Sharpe, Drawdown, Expectancy) que se mencionan en los objetivos de aprendizaje.
+
+A continuación te presento el `README.md` completo y actualizado, con el nuevo simulador añadido al Módulo 3.
+
+***
+
 # U5 — Estrategias de Trading y Gestión de Riesgo en DeFi: AMMs, Slippage, Liquidaciones, Scalping y Day Trading
 
 [![Unidad](https://img.shields.io/badge/Unidad-5-blueviolet)](#)
@@ -47,6 +55,7 @@
 | :--- | :--- |
 | **Guía Teórica: Scalping en Criptomonedas** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía exhaustiva que cubre todos los aspectos del scalping. Explora los fundamentos de la microestructura del mercado (liquidez, spread), la mecánica de la estrategia (marcos temporales, objetivos), las herramientas (indicadores, bots), la gestión de riesgo (stop loss, apalancamiento) y la crucial psicología del trader de alta frecuencia.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_Scalping-HTML-informational?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_Teor%C3%ADa.html) |
 | **Simulador Básico de Scalping** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un simulador interactivo para entender los fundamentos de una estrategia de "captura de spread". Permite al usuario ajustar parámetros clave del mercado (volatilidad, spread) y de la estrategia (comisiones, stop loss, probabilidad de fill) para observar visualmente el impacto en el PNL y el comportamiento del algoritmo en un gráfico de precios en tiempo real.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Básico-Interactivo-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Simulador_Simulaci%C3%B3n%20de%20Scalping.html) |
+| **Simulador Profesional de Scalping** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un simulador avanzado que modela una estrategia de market making. Permite configurar parámetros de mercado y estrategia (volatilidad, spread, comisiones, timeouts) y evalúa el rendimiento en tiempo real con métricas profesionales: PnL Total, Hit Rate, Sharpe Ratio, Max Drawdown y Expectancy. Incluye libro de órdenes L1 y log de operaciones para un análisis detallado.</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Pro-Interactivo-orange?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_Simulador_Profesional.html) |
 | **Análisis del Simulador Profesional** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una guía de análisis que enseña a interpretar los resultados del simulador profesional como lo haría un fondo de inversión. Explica en detalle cada métrica de performance (Hit Rate, Sharpe, Drawdown), el log de operaciones y cómo realizar un diagnóstico completo para determinar si una estrategia es viable en el mundo real.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Análisis_Pro-HTML-informational?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_An%C3%A1lisis%20del%20Simulador%20Profesional%20de%20Scalping.html) |
 | **Glosario y Cuestionario de Scalping** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Dos recursos combinados: un glosario exhaustivo con todos los conceptos clave para el trading de alta frecuencia (Spread, Slippage, VWAP, etc.) y un cuestionario interactivo que responde a las preguntas más importantes sobre la disciplina del scalping.</p></details> | [![Abrir Glosario](https://img.shields.io/badge/Glosario_&_FAQ-HTML-blueviolet?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-indicadores-trading/recursos/Scalping_glosario.html) |
 
@@ -133,6 +142,7 @@ u05-indicadores-trading/
 │   ├── Introduccion_Navegando el Ecosistema Cripto.html
 │   ├── Scalping_Teoría.html
 │   ├── ... (otros recursos de Scalping)
+│   ├── Scalping_Simulador_Profesional.html
 │   ├── DayTrading_Teoria.html
 │   ├── DayTrading_Simulación de Day Trading — Precio + Reloj intradía.html
 │   └── Estrategia_Lstm_Teoría.html
@@ -165,5 +175,4 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+SOFTWARE.```
