@@ -19,7 +19,7 @@
 [U4](unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/) ·
 [U5](unidades/u05-indicadores-trading/) ·
 [U6](unidades/u06-python-blockchain-analytics/) ·
-[Examen P&R](#finanzas-descentralizadas-preguntas-y-respuestas)
+[Cuestionario: P&R](#cuestionario-preguntas-y-respuestas)
 
 > Vista previa del laboratorio (flujo y funcionamiento de la cadena de bloques).
 
@@ -64,7 +64,7 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 - **Calidad**: CI para Python/Foundry, verificación de enlaces y *slides* automáticas.
 - **Docencia**: cronograma, objetivos por unidad, rúbricas y recursos.
 
-> **Docente responsable:** Dr. Sergio Gevatschnaider · 
+> **Docente responsable:** Dr. Sergio Gevatschnaider ·
 
 ---
 
@@ -276,16 +276,16 @@ Volatilidad realizada, *drawdown*, Sharpe, *backtesting* reproducible; riesgos d
 
 ---
 
-### [FINANZAS DESCENTRALIZADAS: PREGUNTAS Y RESPUESTAS](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/Examen.html)
+### [Cuestionario: Preguntas y Respuestas](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/Cuestionario%20con%20respuestas.html)
 
-`assets/Examen.html`
+`assets/Cuestionario con respuestas.html`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
-Cuestionario interactivo con 20 preguntas y respuestas clave para autoevaluar y consolidar el conocimiento sobre Ethereum, DeFi y los fundamentos de la tecnología blockchain.
+Cuestionario interactivo con 40 preguntas y respuestas clave para autoevaluar y consolidar el conocimiento sobre Ethereum, DeFi, Trading, Seguridad y los fundamentos de la tecnología blockchain.
 </details>
 
 **Recurso:** Cuestionario interactivo de autoevaluación.
-<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/Examen.html" target="_blank">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/assets/Cuestionario%20con%20respuestas.html" target="_blank">
   <img src="https://img.shields.io/badge/%20Abrir%20Cuestionario%20Interactivo-blueviolet?style=for-the-badge" alt="Abrir Cuestionario Interactivo">
 </a>
 
@@ -399,7 +399,6 @@ print(ohlcv[:2])
 4. Seguí **CONTRIBUTING.md** y **CODE\_OF\_CONDUCT.md**.
 
 ---
-
 ## ⚖️ Licencia
 
 * Material educativo; **no** constituye asesoramiento financiero.
