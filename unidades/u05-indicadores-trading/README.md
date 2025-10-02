@@ -1,18 +1,10 @@
-¡Entendido! He analizado el código del nuevo "Simulador Profesional de Scalping" y lo he integrado en la estructura del `README.md`.
-
-Este simulador es una adición clave, ya que conecta la teoría del scalping con las métricas de rendimiento profesionales (Sharpe, Drawdown, Expectancy) que se mencionan en los objetivos de aprendizaje.
-
-A continuación te presento el `README.md` completo y actualizado, con el nuevo simulador añadido al Módulo 3.
-
-***
-
 # U5 — Estrategias de Trading y Gestión de Riesgo en DeFi: AMMs, Slippage, Liquidaciones, Scalping y Day Trading
 
 [![Unidad](https://img.shields.io/badge/Unidad-5-blueviolet)](#)
 [![Dominio](https://img.shields.io/badge/%C3%A1rea-Sistemas%20Financieros%20Digitales-0b7285)](#)
 [![Interactividad](https://img.shields.io/badge/recursos-HTML5-green?logo=HTML5)](#)
 
-> **Vista previa** · Simulación Profesional de una Estrategia de Scalping Algorítmico <img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/unidades/u04-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/simulacion.gif" alt="Simulación Riesgo DeFi" width="900"/>
+> **Vista previa** · Simulación Profesional de una Estrategia de Scalping Algorítmico <img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/339e599257c023c9bff2665773aab8989015919f/unidades/u05-indicadores-trading/recursos/simulacion.gif" alt="Simulación Profesional de Scalping" width="900"/>
 
 **Carpeta de la unidad (GitHub):**
 `/unidades/u05-indicadores-trading/`
@@ -169,6 +161,14 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
