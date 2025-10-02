@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preguntas Frecuentes sobre Scalping</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #16a085 0%, #f4d03f 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #16a085;
+      --accent-secondary: #f39c12;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1abc9c;
+      --accent-secondary: #f1c40f;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); margin-bottom: 1.5rem; }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 12000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content h4:first-of-type { margin-top: 0; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content a { color: var(--accent-primary); text-decoration: none; transition: var(--transition); }
+    .topic-content a:hover { color: var(--accent-secondary); text-decoration: underline; }
+    #faq-index-list {
+        list-style-type: none;
+        padding-left: 10px;
+    }
+    #faq-index-list li { margin-bottom: 0.75rem; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Preguntas Frecuentes sobre Scalping</h1>
+      <p class="subtitle">Respuestas Clave para Entender el Trading de Alta Frecuencia</p>
+    </header>
+
+    <div class="topic-card open">
+        <div class="topic-header" style="cursor: default;"><span class="topic-title">Índice de Preguntas</span></div>
+        <div class="topic-content">
+            <ul id="faq-index-list">
+                <li><a href="#q1">1. ¿Diferencia fundamental entre scalper y day trader?</a></li>
+                <li><a href="#q2">2. ¿Por qué el scalping fracasa en mercados con poco volumen?</a></li>
+                <li><a href="#q3">3. ¿Por qué las comisiones son el "enemigo número uno"? (Ejemplo)</a></li>
+                <li><a href="#q4">4. ¿Es indispensable el apalancamiento? ¿Qué niveles se recomiendan?</a></li>
+                <li><a href="#q5">5. ¿Diferencia crucial entre un Stop Loss y ser liquidado?</a></li>
+                <li><a href="#q6">6. ¿Cómo funciona la estrategia de "captura del spread"?</a></li>
+                <li><a href="#q7">7. ¿Por qué el VWAP es un indicador tan crucial?</a></li>
+                <li><a href="#q8">8. ¿Por qué la psicología es más importante en el scalping?</a></li>
+                <li><a href="#q9">9. ¿Tiene sentido el scalping manual contra los bots (HFT)?</a></li>
+                <li><a href="#q10">10. ¿Por qué un ratio Riesgo/Beneficio de 1:1 puede ser rentable?</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card open">
+            <div class="topic-header"><span class="topic-title">Preguntas 1-3: Fundamentos y Riesgos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="q1">1. ¿Cuál es la diferencia fundamental entre un scalper y un day trader, si ambos operan en el mismo día?</h4>
+                <p>Aunque ambos cierran sus posiciones antes de que termine el día, la diferencia fundamental radica en la <strong>frecuencia, el objetivo y el marco temporal</strong> de sus operaciones.</p>
+                <ul>
+                    <li><strong>Day Trader:</strong> Busca capturar la tendencia principal o los movimientos significativos del día. Puede realizar entre 2 y 5 operaciones en una sesión, manteniendo cada una abierta desde minutos hasta varias horas. Su objetivo de ganancia por operación es considerable (ej. 1-3%). Analiza gráficos de 15 minutos (15m) a 1 hora (1h).</li>
+                    <li><strong>Scalper:</strong> No le interesa la tendencia del día, sino las micro-fluctuaciones que ocurren segundo a segundo. Realiza decenas o cientos de operaciones, manteniéndolas abiertas solo por segundos o unos pocos minutos. Su objetivo de ganancia es mínimo (ej. 0.1-0.5%) y su rentabilidad proviene de la acumulación de estas pequeñas victorias. Analiza gráficos de 1 minuto (1m), 5 minutos (5m) o incluso de ticks.</li>
+                </ul>
+                <p><strong>En resumen:</strong> Un day trader pesca con anzuelo varias veces al día, esperando peces medianos. Un scalper lanza una red pequeña constantemente en la orilla, capturando cientos de peces diminutos.</p>
+
+                <h4 id="q2">2. ¿Por qué un scalper no podría tener éxito en una criptomoneda nueva con poco volumen, aunque sea muy volátil?</h4>
+                <p>La volatilidad es atractiva, pero sin liquidez, es una trampa mortal para un scalper. En una criptomoneda con poco volumen (ilíquida) ocurren tres problemas insuperables:</p>
+                <ul>
+                    <li><strong>Spread Enorme:</strong> La diferencia entre el precio de compra (Ask) y el de venta (Bid) es muy grande. Si el spread es del 2%, el scalper necesitaría que el precio se mueva más de un 2% a su favor solo para empezar a tener ganancias, lo cual es contrario a su objetivo de capturar micro-movimientos.</li>
+                    <li><strong>Slippage (Deslizamiento) Alto:</strong> Al no haber suficientes compradores o vendedores, cuando un scalper intenta ejecutar una orden (especialmente a mercado), el precio se mueve en su contra antes de que la orden se complete. Esto significa que compra más caro y vende más barato de lo que esperaba, aniquilando cualquier ganancia potencial.</li>
+                    <li><strong>Imposibilidad de Salir Rápido:</strong> En el scalping, salir de la posición es tan importante como entrar. En un mercado ilíquido, puede que simplemente no haya un comprador cuando el scalper necesita vender, forzándolo a mantener una posición perdedora mucho más tiempo del planeado.</li>
+                </ul>
+                 <p><strong>La clave:</strong> La liquidez es el "oxígeno" del scalper. Le garantiza spreads bajos, ejecución instantánea y la certeza de poder entrar y salir al precio que ve en pantalla.</p>
+
+                <h4 id="q3">3. Explica con un ejemplo numérico por qué las comisiones son consideradas el "enemigo número uno" del scalper.</h4>
+                <p>Imaginemos un scalper que quiere obtener una ganancia del 0.2% en una operación.</p>
+                <ul>
+                    <li><strong>Capital de la operación:</strong> $10,000 (puede ser con apalancamiento).</li>
+                    <li><strong>Precio de entrada:</strong> Compra a $50,000.</li>
+                    <li><strong>Objetivo de ganancia (Take Profit):</strong> Vender a $50,100 (un aumento del 0.2%).</li>
+                    <li><strong>Ganancia Bruta esperada:</strong> 0.2% de $10,000 = <strong>$20</strong>.</li>
+                </ul>
+                <p>Ahora, apliquemos las comisiones de un exchange típico, que cobra una comisión de "Taker" del 0.075%.</p>
+                <ul>
+                    <li><strong>Comisión de entrada:</strong> 0.075% de $10,000 = <strong>$7.50</strong>.</li>
+                    <li><strong>Comisión de salida:</strong> 0.075% de $10,020 = <strong>$7.51</strong>.</li>
+                    <li><strong>Comisiones Totales: $7.50 + $7.51 = $15.01</strong>.</li>
+                </ul>
+                <p><strong>Resultado final:</strong> Ganancia Bruta ($20) - Comisiones Totales ($15.01) = <strong>Ganancia Neta de $4.99</strong>.</p>
+                <p>En este ejemplo realista, <strong>¡las comisiones se comieron el 75% de la ganancia!</strong> Si el objetivo hubiera sido solo del 0.1%, la operación habría resultado en una pérdida neta. Esto demuestra que sin un plan para minimizar las comisiones, el scalping es matemáticamente inviable.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Preguntas 4-6: Apalancamiento y Estrategia</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="q4">4. ¿Es el apalancamiento un requisito indispensable para hacer scalping? ¿Cuáles son los niveles de apalancamiento recomendados y por qué?</h4>
+                <p>No es estrictamente indispensable, pero sí es <strong>prácticamente necesario</strong> para que el scalping sea rentable. Sin apalancamiento, las ganancias de 0.1% o 0.2% sobre el capital propio serían tan pequeñas que no justificarían el tiempo y el riesgo. El apalancamiento magnifica esas micro-ganancias a un nivel significativo.</p>
+                <p><strong>Niveles recomendados:</strong> Los scalpers experimentados suelen operar con un apalancamiento moderado, generalmente <strong>entre x5 y x20</strong>.</p>
+                <p><strong>Por qué no más alto:</strong> Con un apalancamiento de x100, un movimiento en contra de solo el 1% liquida toda tu posición. Los mercados de criptomonedas son tan volátiles que un "ruido" normal de 0.5% puede ocurrir en segundos. Con un apalancamiento de x10, ese 0.5% representa una pérdida manejable del 5% de tu margen. Con x100, representa una pérdida del 50%, dejándote al borde de la liquidación.</p>
+                <p><strong>La clave:</strong> El apalancamiento se usa para hacer que las ganancias importen, no para apostar. Un apalancamiento moderado da a la operación el "espacio para respirar" que necesita.</p>
+                
+                <h4 id="q5">5. ¿Cuál es la diferencia crucial entre ser sacado de una operación por un Stop Loss y ser liquidado?</h4>
+                <p>La diferencia es el <strong>control versus la pérdida total y forzada</strong>.</p>
+                <ul>
+                    <li><strong>Stop Loss:</strong> Es una orden preventiva y controlada que <strong>TÚ</strong> estableces. Define el máximo que estás dispuesto a perder. Si el precio toca tu Stop Loss, la operación se cierra, protegiendo el resto de tu capital. Es una herramienta de gestión de riesgo, como un cinturón de seguridad.</li>
+                    <li><strong>Liquidación:</strong> Es un cierre forzoso y catastrófico ejecutado por el <strong>exchange</strong>. Ocurre cuando tus pérdidas en una operación apalancada igualan el 100% del margen que depositaste. Ser liquidado significa que has perdido todo el capital asignado a esa operación. Es el equivalente a un choque frontal sin cinturón de seguridad.</li>
+                </ul>
+                <p><strong>En resumen:</strong> Un Stop Loss es una retirada táctica que tú controlas para minimizar daños. Una liquidación es una aniquilación total de tu posición que ocurre por falta de control. Un scalper profesional vive de usar Stop Loss y nunca se acerca a ser liquidado.</p>
+
+                <h4 id="q6">6. ¿Cómo funciona la estrategia de "captura del spread" y por qué se necesita un mercado con un spread bajo para que sea viable?</h4>
+                <p>La "captura del spread" es la forma más pura de scalping. Funciona en dos pasos:</p>
+                <ol>
+                    <li><strong>Añadir Liquidez (Maker):</strong> El scalper coloca una orden límite de compra (orden Maker) exactamente en el precio de Bid, esperando que un vendedor le venda a ese precio.</li>
+                    <li><strong>Capturar el Diferencial:</strong> Una vez que su orden de compra se ejecuta, inmediatamente coloca una orden límite de venta en el precio de Ask, esperando que un comprador le compre a ese precio más alto.</li>
+                </ol>
+                <p>La ganancia es la pequeña diferencia entre el Ask y el Bid (el spread), menos las comisiones.</p>
+                <p>Esta estrategia es viable <strong>solo con un spread bajo</strong> porque el spread define el beneficio bruto potencial. Si el spread es de solo 0.02%, esa es la ganancia máxima que puedes obtener. Si las comisiones son altas, pueden consumir todo ese pequeño margen, haciendo la estrategia inútil.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Preguntas 7-10: Herramientas y Psicología</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="q7">7. Además de las medias móviles (EMA), ¿por qué el VWAP (Precio Medio Ponderado por Volumen) es un indicador tan crucial para los scalpers?</h4>
+                <p>Mientras que las EMAs muestran la dirección del precio, el VWAP actúa como el <strong>"centro de gravedad" del mercado intradía</strong>. Es el precio promedio del día, ponderado por el volumen. Para un scalper, es crucial por varias razones:</p>
+                <ul>
+                    <li><strong>Referencia de "Justo Valor":</strong> Indica el precio "justo" según la actividad del mercado. Precios muy por encima del VWAP pueden considerarse "caros" a corto plazo, y por debajo, "baratos".</li>
+                    <li><strong>Sesgo Direccional:</strong> Proporciona un sesgo claro. Una regla simple para muchos scalpers es: si el precio está por encima del VWAP, buscar solo compras (largos). Si está por debajo, buscar solo ventas (cortos).</li>
+                    <li><strong>Soporte y Resistencia Dinámico:</strong> Las grandes instituciones a menudo usan el VWAP como referencia, por lo que este nivel frecuentemente actúa como un soporte o resistencia dinámico, ofreciendo oportunidades de entrada.</li>
+                </ul>
+
+                <h4 id="q8">8. ¿Por qué se dice que la psicología y la disciplina son más importantes en el scalping que en cualquier otro estilo de trading?</h4>
+                <p>Porque la <strong>velocidad y la frecuencia</strong> del scalping magnifican el impacto de cada decisión emocional.</p>
+                <ul>
+                    <li><strong>Fatiga de Decisión:</strong> Un scalper toma cientos de decisiones al día, lo que conduce a una fatiga mental extrema donde es fácil cometer errores.</li>
+                    <li><strong>Impacto de un Error:</strong> Un solo error emocional (como no poner un stop loss o hacer "revenge trading") puede anular las ganancias de 20 o 30 operaciones exitosas. El margen de error es cero.</li>
+                    <li><strong>Ausencia de Tiempo para Reflexionar:</strong> Las decisiones deben ser instantáneas y basadas en un plan. La disciplina consiste en ejecutar ese plan como un robot, sin dudar y sin dejarse llevar por el miedo o la codicia.</li>
+                </ul>
+                <p><strong>En resumen:</strong> En otros estilos, tienes tiempo para corregir un error. En el scalping, el mercado no te da esa oportunidad. O eres disciplinado el 100% del tiempo, o la cuenta no sobrevive.</p>
+
+                <h4 id="q9">9. Si los bots y el trading de alta frecuencia (HFT) son tan rápidos, ¿tiene sentido que un trader humano intente hacer scalping manualmente?</h4>
+                <p>Sí, tiene sentido, pero el trader humano debe jugar en un campo diferente y aprovechar sus ventajas únicas. Un humano no puede competir en velocidad, pero sí puede superar a un bot en:</p>
+                <ul>
+                    <li><strong>Adaptabilidad:</strong> Un humano puede interpretar el contexto del mercado y adaptarse a condiciones nuevas para las que el bot no está programado.</li>
+                    <li><strong>Lectura de Patrones Complejos:</strong> El cerebro humano es excelente para reconocer matices en la acción del precio que no son fácilmente cuantificables en un algoritmo.</li>
+                    <li><strong>Operar en Nichos:</strong> Un trader manual puede encontrar su ventaja en mercados con liquidez media o en momentos específicos donde la competencia algorítmica es menor.</li>
+                </ul>
+                <p><strong>La clave:</strong> El scalper manual exitoso no intenta ser más rápido que el bot, sino <strong>más inteligente</strong>. Usa su intuición y capacidad de adaptación para encontrar oportunidades donde los algoritmos rígidos no son tan efectivos.</p>
+                
+                <h4 id="q10">10. ¿Por qué un scalper puede ser rentable con un ratio Riesgo/Beneficio de 1:1 o incluso inferior, mientras que a otros traders se les recomienda buscar ratios de 1:2 o 1:3?</h4>
+                <p>La rentabilidad es una combinación de dos factores: el <strong>ratio Riesgo/Beneficio (R/R)</strong> y la <strong>tasa de aciertos (Win Rate)</strong>.</p>
+                <ul>
+                    <li><strong>Traders de Tendencia (R/R alto):</strong> Buscan grandes movimientos. Pueden permitirse una baja tasa de aciertos (ej. 30-40%) porque cada operación ganadora (con un R/R de 1:3) compensa tres operaciones perdedoras.</li>
+                    <li><strong>Scalpers (Tasa de Aciertos alta):</strong> Buscan movimientos de alta probabilidad y muy cortos. Su ventaja no está en cuánto ganan, sino en <strong>la frecuencia con la que aciertan</strong>. Con un ratio R/R de 1:1, necesitan una tasa de aciertos superior al 50%. Un scalper exitoso a menudo apunta a una tasa de aciertos del 60-70%.</li>
+                </ul>
+                <p>A pesar de que las pérdidas individuales pueden ser iguales o mayores que las ganancias, la alta frecuencia de aciertos es lo que hace que la estrategia sea rentable a largo plazo.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        // --- THEME TOGGLE FUNCTIONALITY ---
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        // --- ACCORDION FUNCTIONALITY ---
+        document.querySelectorAll('.lesson-container .topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+
+        // --- CLICKABLE FAQ INDEX ---
+        const indexLinks = document.querySelectorAll('#faq-index-list a');
+        indexLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    const parentCard = targetElement.closest('.topic-card');
+                    if (parentCard && !parentCard.classList.contains('open')) {
+                        parentCard.classList.add('open');
+                    }
+                }
+            });
+        });
+
+    })();
+  </script>
+</body>
+</html>

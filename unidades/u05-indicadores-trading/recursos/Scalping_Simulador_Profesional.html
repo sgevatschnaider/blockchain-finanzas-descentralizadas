@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Scalping Criptomonedas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .controls {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .positive { color: #00ff88; }
+        .negative { color: #ff4444; }
+        .neutral { color: #ffaa00; }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .control-group input, .control-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid rgba(255, 107, 53, 0.5);
+            border-radius: 5px;
+            background: rgba(40, 40, 40, 0.8);
+            color: #fff;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .order-book {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .book-side {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-family: monospace;
+        }
+
+        .bid { background: rgba(0, 255, 136, 0.1); }
+        .ask { background: rgba(255, 68, 68, 0.1); }
+
+        .trade-log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .log-buy { background: rgba(0, 255, 136, 0.2); }
+        .log-sell { background: rgba(255, 68, 68, 0.2); }
+        .log-cancel { background: rgba(255, 170, 0, 0.2); }
+        .log-info { background: rgba(60, 60, 60, 0.2); }
+
+
+        .spread-indicator {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .spread-good { background: rgba(0, 255, 136, 0.2); }
+        .spread-bad { background: rgba(255, 68, 68, 0.2); }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 30, 30, 0.8);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .position-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse { animation: pulse 0.5s ease-in-out; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Simulador de Scalping Criptomonedas</h1>
+
+        <div class="status-bar">
+            <div class="position-info">
+                <div>Posición: <span id="position">0</span></div>
+                <div>Inventario: <span id="inventory">0</span></div>
+                <div>Estado: <span id="status">Esperando</span></div>
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="startSimulation()">▶ Iniciar</button>
+                <button class="btn btn-danger" onclick="stopSimulation()">⏹ Parar</button>
+                <button class="btn btn-success" onclick="resetSimulation()">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="chart-container">
+                <canvas id="priceChart" width="800" height="400"></canvas>
+            </div>
+
+            <div class="controls">
+                <h3>Parámetros de Simulación</h3>
+
+                <div class="control-group">
+                    <label>Precio Inicial ($)</label>
+                    <input type="number" id="initialPrice" value="50000" step="100">
+                </div>
+
+                <div class="control-group">
+                    <label>Volatilidad (%)</label>
+                    <input type="range" id="volatility" min="0.1" max="2" step="0.1" value="0.5">
+                    <span id="volValue">0.5%</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Spread (ticks)</label>
+                    <input type="range" id="spread" min="1" max="5" step="1" value="2">
+                    <span id="spreadValue">2</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Maker Fee (bps)</label>
+                    <input type="number" id="makerFee" value="2" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label>Taker Fee (bps)</label>
+                    <input type="number" id="takerFee" value="6" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label>Timeout (segundos)</label>
+                    <input type="number" id="timeout" value="5" step="1">
+                </div>
+
+                <div class="spread-indicator" id="spreadIndicator">
+                    Spread: 2 ticks - Operable ✓
+                </div>
+
+                <div class="order-book">
+                    <h4>Libro de Órdenes L1</h4>
+                    <div class="book-side ask" id="askLevel">ASK: $50,001 (10)</div>
+                    <div class="book-side bid" id="bidLevel">BID: $49,999 (10)</div>
+                </div>
+
+                <div class="trade-log" id="tradeLog">
+                    <div class="log-entry">Simulador iniciado...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div>PnL Total</div>
+                <div class="metric-value neutral" id="totalPnl">$0.00</div>
+            </div>
+            <div class="metric-card">
+                <div>Trades Ejecutados</div>
+                <div class="metric-value" id="totalTrades">0</div>
+            </div>
+            <div class="metric-card">
+                <div>Hit Rate</div>
+                <div class="metric-value" id="hitRate">0%</div>
+            </div>
+            <div class="metric-card">
+                <div>Sharpe Intradía</div>
+                <div class="metric-value" id="sharpeRatio">0.00</div>
+            </div>
+            <div class="metric-card">
+                <div>Max Drawdown</div>
+                <div class="metric-value negative" id="maxDrawdown">$0.00</div>
+            </div>
+            <div class="metric-card">
+                <div>Expectancy</div>
+                <div class="metric-value" id="expectancy">$0.00</div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; color: #888;">
+        Material elaborado por el profesor Sergio Gevatschnaider
+    </div>
+
+    <script>
+        // Variables globales de simulación
+        let isRunning = false;
+        let simulationInterval;
+        let chart;
+        let midPrice = 50000;
+        let tickSize = 1;
+        let currentSpread = 2;
+        let inventory = 0;
+        let activeOrders = [];
+        let tradeHistory = [];
+        let pnlHistory = [];
+        let priceHistory = [];
+        let timeLabels = [];
+        let totalPnl = 0;
+        let maxDrawdown = 0;
+        let peakPnl = 0;
+        let lastOrderTime = 0;
+        let avgCostBasis = 0;
+
+        // Parámetros de estrategia
+        let minSpreadTicks = 2;
+        let maxInventory = 1;
+        let stopLossTicks = 3;
+        let timeoutSeconds = 5;
+        let makerFeeBps = 2;
+        let takerFeeBps = 6;
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChart();
+            updateControls();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('volatility').addEventListener('input', function() {
+                document.getElementById('volValue').textContent = this.value + '%';
+            });
+
+            document.getElementById('spread').addEventListener('input', function() {
+                document.getElementById('spreadValue').textContent = this.value;
+                minSpreadTicks = parseInt(this.value);
+                updateSpreadIndicator();
+            });
+        }
+
+        function initializeChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Precio Mid',
+                        data: [],
+                        borderColor: '#ff6b35',
+                        backgroundColor: 'rgba(255, 107, 53, 0.1)',
+                        tension: 0.1,
+                        pointRadius: 0
+                    }, {
+                        label: 'PnL',
+                        data: [],
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        tension: 0.1,
+                        pointRadius: 0,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#ccc' }
+                        },
+                        y: {
+                            position: 'left',
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#ccc' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { color: '#00ff88' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#ccc' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function startSimulation() {
+            if (isRunning) return;
+
+            isRunning = true;
+            document.getElementById('status').textContent = 'Ejecutando';
+
+            // Obtener parámetros iniciales
+            midPrice = parseFloat(document.getElementById('initialPrice').value);
+            updateStrategyParameters();
+
+            simulationInterval = setInterval(simulateMarket, 100);
+            logTrade('Simulación iniciada', 'info');
+        }
+
+        function stopSimulation() {
+            isRunning = false;
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
+            }
+            document.getElementById('status').textContent = 'Detenido';
+            logTrade('Simulación detenida', 'info');
+        }
+
+        function resetSimulation() {
+            stopSimulation();
+
+            // Reset variables
+            inventory = 0;
+            activeOrders = [];
+            tradeHistory = [];
+            pnlHistory = [];
+            priceHistory = [];
+            timeLabels = [];
+            totalPnl = 0;
+            maxDrawdown = 0;
+            peakPnl = 0;
+            lastOrderTime = 0;
+            avgCostBasis = 0;
+
+            // Reset chart
+            if(chart) {
+                chart.data.labels = [];
+                chart.data.datasets[0].data = [];
+                chart.data.datasets[1].data = [];
+                chart.update();
+            }
+
+            // Reset UI
+            updateMetrics();
+            updatePositionInfo();
+            document.getElementById('tradeLog').innerHTML = '<div class="log-entry log-info">Simulador reiniciado...</div>';
+            document.getElementById('status').textContent = 'Esperando';
+        }
+        
+        function simulateMarket() {
+            const volatility = parseFloat(document.getElementById('volatility').value) / 100;
+            const dt = 0.1;
+
+            const meanReversion = -0.001 * (midPrice - 50000); // Reversión a precio inicial
+            const randomMove = (Math.random() - 0.5) * volatility * Math.sqrt(dt) * midPrice * 0.1;
+            const jumpProb = 0.005;
+            const jumpSize = Math.random() < jumpProb ? (Math.random() - 0.5) * midPrice * 0.002 : 0;
+            
+            midPrice += randomMove + jumpSize + meanReversion;
+            midPrice = Math.max(midPrice, 1);
+
+            const baseSpread = parseInt(document.getElementById('spread').value);
+            const spreadVariation = Math.random() < 0.1 ? (Math.random() < 0.5 ? 1 : -1) : 0;
+            currentSpread = Math.max(1, baseSpread + spreadVariation);
+
+            const halfSpread = (currentSpread * tickSize) / 2;
+            const bidPrice = midPrice - halfSpread;
+            const askPrice = midPrice + halfSpread;
+            
+            updateOrderBook(bidPrice, askPrice);
+            updateSpreadIndicator();
+            executeScalpingStrategy(bidPrice, askPrice);
+            updateChart();
+            updateMetrics();
+            updatePositionInfo();
+        }
+
+        function executeScalpingStrategy(bidPrice, askPrice) {
+            const currentTime = Date.now();
+            const spreadTicks = Math.round((askPrice - bidPrice) / tickSize);
+            
+            updateStrategyParameters();
+            checkOrderTimeouts(currentTime);
+            checkMakerFills(bidPrice, askPrice);
+
+            if (spreadTicks >= minSpreadTicks && Math.abs(inventory) < maxInventory) {
+                if (inventory === 0 && activeOrders.length === 0) {
+                    placeMakerOrder('buy', bidPrice, currentTime);
+                } else if (inventory > 0 && !hasActiveOrder('sell')) {
+                    cancelOrdersBySide('buy');
+                    placeMakerOrder('sell', askPrice, currentTime);
+                } else if (inventory < 0 && !hasActiveOrder('buy')) {
+                    cancelOrdersBySide('sell');
+                    placeMakerOrder('buy', bidPrice, currentTime);
+                }
+            } else if (spreadTicks < minSpreadTicks) {
+                cancelAllOrders('Spread muy pequeño');
+            }
+            
+            checkStopLoss(bidPrice, askPrice);
+            checkAdversePriceMovement(bidPrice, askPrice);
+        }
+
+        function placeMakerOrder(side, price, currentTime) {
+            const roundedPrice = Math.round(price / tickSize) * tickSize;
+            const order = {
+                id: Math.random().toString(36).substr(2, 9),
+                side: side,
+                price: roundedPrice,
+                size: 1,
+                timestamp: currentTime,
+                type: 'maker'
+            };
+            activeOrders.push(order);
+            lastOrderTime = currentTime;
+            logTrade(`Orden ${side.toUpperCase()} maker @ $${roundedPrice.toFixed(2)} (spread: ${currentSpread} ticks)`, side);
+        }
+
+        function checkMakerFills(bidPrice, askPrice) {
+            let filledIndices = [];
+            activeOrders.forEach((order, index) => {
+                let fillProbability = 0;
+                if (order.side === 'buy' && midPrice <= order.price) {
+                    const ticksInside = Math.max(0, (order.price - bidPrice) / tickSize);
+                    fillProbability = Math.min(0.9, 0.3 + (ticksInside * 0.2));
+                } else if (order.side === 'sell' && midPrice >= order.price) {
+                    const ticksInside = Math.max(0, (askPrice - order.price) / tickSize);
+                    fillProbability = Math.min(0.9, 0.3 + (ticksInside * 0.2));
+                }
+                if (Math.random() < fillProbability) {
+                    executeTrade(order, 'maker');
+                    filledIndices.push(index);
+                }
+            });
+            // Remove filled orders
+            activeOrders = activeOrders.filter((_, index) => !filledIndices.includes(index));
+        }
+        
+        function executeTrade(order, type) {
+            const feeBps = type === 'maker' ? makerFeeBps : takerFeeBps;
+            const feeAmount = (order.price * order.size * feeBps) / 10000;
+            let tradePnl = 0;
+
+            if (order.side === 'buy') {
+                updateAvgCostBasis('buy', order.price, order.size);
+                inventory += order.size;
+            } else {
+                if (inventory > 0) {
+                    tradePnl = (order.price - avgCostBasis) * order.size;
+                }
+                inventory -= order.size;
+            }
+            
+            totalPnl += tradePnl - feeAmount;
+
+            const trade = {
+                side: order.side,
+                price: order.price,
+                size: order.size,
+                fee: feeAmount,
+                type: type,
+                timestamp: Date.now(),
+                pnl: tradePnl - feeAmount,
+                inventory: inventory
+            };
+            tradeHistory.push(trade);
+
+            if (totalPnl > peakPnl) peakPnl = totalPnl;
+            const drawdown = peakPnl - totalPnl;
+            if (drawdown > maxDrawdown) maxDrawdown = drawdown;
+
+            logTrade(`FILL ${order.side.toUpperCase()} ${order.size}@$${order.price.toFixed(2)} (${type}) PnL: $${trade.pnl.toFixed(2)} Inv: ${inventory}`, order.side);
+        }
+
+        function checkOrderTimeouts(currentTime) {
+            activeOrders = activeOrders.filter(order => {
+                if (currentTime - order.timestamp > timeoutSeconds * 1000) {
+                    logTrade(`Cancelando orden ${order.side.toUpperCase()} por timeout`, 'cancel');
+                    return false;
+                }
+                return true;
+            });
+        }
+        
+        function checkStopLoss(bidPrice, askPrice) {
+            if (inventory > 0) {
+                const lossInTicks = (avgCostBasis - midPrice) / tickSize;
+                if (lossInTicks >= stopLossTicks) {
+                    executeMarketOrder('sell', bidPrice);
+                    logTrade(`STOP LOSS ejecutado - pérdida: ${lossInTicks.toFixed(1)} ticks`, 'sell');
+                }
+            } else if (inventory < 0) {
+                const lossInTicks = (midPrice - avgCostBasis) / tickSize;
+                if (lossInTicks >= stopLossTicks) {
+                    executeMarketOrder('buy', askPrice);
+                    logTrade(`STOP LOSS ejecutado - pérdida: ${lossInTicks.toFixed(1)} ticks`, 'buy');
+                }
+            }
+        }
+
+        function executeMarketOrder(side, price) {
+            const slippage = tickSize * 0.5;
+            const finalPrice = side === 'buy' ? price + slippage : price - slippage;
+            const order = {
+                side: side,
+                price: finalPrice,
+                size: Math.abs(inventory),
+                type: 'taker'
+            };
+            executeTrade(order, 'taker');
+        }
+
+        function hasActiveOrder(side) {
+            return activeOrders.some(order => order.side === side);
+        }
+        
+        function updateAvgCostBasis(side, price, size) {
+            if (side === 'buy') {
+                const currentTotalCost = avgCostBasis * inventory;
+                const newTotalCost = currentTotalCost + (price * size);
+                const newInventory = inventory + size;
+                avgCostBasis = newInventory > 0 ? newTotalCost / newInventory : 0;
+            }
+        }
+
+        function checkAdversePriceMovement(bidPrice, askPrice) {
+            activeOrders = activeOrders.filter(order => {
+                if (order.side === 'buy') {
+                    if (midPrice < order.price - tickSize) {
+                        logTrade(`Cancelando BUY por movimiento adverso`, 'cancel');
+                        return false;
+                    }
+                } else if (order.side === 'sell') {
+                    if (midPrice > order.price + tickSize) {
+                        logTrade(`Cancelando SELL por movimiento adverso`, 'cancel');
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+        function cancelOrdersBySide(side) {
+            activeOrders = activeOrders.filter(order => {
+                if (order.side === side) {
+                    logTrade(`Cancelando orden ${side.toUpperCase()} @ $${order.price.toFixed(2)}`, 'cancel');
+                    return false;
+                }
+                return true;
+            });
+        }
+        
+        function cancelAllOrders(reason) {
+            if (activeOrders.length > 0) {
+                logTrade(`Cancelando todas las órdenes: ${reason}`, 'cancel');
+                activeOrders = [];
+            }
+        }
+        
+        function updateStrategyParameters() {
+            minSpreadTicks = parseInt(document.getElementById('spread').value);
+            timeoutSeconds = parseInt(document.getElementById('timeout').value);
+            makerFeeBps = parseInt(document.getElementById('makerFee').value);
+            takerFeeBps = parseInt(document.getElementById('takerFee').value);
+        }
+        
+        function updateOrderBook(bidPrice, askPrice) {
+            document.getElementById('bidLevel').textContent = `BID: $${bidPrice.toFixed(2)} (${Math.floor(Math.random() * 20) + 5})`;
+            document.getElementById('askLevel').textContent = `ASK: $${askPrice.toFixed(2)} (${Math.floor(Math.random() * 20) + 5})`;
+        }
+
+        function updateSpreadIndicator() {
+            const indicator = document.getElementById('spreadIndicator');
+            if (currentSpread >= minSpreadTicks) {
+                indicator.className = 'spread-indicator spread-good';
+                indicator.textContent = `Spread: ${currentSpread} ticks - Operable ✓`;
+            } else {
+                indicator.className = 'spread-indicator spread-bad';
+                indicator.textContent = `Spread: ${currentSpread} ticks - Muy estrecho ✗`;
+            }
+        }
+
+        function updateChart() {
+            const now = new Date().toLocaleTimeString();
+            timeLabels.push(now);
+            priceHistory.push(midPrice);
+            pnlHistory.push(totalPnl);
+
+            if (timeLabels.length > 100) {
+                timeLabels.shift();
+                priceHistory.shift();
+                pnlHistory.shift();
+            }
+
+            chart.data.labels = timeLabels;
+            chart.data.datasets[0].data = priceHistory;
+            chart.data.datasets[1].data = pnlHistory;
+            chart.update('none');
+        }
+
+        function updateMetrics() {
+            const pnlElement = document.getElementById('totalPnl');
+            pnlElement.textContent = `$${totalPnl.toFixed(2)}`;
+            pnlElement.className = `metric-value ${totalPnl > 0 ? 'positive' : totalPnl < 0 ? 'negative' : 'neutral'}`;
+
+            document.getElementById('totalTrades').textContent = tradeHistory.length;
+
+            const winningTrades = tradeHistory.filter(t => t.pnl > 0).length;
+            const closedTrades = tradeHistory.filter(t => t.side === 'sell'); // Simple assumption for hit rate
+            const hitRate = closedTrades.length > 0 ? (winningTrades / closedTrades.length * 100).toFixed(1) : 0;
+            document.getElementById('hitRate').textContent = `${hitRate}%`;
+
+            const sharpe = calculateSharpe();
+            document.getElementById('sharpeRatio').textContent = sharpe.toFixed(2);
+            document.getElementById('maxDrawdown').textContent = `$${maxDrawdown.toFixed(2)}`;
+            const expectancy = tradeHistory.length > 0 ? (totalPnl / tradeHistory.length) : 0;
+            document.getElementById('expectancy').textContent = `$${expectancy.toFixed(2)}`;
+        }
+
+        function calculateSharpe() {
+            if (pnlHistory.length < 2) return 0;
+            const returns = [];
+            for (let i = 1; i < pnlHistory.length; i++) {
+                returns.push(pnlHistory[i] - pnlHistory[i - 1]);
+            }
+            if(returns.length === 0) return 0;
+
+            const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+            const std = Math.sqrt(returns.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / returns.length);
+            return std === 0 ? 0 : (mean / std) * Math.sqrt(252 * 24 * 60 * 6); // Anualizado para ticks de 100ms
+        }
+
+        function updatePositionInfo() {
+            // "Position" podría representar la posición abierta (long/short), aquí usamos el inventario.
+            document.getElementById('position').textContent = inventory > 0 ? 'LONG' : inventory < 0 ? 'SHORT' : 'FLAT';
+            document.getElementById('inventory').textContent = inventory;
+        }
+
+        function updateControls() {
+            updateStrategyParameters();
+        }
+
+        function logTrade(message, type) {
+            const logContainer = document.getElementById('tradeLog');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+
+            while (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glosario de Scalping en Criptomonedas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #16a085 0%, #f4d03f 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #16a085;
+      --accent-secondary: #f39c12;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1abc9c;
+      --accent-secondary: #f1c40f;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); margin-bottom: 1.5rem; }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 12000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content h4:first-of-type { margin-top: 0; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content a { color: var(--accent-primary); text-decoration: none; transition: var(--transition); }
+    .topic-content a:hover { color: var(--accent-secondary); text-decoration: underline; }
+    #glossary-index-list {
+        columns: 3;
+        -webkit-columns: 3;
+        -moz-columns: 3;
+        list-style-type: none;
+        padding-left: 10px;
+    }
+    #glossary-index-list li { margin-bottom: 0.75rem; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Glosario Fundamental del Scalping</h1>
+      <p class="subtitle">Conceptos Clave para el Trading de Alta Frecuencia</p>
+    </header>
+
+    <div class="topic-card open">
+        <div class="topic-header" style="cursor: default;"><span class="topic-title">Índice de Términos</span></div>
+        <div class="topic-content">
+            <ul id="glossary-index-list">
+                <li><a href="#term-apalancamiento">Apalancamiento</a></li>
+                <li><a href="#term-ask">Ask</a></li>
+                <li><a href="#term-bid">Bid</a></li>
+                <li><a href="#term-bot">Bot de Trading</a></li>
+                <li><a href="#term-comisiones">Comisiones</a></li>
+                <li><a href="#term-flujo">Flujo de Órdenes</a></li>
+                <li><a href="#term-grafico-ticks">Gráfico de Ticks</a></li>
+                <li><a href="#term-libro-ordenes">Libro de Órdenes</a></li>
+                <li><a href="#term-liquidacion">Liquidación</a></li>
+                <li><a href="#term-liquidez">Liquidez</a></li>
+                <li><a href="#term-maker">Maker</a></li>
+                <li><a href="#term-marco-temporal">Marco Temporal</a></li>
+                <li><a href="#term-ratio">Ratio Riesgo/Beneficio</a></li>
+                <li><a href="#term-slippage">Slippage</a></li>
+                <li><a href="#term-spread">Spread</a></li>
+                <li><a href="#term-stoploss">Stop Loss</a></li>
+                <li><a href="#term-taker">Taker</a></li>
+                <li><a href="#term-hft">Trading de Alta Frecuencia</a></li>
+                <li><a href="#term-vwap">VWAP</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="lesson-container">
+        
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Términos: A - B</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="term-apalancamiento">Apalancamiento (Leverage)</h4>
+                <p><strong>Definición:</strong> Es un préstamo que te concede el exchange para que puedas abrir una posición de mayor tamaño que tu capital real. Se expresa como un multiplicador (x5, x10, x50).</p>
+                <p><strong>En Scalping:</strong> Es la herramienta que permite que una micro-ganancia (ej. 0.2%) se convierta en una ganancia significativa sobre tu capital (ej. con x10, se convierte en un 2%). Es una espada de doble filo: así como magnifica las ganancias, también magnifica las pérdidas, acercando peligrosamente el precio de liquidación.</p>
+
+                <h4 id="term-ask">Ask (Precio de Oferta o Venta)</h4>
+                <p><strong>Definición:</strong> Es el precio más bajo al que un vendedor está dispuesto a vender un activo en un momento determinado. Es el precio que pagas si quieres comprar "ya mismo" (con una orden a mercado).</p>
+                <p><strong>En Scalping:</strong> Es el "techo" inmediato del precio. Los scalpers que buscan capturar el spread colocan su orden de venta (Take Profit) en el nivel del Ask o ligeramente por debajo para asegurar una salida rápida.</p>
+
+                <h4 id="term-bid">Bid (Precio de Demanda o Compra)</h4>
+                <p><strong>Definición:</strong> Es el precio más alto que un comprador está dispuesto a pagar por un activo en un momento dado. Es el precio que recibes si quieres vender "ya mismo".</p>
+                <p><strong>En Scalping:</strong> Es el "suelo" inmediato del precio. Los scalpers colocan su orden de compra (entrada) en el nivel del Bid para intentar comprar al precio más bajo posible en ese instante.</p>
+
+                <h4 id="term-bot">Bot de Trading</h4>
+                <p><strong>Definición:</strong> Un programa informático (software) diseñado para ejecutar una estrategia de trading de forma automática, sin intervención humana.</p>
+                <p><strong>En Scalping:</strong> Debido a la necesidad de velocidad y disciplina extrema, los bots son cruciales. Pueden analizar datos, tomar decisiones y ejecutar órdenes en milisegundos, superando cualquier capacidad humana y operando 24/7 sin fatiga ni emociones.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Términos: C - G</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="term-comisiones">Comisiones (Fees)</h4>
+                <p><strong>Definición:</strong> El costo que cobra el exchange por facilitar cada operación de compra o venta. Se distinguen las comisiones Maker y Taker.</p>
+                <p><strong>En Scalping:</strong> Son el enemigo número uno. Como las ganancias por operación son mínimas, unas comisiones altas pueden hacer que una estrategia sea perdedora aunque tenga una alta tasa de aciertos. Elegir un exchange con bajas comisiones es vital.</p>
+                
+                <h4 id="term-flujo">Flujo de Órdenes (Order Flow)</h4>
+                <p><strong>Definición:</strong> El análisis en tiempo real de las órdenes de compra y venta que se están ejecutando en el mercado. Permite ver si la presión compradora o vendedora es más agresiva.</p>
+                <p><strong>En Scalping:</strong> Es una técnica avanzada que ayuda a "sentir" la intención del mercado a muy corto plazo. Ver un gran volumen de compras a mercado puede anticipar una micro-subida de la que el scalper puede aprovecharse.</p>
+
+                <h4 id="term-grafico-ticks">Gráfico de Ticks (Tick Chart)</h4>
+                <p><strong>Definición:</strong> Un tipo de gráfico donde cada "vela" o "barra" no representa un intervalo de tiempo (como 1 minuto), sino un número determinado de transacciones (ej. cada 1000 operaciones).</p>
+                <p><strong>En Scalping:</strong> Muestra la velocidad y la intensidad real de la actividad del mercado. En momentos de alta actividad, el gráfico se moverá muy rápido, y en momentos de calma, se ralentizará, dando una visión más pura del momentum que un gráfico basado en tiempo.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Términos: L - M</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="term-libro-ordenes">Libro de Órdenes (Order Book)</h4>
+                <p><strong>Definición:</strong> Una lista electrónica en tiempo real de todas las órdenes de compra (Bids) y venta (Asks) pendientes para un activo, organizadas por nivel de precio.</p>
+                <p><strong>En Scalping:</strong> Es el mapa del campo de batalla. Permite al scalper ver dónde se acumula la liquidez ("paredes" de compra o venta) que pueden actuar como soportes o resistencias a muy corto plazo.</p>
+
+                <h4 id="term-liquidacion">Liquidación (Liquidation)</h4>
+                <p><strong>Definición:</strong> El cierre forzoso y automático de una posición apalancada por parte del exchange. Ocurre cuando tus pérdidas alcanzan el valor del margen (tu capital inicial), provocando la pérdida total de ese capital.</p>
+                <p><strong>En Scalping:</strong> Es el riesgo final del uso de apalancamiento. Un movimiento brusco en contra, incluso si es muy pequeño pero el apalancamiento es alto, puede llevar a la liquidación antes de que el stop loss tenga tiempo de ejecutarse. Es el "game over" de una operación.</p>
+
+                <h4 id="term-liquidez">Liquidez (Liquidity)</h4>
+                <p><strong>Definición:</strong> La facilidad con la que se puede comprar o vender un activo sin afectar significativamente su precio. Un mercado líquido tiene muchos compradores y vendedores activos.</p>
+                <p><strong>En Scalping:</strong> Es el oxígeno del scalper. Sin alta liquidez, no se puede entrar y salir rápidamente, los spreads son amplios y el slippage es alto, haciendo imposible la estrategia.</p>
+
+                <h4 id="term-maker">Maker (Creador de Mercado)</h4>
+                <p><strong>Definición:</strong> Un trader que coloca una orden límite (por ejemplo, "comprar a $50,000" cuando el precio está a $50,010) que no se ejecuta de inmediato, sino que se añade al libro de órdenes. Estas órdenes "crean" o "añaden" liquidez al mercado.</p>
+                <p><strong>En Scalping:</strong> Los scalpers a menudo actúan como makers para beneficiarse de comisiones más bajas (los exchanges incentivan a los makers).</p>
+                
+                <h4 id="term-marco-temporal">Marco Temporal (Timeframe)</h4>
+                <p><strong>Definición:</strong> El intervalo de tiempo que representa cada vela o barra en un gráfico de precios (ej. 1 minuto, 5 minutos, 1 hora, 1 día).</p>
+                <p><strong>En Scalping:</strong> Se utilizan los marcos temporales más cortos posibles, como los de 1 y 5 minutos, para analizar las micro-fluctuaciones del precio.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Términos: R - S</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="term-ratio">Ratio Riesgo/Beneficio (Risk/Reward Ratio)</h4>
+                <p><strong>Definición:</strong> La relación entre la cantidad de dinero que estás dispuesto a perder en una operación (riesgo, definido por tu stop loss) y la cantidad que esperas ganar (beneficio, definido por tu take profit).</p>
+                <p><strong>En Scalping:</strong> A menudo es de 1:1, lo que significa que arriesgas lo mismo que buscas ganar. Para ser rentable, esto exige tener una tasa de aciertos superior al 50%.</p>
+
+                <h4 id="term-slippage">Slippage (Deslizamiento)</h4>
+                <p><strong>Definición:</strong> La diferencia entre el precio al que esperas que se ejecute tu orden y el precio al que realmente se ejecuta. Ocurre principalmente con órdenes a mercado en momentos de alta volatilidad o baja liquidez.</p>
+                <p><strong>En Scalping:</strong> Un pequeño slippage puede eliminar por completo una pequeña ganancia. Es un costo "invisible" que debe ser minimizado operando en mercados muy líquidos.</p>
+
+                <h4 id="term-spread">Spread (Diferencial)</h4>
+                <p><strong>Definición:</strong> La diferencia entre el precio de Ask (venta) y el precio de Bid (compra). Es el costo implícito de una operación y la ganancia para los creadores de mercado.</p>
+                <p><strong>En Scalping:</strong> Es el primer obstáculo a superar. Tu operación debe moverse a tu favor al menos por el valor del spread solo para empezar a ser rentable. Una de las estrategias de scalping consiste precisamente en "capturar" este diferencial.</p>
+
+                <h4 id="term-stoploss">Stop Loss</h4>
+                <p><strong>Definición:</strong> Una orden automática que se coloca para cerrar una posición perdedora a un precio predeterminado, con el fin de limitar las pérdidas.</p>
+                <p><strong>En Scalping:</strong> Es una herramienta de supervivencia obligatoria y no negociable. Se coloca de forma extremadamente ajustada al precio de entrada para asegurar que una sola mala operación no anule las ganancias de muchas otras.</p>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <div class="topic-header"><span class="topic-title">Términos: T - V</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4 id="term-taker">Taker (Tomador de Mercado)</h4>
+                <p><strong>Definición:</strong> Un trader que coloca una orden que se ejecuta de inmediato al mejor precio disponible en el mercado (una orden a mercado). Estas órdenes "toman" o "quitan" liquidez del libro de órdenes.</p>
+                <p><strong>En Scalping:</strong> Se usan para entrar o salir de una posición de forma urgente (por ejemplo, para ejecutar un stop loss o aprovechar un momentum). Generalmente, las comisiones de taker son más altas que las de maker.</p>
+
+                <h4 id="term-hft">Trading de Alta Frecuencia (HFT - High-Frequency Trading)</h4>
+                <p><strong>Definición:</strong> Una forma de trading algorítmico que utiliza potentes ordenadores y algoritmos complejos para ejecutar un número masivo de operaciones en fracciones de segundo.</p>
+                <p><strong>En Scalping:</strong> Es la versión institucional y ultra-tecnológica del scalping. Los bots de HFT compiten por ventajas de milisegundos y son los principales actores en los mercados más líquidos.</p>
+
+                <h4 id="term-vwap">VWAP (Precio Medio Ponderado por Volumen)</h4>
+                <p><strong>Definición:</strong> Un indicador técnico que muestra el precio promedio de un activo durante una sesión de trading, ponderado por el volumen de operaciones.</p>
+                <p><strong>En Scalping:</strong> Actúa como una "línea de gravedad" o un punto de referencia dinámico. Los scalpers lo usan para determinar el sesgo intradía: operar en largo por encima del VWAP y en corto por debajo puede ofrecer una ventaja estadística.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        // --- THEME TOGGLE FUNCTIONALITY ---
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        // --- ACCORDION FUNCTIONALITY ---
+        document.querySelectorAll('.lesson-container .topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+
+        // --- CLICKABLE GLOSSARY INDEX ---
+        const indexLinks = document.querySelectorAll('#glossary-index-list a');
+        indexLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    const parentCard = targetElement.closest('.topic-card');
+                    if (parentCard && !parentCard.classList.contains('open')) {
+                        parentCard.classList.add('open');
+                    }
+                }
+            });
+        });
+
+    })();
+  </script>
+</body>
+</html>

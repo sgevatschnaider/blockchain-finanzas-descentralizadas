@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teoría del Scalping en Criptomonedas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #16a085 0%, #f4d03f 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #16a085;
+      --accent-secondary: #f39c12;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1abc9c;
+      --accent-secondary: #f1c40f;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); margin-bottom: 1.5rem; }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content h4:first-of-type { margin-top: 0; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content a { color: var(--accent-primary); text-decoration: none; transition: var(--transition); }
+    .topic-content a:hover { color: var(--accent-secondary); text-decoration: underline; }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'Inter', sans-serif; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Teoría del Scalping en Criptomonedas</h1>
+      <p class="subtitle">Una Guía de Alta Frecuencia para los Mercados Más Volátiles</p>
+    </header>
+
+    <div class="topic-card open">
+        <div class="topic-header" style="cursor: default;"><span class="topic-title">Índice del Contenido</span></div>
+        <div class="topic-content">
+            <ul id="table-of-contents" style="list-style-type: none; padding-left: 5px;">
+                <li><strong><a href="#section-1">1. Introducción al Scalping</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>1.1. Definición de scalping</li>
+                        <li>1.2. Diferencias con otros estilos de trading</li>
+                        <li>1.3. Historia y origen del scalping</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-2">2. Fundamentos del Mercado</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>2.1. Concepto de liquidez</li>
+                        <li>2.2. Bid, Ask y Spread</li>
+                        <li>2.3. Microestructura del mercado</li>
+                        <li>2.4. Slippage y comisiones</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-3">3. Mecánica del Scalping</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>3.1. Marco temporal típico</li>
+                        <li>3.2. Objetivo de beneficios</li>
+                        <li>3.3. Número de operaciones y frecuencia</li>
+                        <li>3.4. Estrategias principales</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-4">4. Herramientas y Técnicas</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>4.1. Gráficos y ticks</li>
+                        <li>4.2. Indicadores usados</li>
+                        <li>4.3. Tape reading y profundidad de mercado</li>
+                        <li>4.4. Uso de bots y algoritmos</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-5">5. Gestión de Riesgo</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>5.1. Stop Loss y Take Profit</li>
+                        <li>5.2. Ratio riesgo/beneficio</li>
+                        <li>5.3. Apalancamiento</li>
+                        <li>5.4. Liquidación en exchanges</li>
+                        <li>5.5. Costos ocultos: fees y funding</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-6">6. Psicología del Scalping</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>6.1. Disciplina extrema</li>
+                        <li>6.2. Control emocional</li>
+                        <li>6.3. Fatiga mental</li>
+                        <li>6.4. Trader manual vs. algorítmico</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-7">7. Ventajas y Desventajas</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>7.1. Ventajas</li>
+                        <li>7.2. Desventajas</li>
+                        <li>7.3. Perfil de trader ideal</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-8">8. Ejemplos y Casos Prácticos</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>8.1. Ejemplo numérico de trade</li>
+                        <li>8.2. Impacto de fees y slippage</li>
+                        <li>8.3. Comparación manual vs. bot</li>
+                    </ul>
+                </li>
+                <li><strong><a href="#section-9">9. Conclusiones</a></strong>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>9.1. ¿Cuándo aplicar scalping?</li>
+                        <li>9.2. Scalping en cripto vs. tradicional</li>
+                        <li>9.3. Futuro del scalping</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="lesson-container">
+        
+        <div id="section-1" class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Introducción al Scalping</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>1.1. Definición de scalping</h4>
+                <p>El scalping es una estrategia de trading de alta frecuencia que se enfoca en obtener beneficios de pequeños movimientos en los precios de los activos. A diferencia de otras metodologías, un scalper no busca grandes ganancias en una sola operación, sino que acumula una multitud de pequeñas ganancias a lo largo de una sesión de trading. Las posiciones se abren y cierran en cuestión de minutos o incluso segundos, aprovechando la volatilidad y las fluctuaciones constantes del mercado.</p>
+                <p><strong>Analogía clave:</strong> Piensa en el scalper como alguien que "araña la superficie" del mercado, extrayendo pequeños trozos de beneficio de forma constante. En lugar de esperar la "ola perfecta" como un surfista (swing trader), el scalper se beneficia de las innumerables pequeñas ondulaciones que rompen en la orilla.</p>
+                
+                <h4>1.2. Diferencias con otros estilos de trading</h4>
+                <p>Es crucial distinguir el scalping de otras estrategias para comprender su naturaleza única. Cada estilo opera en un horizonte temporal y con objetivos fundamentalmente distintos.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Comparativa de Estilos de Trading</div>
+                    <div class="diagram-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                        <div class="diagram-box"><strong>Scalping</strong><span><strong>Duración:</strong> Segundos/Minutos. <strong>Frecuencia:</strong> Muy Alta. <strong>Objetivo:</strong> Micro-movimientos. <strong>Análisis:</strong> Técnico (5m/1m/Ticks).</span></div>
+                        <div class="diagram-box"><strong>Day Trading</strong><span><strong>Duración:</strong> Minutos/Horas. <strong>Frecuencia:</strong> Moderada. <strong>Objetivo:</strong> Tendencia intradía. <strong>Análisis:</strong> Técnico (1h/15m).</span></div>
+                        <div class="diagram-box"><strong>Swing Trading</strong><span><strong>Duración:</strong> Días/Semanas. <strong>Frecuencia:</strong> Baja. <strong>Objetivo:</strong> Capturar "swings". <strong>Análisis:</strong> Técnico (Diario/4h).</span></div>
+                        <div class="diagram-box"><strong>HODL</strong><span><strong>Duración:</strong> Meses/Años. <strong>Frecuencia:</strong> Muy Baja. <strong>Objetivo:</strong> Gran revalorización. <strong>Análisis:</strong> Fundamental.</span></div>
+                    </div>
+                </div>
+
+                <h4>1.3. Historia y origen del scalping</h4>
+                <p>El scalping no es nuevo; sus raíces se encuentran en los mercados tradicionales. Originalmente, los "scalpers" eran traders en el piso de la bolsa (pit traders) que capitalizaban el spread (diferencia entre el precio de compra y venta). Con la llegada del trading electrónico, esta práctica evolucionó hacia el Trading de Alta Frecuencia (HFT), donde algoritmos complejos realizan scalping a una velocidad inalcanzable para un ser humano. En el mercado de criptomonedas, el scalping encontró un terreno fértil debido a su alta volatilidad y operación 24/7.</p>
+            </div>
+        </div>
+
+        <div id="section-2" class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Fundamentos del Mercado</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>2.1. Liquidez: el oxígeno del scalper</h4>
+                <p>La liquidez es la capacidad de un mercado para absorber órdenes grandes sin afectar el precio. Para un scalper, es vital porque garantiza una ejecución rápida de las órdenes y mantiene los spreads (diferenciales de precio) ajustados. Operar en un mercado ilíquido es desastroso, ya que los spreads amplios y el deslizamiento (slippage) pueden anular cualquier beneficio potencial.</p>
+
+                <h4>2.2. Bid, Ask y Spread: el terreno de juego</h4>
+                <p>Estos tres conceptos son el núcleo de la microestructura del mercado:</p>
+                <ul>
+                    <li><strong>Bid (Precio de Demanda):</strong> El precio más alto que un comprador está dispuesto a pagar.</li>
+                    <li><strong>Ask (Precio de Oferta):</strong> El precio más bajo que un vendedor está dispuesto a aceptar.</li>
+                    <li><strong>Spread (Diferencial):</strong> La diferencia entre el Ask y el Bid. Este es el primer obstáculo que un scalper debe superar para ser rentable.</li>
+                </ul>
+
+                <h4>2.3. Microestructura del mercado</h4>
+                <p>Un scalper debe entender la mecánica interna del mercado:</p>
+                <ul>
+                    <li><strong>Libro de Órdenes (Order Book):</strong> Una lista en tiempo real de todas las órdenes de compra (bids) y venta (asks).</li>
+                    <li><strong>Profundidad del Mercado (Market Depth):</strong> El volumen de órdenes en cada nivel de precio. Una "pared" de compra puede actuar como soporte a corto plazo.</li>
+                    <li><strong>Cola (Queue):</strong> Las órdenes a un mismo precio se ejecutan en el orden en que llegaron (FIFO).</li>
+                </ul>
+
+                <h4>2.4. Los enemigos invisibles del scalper</h4>
+                <p>Dos factores pueden drenar la rentabilidad de un scalper de forma silenciosa pero constante.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">Principales Amenazas a la Rentabilidad</div>
+                    <div class="diagram-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                        <div class="diagram-box"><strong>Slippage (Deslizamiento)</strong><span>Es la diferencia entre el precio esperado de una orden y el precio real de ejecución. Ocurre en mercados volátiles o con baja liquidez.</span></div>
+                        <div class="diagram-box"><strong>Comisiones (Fees)</strong><span>Los costos del exchange por cada operación. Dado el alto volumen de trades, las comisiones pueden acumularse y consumir gran parte de las ganancias.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="section-3" class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. Mecánica del Scalping</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>3.1. Marco temporal típico (1s – 5m)</h4>
+                <p>Los scalpers operan en los marcos temporales más bajos disponibles. Los gráficos más comunes son los de 1 y 5 minutos. Traders avanzados pueden usar gráficos de ticks (basados en número de transacciones) para una visión más pura de la actividad del mercado.</p>
+
+                <h4>3.2. Objetivo de beneficios: microcapturas</h4>
+                <p>El objetivo de un scalper no es predecir la dirección general del mercado, sino capitalizar las pequeñas fluctuaciones. La ganancia objetivo por operación es mínima, a menudo entre el 0.1% y el 0.5%. La rentabilidad proviene de la suma de docenas de estas pequeñas ganancias.</p>
+                
+                <h4>3.3. Número de operaciones y frecuencia</h4>
+                <p>La característica definitoria del scalping es la alta frecuencia. Un scalper manual puede ejecutar entre 30 y 100 operaciones en una sesión, mientras que los bots algorítmicos pueden realizar miles.</p>
+
+                <h4>3.4. Estrategias principales</h4>
+                <ul>
+                    <li><strong>Captura de Spread (Maker-Taker):</strong> Consiste en colocar órdenes límite en el Bid y el Ask para ganar la diferencia. Es la forma más pura de scalping.</li>
+                    <li><strong>Scalping por Momentum:</strong> Aprovecha pequeños estallidos de volatilidad, entrando en la dirección del movimiento y saliendo rápidamente antes de que el impulso se agote.</li>
+                    <li><strong>Scalping en Rango Lateral:</strong> En mercados laterales, se compra sistemáticamente en el soporte y se vende en la resistencia del rango.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="section-4" class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. Herramientas y Técnicas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>4.1. Gráficos de velas en 1m y ticks</h4>
+                <p>La herramienta principal es el gráfico de precios. Los scalpers prefieren gráficos de velas de 1 y 5 minutos. Los gráficos de ticks son aún más granulares, ya que forman una nueva barra después de un número específico de operaciones, mostrando la velocidad real de la actividad.</p>
+                
+                <h4>4.2. Indicadores más usados</h4>
+                <p>Aunque algunos operan solo con la acción del precio, muchos utilizan indicadores técnicos para confirmar decisiones:</p>
+                <ul>
+                    <li><strong>Medias Móviles Exponenciales (EMA):</strong> EMAs rápidas (ej. 9 y 21) para identificar la micro-tendencia.</li>
+                    <li><strong>Índice de Fuerza Relativa (RSI):</strong> Para identificar condiciones de sobrecompra o sobreventa a muy corto plazo.</li>
+                    <li><strong>VWAP (Precio Medio Ponderado por Volumen):</strong> Un nivel de referencia dinámico crucial; el precio por encima del VWAP se considera alcista a corto plazo, y por debajo, bajista.</li>
+                    <li><strong>Order Flow (Flujo de Órdenes):</strong> Herramientas avanzadas que visualizan la presión de compra o venta agresiva en tiempo real.</li>
+                </ul>
+
+                <h4>4.3. Técnicas avanzadas</h4>
+                <p><strong>Tape Reading (Lectura de Cinta):</strong> Es el arte de analizar el flujo de operaciones ejecutadas en tiempo real para medir el sentimiento inmediato del mercado. <strong>Profundidad de Mercado (DOM / Level II):</strong> Es una visualización del libro de órdenes para identificar niveles de soporte y resistencia a corto plazo.</p>
+
+                <h4>4.4. Uso de bots y trading algorítmico</h4>
+                <p>Debido a la velocidad y concentración que requiere, muchos scalpers utilizan bots. Estos programas pueden ejecutar estrategias automáticamente, reaccionando al mercado en milisegundos, una velocidad imposible para un ser humano.</p>
+            </div>
+        </div>
+        
+        <div id="section-5" class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Gestión de Riesgo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>5.1. Stop Loss y Take Profit ultra-ajustados</h4>
+                <p>En el scalping, la gestión del riesgo es primordial. Dado que las ganancias son pequeñas, las pérdidas también deben serlo. Se utilizan órdenes de stop loss y take profit muy ajustadas en cada operación para eliminar la duda y la codicia.</p>
+
+                <h4>5.2. Ratio riesgo/beneficio</h4>
+                <p>A diferencia de otras estrategias, en scalping el ratio riesgo/beneficio suele ser cercano a 1:1. Esto se compensa con una alta tasa de aciertos (win rate). Un scalper exitoso necesita ganar más del 50-60% de sus operaciones para ser rentable.</p>
+
+                <h4>5.3. Apalancamiento: ventajas y riesgos</h4>
+                <p>El apalancamiento permite abrir posiciones más grandes que el capital inicial. Es una herramienta de doble filo que magnifica tanto las ganancias como las pérdidas.</p>
+                <div class="diagram-container">
+                    <div class="diagram-title">El Doble Filo del Apalancamiento</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Ventaja: Magnifica Ganancias</strong><span>Un pequeño movimiento del 0.2% con apalancamiento 10x se convierte en una ganancia del 2% sobre el capital invertido.</span></div>
+                        <div class="diagram-box"><strong>Riesgo: Magnifica Pérdidas</strong><span>Un pequeño movimiento en contra puede llevar a pérdidas sustanciales o a la liquidación de la cuenta.</span></div>
+                    </div>
+                </div>
+
+                <h4>5.4. Liquidación en exchanges de futuros</h4>
+                <p>La liquidación es el cierre forzoso de una posición apalancada por parte del exchange. Ocurre cuando las pérdidas se acercan al valor del margen inicial. Con alto apalancamiento, el precio de liquidación está muy cerca del precio de entrada, lo que no deja margen para el error.</p>
+
+                <h4>5.5. Costos ocultos: fees y funding</h4>
+                <p>Además de las comisiones (fees), los traders de futuros perpetuos deben considerar el "funding rate". Es un pago periódico que se intercambia entre posiciones largas y cortas. Dependiendo de la operación, puede sumar un costo adicional.</p>
+            </div>
+        </div>
+
+        <div id="section-6" class="topic-card">
+            <div class="topic-header"><span class="topic-title">6. Psicología del Scalping</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>6.1. La disciplina extrema</h4>
+                <p>El scalping no es una actividad reflexiva, es ejecutiva. Requiere seguir un plan de trading con disciplina robótica, sin dudar. La vacilación de unos segundos puede convertir una operación ganadora en perdedora.</p>
+                
+                <h4>6.2. Control emocional bajo presión</h4>
+                <p>Es una de las formas más estresantes de trading. El trader debe manejar emociones como el miedo y la codicia. Dejarse llevar por ellas conduce a errores como el "revenge trading" (intentar recuperar una pérdida con operaciones impulsivas), que es la forma más rápida de destruir una cuenta.</p>
+
+                <h4>6.3. Fatiga mental y riesgos</h4>
+                <p>Estar concentrado en gráficos de 1 minuto durante horas es mentalmente agotador. La fatiga lleva a cometer errores. Los scalpers manuales suelen operar en sesiones cortas y enfocadas para mantener un rendimiento mental óptimo.</p>
+                
+                <h4>6.4. Trader Manual vs. Trader Algorítmico</h4>
+                <div class="diagram-container">
+                    <div class="diagram-title">Comparativa de Enfoques de Scalping</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Trader Manual</strong><span><strong>Ventaja:</strong> Flexibilidad y adaptación a condiciones cambiantes. <strong>Desventaja:</strong> Limitaciones físicas, fatiga y sesgos emocionales.</span></div>
+                        <div class="diagram-box"><strong>Trader Algorítmico (Bot)</strong><span><strong>Ventaja:</strong> Velocidad, disciplina 24/7 y ejecución sin emociones. <strong>Desventaja:</strong> Rigidez; puede fallar en condiciones para las que no fue programado.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-7" class="topic-card">
+            <div class="topic-header"><span class="topic-title">7. Ventajas y Desventajas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <div class="diagram-container">
+                    <div class="diagram-title">La Balanza del Scalping</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box" style="border-color: var(--accent-primary);">
+                            <strong>Ventajas</strong>
+                            <span>
+                                <ul style="list-style-position: inside; text-align: left; padding: 0;">
+                                    <li>Múltiples oportunidades diarias.</li>
+                                    <li>Acumulación rápida de beneficios.</li>
+                                    <li>Menor exposición a riesgos de mercado.</li>
+                                    <li>Funciona bien en mercados laterales.</li>
+                                </ul>
+                            </span>
+                        </div>
+                        <div class="diagram-box" style="border-color: var(--accent-secondary);">
+                            <strong>Desventajas</strong>
+                            <span>
+                                <ul style="list-style-position: inside; text-align: left; padding: 0;">
+                                    <li>Altos costos por comisiones.</li>
+                                    <li>Requiere extrema disciplina.</li>
+                                    <li>Muy estresante y agotador.</li>
+                                    <li>Sensible a la velocidad de la conexión.</li>
+                                </ul>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>7.3. Perfil de trader ideal para scalping</h4>
+                <p>El scalping no es para todos. Es adecuado para personas disciplinadas, que puedan tomar decisiones rápidas bajo presión y que tengan un profundo conocimiento del análisis técnico y la microestructura del mercado.</p>
+            </div>
+        </div>
+
+        <div id="section-8" class="topic-card">
+            <div class="topic-header"><span class="topic-title">8. Ejemplos y Casos Prácticos</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>8.1. Ejemplo numérico de un trade</h4>
+                <p>Supongamos que el precio de Bitcoin es de $60,000.</p>
+                <ul>
+                    <li><strong>Operación sin apalancamiento:</strong> Compras 0.1 BTC ($6,000). Vendes a $60,060 (un aumento del 0.1%). Tu ganancia es de <strong>$6</strong>.</li>
+                    <li><strong>Operación con apalancamiento 10x:</strong> Usas $600 de tu capital como margen para abrir la misma posición de $6,000. La ganancia sigue siendo de $6, pero tu rentabilidad sobre el capital invertido es del <strong>1%</strong> ($6 / $600).</li>
+                </ul>
+                
+                <h4>8.2. Impacto de las comisiones (fees)</h4>
+                <p>Continuando el ejemplo con apalancamiento, supongamos una comisión del 0.05% por operación (taker fee).</p>
+                <ul>
+                    <li>Costo de entrada: 0.05% de $6,000 = $3</li>
+                    <li>Costo de salida: 0.05% de $6,006 = $3.003</li>
+                    <li><strong>Comisiones totales: $6.003</strong></li>
+                </ul>
+                <p><strong>Resultado Neto:</strong> $6 (Ganancia bruta) - $6.003 (Comisiones) = <strong>-$0.003 (Pérdida)</strong>. Este ejemplo demuestra cómo las comisiones, aunque parezcan pequeñas, son críticas en el scalping.</p>
+
+                <h4>8.3. Comparación: scalper manual vs. bot</h4>
+                <p>Imagina una pequeña ineficiencia de precios que dura solo 5 segundos. Un <strong>scalper manual</strong> podría ver la oportunidad, pero para cuando analiza y ejecuta la orden, esta ya ha desaparecido. Un <strong>bot de scalping</strong> detecta y ejecuta la operación en milisegundos, capturando el beneficio antes de que el mercado se corrija.</p>
+            </div>
+        </div>
+
+        <div id="section-9" class="topic-card">
+            <div class="topic-header"><span class="topic-title">9. Conclusiones</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>9.1. ¿Cuándo tiene sentido aplicar scalping?</h4>
+                <p>El scalping es más efectivo en mercados que presentan alta liquidez, volatilidad constante y, sobre todo, bajas comisiones de transacción. Es un requisito indispensable para la rentabilidad a largo plazo.</p>
+
+                <h4>9.2. Scalping en criptomonedas vs. mercados tradicionales</h4>
+                <p>Las <strong>criptomonedas</strong> ofrecen la ventaja de ser un mercado 24/7 con alta volatilidad, ideal para el scalping. Sin embargo, las comisiones pueden ser más altas. Los <strong>mercados tradicionales</strong> (Forex, Futuros) suelen tener mayor liquidez y spreads más ajustados, pero operan en horarios fijos.</p>
+
+                <h4>9.3. El futuro del scalping</h4>
+                <p>El futuro del scalping es predominantemente algorítmico. La competencia se está desplazando hacia el campo tecnológico: la velocidad de ejecución (latencia), la calidad de los algoritmos y el acceso a datos de mercado de alta velocidad son las claves del éxito. Para los traders minoristas, la ventaja no radicará en competir en velocidad, sino en encontrar nichos de mercado o estrategias que los grandes fondos de HFT aún no explotan por completo.</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        // --- THEME TOGGLE FUNCTIONALITY ---
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        // --- ACCORDION FUNCTIONALITY ---
+        document.querySelectorAll('.lesson-container .topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+
+        // --- CLICKABLE INDEX FUNCTIONALITY ---
+        const indexLinks = document.querySelectorAll('#table-of-contents a');
+        indexLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const targetId = this.getAttribute('href');
+                const targetCard = document.querySelector(targetId);
+
+                if (targetCard && !targetCard.classList.contains('open')) {
+                    targetCard.classList.add('open');
+                }
+            });
+        });
+
+    })();
+  </script>
+</body>
+</html>

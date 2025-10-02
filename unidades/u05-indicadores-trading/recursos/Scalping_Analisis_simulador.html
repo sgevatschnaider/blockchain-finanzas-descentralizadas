@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis del Simulador de Scalping</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #16a085 0%, #f4d03f 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #16a085;
+      --accent-secondary: #f39c12;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #1abc9c;
+      --accent-secondary: #f1c40f;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); margin-bottom: 1.5rem; }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 12000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content h4:first-of-type { margin-top: 0; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+    .topic-content a { color: var(--accent-primary); text-decoration: none; transition: var(--transition); }
+    .topic-content a:hover { color: var(--accent-secondary); text-decoration: underline; }
+    #index-list { list-style-type: none; padding-left: 10px; }
+    #index-list li { margin-bottom: 0.75rem; }
+    
+    .diagram-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'Inter', sans-serif; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1.2rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: flex-start; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .diagram-box span { font-size: 0.85em; text-align: left; }
+    
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+  
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Análisis del Simulador de Scalping</h1>
+      <p class="subtitle">Desglosando las Reglas, Métricas y Resultados de una Estrategia Automatizada</p>
+    </header>
+
+    <div class="topic-card open">
+        <div class="topic-header" style="cursor: default;"><span class="topic-title">Índice de Secciones</span></div>
+        <div class="topic-content">
+            <ul id="index-list">
+                <li><a href="#params"><strong>1. Parámetros de la Simulación</strong> (Las Reglas del Juego)</a></li>
+                <li><a href="#metrics"><strong>2. Métricas en el Panel de Resultados</strong> (El Marcador del Partido)</a></li>
+                <li><a href="#graphics"><strong>3. Gráficos</strong> (La Repetición de la Jugada)</a></li>
+                <li><a href="#interpretation"><strong>4. Interpretación Global de la Simulación</strong> (El Diagnóstico)</a></li>
+                <li><a href="#analogy"><strong>5. Analogía Intuitiva Final</strong> (La Estrategia en Simple)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="lesson-container">
+        
+        <div id="params" class="topic-card open">
+            <div class="topic-header"><span class="topic-title">1. Parámetros de la Simulación (Las Reglas del Juego)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Estos valores definen el entorno del mercado y las reglas de la estrategia. Son las variables que puedes ajustar para ver cómo cambia el resultado.</p>
+                
+                <div class="diagram-container">
+                    <div class="diagram-title">Entorno del Mercado</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Tick size = 0.01</strong><span>Es el incremento mínimo de precio posible, los "centavos" del mercado. El precio solo puede moverse en múltiplos de este valor.</span></div>
+                        <div class="diagram-box"><strong>Volatilidad (σ) = 0.04</strong><span>Mide la magnitud del movimiento aleatorio del precio en cada instante. Un valor alto significa un mercado más "nervioso".</span></div>
+                        <div class="diagram-box"><strong>Salto de Precio</strong><span>Probabilidad del 0.1% en cada tick de que el precio dé un "salto" repentino de 5 ticks, simulando noticias o grandes órdenes.</span></div>
+                        <div class="diagram-box"><strong>Spread (min–max) = 1–3 ticks</strong><span>El diferencial (Ask - Bid) fluctúa aleatoriamente entre 1 y 3 ticks (0.01 y 0.03). Un spread más amplio es una mayor ganancia potencial.</span></div>
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Reglas de la Estrategia del Scalper</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Comisiones (Fees)</strong><span><strong>Maker: 0.01%</strong> (barata, al añadir liquidez). <br><strong>Taker: 0.05%</strong> (cara, al quitar liquidez). La diferencia es clave, ya que las salidas por stop son Taker y cuestan 5 veces más.</span></div>
+                        <div class="diagram-box"><strong>Slippage Taker = 1 tick</strong><span>Penalización por urgencia. Al usar una orden a mercado (Taker), el precio se mueve 1 tick en tu contra. Compras más caro, vendes más barato.</span></div>
+                        <div class="diagram-box"><strong>Stop Loss = 3 ticks</strong><span>Tu red de seguridad. Si compras y el precio cae 3 ticks, se vende automáticamente a mercado (orden Taker) para limitar la pérdida.</span></div>
+                        <div class="diagram-box"><strong>Prob. Fill Maker = 0.35</strong><span>Parámetro crucial. Solo tienes un 35% de probabilidad en cada tick de que tu orden pasiva se ejecute. Simula estar en la "cola" de órdenes.</span></div>
+                        <div class="diagram-box"><strong>Timeout Orden = 5 s</strong><span>Si una orden pasiva no se ejecuta en 5 segundos, se cancela automáticamente para evitar quedar expuesto a un precio que ya no es favorable.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="metrics" class="topic-card">
+            <div class="topic-header"><span class="topic-title">2. Métricas en el Panel de Resultados (El Marcador del Partido)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Estos datos te dicen cómo le está yendo a la estrategia en tiempo real.</p>
+                <h4>Posición</h4>
+                <p><strong>Valor: 1</strong>. Significa que la estrategia está "long" o "comprada", es decir, tiene en su poder una unidad del activo y espera que el precio suba para venderla. (0 sería neutral, -1 sería "short" o vendido).</p>
+                <h4>PNL (Realizado)</h4>
+                <p><strong>Valor: -0.41</strong>. "Profit and Loss" o Ganancia y Pérdida. Refleja el resultado acumulado de todas las operaciones ya cerradas. Un valor negativo indica que, hasta ahora, los costos (comisiones, slippage, stops) han sido mayores que las ganancias.</p>
+                <h4>Trades</h4>
+                <p><strong>Valor: 79</strong>. El número total de ejecuciones (compras y ventas). Un número alto en poco tiempo es la seña de identidad del scalping.</p>
+                <h4>Mid y Spread</h4>
+                <p><strong>Mid: 101.69, Spread: 3 ticks</strong>. Indican el precio medio actual del mercado y el diferencial actual entre el Ask y el Bid. En este momento, el spread está en su máximo configurado.</p>
+                <h4>Estado</h4>
+                <p><strong>Valor: longRestingAsk</strong>. Describe la situación actual: "Estoy en una posición comprada (long) y ya he colocado una orden de venta pasiva (RestingAsk) para tomar ganancias". Es el estado objetivo después de una entrada exitosa.</p>
+            </div>
+        </div>
+
+        <div id="graphics" class="topic-card">
+            <div class="topic-header"><span class="topic-title">3. Gráficos (La Repetición de la Jugada)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <h4>a) Gráfico de Precio (mid, bid, ask) y Fills</h4>
+                <ul>
+                    <li><strong>Las Líneas:</strong> La línea azul (Mid) es el precio central. Las líneas verde (Bid) y naranja (Ask) forman el "canal" dentro del cual se mueve el precio, y su distancia es el spread.</li>
+                    <li><strong>Los Puntos (Fills):</strong> Son los momentos exactos en que tu estrategia operó. Un <strong>punto verde es una compra</strong>. Un <strong>punto rojo es una venta</strong>. Este gráfico te permite auditar visualmente si la estrategia está comprando bajo (cerca del Bid) y vendiendo alto (cerca del Ask).</li>
+                </ul>
+                <h4>b) Gráfico de PNL Acumulado</h4>
+                <p><strong>La Curva de Equity:</strong> Es la historia de tu rentabilidad. Una curva que sube indica que estás ganando dinero. Una que baja, que estás perdiendo. Las oscilaciones (la "sierra") muestran la volatilidad de tus resultados. En el ejemplo, se ve cómo la curva fluctúa, cayendo por debajo de cero, lo que indica que la estrategia no está logrando ser consistentemente rentable.</p>
+            </div>
+        </div>
+
+        <div id="interpretation" class="topic-card">
+            <div class="topic-header"><span class="topic-title">4. Interpretación Global de la Simulación (El Diagnóstico)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Al observar los resultados (PNL negativo a pesar de muchos trades), podemos diagnosticar por qué la estrategia no está funcionando en esta configuración:</p>
+                <ul>
+                    <li><strong>Los Costos de Salida son Devastadores:</strong> La estrategia intenta ser "Maker" (comisión baja), pero cada vez que salta un stop, se agota el tiempo (timeout), o el spread se reduce, la salida es "Taker". Esto implica pagar una comisión 5 veces mayor y además sufrir 1 tick de slippage. Estas salidas forzadas son extremadamente costosas y probablemente están borrando las pequeñas ganancias.</li>
+                    <li><strong>La Probabilidad de Ejecución es Baja (0.35):</strong> Significa que el 65% del tiempo, tus órdenes pasivas no se ejecutan. Esto te obliga a cancelar y reintentar, o peor, a que el mercado se mueva en tu contra mientras esperas, forzando una salida costosa (Taker).</li>
+                    <li><strong>El Stop Podría Ser Demasiado Ajustado:</strong> Con una volatilidad de 0.04, un stop de 3 ticks (0.03) puede ser demasiado "apretado". El ruido normal del mercado podría estar activando tu stop loss constantemente, generando pérdidas y comisiones Taker, incluso en trades que podrían haber sido ganadores.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="analogy" class="topic-card">
+            <div class="topic-header"><span class="topic-title">5. Analogía Intuitiva Final (La Estrategia en Simple)</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Imagina que eres un revendedor de entradas para un concierto en la puerta del estadio. Tu estrategia es comprar a fans que venden barato (en el Bid) y revender a fans que compran apurados un poco más caro (en el Ask). La diferencia es tu ganancia (spread). Pero hay reglas:</p>
+                <ul>
+                    <li>Pagas una pequeña comisión (Maker fee) por cada trato exitoso.</li>
+                    <li>La zona es caótica y el precio fluctúa (volatilidad).</li>
+                    <li>No siempre que ofreces comprar te venden (Prob. fill).</li>
+                    <li>Si la policía se acerca (un movimiento adverso del precio), tienes que malvender la entrada inmediatamente con pérdidas (Stop Loss), pagando una <strong>multa enorme</strong> (Taker fee + Slippage).</li>
+                </ul>
+                <p>La simulación muestra que, aunque hiciste muchos intentos de compra-venta, <strong>la policía (el stop loss y las salidas forzadas) apareció tan a menudo que las multas se comieron todas tus pequeñas ganancias.</strong></p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider</p>
+    </footer>
+
+  </div>
+  
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        // --- THEME TOGGLE FUNCTIONALITY ---
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        // --- ACCORDION FUNCTIONALITY ---
+        document.querySelectorAll('.lesson-container .topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+
+        // --- CLICKABLE INDEX ---
+        const indexLinks = document.querySelectorAll('#index-list a');
+        indexLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    // This finds the parent topic-card of the linked section
+                    const parentCard = targetElement.closest('.topic-card');
+                    if (parentCard && !parentCard.classList.contains('open')) {
+                        parentCard.classList.add('open');
+                    }
+                }
+            });
+        });
+
+    })();
+  </script>
+</body>
+</html>

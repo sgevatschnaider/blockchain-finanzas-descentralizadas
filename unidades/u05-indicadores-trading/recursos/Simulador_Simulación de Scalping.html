@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulación Scalping (HTML + JS)</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+<style>
+  :root { color-scheme: dark; }
+  body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#0f1220;color:#e6e6f0}
+  header, footer{padding:16px 20px;border-bottom:1px solid #2a2f45}
+  footer{border-top:1px solid #2a2f45;border-bottom:none;opacity:.9}
+  .wrap{display:grid;grid-template-columns:320px 1fr;gap:18px;padding:18px}
+  .card{background:#171b2e;border:1px solid #2a2f45;border-radius:12px;padding:14px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  label{font-size:12px;opacity:.9}
+  input[type="number"]{width:100px;background:#0f1220;border:1px solid #2a2f45;border-radius:8px;color:#e6e6f0;padding:6px}
+  input[type="range"]{width:160px}
+  button{background:#5b7cff;border:0;color:white;padding:8px 12px;border-radius:10px;cursor:pointer}
+  button.secondary{background:#2a2f45}
+  .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+  .stat div{background:#0f1220;border:1px solid #2a2f45;border-radius:10px;padding:10px;text-align:center}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  small{opacity:.8}
+  canvas{max-height:420px}
+  .credit{display:block;margin-top:6px;font-size:.9rem;opacity:.9}
+</style>
+</head>
+<body>
+<header>
+  <h2>Simulación de Scalping — Spread Capture</h2>
+  <small>Didáctico. No es consejo financiero.</small>
+  <span class="credit">Material elaborado por el profesor <strong>Sergio Gevatschnaider</strong>.</span>
+</header>
+
+<div class="wrap">
+  <!-- Panel de control -->
+  <section class="card" id="panel">
+    <h3>Parámetros</h3>
+    <div class="row"><label>Tick size</label><input id="tickSize" type="number" step="0.001" value="0.01"></div>
+    <div class="row"><label>Mid inicial</label><input id="mid0" type="number" step="0.01" value="100"></div>
+    <div class="row"><label>Volatilidad (σ por tick)</label><input id="sigma" type="number" step="0.001" value="0.04"></div>
+    <div class="row"><label>Prob. salto</label><input id="jumpProb" type="number" step="0.001" value="0.001"></div>
+    <div class="row"><label>Tam. salto (ticks)</label><input id="jumpScale" type="number" step="1" value="5"></div>
+    <div class="row"><label>Spread (ticks min–max)</label>
+      <input id="sprMin" type="number" step="1" value="1">
+      <input id="sprMax" type="number" step="1" value="3">
+    </div>
+    <div class="row"><label>Maker fee (bps)</label><input id="makerFee" type="number" step="0.1" value="1.0"></div>
+    <div class="row"><label>Taker fee (bps)</label><input id="takerFee" type="number" step="0.1" value="5.0"></div>
+    <div class="row"><label>Slippage taker (ticks)</label><input id="slippage" type="number" step="1" value="1"></div>
+    <div class="row"><label>Timeout orden (s)</label><input id="timeout" type="number" step="1" value="5"></div>
+    <div class="row"><label>Stop (ticks)</label><input id="stopTicks" type="number" step="1" value="3"></div>
+    <div class="row"><label>Prob. fill cola maker</label>
+      <input id="fillProb" type="range" min="0.05" max="0.9" step="0.05" value="0.35">
+      <span class="mono" id="fillProbVal">0.35</span>
+    </div>
+    <div class="row">
+      <button id="startBtn">Iniciar</button>
+      <button id="pauseBtn" class="secondary">Pausar</button>
+      <button id="resetBtn" class="secondary">Reset</button>
+    </div>
+
+    <div class="stat">
+      <div><div>Posición</div><div class="mono" id="pos">0</div></div>
+      <div><div>PNL (realizado)</div><div class="mono" id="pnl">0.00</div></div>
+      <div><div>Trades</div><div class="mono" id="trades">0</div></div>
+      <div><div>Mid</div><div class="mono" id="mid">—</div></div>
+      <div><div>Spread</div><div class="mono" id="spread">—</div></div>
+      <div><div>Estado</div><div class="mono" id="state">idle</div></div>
+    </div>
+  </section>
+
+  <!-- Gráficos -->
+  <section class="card">
+    <h3>Precio (mid, bid, ask) y fills</h3>
+    <canvas id="priceChart"></canvas>
+  </section>
+  <section class="card">
+    <h3>PNL</h3>
+    <canvas id="pnlChart"></canvas>
+  </section>
+</div>
+
+<footer>
+  <span class="credit">Material elaborado por el profesor <strong>Sergio Gevatschnaider</strong>. Uso educativo.</span>
+</footer>
+
+<script>
+/* ===================== UTILIDAD ===================== */
+const rnd = {
+  n: (m=0,s=1)=> (crypto.getRandomValues(new Uint32Array(1))[0]/2**32 - .5)*Math.SQRT2*s + m,
+  u: ()=> crypto.getRandomValues(new Uint32Array(1))[0]/2**32
+};
+const clamp = (x,a,b)=> Math.max(a, Math.min(b,x));
+const roundTo = (x, step)=> Math.round(x/step)*step;
+
+/* ===================== ESTADO GLOBAL ===================== */
+let cfg, sim, timer=null;
+
+function resetSim() {
+  cfg = readCfg();
+  sim = {
+    t: 0,
+    mid: cfg.mid0,
+    spreadTicks: 2,
+    bid: cfg.mid0 - (2*cfg.tickSize/2),
+    ask: cfg.mid0 + (2*cfg.tickSize/2),
+    pos: 0,               // 0 o 1 unidad
+    cash: 0,
+    trades: 0,
+    state: "idle",        // "idle" | "restingBid" | "longRestingAsk" | "idle"
+    working: null,        // {side:'buy'|'sell', px, t0}
+    entryPx: null,
+    pnlSeries: [],
+    priceSeries: [],
+    fills: []             // {t,px,side}
+  };
+  priceChart.data.labels = [];
+  priceChart.data.datasets.forEach(d=> d.data = []);
+  pnlChart.data.labels = [];
+  pnlChart.data.datasets[0].data = [];
+  priceChart.update(); pnlChart.update();
+  renderStats();
+}
+
+function readCfg(){
+  return {
+    tickSize: parseFloat(document.getElementById('tickSize').value),
+    mid0: parseFloat(document.getElementById('mid0').value),
+    sigma: parseFloat(document.getElementById('sigma').value),
+    jumpProb: parseFloat(document.getElementById('jumpProb').value),
+    jumpScale: parseFloat(document.getElementById('jumpScale').value),
+    sprMin: parseInt(document.getElementById('sprMin').value),
+    sprMax: parseInt(document.getElementById('sprMax').value),
+    makerFee: parseFloat(document.getElementById('makerFee').value)/1e4,
+    takerFee: parseFloat(document.getElementById('takerFee').value)/1e4,
+    slippage: parseInt(document.getElementById('slippage').value),
+    timeout: parseInt(document.getElementById('timeout').value),
+    stopTicks: parseInt(document.getElementById('stopTicks').value),
+    fillProb: parseFloat(document.getElementById('fillProb').value),
+  };
+}
+
+/* ===================== MERCADO ===================== */
+// spread aleatorio (persistente entre min y max)
+function stepSpread(prevTicks){
+  const p = rnd.u();
+  let s = prevTicks;
+  if (p < 0.05) s += (rnd.u() < 0.5 ? -1: 1);
+  s = clamp(s, cfg.sprMin, cfg.sprMax);
+  return s;
+}
+// mid ABM + saltos
+function stepMid(prev){
+  let d = rnd.n(0, cfg.sigma);
+  if (rnd.u() < cfg.jumpProb) d += rnd.n(0, cfg.jumpScale * cfg.tickSize);
+  const m = Math.max(cfg.tickSize, prev + d);
+  return roundTo(m, cfg.tickSize);
+}
+
+/* ===================== ESTRATEGIA: Spread Capture ===================== */
+function strategyStep(){
+  // 1) Actualiza mercado
+  sim.t += 1;
+  sim.spreadTicks = stepSpread(sim.spreadTicks);
+  const half = sim.spreadTicks * cfg.tickSize / 2;
+  sim.mid = stepMid(sim.mid);
+  sim.bid = sim.mid - half;
+  sim.ask = sim.mid + half;
+
+  // 2) Reglas de trading
+  // a) Si no hay posición ni orden: colocar bid si spread >= 2 ticks
+  if (sim.pos === 0 && !sim.working && sim.spreadTicks >= 2) {
+    sim.working = {side:'buy', px: sim.bid, t0: sim.t};
+    sim.state = "restingBid";
+  }
+
+  // b) Gestión de orden resting (cola maker)
+  if (sim.working && sim.state === "restingBid") {
+    // fill probabilístico por tick
+    if (rnd.u() < cfg.fillProb) {
+      // FILL de compra
+      const px = sim.working.px;
+      const fee = px * cfg.makerFee;
+      sim.pos = 1;
+      sim.entryPx = px;
+      sim.cash -= (px + fee);
+      sim.trades += 1;
+      sim.fills.push({t:sim.t, px, side:'buy'});
+      sim.working = null;
+      // colocar ask para salida take-profit en el ask actual
+      sim.working = {side:'sell', px: sim.ask, t0: sim.t};
+      sim.state = "longRestingAsk";
+    } else {
+      // cancelación por timeout o adverso (mid baja 1 tick desde el bid inicial)
+      const timeUp = (sim.t - sim.working.t0) >= cfg.timeout;
+      const adverse = sim.mid < (sim.working.px - cfg.tickSize/2);
+      if (timeUp || adverse || sim.spreadTicks < 2) {
+        sim.working = null;
+        sim.state = "idle";
+      }
+    }
+  }
+
+  // c) Gestión estando largos con orden ask resting
+  if (sim.pos === 1) {
+    // Stop por ticks adversos
+    const stopPx = sim.entryPx - cfg.stopTicks * cfg.tickSize;
+    if (sim.mid <= stopPx) {
+      // salida taker con slippage
+      const mktPx = sim.bid - cfg.slippage * cfg.tickSize;
+      const fee = Math.abs(mktPx) * cfg.takerFee;
+      sim.pos = 0;
+      sim.cash += (mktPx - fee);
+      sim.trades += 1;
+      sim.fills.push({t:sim.t, px:mktPx, side:'sell-stop'});
+      sim.state = "idle";
+      sim.working = null;
+    } else if (sim.working && sim.state === "longRestingAsk") {
+      // Prob de fill maker en el ask
+      if (rnd.u() < cfg.fillProb) {
+        const px = sim.working.px;
+        const fee = px * cfg.makerFee;
+        sim.pos = 0;
+        sim.cash += (px - fee);
+        sim.trades += 1;
+        sim.fills.push({t:sim.t, px, side:'sell'});
+        sim.working = null;
+        sim.state = "idle";
+      } else {
+        const timeUp = (sim.t - sim.working.t0) >= cfg.timeout;
+        if (timeUp || sim.spreadTicks < 2) {
+          // salir por mercado si se colapsa el edge o timeout
+          const mktPx = sim.bid - cfg.slippage * cfg.tickSize;
+          const fee = Math.abs(mktPx) * cfg.takerFee;
+          sim.pos = 0;
+          sim.cash += (mktPx - fee);
+          sim.trades += 1;
+          sim.fills.push({t:sim.t, px:mktPx, side:'sell-timeout'});
+          sim.working = null;
+          sim.state = "idle";
+        }
+      }
+    }
+  }
+
+  // 3) Series para gráficos y stats
+  pushSeries();
+  renderStats();
+}
+
+/* ===================== GRÁFICOS ===================== */
+const priceCtx = document.getElementById('priceChart');
+const pnlCtx   = document.getElementById('pnlChart');
+
+const priceChart = new Chart(priceCtx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {label:'Mid', data:[], borderColor:'#5b7cff', tension:.2, pointRadius:0},
+      {label:'Bid', data:[], borderColor:'#2dd4bf', tension:.2, pointRadius:0},
+      {label:'Ask', data:[], borderColor:'#f97316', tension:.2, pointRadius:0},
+      {label:'Fills', data:[], borderColor:'#fff',
+        pointBackgroundColor:(ctx)=>{
+          const v = ctx.raw;
+          return v && v.fillSide && v.fillSide.startsWith('sell') ? '#ff6b6b' : '#34d399';
+        }, showLine:false, pointRadius:4, type:'scatter'}
+    ]
+  },
+  options: {
+    responsive:true,
+    animation:false,
+    plugins:{legend:{labels:{boxWidth:12}}},
+    scales:{x:{display:false}, y:{ticks:{color:'#cbd5e1'}}}
+  }
+});
+
+const pnlChart = new Chart(pnlCtx, {
+  type:'line',
+  data:{
+    labels:[],
+    datasets:[{label:'PNL acumulado', data:[], borderColor:'#a78bfa', tension:.15, pointRadius:0}]
+  },
+  options:{responsive:true, animation:false, scales:{x:{display:false}}}
+});
+
+function pushSeries(){
+  const maxPts = 600; // ventana para rendimiento
+  priceChart.data.labels.push(sim.t);
+  priceChart.data.datasets[0].data.push(sim.mid);
+  priceChart.data.datasets[1].data.push(sim.bid);
+  priceChart.data.datasets[2].data.push(sim.ask);
+
+  // punto de fill en este tick (si lo hubo)
+  const lastFill = sim.fills[sim.fills.length-1];
+  if (lastFill && lastFill.t === sim.t) {
+    priceChart.data.datasets[3].data.push({x:sim.t, y:lastFill.px, fillSide:lastFill.side});
+  } else {
+    priceChart.data.datasets[3].data.push(null);
+  }
+
+  // PNL marcado al mid (mark-to-market)
+  const invValue = sim.pos ? sim.mid : 0;
+  const equity = sim.cash + invValue;
+  sim.pnlSeries.push(equity);
+  pnlChart.data.labels.push(sim.t);
+  pnlChart.data.datasets[0].data.push(equity);
+
+  // recortar buffers
+  [priceChart, pnlChart].forEach(ch=>{
+    if (ch.data.labels.length > maxPts){
+      ch.data.labels.shift();
+      ch.data.datasets.forEach(d=> d.data.shift());
+    }
+    ch.update();
+  });
+}
+
+function renderStats(){
+  document.getElementById('pos').textContent = sim.pos;
+  document.getElementById('pnl').textContent = (sim.pnlSeries.at(-1) ?? 0).toFixed(2);
+  document.getElementById('trades').textContent = sim.trades;
+  document.getElementById('mid').textContent = sim.mid.toFixed(2);
+  document.getElementById('spread').textContent = sim.spreadTicks + ' ticks';
+  document.getElementById('state').textContent = sim.state;
+}
+
+/* ===================== CONTROLES ===================== */
+document.getElementById('fillProb').addEventListener('input', e=>{
+  document.getElementById('fillProbVal').textContent = parseFloat(e.target.value).toFixed(2);
+});
+document.getElementById('startBtn').addEventListener('click', ()=>{
+  if (timer) return;
+  // ajustar velocidad de simulación aquí
+  timer = setInterval(strategyStep, 50); // 20 ticks/seg
+});
+document.getElementById('pauseBtn').addEventListener('click', ()=>{
+  clearInterval(timer); timer = null;
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  clearInterval(timer); timer = null; resetSim();
+});
+
+resetSim();
+</script>
+</body>
+</html>
