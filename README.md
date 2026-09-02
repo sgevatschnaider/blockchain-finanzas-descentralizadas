@@ -13,7 +13,7 @@
 </p>
 
 **Ir directo a una unidad:**  
-[M0 · Clase inicial](unidades/u00-clase-inicial-blockchain-negocios/) ·
+[M0 · Clase inicial interactiva](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/) ·
 [U1](unidades/u01-fundamentos-smart-contracts/) ·
 [U2](unidades/u02-criptoactivos-consenso-seguridad/) ·
 [U3](unidades/u03-iot-ia-metaverso/) ·
@@ -147,11 +147,16 @@ anvil   # red local
 
 ## Módulo 0 y unidades (M0–U6)
 
-### [M0 — Clase inicial: Blockchain, negocios y confianza programable](unidades/u00-clase-inicial-blockchain-negocios/)
+### [M0 — Clase inicial: Blockchain, negocios y confianza programable](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/)
 
 Portal interactivo para la primera clase con dos presentaciones completas, seis simulaciones, glosario de 125 términos y evaluación de 90 preguntas explicadas.
 
-[Abrir Módulo 0](unidades/u00-clase-inicial-blockchain-negocios/index.html) · [Visor de presentaciones](unidades/u00-clase-inicial-blockchain-negocios/presentaciones/index.html) · [Glosario](unidades/u00-clase-inicial-blockchain-negocios/glosario.html) · [Cuestionario](unidades/u00-clase-inicial-blockchain-negocios/cuestionario.html)
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/"><img alt="Abrir Módulo 0" src="https://img.shields.io/badge/LIVE-MÓDULO%200%20INTERACTIVO-0284c7?style=for-the-badge&amp;logo=googlescholar&amp;logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/"><img alt="Abrir visor de presentaciones" src="https://img.shields.io/badge/ABRIR-VISOR%20DE%20PRESENTACIONES-7c3aed?style=for-the-badge&amp;logo=slides&amp;logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/glosario.html"><img alt="Abrir glosario" src="https://img.shields.io/badge/ABRIR-GLOSARIO%20125%20TÉRMINOS-0f766e?style=for-the-badge&amp;logo=bookstack&amp;logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/cuestionario.html"><img alt="Abrir cuestionario" src="https://img.shields.io/badge/ABRIR-CUESTIONARIO%2090%20PREGUNTAS-d97706?style=for-the-badge&amp;logo=checkmarx&amp;logoColor=white"></a>
+</p>
 
 ### [U1 — Fundamentos de Blockchain & Smart Contracts](unidades/u01-fundamentos-smart-contracts/)
 
