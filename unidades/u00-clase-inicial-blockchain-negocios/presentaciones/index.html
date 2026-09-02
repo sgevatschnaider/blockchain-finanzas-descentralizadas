@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Visor completo de las presentaciones del Módulo 0 de Blockchain y Finanzas Descentralizadas.">
+  <meta name="theme-color" content="#01070d">
+  <title>Presentaciones · Módulo 0</title>
+  <link rel="stylesheet" href="../assets/modulo-00.css">
+  <script src="viewer.js" defer></script>
+</head>
+<body class="viewer-body">
+  <main class="viewer" id="viewer-root">
+    <header class="viewer-bar">
+      <div class="viewer-title"><a href="../index.html">← Módulo 0</a><strong id="deck-title">Blockchain y nuevos modelos de negocio</strong><span>Material elaborado por el profesor Sergio Gevatschnaider</span></div>
+      <nav class="viewer-actions" aria-label="Opciones de la presentación">
+        <a id="pdf-link" href="blockchain-y-nuevos-modelos-de-negocio.pdf" target="_blank" rel="noopener">Abrir PDF</a>
+        <a id="pptx-link" href="blockchain-y-nuevos-modelos-de-negocio.pptx" download>Descargar PPTX</a>
+        <button id="copy-link" type="button">Copiar enlace</button>
+        <button id="fullscreen" type="button">Pantalla completa</button>
+      </nav>
+    </header>
+    <div class="deck-tabs" role="tablist" aria-label="Elegir presentación">
+      <button type="button" role="tab" data-deck="negocios" aria-selected="true">01 · Negocios y aplicaciones</button>
+      <button type="button" role="tab" data-deck="fundamentos" aria-selected="false">02 · Descentralización, consenso y oráculos</button>
+    </div>
+    <section class="stage" aria-live="polite">
+      <button class="arrow prev" id="previous" type="button" aria-label="Diapositiva anterior">‹</button>
+      <img id="slide-image" src="deck-negocios/slide-01.webp" alt="Diapositiva 1 de Blockchain y nuevos modelos de negocio">
+      <button class="arrow next" id="next" type="button" aria-label="Diapositiva siguiente">›</button>
+    </section>
+    <div class="slide-controls">
+      <div><button id="first" type="button">Primera</button> <button id="play" type="button" aria-pressed="false">▶ Reproducir</button> <button id="last" type="button">Última</button></div>
+      <strong id="counter">1 / 26</strong>
+      <label for="delay">Intervalo <select id="delay"><option value="3000">3 s</option><option value="5000" selected>5 s</option><option value="8000">8 s</option></select></label>
+    </div>
+    <ol class="thumbs" id="thumbnails" aria-label="Miniaturas de la presentación"></ol>
+  </main>
+</body>
+</html>

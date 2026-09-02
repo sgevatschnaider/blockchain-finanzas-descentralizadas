@@ -13,6 +13,7 @@
 </p>
 
 **Ir directo a una unidad:**  
+[M0 · Clase inicial](unidades/u00-clase-inicial-blockchain-negocios/) ·
 [U1](unidades/u01-fundamentos-smart-contracts/) ·
 [U2](unidades/u02-criptoactivos-consenso-seguridad/) ·
 [U3](unidades/u03-iot-ia-metaverso/) ·
@@ -47,7 +48,7 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 - [Visión holística del repositorio](#visión-holística-del-repositorio)
 - [Arquitectura del repositorio](#arquitectura-del-repositorio)
 - [Puesta en marcha (guía rápida)](#puesta-en-marcha-guía-rápida)
-- [Unidades (U1–U6)](#unidades-u1u6)
+- [Módulo 0 y unidades (M0–U6)](#módulo-0-y-unidades-m0u6)
 - [Contratos (carpeta `contracts/`)](#contratos-carpeta-contracts)
 - [Fragmentos de código](#fragmentos-de-código)
 - [Slides (Marp)](#slides-marp)
@@ -83,6 +84,7 @@ Este espacio fue diseñado como un compendio para estudiantes, profesionales y e
 │  ├─ bibliografia.md
 │  └─ enlaces-utiles.md
 ├─ unidades/
+│  ├─ u00-clase-inicial-blockchain-negocios/       # portal, decks y simuladores
 │  ├─ u01-fundamentos-smart-contracts/            # README.md
 │  ├─ u02-criptoactivos-consenso-seguridad/       # README.md
 │  ├─ u03-iot-ia-metaverso/                       # README.md
@@ -143,7 +145,13 @@ anvil   # red local
 
 ---
 
-## Unidades (U1–U6)
+## Módulo 0 y unidades (M0–U6)
+
+### [M0 — Clase inicial: Blockchain, negocios y confianza programable](unidades/u00-clase-inicial-blockchain-negocios/)
+
+Portal interactivo para la primera clase con dos presentaciones completas, seis simulaciones, glosario de 125 términos y evaluación de 90 preguntas explicadas.
+
+[Abrir Módulo 0](unidades/u00-clase-inicial-blockchain-negocios/index.html) · [Visor de presentaciones](unidades/u00-clase-inicial-blockchain-negocios/presentaciones/index.html) · [Glosario](unidades/u00-clase-inicial-blockchain-negocios/glosario.html) · [Cuestionario](unidades/u00-clase-inicial-blockchain-negocios/cuestionario.html)
 
 ### [U1 — Fundamentos de Blockchain & Smart Contracts](unidades/u01-fundamentos-smart-contracts/)
 
