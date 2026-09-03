@@ -32,6 +32,17 @@
     const percentage = total ? Math.round(done / total * 100) : 0;
     if (progressBar) progressBar.style.width = `${percentage}%`;
     if (progressText) progressText.textContent = `${done} de ${total} recursos completados`;
+    const progressTrack = progressBar?.parentElement;
+    if (progressTrack) {
+      progressTrack.setAttribute("aria-valuemax", String(total));
+      progressTrack.setAttribute("aria-valuenow", String(done));
+    }
+    progressItems.forEach((item) => {
+      const mark = item.querySelector("[data-mark-complete]");
+      if (!mark) return;
+      mark.textContent = completed.has(item.dataset.progressId) ? "Completado" : (item.classList.contains("deck-choice") ? "Marcar como completado" : "Marcar completado");
+      mark.setAttribute("aria-pressed", String(completed.has(item.dataset.progressId)));
+    });
   }
   progressItems.forEach((item) => item.addEventListener("click", (event) => {
     const mark = event.target.closest("[data-mark-complete]");
@@ -40,12 +51,48 @@
     const id = item.dataset.progressId;
     completed.has(id) ? completed.delete(id) : completed.add(id);
     try { localStorage.setItem(progressKey, JSON.stringify([...completed])); } catch (_) {}
-    mark.textContent = completed.has(id) ? "Completado" : "Marcar como completado";
     renderProgress();
   }));
-  progressItems.forEach((item) => {
-    const mark = item.querySelector("[data-mark-complete]");
-    if (mark && completed.has(item.dataset.progressId)) mark.textContent = "Completado";
+  document.querySelector("[data-reset-progress]")?.addEventListener("click", () => {
+    completed.clear();
+    try { localStorage.removeItem(progressKey); } catch (_) {}
+    renderProgress();
   });
   renderProgress();
+
+  const inlineDecks = {
+    negocios: {
+      title: "Blockchain y nuevos modelos de negocio",
+      count: "26 diapositivas",
+      description: "Coordinación, plataformas, smart contracts, tokenización y aplicaciones en finanzas, salud, logística, PropTech e InsurTech.",
+      pptx: "presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx",
+      pdf: "presentaciones/blockchain-y-nuevos-modelos-de-negocio.pdf"
+    },
+    fundamentos: {
+      title: "Descentralización, consenso y oráculos",
+      count: "29 diapositivas",
+      description: "Control distribuido, fallas bizantinas, quórums, resistencia Sybil y el problema de conectar contratos con hechos externos.",
+      pptx: "presentaciones/descentralizacion-consenso-y-oraculos.pptx",
+      pdf: "presentaciones/descentralizacion-consenso-y-oraculos.pdf"
+    }
+  };
+  const inlineFrame = document.querySelector("#inline-presentation");
+  function selectInlineDeck(name) {
+    const data = inlineDecks[name];
+    if (!data || !inlineFrame) return;
+    inlineFrame.src = `presentaciones/index.html?deck=${name}&embed=1`;
+    inlineFrame.title = `Presentación: ${data.title}`;
+    document.querySelector("[data-inline-title]").textContent = data.title;
+    document.querySelector("[data-inline-count]").textContent = data.count;
+    document.querySelector("[data-inline-description]").textContent = data.description;
+    document.querySelector("[data-fullscreen-viewer]").href = `presentaciones/index.html?deck=${name}`;
+    document.querySelector("[data-pdf-download]").href = data.pdf;
+    document.querySelector("[data-pptx-download]").href = data.pptx;
+    document.querySelectorAll("[data-inline-deck]").forEach((button) => {
+      const selected = button.dataset.inlineDeck === name;
+      button.setAttribute("aria-selected", String(selected));
+      button.closest(".deck-choice")?.classList.toggle("active", selected);
+    });
+  }
+  document.querySelectorAll("[data-inline-deck]").forEach((button) => button.addEventListener("click", () => selectInlineDeck(button.dataset.inlineDeck)));
 })();

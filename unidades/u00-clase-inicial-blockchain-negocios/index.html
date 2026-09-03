@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Módulo 0 de Blockchain y Finanzas Descentralizadas: negocios, descentralización, consenso, smart contracts y oráculos.">
+  <meta name="description" content="Módulo 0 de Blockchain y Finanzas Descentralizadas: presentaciones completas, negocios, descentralización, consenso, smart contracts, oráculos, simulaciones y evaluación.">
   <meta name="theme-color" content="#030b14">
   <title>Módulo 0 · Blockchain, negocios y confianza programable</title>
   <link rel="stylesheet" href="assets/modulo-00.css">
@@ -11,90 +11,135 @@
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
   <header class="topbar">
     <div class="shell topbar-inner">
-      <a class="brand" href="https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas" aria-label="Volver al repositorio del curso">
-        <span class="brand-mark">M0</span>
+      <a class="brand" href="#contenido" aria-label="Ir al inicio del Módulo 0">
+        <span class="brand-mark" aria-hidden="true">M0</span>
         <span class="brand-copy"><strong>Blockchain y DeFi</strong><span>Clase inicial · Universidad de Belgrano</span></span>
       </a>
       <nav class="nav" aria-label="Navegación del módulo">
         <a class="keep-mobile" href="#ruta">Ruta</a>
         <a href="#presentaciones">Presentaciones</a>
-        <a href="#laboratorios">Laboratorios</a>
+        <a href="#laboratorios">Simulaciones</a>
         <a href="glosario.html">Glosario</a>
-        <a href="cuestionario.html">Cuestionario</a>
+        <a href="cuestionario.html">Evaluación</a>
         <button type="button" data-theme-toggle>Tema claro</button>
       </nav>
     </div>
   </header>
 
   <main id="contenido">
-    <section class="shell hero">
-      <div>
+    <section class="shell hero" aria-labelledby="titulo-modulo">
+      <div class="hero-copy">
         <div class="eyebrow">Módulo 0 · Clase inicial · 2026</div>
-        <h1>Blockchain, negocios y confianza programable</h1>
-        <p class="lede">Una introducción para entender cuándo una infraestructura compartida crea valor, cómo acuerdan los participantes y por qué los datos externos siguen siendo un punto crítico.</p>
+        <h1 id="titulo-modulo">Blockchain, negocios y confianza programable</h1>
+        <p class="lede">Una experiencia de aprendizaje completa para reconocer cuándo una infraestructura compartida crea valor, cómo acuerdan sus participantes y dónde aparecen sus principales límites.</p>
         <div class="hero-actions">
-          <a class="button primary" href="presentaciones/index.html">Abrir presentaciones</a>
-          <a class="button" href="simuladores/01-coordinacion-ledger.html">Comenzar el laboratorio</a>
+          <a class="button primary" href="#presentaciones">Ver la clase completa</a>
+          <a class="button" href="#laboratorios">Explorar las simulaciones</a>
+          <a class="button" href="cuestionario.html">Realizar la evaluación</a>
         </div>
       </div>
-      <aside class="hero-proof" aria-label="Contenido del módulo">
-        <span class="proof-number">3</span>
-        <span class="proof-label">preguntas organizan la clase</span>
-        <ul class="proof-list">
-          <li><span>¿Quién controla?</span><strong>Descentralización</strong></li>
-          <li><span>¿Cómo acordamos?</span><strong>Consenso</strong></li>
-          <li><span>¿Cómo conocemos?</span><strong>Oráculos</strong></li>
-        </ul>
-      </aside>
-    </section>
-
-    <section class="section" id="ruta">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Ruta de tres horas</div><h2>De la coordinación al criterio de decisión</h2></div><p>Los dos decks están disponibles completos. La ruta sugerida combina exposición, experimentos y evaluación formativa.</p></div>
-        <div class="grid">
-          <article class="step"><strong>01</strong><h3>Problema de negocio</h3><p>Costos de conciliación, registros aislados y responsabilidades distribuidas.</p></article>
-          <article class="step"><strong>02</strong><h3>Arquitectura</h3><p>Estado compartido, firmas, validación, consenso y gobernanza.</p></article>
-          <article class="step"><strong>03</strong><h3>Decisión</h3><p>Comparar plataformas, riesgos y alternativas antes de elegir blockchain.</p></article>
-        </div>
-        <div class="progress-box" style="margin-top:1.5rem">
-          <div class="progress-track" aria-hidden="true"><span data-progress-bar></span></div>
-          <div class="progress-meta"><span data-progress-text>0 recursos completados</span><span>El progreso se guarda en este navegador</span></div>
-        </div>
+      <div class="hero-stats" aria-label="Alcance del módulo">
+        <div><strong>2</strong><span>presentaciones completas</span></div>
+        <div><strong>55</strong><span>diapositivas</span></div>
+        <div><strong>6</strong><span>simulaciones interactivas</span></div>
+        <div><strong>90</strong><span>preguntas explicadas</span></div>
       </div>
     </section>
 
-    <section class="section" id="presentaciones">
+    <section class="shell progress-panel" aria-labelledby="progreso-titulo">
+      <div>
+        <div class="eyebrow">Progreso local</div>
+        <h2 id="progreso-titulo">Tu recorrido queda guardado en este navegador</h2>
+        <p class="muted" data-progress-text aria-live="polite">0 recursos completados</p>
+      </div>
+      <div class="progress-actions">
+        <div class="progress-track" role="progressbar" aria-label="Progreso del módulo" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span data-progress-bar></span></div>
+        <button class="text-button" type="button" data-reset-progress>Reiniciar progreso</button>
+      </div>
+    </section>
+
+    <section class="section" id="ruta" aria-labelledby="ruta-titulo">
       <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Presentaciones</div><h2>Dos miradas, una misma arquitectura</h2></div><p>La primera presentación parte del valor empresarial; la segunda explica las garantías y límites técnicos que sostienen ese valor.</p></div>
-        <div class="grid">
-          <article class="card wide" data-progress-id="deck-negocios"><span class="tag">26 diapositivas</span><h3>Blockchain y nuevos modelos de negocio</h3><p>Coordinación, plataformas, smart contracts, tokenización y aplicaciones en finanzas, salud, logística, PropTech e InsurTech.</p><div class="actions"><a class="button primary" href="presentaciones/index.html?deck=negocios">Ver deck</a><a class="button" href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx" download>Descargar PPTX</a><button class="button" data-mark-complete>Marcar como completado</button></div></article>
-          <article class="card wide" data-progress-id="deck-fundamentos"><span class="tag">29 diapositivas</span><h3>Descentralización, consenso y oráculos</h3><p>Control distribuido, fallas bizantinas, quórums, resistencia Sybil y el problema de conectar contratos con hechos externos.</p><div class="actions"><a class="button primary" href="presentaciones/index.html?deck=fundamentos">Ver deck</a><a class="button" href="presentaciones/descentralizacion-consenso-y-oraculos.pptx" download>Descargar PPTX</a><button class="button" data-mark-complete>Marcar como completado</button></div></article>
+        <div class="section-head">
+          <div><div class="eyebrow">Ruta didáctica · tres horas</div><h2 id="ruta-titulo">Del problema de coordinación a la decisión tecnológica</h2></div>
+          <p>La secuencia combina exposición, experimentación y evaluación para evitar una mirada puramente promocional de blockchain.</p>
+        </div>
+        <ol class="learning-path">
+          <li><span class="phase-number">01</span><div><strong>Problema de negocio</strong><span>Identificá conciliaciones, registros aislados, intermediación y responsabilidades distribuidas.</span></div><a href="#presentaciones">Abrir fundamentos</a></li>
+          <li><span class="phase-number">02</span><div><strong>Arquitectura compartida</strong><span>Conectá firmas, validación, consenso, gobernanza, contratos y oráculos.</span></div><a href="#presentaciones">Ver presentación</a></li>
+          <li><span class="phase-number">03</span><div><strong>Experimentación</strong><span>Modificá supuestos y observá su efecto en costos, control, acuerdo y riesgo.</span></div><a href="#laboratorios">Abrir simulaciones</a></li>
+          <li><span class="phase-number">04</span><div><strong>Criterio de decisión</strong><span>Compará alternativas y justificá cuándo usar —o no usar— blockchain.</span></div><a href="cuestionario.html">Comprobar comprensión</a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section presentation-section" id="presentaciones" aria-labelledby="presentaciones-titulo">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="eyebrow">Clase completa · visor integrado</div><h2 id="presentaciones-titulo">Dos miradas, una misma arquitectura</h2></div>
+          <p>Elegí una presentación y recorré todas sus diapositivas sin salir del módulo. El visor admite teclado, reproducción automática y pantalla completa.</p>
+        </div>
+
+        <div class="deck-picker" role="tablist" aria-label="Elegir presentación">
+          <article class="deck-choice active" data-progress-id="deck-negocios">
+            <button class="deck-select" type="button" role="tab" data-inline-deck="negocios" aria-selected="true" aria-controls="presentation-viewer">
+              <span class="deck-number">01</span>
+              <span><strong>Negocios y aplicaciones</strong><small>26 diapositivas · valor, sectores, contratos y tokenización</small></span>
+            </button>
+            <button class="deck-complete" type="button" data-mark-complete>Marcar como completado</button>
+          </article>
+          <article class="deck-choice" data-progress-id="deck-fundamentos">
+            <button class="deck-select" type="button" role="tab" data-inline-deck="fundamentos" aria-selected="false" aria-controls="presentation-viewer">
+              <span class="deck-number">02</span>
+              <span><strong>Descentralización, consenso y oráculos</strong><small>29 diapositivas · control, acuerdo, fallas y datos externos</small></span>
+            </button>
+            <button class="deck-complete" type="button" data-mark-complete>Marcar como completado</button>
+          </article>
+        </div>
+
+        <div class="presentation-browser" id="presentation-viewer">
+          <div class="presentation-browser-bar">
+            <div><span class="status-dot" aria-hidden="true"></span><strong data-inline-title>Blockchain y nuevos modelos de negocio</strong></div>
+            <span data-inline-count>26 diapositivas</span>
+          </div>
+          <iframe id="inline-presentation" src="presentaciones/index.html?deck=negocios&amp;embed=1" title="Presentación: Blockchain y nuevos modelos de negocio" loading="lazy" allowfullscreen></iframe>
+        </div>
+
+        <div class="presentation-actions">
+          <a class="button primary" data-fullscreen-viewer href="presentaciones/index.html?deck=negocios">Abrir visor completo</a>
+          <a class="button" data-pdf-download href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pdf" target="_blank" rel="noopener">Abrir PDF</a>
+          <a class="button" data-pptx-download href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx" download>Descargar PPTX</a>
+        </div>
+        <p class="presentation-note" data-inline-description>Coordinación, plataformas, smart contracts, tokenización y aplicaciones en finanzas, salud, logística, PropTech e InsurTech.</p>
+      </div>
+    </section>
+
+    <section class="section" id="laboratorios" aria-labelledby="laboratorios-titulo">
+      <div class="shell">
+        <div class="section-head resource-heading">
+          <div><div class="eyebrow">Laboratorios manipulables</div><h2 id="laboratorios-titulo">Probar supuestos antes de aceptar conclusiones</h2></div>
+          <p>Cada simulación conecta una decisión con métricas observables y termina con una pregunta para discutir en clase.</p>
+        </div>
+        <div class="resource-grid">
+          <article class="resource-card" data-progress-id="lab-coordinacion"><div class="card-top"><span class="tag">Negocios</span><span class="resource-order">01</span></div><h3>Coordinación y ledger</h3><p>Compará conciliación tradicional y registro compartido en tiempo, costo y errores.</p><div class="card-actions"><a href="simuladores/01-coordinacion-ledger.html">Abrir simulación</a><button type="button" data-mark-complete>Marcar completado</button></div></article>
+          <article class="resource-card" data-progress-id="lab-descentralizacion"><div class="card-top"><span class="tag">Control</span><span class="resource-order">02</span></div><h3>Espectro de descentralización</h3><p>Medí cinco dimensiones y detectá dónde permanece concentrado el poder.</p><div class="card-actions"><a href="simuladores/02-espectro-descentralizacion.html">Abrir simulación</a><button type="button" data-mark-complete>Marcar completado</button></div></article>
+          <article class="resource-card" data-progress-id="lab-consenso"><div class="card-top"><span class="tag">Acuerdo</span><span class="resource-order">03</span></div><h3>Consenso bizantino</h3><p>Configurá nodos y fallas para explorar quórums, seguridad y progreso.</p><div class="card-actions"><a href="simuladores/03-consenso-bizantino.html">Abrir simulación</a><button type="button" data-mark-complete>Marcar completado</button></div></article>
+          <article class="resource-card" data-progress-id="lab-oraculos"><div class="card-top"><span class="tag">Verdad externa</span><span class="resource-order">04</span></div><h3>Riesgo de oráculos</h3><p>Observá cómo precio, demora y manipulación cambian una liquidación.</p><div class="card-actions"><a href="simuladores/04-riesgo-oraculos.html">Abrir simulación</a><button type="button" data-mark-complete>Marcar completado</button></div></article>
+          <article class="resource-card featured" data-progress-id="lab-selector"><div class="card-top"><span class="tag">Arquitectura</span><span class="resource-order">05</span></div><h3>Selector de plataforma</h3><p>Convertí los requisitos de un caso en una recomendación justificable.</p><div class="card-actions"><a href="simuladores/05-selector-arquitectura.html">Abrir simulación</a><button type="button" data-mark-complete>Marcar completado</button></div></article>
+          <article class="resource-card" data-progress-id="lab-tokenizacion"><div class="card-top"><span class="tag">Aplicaciones</span><span class="resource-order">06</span></div><h3>Tokenización y contratos</h3><p>Recorré derechos, emisión, custodia, mercado, oráculo y liquidación.</p><div class="card-actions"><a href="simuladores/06-tokenizacion-smart-contracts.html">Abrir simulación</a><button type="button" data-mark-complete>Marcar completado</button></div></article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="laboratorios">
+    <section class="section" id="evaluacion" aria-labelledby="evaluacion-titulo">
       <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Laboratorios manipulables</div><h2>Probar supuestos antes de aceptar conclusiones</h2></div><p>Cada simulación conecta una decisión con métricas observables y termina con una pregunta para discutir en clase.</p></div>
-        <div class="grid">
-          <article class="card" data-progress-id="lab-coordinacion"><span class="tag">Negocios</span><h3>Coordinación y ledger</h3><p>Compará conciliación tradicional y registro compartido en tiempo, costo y errores.</p><a class="card-link" href="simuladores/01-coordinacion-ledger.html">Abrir simulación →</a></article>
-          <article class="card" data-progress-id="lab-descentralizacion"><span class="tag">Control</span><h3>Espectro de descentralización</h3><p>Medí cinco dimensiones y detectá dónde permanece concentrado el poder.</p><a class="card-link" href="simuladores/02-espectro-descentralizacion.html">Abrir simulación →</a></article>
-          <article class="card" data-progress-id="lab-consenso"><span class="tag">Acuerdo</span><h3>Consenso bizantino</h3><p>Configurá nodos y fallas para explorar quórums, seguridad y progreso.</p><a class="card-link" href="simuladores/03-consenso-bizantino.html">Abrir simulación →</a></article>
-          <article class="card" data-progress-id="lab-oraculos"><span class="tag">Verdad externa</span><h3>Riesgo de oráculos</h3><p>Observá cómo precio, demora y manipulación cambian una liquidación.</p><a class="card-link" href="simuladores/04-riesgo-oraculos.html">Abrir simulación →</a></article>
-          <article class="card" data-progress-id="lab-selector"><span class="tag">Arquitectura</span><h3>Selector de plataforma</h3><p>Convertí requisitos de un caso en una recomendación justificable.</p><a class="card-link" href="simuladores/05-selector-arquitectura.html">Abrir simulación →</a></article>
-          <article class="card" data-progress-id="lab-tokenizacion"><span class="tag">Aplicaciones</span><h3>Tokenización y contratos</h3><p>Recorré derechos, emisión, custodia, mercado, oráculo y liquidación.</p><a class="card-link" href="simuladores/06-tokenizacion-smart-contracts.html">Abrir simulación →</a></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Consulta y evaluación</div><h2>Conceptos conectados y práctica explicada</h2></div><p>El glosario y el banco de preguntas permiten continuar el estudio después de la clase.</p></div>
-        <div class="grid">
-          <article class="card wide" data-progress-id="glosario"><span class="tag">125 términos</span><h3>Glosario interactivo</h3><p>Búsqueda, filtros, índice alfabético, relaciones, tarjetas aleatorias y progreso local.</p><a class="card-link" href="glosario.html">Abrir glosario →</a></article>
-          <article class="card wide" data-progress-id="cuestionario"><span class="tag">90 preguntas</span><h3>Cuestionario completo</h3><p>Modos práctica y examen, dificultad, resultados por área, revisión y respuestas desarrolladas.</p><a class="card-link" href="cuestionario.html">Comenzar evaluación →</a></article>
+        <div class="section-head"><div><div class="eyebrow">Consulta y evaluación</div><h2 id="evaluacion-titulo">Conceptos conectados y práctica explicada</h2></div><p>El glosario y el banco de preguntas permiten consolidar el aprendizaje y continuar el estudio después de la clase.</p></div>
+        <div class="study-grid">
+          <article class="study-card" data-progress-id="glosario"><span class="study-number">125</span><div><span class="tag">Términos conectados</span><h3>Glosario interactivo</h3><p>Búsqueda, filtros, índice alfabético, relaciones, tarjetas aleatorias y progreso local.</p><div class="actions"><a class="button primary" href="glosario.html">Abrir glosario</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></div></article>
+          <article class="study-card" data-progress-id="cuestionario"><span class="study-number">90</span><div><span class="tag">Preguntas explicadas</span><h3>Evaluación completa</h3><p>Modos práctica y examen, dificultad, resultados por área, revisión y respuestas desarrolladas.</p><div class="actions"><a class="button primary" href="cuestionario.html">Comenzar evaluación</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></div></article>
         </div>
       </div>
     </section>

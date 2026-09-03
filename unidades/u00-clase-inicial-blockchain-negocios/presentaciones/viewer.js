@@ -5,6 +5,7 @@
     fundamentos: { title: "Descentralización, consenso y oráculos", folder: "deck-fundamentos", total: 29, pptx: "descentralizacion-consenso-y-oraculos.pptx", pdf: "descentralizacion-consenso-y-oraculos.pdf" }
   };
   const params = new URLSearchParams(location.search);
+  if (params.get("embed") === "1") document.body.classList.add("embedded-viewer");
   let deck = decks[params.get("deck")] ? params.get("deck") : "negocios";
   let slide = Math.min(decks[deck].total, Math.max(1, Number(params.get("slide")) || 1));
   let timer = null;
@@ -16,7 +17,10 @@
   const play = $("#play");
   const delay = $("#delay");
   const path = (number) => `${decks[deck].folder}/slide-${String(number).padStart(2, "0")}.webp`;
-  function syncUrl() { history.replaceState(null, "", `?deck=${deck}&slide=${slide}`); }
+  function syncUrl() {
+    const embed = params.get("embed") === "1" ? "&embed=1" : "";
+    history.replaceState(null, "", `?deck=${deck}&slide=${slide}${embed}`);
+  }
   function renderThumbs() {
     thumbs.innerHTML = Array.from({ length: decks[deck].total }, (_, index) => {
       const number = index + 1;
