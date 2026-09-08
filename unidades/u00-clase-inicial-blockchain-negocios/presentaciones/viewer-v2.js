@@ -100,6 +100,13 @@
     });
   }
 
+  function centerActiveThumb() {
+    const button = thumbs.querySelector(`[data-slide="${slide}"]`);
+    if (!button) return;
+    const left = button.offsetLeft - (thumbs.clientWidth - button.offsetWidth) / 2;
+    thumbs.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+  }
+
   function preload(number) {
     if (number < 1 || number > currentDeck().total) return;
     const img = new Image();
@@ -158,9 +165,7 @@
     errorBox.hidden = true;
     image.hidden = false;
     render();
-    if (scrollThumb) {
-      thumbs.querySelector(`[data-slide="${slide}"]`)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    }
+    if (scrollThumb) centerActiveThumb();
   }
 
   function navigate(value) {
