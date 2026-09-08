@@ -6,21 +6,14 @@
   <meta name="description" content="Unidad 1 de Blockchain y Finanzas Descentralizadas: hash, Merkle, transacciones, modelos UTXO y cuentas, EVM, gas, smart contracts y tokenización.">
   <meta name="theme-color" content="#030b14">
   <title>Unidad 1 · Del registro verificable al código ejecutable</title>
-  <link rel="stylesheet" href="assets/u01.css?v=20260908">
-  <script src="assets/u01.js?v=20260908" defer></script>
+  <link rel="stylesheet" href="assets/u01.css?v=20260908b">
+  <script src="assets/u01.js?v=20260908b" defer></script>
 </head>
 <body>
   <header class="topbar">
     <div class="shell topbar-inner">
       <a class="brand" href="#inicio"><span class="brand-mark">U1</span><span class="brand-copy"><strong>Blockchain y DeFi</strong><span>Fundamentos técnicos · Universidad de Belgrano</span></span></a>
-      <nav class="nav" aria-label="Navegación de la unidad">
-        <a class="keep-mobile" href="#ruta">Ruta</a>
-        <a href="#arquitectura">Arquitectura</a>
-        <a href="#laboratorios">Laboratorios</a>
-        <a href="#recursos">Recursos</a>
-        <a href="evaluacion.html">Evaluación</a>
-        <button type="button" data-theme-toggle>Tema claro</button>
-      </nav>
+      <nav class="nav" aria-label="Navegación de la unidad"><a class="keep-mobile" href="#ruta">Ruta</a><a href="#arquitectura">Arquitectura</a><a href="#laboratorios">Laboratorios</a><a href="#recursos">Recursos</a><a href="evaluacion.html">Evaluación</a><button type="button" data-theme-toggle>Tema claro</button></nav>
     </div>
   </header>
 
@@ -30,97 +23,79 @@
         <div class="eyebrow">Unidad 1 · versión 2.0 · 2026</div>
         <h1 id="titulo-u1">Del registro verificable al código ejecutable</h1>
         <p class="lede">La unidad continúa exactamente donde termina el Módulo 0: ya no pregunta solamente por qué usar blockchain, sino cómo una red representa datos, verifica integridad, organiza transacciones, mantiene estado y ejecuta reglas programables.</p>
-        <div class="status">Portal integrado · 6 laboratorios · evaluación explicada</div>
-        <div class="hero-actions">
-          <a class="button primary" href="#ruta">Comenzar recorrido</a>
-          <a class="button" href="#laboratorios">Ir a los laboratorios</a>
-          <a class="button" href="Guía%20Unidad%201.pdf" target="_blank" rel="noopener">Abrir guía PDF</a>
-          <a class="button" href="../u00-clase-inicial-blockchain-negocios/">Volver al Módulo 0</a>
-        </div>
+        <div class="status">Portal integrado · 7 laboratorios · evaluación explicada</div>
+        <div class="hero-actions"><a class="button primary" href="#ruta">Comenzar recorrido</a><a class="button" href="#laboratorios">Ir a laboratorios</a><a class="button" href="Guía%20Unidad%201.pdf" target="_blank" rel="noopener">Abrir guía PDF</a><a class="button" href="../u00-clase-inicial-blockchain-negocios/">Volver al Módulo 0</a></div>
       </div>
-      <div class="hero-stats" aria-label="Alcance de la unidad">
-        <div><strong>10</strong><span>conceptos encadenados</span></div>
-        <div><strong>6</strong><span>laboratorios interactivos</span></div>
-        <div><strong>2</strong><span>notebooks existentes</span></div>
-        <div><strong>50</strong><span>preguntas explicadas</span></div>
-      </div>
+      <div class="hero-stats" aria-label="Alcance de la unidad"><div><strong>10</strong><span>conceptos encadenados</span></div><div><strong>7</strong><span>laboratorios interactivos</span></div><div><strong>2</strong><span>notebooks existentes</span></div><div><strong>50</strong><span>preguntas explicadas</span></div></div>
     </section>
 
     <section class="shell progress-box" aria-labelledby="progreso-titulo">
       <div><div class="eyebrow">Progreso local</div><h2 id="progreso-titulo" style="font-size:1.65rem;margin:.25rem 0">Tu recorrido se guarda en este navegador</h2><p class="muted" data-progress-text>0 recursos completados</p></div>
-      <div class="progress-actions"><div class="progress-track" role="progressbar" aria-label="Progreso de la Unidad 1" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><span data-progress-bar></span></div><button type="button" class="text-button" data-reset-progress>Reiniciar progreso</button></div>
+      <div class="progress-actions"><div class="progress-track" role="progressbar" aria-label="Progreso de la Unidad 1" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0"><span data-progress-bar></span></div><button type="button" class="text-button" data-reset-progress>Reiniciar progreso</button></div>
     </section>
 
-    <section class="section" id="ruta" aria-labelledby="ruta-titulo">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Ruta didáctica</div><h2 id="ruta-titulo">Una cadena causal, no una lista de definiciones</h2></div><p>Cada bloque responde una pregunta que habilita el siguiente: primero integridad, luego compromiso de datos, transacciones, estado, ejecución y finalmente programabilidad.</p></div>
-        <ol class="path">
-          <li><span class="path-number">01</span><div><strong>Integridad</strong><span>Qué garantiza un hash y por qué un cambio mínimo altera el resultado.</span></div><a href="simuladores/01-hash-lab.html">Hash Lab</a></li>
-          <li><span class="path-number">02</span><div><strong>Compromiso de datos</strong><span>Cómo un Merkle root resume un conjunto y permite pruebas eficientes de inclusión.</span></div><a href="simuladores/02-merkle-lab.html">Merkle Lab</a></li>
-          <li><span class="path-number">03</span><div><strong>Transacciones</strong><span>Cómo cambia la representación del valor entre UTXO y modelos basados en cuentas.</span></div><a href="simuladores/03-utxo-account.html">Comparar modelos</a></li>
-          <li><span class="path-number">04</span><div><strong>Estado y ejecución</strong><span>Cómo una llamada modifica estado mediante una máquina virtual y consume recursos.</span></div><a href="simuladores/04-evm-explorer.html">EVM Explorer</a></li>
-          <li><span class="path-number">05</span><div><strong>Economía de ejecución</strong><span>Por qué almacenamiento, cómputo y datos tienen costo y cómo pensar el gas.</span></div><a href="simuladores/05-gas-lab.html">Gas Lab</a></li>
-          <li><span class="path-number">06</span><div><strong>Programabilidad</strong><span>Cómo estado, funciones, condiciones y eventos forman un smart contract.</span></div><a href="simuladores/06-smart-contract-lab.html">Smart Contract Lab</a></li>
-        </ol>
-      </div>
-    </section>
+    <section class="section" id="ruta" aria-labelledby="ruta-titulo"><div class="shell">
+      <div class="section-head"><div><div class="eyebrow">Ruta didáctica</div><h2 id="ruta-titulo">Una cadena causal, no una lista de definiciones</h2></div><p>Cada bloque responde una pregunta que habilita el siguiente: integridad, compromiso de datos, transacciones, estado, ejecución, programabilidad y representación de activos.</p></div>
+      <ol class="path">
+        <li><span class="path-number">01</span><div><strong>Integridad</strong><span>Qué garantiza un hash y por qué un cambio mínimo altera el resultado.</span></div><a href="simuladores/01-hash-lab.html">Hash Lab</a></li>
+        <li><span class="path-number">02</span><div><strong>Compromiso de datos</strong><span>Cómo un Merkle root resume un conjunto y permite pruebas eficientes de inclusión.</span></div><a href="simuladores/02-merkle-lab.html">Merkle Lab</a></li>
+        <li><span class="path-number">03</span><div><strong>Transacciones</strong><span>Cómo cambia la representación del valor entre UTXO y modelos basados en cuentas.</span></div><a href="simuladores/03-utxo-account.html">Comparar modelos</a></li>
+        <li><span class="path-number">04</span><div><strong>Estado y ejecución</strong><span>Cómo una llamada modifica estado mediante una máquina virtual.</span></div><a href="simuladores/04-evm-explorer.html">EVM Explorer</a></li>
+        <li><span class="path-number">05</span><div><strong>Economía de ejecución</strong><span>Por qué almacenamiento, cómputo y datos tienen costo.</span></div><a href="simuladores/05-gas-lab.html">Gas Lab</a></li>
+        <li><span class="path-number">06</span><div><strong>Programabilidad</strong><span>Cómo estado, funciones, condiciones y eventos forman un smart contract.</span></div><a href="simuladores/06-smart-contract-lab.html">Smart Contract Lab</a></li>
+        <li><span class="path-number">07</span><div><strong>Activos programables</strong><span>Separar activo, derecho, token, custodia, restricciones y datos externos.</span></div><a href="simuladores/07-tokenization-designer.html">Tokenization Designer</a></li>
+      </ol>
+    </div></section>
 
-    <section class="section" id="arquitectura" aria-labelledby="arquitectura-titulo">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Arquitectura conceptual</div><h2 id="arquitectura-titulo">Diez piezas que deben quedar conectadas</h2></div><p>La unidad evita presentar Bitcoin, Ethereum, Merkle y smart contracts como temas independientes: los ubica dentro de un mismo proceso de validación y transición de estado.</p></div>
-        <div class="concept-grid">
-          <article class="concept-card"><span class="num">01</span><h3>Datos</h3><p>Las transacciones y mensajes son la materia prima que una red debe ordenar, verificar y conservar.</p></article>
-          <article class="concept-card"><span class="num">02</span><h3>Hash</h3><p>Una huella criptográfica permite detectar modificaciones y construir referencias verificables.</p></article>
-          <article class="concept-card"><span class="num">03</span><h3>Merkle</h3><p>Un árbol resume muchas hojas en una raíz y permite demostrar inclusión sin revelar todo el conjunto.</p></article>
-          <article class="concept-card"><span class="num">04</span><h3>Bloque</h3><p>Agrupa transacciones y compromete su contenido mediante referencias criptográficas.</p></article>
-          <article class="concept-card"><span class="num">05</span><h3>Transacción</h3><p>Expresa una propuesta de cambio: gastar outputs, mover saldo o invocar una función.</p></article>
-          <article class="concept-card"><span class="num">06</span><h3>Estado</h3><p>Representa la situación actual relevante para decidir qué transacciones son válidas.</p></article>
-          <article class="concept-card"><span class="num">07</span><h3>EVM</h3><p>Ejecuta instrucciones deterministas que leen y modifican el estado de Ethereum.</p></article>
-          <article class="concept-card"><span class="num">08</span><h3>Gas</h3><p>Precio lógico de recursos computacionales; separa la lógica del contrato del costo de ejecutarla.</p></article>
-          <article class="concept-card"><span class="num">09</span><h3>Smart contract</h3><p>Código con estado y reglas que se ejecuta bajo las restricciones de la máquina virtual.</p></article>
-          <article class="concept-card"><span class="num">10</span><h3>Seguridad</h3><p>La corrección del código no elimina riesgos de permisos, diseño económico, datos externos o gobernanza.</p></article>
-        </div>
-        <div class="concept-flow">Datos → Hash → Merkle → Bloque → Transacción → Estado → EVM → Gas → Smart Contract → Seguridad</div>
+    <section class="section" id="arquitectura" aria-labelledby="arquitectura-titulo"><div class="shell">
+      <div class="section-head"><div><div class="eyebrow">Arquitectura conceptual</div><h2 id="arquitectura-titulo">Diez piezas que deben quedar conectadas</h2></div><p>Bitcoin, Ethereum, Merkle y smart contracts dejan de aparecer como temas aislados y pasan a formar parte de un mismo proceso de validación y transición de estado.</p></div>
+      <div class="concept-grid">
+        <article class="concept-card"><span class="num">01</span><h3>Datos</h3><p>Transacciones y mensajes son la materia prima que una red debe ordenar, verificar y conservar.</p></article>
+        <article class="concept-card"><span class="num">02</span><h3>Hash</h3><p>Una huella criptográfica detecta modificaciones y construye referencias verificables.</p></article>
+        <article class="concept-card"><span class="num">03</span><h3>Merkle</h3><p>Una raíz compromete muchas hojas y permite demostrar inclusión con pocos hashes.</p></article>
+        <article class="concept-card"><span class="num">04</span><h3>Bloque</h3><p>Agrupa transacciones y compromete criptográficamente su contenido.</p></article>
+        <article class="concept-card"><span class="num">05</span><h3>Transacción</h3><p>Propone un cambio: gastar outputs, mover saldo o invocar una función.</p></article>
+        <article class="concept-card"><span class="num">06</span><h3>Estado</h3><p>Representa la situación actual relevante para validar la siguiente transición.</p></article>
+        <article class="concept-card"><span class="num">07</span><h3>EVM</h3><p>Ejecuta instrucciones deterministas que leen y modifican el estado de Ethereum.</p></article>
+        <article class="concept-card"><span class="num">08</span><h3>Gas</h3><p>Cuantifica recursos computacionales y vuelve explícito el costo de ejecutar lógica.</p></article>
+        <article class="concept-card"><span class="num">09</span><h3>Smart contract</h3><p>Código con estado y reglas ejecutado bajo las restricciones de la máquina virtual.</p></article>
+        <article class="concept-card"><span class="num">10</span><h3>Seguridad</h3><p>Permisos, diseño económico, datos externos y gobernanza siguen siendo parte del problema.</p></article>
       </div>
-    </section>
+      <div class="concept-flow">Datos → Hash → Merkle → Bloque → Transacción → Estado → EVM → Gas → Smart Contract → Seguridad</div>
+    </div></section>
 
-    <section class="section" id="laboratorios" aria-labelledby="laboratorios-titulo">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Laboratorios manipulables</div><h2 id="laboratorios-titulo">Ver el mecanismo antes de memorizar la definición</h2></div><p>Los laboratorios son autocontenidos, funcionan en el navegador y están diseñados para modificar supuestos, comparar resultados y discutir límites.</p></div>
-        <div class="lab-grid">
-          <article class="lab-card" data-progress-id="hash"><span class="tag">01 · Integridad</span><h3>Hash & Avalanche Lab</h3><p>Calculá SHA-256, cambiá un carácter y medí cuántos bits del digest resultante se modifican.</p><div class="actions"><a class="button primary" href="simuladores/01-hash-lab.html">Abrir laboratorio</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-          <article class="lab-card" data-progress-id="merkle"><span class="tag">02 · Compromiso</span><h3>Merkle Proof Lab</h3><p>Construí la raíz, generá una prueba de inclusión y verificá cómo un cambio en una hoja altera la raíz.</p><div class="actions"><a class="button primary" href="simuladores/02-merkle-lab.html">Abrir laboratorio</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-          <article class="lab-card" data-progress-id="models"><span class="tag">03 · Transacciones</span><h3>UTXO vs Account Model</h3><p>Ejecutá el mismo pago en dos representaciones diferentes y compará outputs, cambio y balances.</p><div class="actions"><a class="button primary" href="simuladores/03-utxo-account.html">Abrir laboratorio</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-          <article class="lab-card" data-progress-id="evm"><span class="tag">04 · Estado</span><h3>EVM State Explorer</h3><p>Seguí una llamada desde la transacción hasta la validación, ejecución, evento y nuevo estado.</p><div class="actions"><a class="button primary" href="simuladores/04-evm-explorer.html">Abrir laboratorio</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-          <article class="lab-card" data-progress-id="gas"><span class="tag">05 · Recursos</span><h3>Gas Economics Lab</h3><p>Modificá lecturas, escrituras, calldata y eventos para comparar la intensidad de recursos.</p><div class="actions"><a class="button primary" href="simuladores/05-gas-lab.html">Abrir laboratorio</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-          <article class="lab-card" data-progress-id="contract"><span class="tag">06 · Programabilidad</span><h3>Smart Contract State Machine</h3><p>Operá un escrow educativo y observá precondiciones, cambios de estado, eventos y reversión de acciones inválidas.</p><div class="actions"><a class="button primary" href="simuladores/06-smart-contract-lab.html">Abrir laboratorio</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-        </div>
+    <section class="section" id="laboratorios" aria-labelledby="laboratorios-titulo"><div class="shell">
+      <div class="section-head"><div><div class="eyebrow">Laboratorios manipulables</div><h2 id="laboratorios-titulo">Ver el mecanismo antes de memorizar la definición</h2></div><p>Los laboratorios son autocontenidos, funcionan en el navegador y están diseñados para modificar supuestos, comparar resultados y discutir límites.</p></div>
+      <div class="lab-grid">
+        <article class="lab-card" data-progress-id="hash"><span class="tag">01 · Integridad</span><h3>Hash & Avalanche Lab</h3><p>Calculá SHA-256, cambiá un carácter y medí la distancia entre digest.</p><div class="actions"><a class="button primary" href="simuladores/01-hash-lab.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="lab-card" data-progress-id="merkle"><span class="tag">02 · Compromiso</span><h3>Merkle Proof Lab</h3><p>Construí la raíz, generá una proof y verificá cómo cambia ante una mutación.</p><div class="actions"><a class="button primary" href="simuladores/02-merkle-lab.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="lab-card" data-progress-id="models"><span class="tag">03 · Transacciones</span><h3>UTXO vs Account Model</h3><p>Ejecutá el mismo pago en dos representaciones diferentes del estado.</p><div class="actions"><a class="button primary" href="simuladores/03-utxo-account.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="lab-card" data-progress-id="evm"><span class="tag">04 · Estado</span><h3>EVM State Explorer</h3><p>Seguí una llamada desde la transacción hasta el nuevo estado y el evento.</p><div class="actions"><a class="button primary" href="simuladores/04-evm-explorer.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="lab-card" data-progress-id="gas"><span class="tag">05 · Recursos</span><h3>Gas Economics Lab</h3><p>Compará lecturas, escrituras, calldata y eventos en un modelo educativo.</p><div class="actions"><a class="button primary" href="simuladores/05-gas-lab.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="lab-card" data-progress-id="contract"><span class="tag">06 · Programabilidad</span><h3>Smart Contract State Machine</h3><p>Operá un escrow y observá precondiciones, eventos, cambios de estado y revert.</p><div class="actions"><a class="button primary" href="simuladores/06-smart-contract-lab.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="lab-card" data-progress-id="token"><span class="tag">07 · Activos</span><h3>Tokenization Designer</h3><p>Diseñá la representación de un activo separando derecho, custodia, restricciones y oráculos.</p><div class="actions"><a class="button primary" href="simuladores/07-tokenization-designer.html">Abrir</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
       </div>
-    </section>
+    </div></section>
 
-    <section class="section" id="recursos" aria-labelledby="recursos-titulo">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Material existente, reorganizado</div><h2 id="recursos-titulo">Guía, notebooks y recursos complementarios</h2></div><p>La versión 2.0 no elimina el material previo: lo integra como bibliografía, profundización o caso aplicado, evitando que compita con la secuencia principal.</p></div>
-        <div class="resource-grid">
-          <article class="resource-card" data-progress-id="guide"><span class="tag">PDF</span><h3>Guía Unidad 1</h3><p>Material de estudio original de la unidad, disponible directamente desde el repositorio.</p><a class="button" href="Guía%20Unidad%201.pdf" target="_blank" rel="noopener">Abrir guía</a><button class="button" type="button" data-mark-complete>Marcar completado</button></article>
-          <article class="resource-card"><span class="tag">Notebook</span><h3>Impacto de nuevas tecnologías</h3><p>Notebook existente sobre transformación de negocios, blockchain y nuevos modelos.</p><a class="button" href="python/El_Impacto_de_las_Nuevas_Tecnologías_en_los_Negocios.ipynb">Ver notebook</a></article>
-          <article class="resource-card"><span class="tag">Notebook</span><h3>Definiciones con ejemplos</h3><p>Recurso existente con tokenización, stablecoins, RWA, eBL, CBDC y redes permissioned/permissionless.</p><a class="button" href="python/Definiciones_con_ejemplos_Unidad_1_.ipynb">Ver notebook</a></article>
-          <article class="resource-card"><span class="tag">Caso aplicado</span><h3>Escrow visual previo</h3><p>El recurso histórico de smart contracts se conserva como caso de aplicación, no como explicación principal.</p><a class="button" href="html/smart_contract.html">Abrir escrow</a></article>
-          <article class="resource-card"><span class="tag">Complementario</span><h3>Clave criptográfica</h3><p>Material previo sobre claves públicas, privadas, firmas y gestión de identidad.</p><a class="button" href="html/clave.html">Abrir recurso</a></article>
-          <article class="resource-card"><span class="tag">Complementario</span><h3>Bitcoin</h3><p>Introducción previa a Bitcoin como sistema descentralizado de transferencia de valor.</p><a class="button" href="html/BITCOIN.html">Abrir recurso</a></article>
-        </div>
+    <section class="section" id="recursos" aria-labelledby="recursos-titulo"><div class="shell">
+      <div class="section-head"><div><div class="eyebrow">Material existente, reorganizado</div><h2 id="recursos-titulo">Guía, notebooks y recursos complementarios</h2></div><p>La versión 2.0 no elimina el material previo: lo integra como bibliografía, profundización o caso aplicado, evitando que compita con la secuencia principal.</p></div>
+      <div class="resource-grid">
+        <article class="resource-card" data-progress-id="guide"><span class="tag">PDF</span><h3>Guía Unidad 1</h3><p>Material de estudio original de la unidad.</p><div class="actions"><a class="button" href="Guía%20Unidad%201.pdf" target="_blank" rel="noopener">Abrir guía</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="resource-card"><span class="tag">Notebook</span><h3>Impacto de nuevas tecnologías</h3><p>Transformación de negocios, blockchain y nuevos modelos.</p><a class="button" href="python/El_Impacto_de_las_Nuevas_Tecnologías_en_los_Negocios.ipynb">Ver notebook</a></article>
+        <article class="resource-card"><span class="tag">Notebook</span><h3>Definiciones con ejemplos</h3><p>Tokenización, stablecoins, RWA, eBL, CBDC y redes.</p><a class="button" href="python/Definiciones_con_ejemplos_Unidad_1_.ipynb">Ver notebook</a></article>
+        <article class="resource-card"><span class="tag">Caso aplicado</span><h3>Escrow visual histórico</h3><p>Se conserva como caso de aplicación, no como explicación principal.</p><a class="button" href="html/smart_contract.html">Abrir escrow</a></article>
+        <article class="resource-card"><span class="tag">Complementario</span><h3>Clave criptográfica</h3><p>Claves públicas, privadas, firmas y gestión de identidad.</p><a class="button" href="html/clave.html">Abrir recurso</a></article>
+        <article class="resource-card"><span class="tag">Complementario</span><h3>Bitcoin</h3><p>Introducción previa a Bitcoin y transferencia descentralizada de valor.</p><a class="button" href="html/BITCOIN.html">Abrir recurso</a></article>
       </div>
-    </section>
+    </div></section>
 
-    <section class="section" id="evaluacion" aria-labelledby="evaluacion-titulo">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Evaluación formativa</div><h2 id="evaluacion-titulo">Comprobar mecanismos, no sólo vocabulario</h2></div><p>La evaluación nueva organiza preguntas por categoría, mezcla práctica y examen y ofrece explicaciones para convertir el error en material de estudio.</p></div>
-        <div class="two-col">
-          <article class="resource-card" data-progress-id="quiz"><span class="tag">50 preguntas</span><h3>Evaluación U1 v2</h3><p>Hash, Merkle, transacciones, Bitcoin, Ethereum, EVM, gas, smart contracts, tokenización y seguridad.</p><div class="actions"><a class="button primary" href="evaluacion.html">Comenzar evaluación</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
-          <article class="resource-card"><span class="tag">Cierre</span><h3>Pregunta integradora</h3><p>Explicá el recorrido completo de una transacción que invoca un smart contract: qué se firma, qué se valida, qué estado se consulta, qué ejecuta la EVM, por qué se consume gas y qué evidencia queda después de la ejecución.</p></article>
-        </div>
+    <section class="section" id="evaluacion" aria-labelledby="evaluacion-titulo"><div class="shell">
+      <div class="section-head"><div><div class="eyebrow">Evaluación formativa</div><h2 id="evaluacion-titulo">Comprobar mecanismos, no sólo vocabulario</h2></div><p>Práctica y examen por categoría y dificultad, con explicación de cada respuesta y resultados por competencia.</p></div>
+      <div class="two-col">
+        <article class="resource-card" data-progress-id="quiz"><span class="tag">50 preguntas</span><h3>Evaluación U1 v2</h3><p>Hash, Merkle, transacciones, Bitcoin, Ethereum, EVM, gas, smart contracts, tokenización y seguridad.</p><div class="actions"><a class="button primary" href="evaluacion.html">Comenzar evaluación</a><button class="button" type="button" data-mark-complete>Marcar completado</button></div></article>
+        <article class="resource-card"><span class="tag">Cierre</span><h3>Pregunta integradora</h3><p>Explicá el recorrido de una transacción que invoca un smart contract: qué se firma, qué se valida, qué estado se consulta, qué ejecuta la EVM, por qué se consume gas y qué evidencia queda después.</p></article>
       </div>
-    </section>
+    </div></section>
   </main>
 
   <footer class="footer"><div class="shell footer-inner"><span>Material elaborado por el Dr. Sergio Gevatschnaider.</span><span>Blockchain y Finanzas Descentralizadas · Unidad 1 · 2026</span></div></footer>
