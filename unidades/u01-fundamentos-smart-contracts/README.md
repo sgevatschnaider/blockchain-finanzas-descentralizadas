@@ -1,158 +1,131 @@
-# U1 — Fundamentos de Blockchain & Smart Contracts
+# Unidad 1 — Del registro verificable al código ejecutable
 
-**Material elaborado :** Dr. Sergio Gevatschnaider
+**Asignatura:** Blockchain y Finanzas Descentralizadas  
+**Docente:** Dr. Sergio Gevatschnaider  
+**Año:** 2026
 
-> Esta unidad introduce el impacto de las nuevas tecnologías en negocios (banca, medios de pago, salud, logística) y el rol de **blockchain** y **smart contracts** en nuevos modelos de negocio. Se comparan plataformas (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda) y se discuten ventajas, desventajas y perspectivas. 
+La versión 2.0 reorganiza la Unidad 1 para continuar de forma directa el Módulo 0. El foco deja de ser una segunda introducción general a blockchain y pasa a una pregunta técnica central: **¿cómo una red representa, verifica y modifica un estado compartido hasta permitir la ejecución de reglas programables?**
 
----
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><img alt="Abrir Unidad 1" src="https://img.shields.io/badge/LIVE-UNIDAD%201%20V2-0284c7?style=for-the-badge&logo=html5&logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img alt="Abrir evaluación" src="https://img.shields.io/badge/EVALUACIÓN-50%20PREGUNTAS-d97706?style=for-the-badge&logo=checkmarx&logoColor=white"></a>
+</p>
 
-## 🎯 Objetivos de la unidad
-- Acordar **cronograma** y **pautas de trabajo** de la materia.  
-- Recuperar y **profundizar conceptos** sobre blockchain y smart contracts. 
+## Objetivos de aprendizaje
 
----
+Al finalizar la unidad, el estudiante podrá:
 
-## 🗺️ Plan de trabajo (visión general)
-- **Sección 1**  
-  - Impacto de nuevas tecnologías en los negocios.  
-  - Modelos de negocio basados en blockchain (Big Tech, fintech, bancos, pagos, salud, logística).  
-  - Evolución de blockchain y smart contracts; casos de uso.  
-  - Comparación entre blockchains (Bitcoin, Ethereum, Litecoin, Hyperledger, Corda).  
-  - Casos de smart contracts: logística, PropTech, InsurTech; ventajas y desventajas; perspectivas.  
-  - **Actividad sincrónica obligatoria.** 
+- explicar las propiedades básicas de un hash criptográfico y observar el efecto avalancha;
+- construir conceptualmente un árbol de Merkle y verificar una prueba de inclusión;
+- distinguir los modelos **UTXO** y **account-based** como representaciones diferentes del estado;
+- describir el recorrido de una transacción que invoca un contrato en Ethereum;
+- relacionar EVM, storage, eventos, revert y transición de estado;
+- separar **gas usado** de **precio por unidad de gas** y razonar sobre intensidad de recursos;
+- interpretar un smart contract como una máquina de estados con funciones y precondiciones;
+- distinguir tokenización técnica, derecho representado, custodia, restricciones y dependencias off-chain;
+- integrar integridad, autorización, ejecución, datos externos, permisos y diseño económico dentro de un análisis de seguridad.
 
-> 
+## Ruta conceptual
 
----
-
-## ⏱️ Agenda sugerida para la sesión sincrónica (3 h)
-1) Panorama y motivación en finanzas (30’)  
-2) Estructura de bloque, hash y **Merkle** (40’)  
-3) Ethereum/EVM y gas; comparación de plataformas (30’)  
-4) **Hands-on**: Merkle + prueba de inclusión (60’)  
-5) Q&A y próximas actividades (20’)
-
----
-
-## 🧪 Laboratorio principal 
-**Título:** Árbol de Merkle y prueba de inclusión  
-**Descripción:** Dada una lista de transacciones, construir el **Merkle root** y demostrar (off-chain / on-chain) que un elemento pertenece al conjunto.
-
-**Notebook sugerido:** `notebooks/U01_merkle_tree.ipynb`  
-**Abrir en Colab:**  
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/notebooks/U01_merkle_tree.ipynb)
-
-**Pista de implementación (Python):**
-```python
-import hashlib
-
-def h(x: bytes) -> bytes:
-    return hashlib.sha256(x).digest()
-
-def merkle_parent(a: bytes, b: bytes) -> bytes:
-    return h(a + b)
-
-def merkle_root(leaves: list[bytes]) -> bytes:
-    level = leaves[:]
-    if len(level) % 2 == 1:
-        level.append(level[-1])  # duplico última si es impar
-    while len(level) > 1:
-        nxt = []
-        for i in range(0, len(level), 2):
-            nxt.append(merkle_parent(level[i], level[i+1]))
-        if len(nxt) % 2 == 1:
-            nxt.append(nxt[-1])
-        level = nxt
-    return level[0]
-````
-
----
-
-## 📁 Estructura de trabajo (códigos y ejemplos)
-
-```
-Unidad-1/
-├── python/   → Scripts en Python
-├── html/     → Ejemplos y prácticas en HTML
-└── README.md
+```text
+Datos
+  ↓
+Hash
+  ↓
+Merkle
+  ↓
+Bloque
+  ↓
+Transacción
+  ↓
+Estado
+  ↓
+EVM
+  ↓
+Gas
+  ↓
+Smart Contract
+  ↓
+Seguridad y activos programables
 ```
 
-## 📝 Unidad 1 — Fundamentos de Blockchain & Smart Contracts
+## Laboratorios interactivos
 
-| 📄 Recurso | 📥 Acceso |
-| ---------- | --------- |
-| **Notebook: El Impacto de las Nuevas Tecnologías en los Negocios** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Este notebook introduce el impacto de tecnologías emergentes en negocios (banca, pagos, salud, logística), destacando el papel de blockchain y smart contracts. Incluye una revisión conceptual y práctica inicial con ejemplos para visualizar cómo los modelos de negocio se transforman con plataformas descentralizadas.</p></details> | [![Ver en GitHub](https://img.shields.io/badge/Ver%20en-GitHub-blue?style=for-the-badge&logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u01-fundamentos-smart-contracts/python/El_Impacto_de_las_Nuevas_Tecnolog%C3%ADas_en_los_Negocios.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/main/unidades/u01-fundamentos-smart-contracts/python/El_Impacto_de_las_Nuevas_Tecnolog%C3%ADas_en_los_Negocios.ipynb) |
-| **Notebook: Definiciones con ejemplos (Unidad 1)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Este recurso recopila las definiciones clave de la Unidad 1 (tokenización, stablecoins, depósitos tokenizados, RWA, eBL, CBDC, redes permissioned/permissionless) con ejemplos prácticos y explicaciones breves. Sirve como glosario ampliado para reforzar el aprendizaje.</p></details> | [![Ver en GitHub](https://img.shields.io/badge/Ver%20en-GitHub-blue?style=for-the-badge&logo=github)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/9971812dc5784b70eced370f1c92bcbe56c4e672/unidades/u01-fundamentos-smart-contracts/python/Definiciones_con_ejemplos_Unidad_1_.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgevatschnaider/blockchain-finanzas-descentralizadas/blob/9971812dc5784b70eced370f1c92bcbe56c4e672/unidades/u01-fundamentos-smart-contracts/python/Definiciones_con_ejemplos_Unidad_1_.ipynb) |
+Todos los laboratorios son autocontenidos y se ejecutan en el navegador.
 
+| # | Laboratorio | Objetivo |
+|---:|---|---|
+| 01 | [Hash & Avalanche Lab](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/01-hash-lab.html) | Calcular SHA-256 y medir sensibilidad a cambios mínimos |
+| 02 | [Merkle Proof Lab](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/02-merkle-lab.html) | Construir una raíz y verificar una prueba de inclusión |
+| 03 | [UTXO vs Account Model](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/03-utxo-account.html) | Comparar dos representaciones del estado para el mismo pago |
+| 04 | [EVM State Explorer](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/04-evm-explorer.html) | Seguir firma, validación, lectura, ejecución, escritura y evento |
+| 05 | [Gas Economics Lab](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/05-gas-lab.html) | Comparar intensidad de lecturas, escrituras, calldata y logs |
+| 06 | [Smart Contract State Machine](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/06-smart-contract-lab.html) | Observar estados, precondiciones, eventos y revert en un escrow educativo |
+| 07 | [Tokenization Designer](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/07-tokenization-designer.html) | Separar activo, derecho, token, custodia, transferencias y oráculos |
 
-## 📝 Unidad 1 — Fundamentos de Blockchain & Smart Contracts (Recursos HTML)
+Los laboratorios de EVM, gas, smart contracts y tokenización son **modelos educativos**. No representan implementaciones listas para producción ni sustituyen documentación técnica, auditorías, análisis jurídico o evaluación de seguridad.
 
-| 📄 Recurso | 📥 Acceso |
-| ---------- | --------- |
-| **HTML: Cuestionario** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Cuestionario interactivo diseñado para reforzar los conceptos clave de blockchain y smart contracts mediante preguntas prácticas y casos de uso.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/Cuestionario.html) |
-| **HTML: Merkle (Árbol de Merkle)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Visualización interactiva de un Árbol de Merkle. Permite observar cómo se combinan los hashes de las transacciones para generar el Merkle Root y cómo se realizan pruebas de inclusión.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/merkle.html) |
-| **HTML: Bitcoin** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Explicación introductoria de Bitcoin como el primer sistema descentralizado de transferencia de valor, su funcionamiento básico y su rol pionero en el ecosistema blockchain.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/BITCOIN.html) |
-| **HTML: Colateral** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Definición y uso del colateral en finanzas tradicionales y en DeFi. Incluye ejemplos de gestión de garantías y liquidez intradía con activos tokenizados.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/Colateral.html) |
-| **HTML: FT & DeFi** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Conceptos de tokens fungibles (FT) y su rol en protocolos DeFi, destacando casos de liquidez, gobernanza y productos financieros descentralizados.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/FT_DEFI.html) |
-| **HTML: Clave Criptográfica** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Introducción a las claves públicas y privadas, su importancia en la seguridad de blockchain y su aplicación en firmas digitales y gestión de identidad.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/clave.html) |
-| **HTML: Colateral (versión alternativa)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Recurso complementario sobre colateral en blockchain. Incluye variantes de visualización y ejemplos adicionales respecto a la versión principal.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/colateral.html) |
-| **HTML: Smart Contracts** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Definición de smart contracts, sus características principales y cómo automatizan acuerdos mediante código ejecutable en blockchain.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/smart_contract.html) |
-| **HTML: Tokenización** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Explicación de la tokenización de activos, tanto financieros como del mundo real (RWA), y su relevancia en la digitalización de valor y mercados 24/7.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/html/tokenizacion.html) |
-| **HTML: Escrow sin custodia (Puente TradFi ↔ Web3)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Artículo con demo y simulador de escrow no-custodial: flujo simple y por hitos, i18n y diseño accesible.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://economiayetica.blogspot.com/2025/08/escrow-sin-custodia-el-puente-simple.html)|
-|
+## Evaluación U1 v2
 
-## 📚 Material de estudio
+La nueva evaluación contiene **50 preguntas explicadas** distribuidas en diez categorías:
 
-### Base de la guía (ES)
+1. Hash
+2. Merkle
+3. Transacciones
+4. Bitcoin
+5. Ethereum
+6. EVM
+7. Gas
+8. Smart Contracts
+9. Tokenización
+10. Seguridad
 
-* Bashir, I. *Mastering Blockchain* (2ª ed.).
-* Beltrán, M. (coord.), Nespral, D., Fernández-Hergueta, R. *Blockchain: el modelo descentralizado hacia la economía digital*.
-* Drescher, D. *Blockchain Basics: A Non-Technical Introduction in 25 Steps*.
-* Edmunds, J. C. *DeFi. El nuevo paradigma de las finanzas modernas*.
-* Lewis, A. *The Basics of Bitcoins and Blockchains*.&#x20;
+Incluye modo **Práctica** y **Examen**, selección por categoría y dificultad, corrección explicada y resumen de desempeño por competencia.
 
-### Complementaria actualizada (EN)
+[**Abrir evaluación**](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html)
 
-* Narayanan et al., *Bitcoin and Cryptocurrency Technologies* (Princeton).
-* Antonopoulos & Wood, *Mastering Ethereum* (O’Reilly).
-* Ethereum Docs (EVM, gas, accounts).
-* OpenZeppelin Docs (primitives y estándares ERC).
+## Material de estudio existente
 
-> La bibliografía viva y ampliada está en `recursos/bibliografia.md`.
+La versión 2.0 conserva los recursos previos y los reubica como material complementario.
 
----
+- [Guía Unidad 1.pdf](Guía%20Unidad%201.pdf)
+- [Notebook — El impacto de las nuevas tecnologías en los negocios](python/El_Impacto_de_las_Nuevas_Tecnologías_en_los_Negocios.ipynb)
+- [Notebook — Definiciones con ejemplos](python/Definiciones_con_ejemplos_Unidad_1_.ipynb)
+- [Caso visual — Escrow / smart contract](html/smart_contract.html)
+- [Recurso — Clave criptográfica](html/clave.html)
+- [Recurso — Bitcoin](html/BITCOIN.html)
+- [Recurso — Colateral](html/colateral.html)
+- [Recurso — FT & DeFi](html/FT_DEFI.html)
 
-## 🧱 Prerrequisitos técnicos
+Los enlaces históricos `html/merkle.html`, `html/Cuestionario.html` y `html/tokenizacion.html` se mantienen por compatibilidad y redirigen a las experiencias v2 correspondientes.
 
-* **Python 3.10+** (`pip install -r requirements.txt`)
-* (Opcional) **Foundry/Anvil** para pruebas EVM (se usa intensivamente en U6).
+## Agenda sugerida — 3 horas
 
----
+| Tiempo | Actividad |
+|---:|---|
+| 15 min | Conexión con Módulo 0 y mapa conceptual |
+| 25 min | Hash y efecto avalancha |
+| 35 min | Merkle tree + proof |
+| 25 min | UTXO vs account model |
+| 35 min | Estado, Ethereum y EVM |
+| 20 min | Gas y costo de ejecución |
+| 20 min | Smart contract state machine |
+| 15 min | Tokenización y dependencias off-chain |
+| 10 min | Evaluación / cierre |
 
-## ✅ Rúbrica (U1 Lab)
+## Bibliografía principal
 
-| Criterio     | Descripción                                        |  Puntos |
-| ------------ | -------------------------------------------------- | ------: |
-| Correctitud  | Cálculo de raíz y verificación de pruebas          |      40 |
-| Claridad     | Código limpio, nombres claros, explicación breve   |      25 |
-| Pruebas      | Casos normales y bordes (pares/impares, duplicado) |      20 |
-| Presentación | Informe de 1 pág. con resultados y discusión       |      15 |
-| **Total**    |                                                    | **100** |
+- Narayanan et al., *Bitcoin and Cryptocurrency Technologies*.
+- Antonopoulos & Wood, *Mastering Ethereum*.
+- Bashir, I., *Mastering Blockchain*.
+- Drescher, D., *Blockchain Basics*.
+- Documentación oficial de Bitcoin, Ethereum y Solidity.
+- OpenZeppelin Docs para primitivas y patrones de contratos.
 
-**Entrega:** notebook con celdas ejecutadas + informe breve (MD/PDF).
+## Validación técnica
 
----
+La unidad incluye `validate.mjs`, que comprueba recursos obligatorios, enlaces locales, sintaxis JavaScript de los archivos nuevos, presencia de los 7 laboratorios y conteo de las 50 preguntas.
 
-## 👥 Organización y normas
-
-* Formar **grupos** en la primera sesión y comunicar al docente.
-* Verificar **pertinencia** de fuentes y **citar en APA 7** en trabajos y presentaciones.&#x20;
-
----
-
-## 📎 Recursos de apoyo
-
-* Bitcoin Whitepaper · Ethereum Docs · Solidity Docs · Foundry Book.
-* Calculadoras de hash y visualizadores de árboles de Merkle (educativos).
-
-
+```bash
+node unidades/u01-fundamentos-smart-contracts/validate.mjs
+```
