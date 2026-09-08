@@ -1,4 +1,4 @@
-name: Unit 1 v2 CI
+name: Unit 1 CI
 
 on:
   pull_request:
@@ -23,5 +23,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Validate Unit 1 v2
+      - name: Validate Unit 1
         run: node unidades/u01-fundamentos-smart-contracts/validate.mjs
