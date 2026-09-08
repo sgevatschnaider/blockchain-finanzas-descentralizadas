@@ -1,15 +1,24 @@
 # Módulo 0 — Clase inicial: Blockchain, negocios y confianza programable
 
-**Asignatura:** Blockchain y Finanzas Descentralizadas
-
-**Docente:** Dr. Sergio Gevatschnaider
+**Asignatura:** Blockchain y Finanzas Descentralizadas  
+**Docente:** Dr. Sergio Gevatschnaider  
 **Año:** 2026
 
-Este módulo introduce la materia desde un problema central: cómo coordinar organizaciones, activos y reglas cuando ninguna parte debería controlar por sí sola el registro común. Conecta la perspectiva de negocio con descentralización, consenso, smart contracts, oráculos y selección de arquitectura.
+Este módulo introduce la materia desde un problema central: cómo coordinar organizaciones, activos y reglas cuando ninguna parte debería controlar por sí sola el registro común. La versión 2.0 conecta la perspectiva de negocio con descentralización, consenso, smart contracts, oráculos y selección de arquitectura, y agrega un visor de presentaciones completamente local, sin dependencia de Google Slides, inicio de sesión ni autorización externa.
 
 <p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/"><img alt="Abrir Módulo 0" src="https://img.shields.io/badge/LIVE-MÓDULO%200%20COMPLETO-0284c7?style=for-the-badge&amp;logo=googlescholar&amp;logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/"><img alt="Abrir Módulo 0" src="https://img.shields.io/badge/LIVE-MÓDULO%200%20V2-0284c7?style=for-the-badge&amp;logo=googlescholar&amp;logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/visor-local.html"><img alt="Abrir visor local" src="https://img.shields.io/badge/VISOR-100%25%20LOCAL-047857?style=for-the-badge&amp;logo=slides&amp;logoColor=white"></a>
 </p>
+
+## Qué cambia en la versión 2.0
+
+- El visor usa únicamente imágenes WebP, PDF y PPTX almacenados en el propio repositorio.
+- Se elimina cualquier necesidad de Google Slides, cuentas externas o pantallas de autorización.
+- La reproducción automática fue reescrita con pausa, intervalo configurable, repetición, barra de progreso, miniaturas, teclado y pantalla completa.
+- La presentación **Descentralización, consenso y oráculos** incorpora accesos directos por capítulos: tres preguntas, descentralización, consenso, oráculos y síntesis.
+- El portal muestra los dos PDF como recursos independientes del visor, de modo que siempre exista un respaldo directo.
+- El módulo agrega un mapa conceptual en tres capas: **control distribuido**, **acuerdo seguro** y **datos externos confiables**.
 
 ## Objetivos de aprendizaje
 
@@ -30,28 +39,37 @@ Al finalizar, el estudiante podrá:
 | 10 min | Presentación de la materia y diagnóstico inicial |
 | 50 min | Deck 1: Blockchain y nuevos modelos de negocio |
 | 25 min | Coordinación y selector de arquitectura |
-| 45 min | Selección guiada del deck de fundamentos |
+| 45 min | Deck 2: Descentralización, consenso y oráculos |
 | 30 min | Consenso bizantino y riesgo de oráculos |
 | 10 min | Cuestionario de cierre |
 | 10 min | Síntesis y conexión con la Unidad 1 |
 
 ## Recursos
 
-Todos los botones abren los recursos publicados e interactivos, no los archivos dentro de GitHub.
+Todos los enlaces siguientes apuntan a recursos publicados e interactivos.
 
 <p align="center">
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/"><img alt="Abrir portal del módulo" src="https://img.shields.io/badge/ABRIR-PORTAL%20DEL%20MÓDULO-0284c7?style=for-the-badge&amp;logo=html5&amp;logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/"><img alt="Abrir visor de presentaciones" src="https://img.shields.io/badge/ABRIR-VISOR%20COMPLETO-7c3aed?style=for-the-badge&amp;logo=slides&amp;logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/visor-local.html"><img alt="Abrir visor de presentaciones" src="https://img.shields.io/badge/ABRIR-VISOR%20LOCAL-047857?style=for-the-badge&amp;logo=slides&amp;logoColor=white"></a>
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/glosario.html"><img alt="Abrir glosario interactivo" src="https://img.shields.io/badge/ABRIR-GLOSARIO%20125%20TÉRMINOS-0f766e?style=for-the-badge&amp;logo=bookstack&amp;logoColor=white"></a>
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/cuestionario.html"><img alt="Abrir cuestionario interactivo" src="https://img.shields.io/badge/ABRIR-CUESTIONARIO%2090%20PREGUNTAS-d97706?style=for-the-badge&amp;logo=checkmarx&amp;logoColor=white"></a>
 </p>
 
 ### Presentaciones
 
-<p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/?deck=negocios"><img alt="Blockchain y nuevos modelos de negocio" src="https://img.shields.io/badge/DECK-NEGOCIOS%20Y%20BLOCKCHAIN-2563eb?style=for-the-badge&amp;logo=slides&amp;logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/?deck=fundamentos"><img alt="Descentralización, consenso y oráculos" src="https://img.shields.io/badge/DECK-DESCENTRALIZACIÓN%2C%20CONSENSO%20Y%20ORÁCULOS-6d28d9?style=for-the-badge&amp;logo=slides&amp;logoColor=white"></a>
-</p>
+**Visor local**
+
+- [Blockchain y nuevos modelos de negocio — visor](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/visor-local.html?deck=negocios)
+- [Descentralización, consenso y oráculos — visor](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/presentaciones/visor-local.html?deck=fundamentos)
+
+**Archivos independientes del visor**
+
+- [Blockchain y nuevos modelos de negocio — PDF](presentaciones/blockchain-y-nuevos-modelos-de-negocio.pdf)
+- [Blockchain y nuevos modelos de negocio — PPTX](presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx)
+- [Descentralización, consenso y oráculos — PDF, 29 páginas](presentaciones/descentralizacion-consenso-y-oraculos.pdf)
+- [Descentralización, consenso y oráculos — PPTX](presentaciones/descentralizacion-consenso-y-oraculos.pptx)
+
+El PDF **Descentralización, consenso y oráculos** ya forma parte del módulo como archivo local y ahora queda visible también como recurso independiente, además de ser la base del segundo deck dentro del visor.
 
 ### Simulaciones
 
@@ -63,6 +81,16 @@ Todos los botones abren los recursos publicados e interactivos, no los archivos 
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/simuladores/05-selector-arquitectura.html"><img alt="Selector de arquitectura" src="https://img.shields.io/badge/LAB%2005-SELECTOR%20DE%20ARQUITECTURA-d97706?style=for-the-badge&amp;logo=javascript&amp;logoColor=white"></a>
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u00-clase-inicial-blockchain-negocios/simuladores/06-tokenizacion-smart-contracts.html"><img alt="Tokenización y smart contracts" src="https://img.shields.io/badge/LAB%2006-TOKENIZACIÓN%20Y%20SMART%20CONTRACTS-047857?style=for-the-badge&amp;logo=ethereum&amp;logoColor=white"></a>
 </p>
+
+## Mapa conceptual de la presentación de fundamentos
+
+La segunda presentación se organiza en tres problemas diferentes:
+
+1. **Descentralización:** quién controla infraestructura, validación, gobernanza, economía y acceso.
+2. **Consenso:** cómo participantes honestos alcanzan una decisión compatible bajo fallas, demoras o comportamiento bizantino.
+3. **Oráculos:** cómo un smart contract obtiene información sobre precios, entregas, clima, sensores u otros hechos que ocurren fuera de la blockchain.
+
+Esta separación evita una confusión frecuente: una blockchain puede alcanzar consenso perfectamente y, aun así, ejecutar una decisión económicamente equivocada si el dato externo ingresado por el oráculo es falso, tardío o ambiguo.
 
 ## Evaluación formativa
 

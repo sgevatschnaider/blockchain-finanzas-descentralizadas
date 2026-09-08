@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Módulo 0 de Blockchain y Finanzas Descentralizadas: presentaciones completas, negocios, descentralización, consenso, smart contracts, oráculos, simulaciones y evaluación.">
+  <meta name="description" content="Módulo 0 de Blockchain y Finanzas Descentralizadas: negocios, descentralización, consenso, oráculos, simulaciones, glosario y evaluación con visor de presentaciones 100% local.">
   <meta name="theme-color" content="#030b14">
   <title>Módulo 0 · Blockchain, negocios y confianza programable</title>
-  <link rel="stylesheet" href="assets/modulo-00.css">
-  <script src="assets/modulo-00.js" defer></script>
+  <link rel="stylesheet" href="assets/modulo-00.css?v=20260908">
+  <link rel="stylesheet" href="assets/modulo-00-v2.css?v=20260908">
+  <script src="assets/modulo-00.js?v=20260908" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -20,6 +21,7 @@
       </a>
       <nav class="nav" aria-label="Navegación del módulo">
         <a class="keep-mobile" href="#ruta">Ruta</a>
+        <a href="#mapa">Mapa conceptual</a>
         <a href="#presentaciones">Presentaciones</a>
         <a href="#laboratorios">Simulaciones</a>
         <a href="glosario.html">Glosario</a>
@@ -32,18 +34,20 @@
   <main id="contenido">
     <section class="shell hero" aria-labelledby="titulo-modulo">
       <div class="hero-copy">
-        <div class="eyebrow">Módulo 0 · Clase inicial · 2026</div>
+        <div class="eyebrow">Módulo 0 · Clase inicial · versión 2.0 · 2026</div>
         <h1 id="titulo-modulo">Blockchain, negocios y confianza programable</h1>
-        <p class="lede">Una experiencia de aprendizaje completa para reconocer cuándo una infraestructura compartida crea valor, cómo acuerdan sus participantes y dónde aparecen sus principales límites.</p>
+        <p class="lede">Una experiencia de aprendizaje para reconocer cuándo una infraestructura compartida crea valor, cómo acuerdan sus participantes y por qué la seguridad de una aplicación también depende de quién controla, cómo se alcanza consenso y cómo ingresan los datos del mundo real.</p>
+        <div class="module-version-badge">Visor 100% local · sin Google Slides · sin autorización externa</div>
         <div class="hero-actions">
           <a class="button primary" href="#presentaciones">Ver la clase completa</a>
+          <a class="button" href="#mapa">Entender el mapa conceptual</a>
           <a class="button" href="#laboratorios">Explorar las simulaciones</a>
           <a class="button" href="cuestionario.html">Realizar la evaluación</a>
         </div>
       </div>
       <div class="hero-stats" aria-label="Alcance del módulo">
         <div><strong>2</strong><span>presentaciones completas</span></div>
-        <div><strong>55</strong><span>diapositivas</span></div>
+        <div><strong>55</strong><span>diapositivas disponibles localmente</span></div>
         <div><strong>6</strong><span>simulaciones interactivas</span></div>
         <div><strong>90</strong><span>preguntas explicadas</span></div>
       </div>
@@ -65,22 +69,59 @@
       <div class="shell">
         <div class="section-head">
           <div><div class="eyebrow">Ruta didáctica · tres horas</div><h2 id="ruta-titulo">Del problema de coordinación a la decisión tecnológica</h2></div>
-          <p>La secuencia combina exposición, experimentación y evaluación para evitar una mirada puramente promocional de blockchain.</p>
+          <p>La secuencia combina exposición, experimentación y evaluación para evitar una mirada puramente promocional de blockchain y convertir los conceptos en criterios de diseño.</p>
         </div>
         <ol class="learning-path">
           <li><span class="phase-number">01</span><div><strong>Problema de negocio</strong><span>Identificá conciliaciones, registros aislados, intermediación y responsabilidades distribuidas.</span></div><a href="#presentaciones">Abrir fundamentos</a></li>
-          <li><span class="phase-number">02</span><div><strong>Arquitectura compartida</strong><span>Conectá firmas, validación, consenso, gobernanza, contratos y oráculos.</span></div><a href="#presentaciones">Ver presentación</a></li>
+          <li><span class="phase-number">02</span><div><strong>Arquitectura compartida</strong><span>Conectá firmas, validación, consenso, gobernanza, contratos y oráculos.</span></div><a href="#mapa">Ver mapa conceptual</a></li>
           <li><span class="phase-number">03</span><div><strong>Experimentación</strong><span>Modificá supuestos y observá su efecto en costos, control, acuerdo y riesgo.</span></div><a href="#laboratorios">Abrir simulaciones</a></li>
           <li><span class="phase-number">04</span><div><strong>Criterio de decisión</strong><span>Compará alternativas y justificá cuándo usar —o no usar— blockchain.</span></div><a href="cuestionario.html">Comprobar comprensión</a></li>
         </ol>
       </div>
     </section>
 
+    <section class="section" id="mapa" aria-labelledby="mapa-titulo">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="eyebrow">Mapa conceptual · tres pruebas</div><h2 id="mapa-titulo">La confianza se reconfigura en tres capas diferentes</h2></div>
+          <p>Descentralización, consenso y oráculos no son sinónimos. Cada uno responde una pregunta distinta y una aplicación puede ser sólida en una capa y frágil en otra.</p>
+        </div>
+        <div class="trust-map">
+          <article class="trust-card">
+            <span class="trust-kicker">01 · Control</span>
+            <h3>Descentralización</h3>
+            <p>Evalúa cómo se distribuyen infraestructura, validación, gobernanza, poder económico y acceso.</p>
+            <p class="trust-question">Pregunta guía: ¿puede una sola parte modificar reglas, censurar operaciones o controlar una dependencia crítica?</p>
+            <div class="card-actions"><a href="presentaciones/visor-local.html?deck=fundamentos&amp;slide=4&amp;v=20260908">Ver desde la diapositiva 4</a><a href="simuladores/02-espectro-descentralizacion.html">Simular</a></div>
+          </article>
+          <article class="trust-card">
+            <span class="trust-kicker">02 · Acuerdo</span>
+            <h3>Consenso</h3>
+            <p>Explica cómo participantes honestos convergen sobre un estado común pese a demoras, fallas o mensajes contradictorios.</p>
+            <p class="trust-question">Pregunta guía: ¿qué fallas tolera el protocolo y qué condiciones necesita para preservar seguridad y progreso?</p>
+            <div class="card-actions"><a href="presentaciones/visor-local.html?deck=fundamentos&amp;slide=9&amp;v=20260908">Ver desde la diapositiva 9</a><a href="simuladores/03-consenso-bizantino.html">Simular</a></div>
+          </article>
+          <article class="trust-card">
+            <span class="trust-kicker">03 · Verdad externa</span>
+            <h3>Oráculos</h3>
+            <p>Conectan contratos deterministas con precios, entregas, clima, sensores, registros u otros hechos off-chain.</p>
+            <p class="trust-question">Pregunta guía: ¿el dato externo es auténtico, actual, independiente y corregible antes de producir una decisión irreversible?</p>
+            <div class="card-actions"><a href="presentaciones/visor-local.html?deck=fundamentos&amp;slide=19&amp;v=20260908">Ver desde la diapositiva 19</a><a href="simuladores/04-riesgo-oraculos.html">Simular</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section presentation-section" id="presentaciones" aria-labelledby="presentaciones-titulo">
       <div class="shell">
         <div class="section-head">
-          <div><div class="eyebrow">Clase completa · visor integrado</div><h2 id="presentaciones-titulo">Dos miradas, una misma arquitectura</h2></div>
-          <p>Elegí una presentación y recorré todas sus diapositivas sin salir del módulo. El visor admite teclado, reproducción automática y pantalla completa.</p>
+          <div><div class="eyebrow">Clase completa · visor local v2</div><h2 id="presentaciones-titulo">Dos presentaciones, sin salir del módulo</h2></div>
+          <p>El visor reproduce imágenes WebP almacenadas en el propio repositorio, admite teclado, miniaturas, capítulos, reproducción automática, repetición y pantalla completa. No necesita cuenta de Google ni solicita permisos.</p>
+        </div>
+
+        <div class="presentation-local-notice">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div><strong>Arquitectura autocontenida</strong><span>Las diapositivas, el PDF y el PPTX se sirven desde GitHub Pages. Si una imagen no carga, el visor ofrece el PDF local como respaldo.</span></div>
         </div>
 
         <div class="deck-picker" role="tablist" aria-label="Elegir presentación">
@@ -100,20 +141,32 @@
           </article>
         </div>
 
-        <div class="presentation-browser" id="presentation-viewer">
+        <div class="presentation-browser is-loading" id="presentation-viewer">
           <div class="presentation-browser-bar">
             <div><span class="status-dot" aria-hidden="true"></span><strong data-inline-title>Blockchain y nuevos modelos de negocio</strong></div>
-            <span data-inline-count>26 diapositivas</span>
+            <span data-viewer-status>Cargando visor local…</span>
           </div>
-          <iframe id="inline-presentation" src="presentaciones/index.html?deck=negocios&amp;embed=1" title="Presentación: Blockchain y nuevos modelos de negocio" loading="lazy" allowfullscreen></iframe>
+          <iframe id="inline-presentation" src="presentaciones/visor-local.html?deck=negocios&amp;embed=1&amp;v=20260908" title="Presentación: Blockchain y nuevos modelos de negocio" loading="lazy" allowfullscreen></iframe>
         </div>
 
         <div class="presentation-actions">
-          <a class="button primary" data-fullscreen-viewer href="presentaciones/index.html?deck=negocios">Abrir visor completo</a>
+          <a class="button primary" data-fullscreen-viewer href="presentaciones/visor-local.html?deck=negocios&amp;v=20260908">Abrir visor local completo</a>
           <a class="button" data-pdf-download href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pdf" target="_blank" rel="noopener">Abrir PDF</a>
           <a class="button" data-pptx-download href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx" download>Descargar PPTX</a>
         </div>
         <p class="presentation-note" data-inline-description>Coordinación, plataformas, smart contracts, tokenización y aplicaciones en finanzas, salud, logística, PropTech e InsurTech.</p>
+        <nav class="chapter-jumps" data-chapter-links aria-label="Accesos directos a capítulos"></nav>
+
+        <div class="presentation-files" aria-label="Archivos de las presentaciones">
+          <article class="presentation-file-card">
+            <span class="presentation-file-icon" aria-hidden="true">PDF</span>
+            <div><strong>Blockchain y nuevos modelos de negocio</strong><span>Versión PDF independiente del visor · 26 diapositivas.</span><div class="actions"><a class="button" href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="button" href="presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx" download>Descargar PPTX</a></div></div>
+          </article>
+          <article class="presentation-file-card">
+            <span class="presentation-file-icon" aria-hidden="true">PDF</span>
+            <div><strong>Descentralización, consenso y oráculos</strong><span>PDF local independiente del visor · 29 páginas · material de fundamentos.</span><div class="actions"><a class="button primary" href="presentaciones/descentralizacion-consenso-y-oraculos.pdf" target="_blank" rel="noopener">Abrir PDF</a><a class="button" href="presentaciones/descentralizacion-consenso-y-oraculos.pptx" download>Descargar PPTX</a></div></div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -145,6 +198,6 @@
     </section>
   </main>
 
-  <footer class="footer"><div class="shell footer-inner"><span>Material elaborado por el profesor Sergio Gevatschnaider.</span><span>Blockchain y Finanzas Descentralizadas · 2026</span></div></footer>
+  <footer class="footer"><div class="shell footer-inner"><span>Material elaborado por el profesor Sergio Gevatschnaider.</span><span>Blockchain y Finanzas Descentralizadas · Módulo 0 v2 · 2026</span></div></footer>
 </body>
 </html>

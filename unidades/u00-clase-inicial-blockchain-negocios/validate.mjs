@@ -10,8 +10,9 @@ const fail = message => failures.push(message);
 
 const required = [
   "index.html", "glosario.html", "cuestionario.html", "README.md",
-  "assets/modulo-00.css", "assets/modulo-00.js", "data/business-extension.js",
-  "presentaciones/index.html", "presentaciones/viewer.js",
+  "assets/modulo-00.css", "assets/modulo-00-v2.css", "assets/modulo-00.js", "data/business-extension.js",
+  "presentaciones/index.html", "presentaciones/visor-local.html", "presentaciones/viewer.js",
+  "presentaciones/viewer-v2.js", "presentaciones/viewer-v2.css",
   "presentaciones/blockchain-y-nuevos-modelos-de-negocio.pptx",
   "presentaciones/blockchain-y-nuevos-modelos-de-negocio.pdf",
   "presentaciones/descentralizacion-consenso-y-oraculos.pptx",
@@ -71,6 +72,43 @@ for (const file of walk(root).filter(target => target.endsWith(".js"))) {
 }
 if (!failures.some(item => item.includes("JavaScript"))) pass("JavaScript externo e inline con sintaxis válida");
 
+const localViewerFiles = [
+  "index.html",
+  "assets/modulo-00.js",
+  "presentaciones/index.html",
+  "presentaciones/visor-local.html",
+  "presentaciones/viewer-v2.js"
+];
+const externalViewerPatterns = [
+  /docs\.google\.com/i,
+  /slides\.google\.com/i,
+  /drive\.google\.com/i,
+  /googleusercontent\.com/i
+];
+for (const relative of localViewerFiles) {
+  const source = fs.readFileSync(path.join(root, relative), "utf8");
+  for (const pattern of externalViewerPatterns) {
+    if (pattern.test(source)) fail(`${relative}: el visor no debe depender de servicios de Google (${pattern})`);
+  }
+}
+const localViewerHtml = fs.readFileSync(path.join(root, "presentaciones", "visor-local.html"), "utf8");
+if (!/connect-src 'none'/.test(localViewerHtml)) fail("visor-local.html: falta una política CSP que bloquee conexiones externas");
+else pass("Visor v2 aislado de Google y conexiones externas");
+
+const viewerV2 = fs.readFileSync(path.join(root, "presentaciones", "viewer-v2.js"), "utf8");
+for (const expected of [
+  'folder: "deck-negocios"',
+  'total: 26',
+  'folder: "deck-fundamentos"',
+  'total: 29',
+  'label: "Descentralización", slide: 4',
+  'label: "Consenso", slide: 9',
+  'label: "Oráculos", slide: 19'
+]) {
+  if (!viewerV2.includes(expected)) fail(`viewer-v2.js: falta metadato esperado (${expected})`);
+}
+if (!failures.some(item => item.includes("viewer-v2.js: falta metadato"))) pass("Visor v2: decks, capítulos y conteos coherentes");
+
 const context = { window: {} };
 vm.createContext(context);
 const extension = fs.readFileSync(path.join(root, "data/business-extension.js"), "utf8");
@@ -100,4 +138,4 @@ if (failures.length) {
   failures.forEach(item => console.error(`✗ ${item}`));
   process.exit(1);
 }
-console.log("\nMódulo 0 validado sin omisiones.");
+console.log("\nMódulo 0 v2 validado sin omisiones.");

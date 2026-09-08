@@ -1,0 +1,173 @@
+/* Módulo 0 v2 — mejoras visuales y pedagógicas sin alterar los laboratorios existentes. */
+.module-version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .6rem;
+  border: 1px solid color-mix(in srgb, var(--green) 42%, var(--line));
+  border-radius: 99px;
+  padding: .38rem .68rem;
+  color: color-mix(in srgb, var(--green) 82%, var(--ink));
+  background: color-mix(in srgb, var(--green) 8%, var(--surface));
+  font-size: .82rem;
+  font-weight: 900;
+}
+.module-version-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--green) 16%, transparent);
+}
+
+.trust-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 1rem;
+}
+.trust-card {
+  min-height: 310px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 1.15rem;
+  padding: 1.35rem;
+  background:
+    linear-gradient(155deg, color-mix(in srgb, var(--surface-2) 82%, transparent), var(--surface));
+  box-shadow: 0 14px 38px rgba(0,0,0,.13);
+}
+.trust-card:nth-child(2) { border-color: color-mix(in srgb, var(--blue) 48%, var(--line)); }
+.trust-card:nth-child(3) { border-color: color-mix(in srgb, var(--cyan) 48%, var(--line)); }
+.trust-kicker {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 99px;
+  padding: .24rem .56rem;
+  color: var(--cyan);
+  background: color-mix(in srgb, var(--cyan) 9%, transparent);
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.trust-card h3 { margin-top: .9rem; font-size: clamp(1.35rem, 2.7vw, 2rem); }
+.trust-card p { margin: .45rem 0 0; color: var(--muted); }
+.trust-question {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink) !important;
+  font-weight: 800;
+}
+.trust-card .card-actions { margin-top: auto; padding-top: 1.15rem; }
+
+.presentation-local-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  margin: 0 0 1rem;
+  border: 1px solid color-mix(in srgb, var(--green) 32%, var(--line));
+  border-radius: .9rem;
+  padding: .85rem 1rem;
+  background: color-mix(in srgb, var(--green) 6%, var(--surface));
+}
+.presentation-local-notice strong,
+.presentation-local-notice span { display: block; }
+.presentation-local-notice strong { color: var(--green); }
+.presentation-local-notice span { color: var(--muted); font-size: .88rem; }
+.presentation-local-notice .status-dot { margin-top: .42rem; }
+
+.presentation-browser.is-loading .status-dot {
+  background: var(--amber);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 15%, transparent);
+}
+.presentation-browser.is-loading [data-viewer-status] { color: var(--amber); }
+.presentation-browser.is-ready [data-viewer-status] { color: var(--green); }
+.presentation-browser-bar [data-viewer-status] { font-size: .78rem; font-weight: 850; }
+
+.chapter-jumps {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: .9rem 0 0;
+}
+.chapter-jumps:empty { display: none; }
+.chapter-jumps a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: .38rem .68rem;
+  color: var(--muted);
+  background: var(--surface);
+  text-decoration: none;
+  font-size: .78rem;
+  font-weight: 850;
+}
+.chapter-jumps a:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.presentation-files {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.presentation-file-card {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr);
+  gap: 1rem;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: var(--surface);
+}
+.presentation-file-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: .85rem;
+  color: #04111d;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  font-size: .8rem;
+  font-weight: 950;
+}
+.presentation-file-card strong,
+.presentation-file-card span { display: block; }
+.presentation-file-card span { margin-top: .22rem; color: var(--muted); font-size: .82rem; }
+.presentation-file-card .actions { margin-top: .75rem; }
+.presentation-file-card .button { min-height: 38px; padding: .48rem .7rem; font-size: .8rem; }
+
+.deck-choice .deck-select { position: relative; }
+.deck-choice.active .deck-select::after {
+  content: "Seleccionada";
+  position: absolute;
+  top: .55rem;
+  right: .7rem;
+  color: var(--blue);
+  font-size: .65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.learning-path li a,
+.trust-card a,
+.presentation-file-card a { transition: border-color .2s, color .2s, transform .2s; }
+
+@media (max-width: 900px) {
+  .trust-map { grid-template-columns: 1fr; }
+  .trust-card { min-height: 0; }
+  .presentation-files { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 580px) {
+  .module-version-badge { border-radius: .75rem; align-items: flex-start; }
+  .presentation-local-notice { font-size: .9rem; }
+  .presentation-file-card { grid-template-columns: 1fr; }
+  .presentation-file-icon { width: 42px; height: 42px; }
+}

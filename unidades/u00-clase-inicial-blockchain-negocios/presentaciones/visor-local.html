@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Visor local de las presentaciones del Módulo 0. No requiere Google Slides, inicio de sesión ni autorización externa.">
+  <meta name="theme-color" content="#02070d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>Visor local · Módulo 0</title>
+  <link rel="stylesheet" href="viewer-v2.css?v=20260908">
+  <script src="viewer-v2.js?v=20260908" defer></script>
+</head>
+<body>
+  <main class="local-viewer" id="viewer-root">
+    <header class="local-viewer__topbar">
+      <div class="local-viewer__identity">
+        <a class="local-viewer__back" href="../index.html#presentaciones" aria-label="Volver al Módulo 0">←</a>
+        <div class="local-viewer__title">
+          <strong id="deck-title">Blockchain y nuevos modelos de negocio</strong>
+          <span>Material elaborado por el profesor Sergio Gevatschnaider</span>
+        </div>
+        <span class="local-viewer__badge">Visor local · sin Google</span>
+      </div>
+      <nav class="local-viewer__actions" aria-label="Opciones de la presentación">
+        <a id="pdf-link" href="blockchain-y-nuevos-modelos-de-negocio.pdf" target="_blank" rel="noopener">Abrir PDF</a>
+        <a id="pptx-link" href="blockchain-y-nuevos-modelos-de-negocio.pptx" download>Descargar PPTX</a>
+        <button id="copy-link" type="button">Copiar enlace</button>
+        <button id="fullscreen" type="button">Pantalla completa</button>
+      </nav>
+    </header>
+
+    <div class="local-viewer__tabs" role="tablist" aria-label="Elegir presentación">
+      <button type="button" role="tab" data-deck="negocios" aria-selected="true">01 · Negocios y aplicaciones · 26</button>
+      <button type="button" role="tab" data-deck="fundamentos" aria-selected="false">02 · Descentralización, consenso y oráculos · 29</button>
+    </div>
+
+    <nav class="local-viewer__chapters" id="chapters" aria-label="Capítulos de la presentación"></nav>
+
+    <section class="local-viewer__stage is-loading" id="stage" aria-live="polite">
+      <button class="local-viewer__arrow local-viewer__arrow--prev" id="previous" type="button" aria-label="Diapositiva anterior">‹</button>
+      <figure>
+        <img class="local-viewer__slide" id="slide-image" src="deck-negocios/slide-01.webp" alt="Diapositiva 1 de 26: Blockchain y nuevos modelos de negocio">
+        <div class="local-viewer__error" id="slide-error" hidden>
+          <strong>No se pudo cargar esta diapositiva.</strong>
+          <p>El visor no depende de servicios externos. Podés continuar con el archivo PDF local de la presentación.</p>
+          <a id="error-pdf-link" href="blockchain-y-nuevos-modelos-de-negocio.pdf" target="_blank" rel="noopener">Abrir PDF local</a>
+        </div>
+      </figure>
+      <button class="local-viewer__arrow local-viewer__arrow--next" id="next" type="button" aria-label="Diapositiva siguiente">›</button>
+    </section>
+
+    <div class="local-viewer__controls" aria-label="Controles de reproducción">
+      <div class="local-viewer__controls-group">
+        <button id="first" type="button" data-secondary-control>Primera</button>
+        <button id="play" type="button" aria-pressed="false">▶ Reproducir</button>
+        <button id="last" type="button" data-secondary-control>Última</button>
+        <button id="loop" type="button" aria-pressed="false" data-secondary-control>↻ Repetir: no</button>
+      </div>
+      <div class="local-viewer__counter">
+        <strong id="counter">1 / 26</strong>
+        <span id="chapter-label">Navegación por diapositivas</span>
+      </div>
+      <div class="local-viewer__controls-group local-viewer__controls-group--right">
+        <label for="delay">Intervalo
+          <select id="delay">
+            <option value="3000">3 s</option>
+            <option value="5000" selected>5 s</option>
+            <option value="8000">8 s</option>
+            <option value="12000">12 s</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="local-viewer__progress-wrap">
+      <span id="progress-start">1</span>
+      <input class="local-viewer__progress" id="slide-progress" type="range" min="1" max="26" value="1" step="1" aria-label="Ir a una diapositiva">
+      <span id="progress-end">26</span>
+    </div>
+
+    <ol class="local-viewer__thumbs" id="thumbnails" aria-label="Miniaturas de la presentación"></ol>
+    <div class="local-viewer__toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <noscript>
+    <p>Este visor necesita JavaScript para la navegación. Los archivos siguen disponibles localmente: <a href="blockchain-y-nuevos-modelos-de-negocio.pdf">PDF de negocios</a> y <a href="descentralizacion-consenso-y-oraculos.pdf">PDF de descentralización, consenso y oráculos</a>.</p>
+  </noscript>
+</body>
+</html>
