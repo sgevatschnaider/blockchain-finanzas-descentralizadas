@@ -1,4 +1,15 @@
 /* Módulo 0 v2 — mejoras visuales y pedagógicas sin alterar los laboratorios existentes. */
+
+/* La navegación superior es sticky. Reservamos su altura al navegar por anclas
+   para que títulos, selectores y el visor nunca queden ocultos debajo del menú. */
+html { scroll-padding-top: 96px; }
+#ruta,
+#mapa,
+#presentaciones,
+#laboratorios,
+#evaluacion,
+#presentation-viewer { scroll-margin-top: 96px; }
+
 .module-version-badge {
   display: inline-flex;
   align-items: center;
@@ -160,12 +171,26 @@
 .presentation-file-card a { transition: border-color .2s, color .2s, transform .2s; }
 
 @media (max-width: 900px) {
+  html { scroll-padding-top: 84px; }
+  #ruta,
+  #mapa,
+  #presentaciones,
+  #laboratorios,
+  #evaluacion,
+  #presentation-viewer { scroll-margin-top: 84px; }
   .trust-map { grid-template-columns: 1fr; }
   .trust-card { min-height: 0; }
   .presentation-files { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 580px) {
+  html { scroll-padding-top: 76px; }
+  #ruta,
+  #mapa,
+  #presentaciones,
+  #laboratorios,
+  #evaluacion,
+  #presentation-viewer { scroll-margin-top: 76px; }
   .module-version-badge { border-radius: .75rem; align-items: flex-start; }
   .presentation-local-notice { font-size: .9rem; }
   .presentation-file-card { grid-template-columns: 1fr; }
