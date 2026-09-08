@@ -1,0 +1,27 @@
+name: Unit 1 v2 CI
+
+on:
+  pull_request:
+    paths:
+      - 'unidades/u01-fundamentos-smart-contracts/**'
+      - '.github/workflows/ci-u01.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'unidades/u01-fundamentos-smart-contracts/**'
+      - '.github/workflows/ci-u01.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate Unit 1 v2
+        run: node unidades/u01-fundamentos-smart-contracts/validate.mjs
