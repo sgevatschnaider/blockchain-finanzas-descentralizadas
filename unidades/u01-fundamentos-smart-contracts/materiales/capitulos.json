@@ -1,0 +1,250 @@
+[
+  {
+    "title": "El problema económico antes de la tecnología",
+    "summary": "Blockchain tiene sentido cuando varias partes necesitan verificar un estado compartido y la coordinación existente es costosa.",
+    "paragraphs": [
+      "Digitalizar un proceso no significa resolver su coordinación. Un proveedor, un transportista, un comprador y un banco pueden usar buenos sistemas y conservar versiones distintas de una misma operación. Conciliar exige comparar registros, investigar diferencias y decidir qué evidencia aceptar. La primera tarea consiste en identificar esa fricción y medirla: horas de conciliación, errores, tiempo de liquidación o costo de una disputa.",
+      "Un registro distribuido puede permitir que participantes independientes comprueben operaciones con reglas comunes. Su valor depende de quién puede escribir, quién verifica, qué información se comparte y cómo se resuelven desacuerdos. Blockchain no vuelve verdadero un dato por incorporarlo a un bloque. Tampoco elimina los acuerdos organizacionales que hacen posible una red.",
+      "La alternativa de referencia es una base de datos con controles de acceso, firmas, auditoría y acuerdos de servicio. Si todos aceptan a su administrador y pueden resolver conflictos, esa solución puede cubrir los requisitos con menor complejidad. La decisión debe comparar beneficios incrementales y costos totales, incluyendo integración, gobierno, soporte, recuperación y salida."
+    ],
+    "example": "Caso hipotético: cuatro empresas dedican en conjunto 80 horas mensuales a conciliar entregas. Con una hora de trabajo de USD 25, el costo directo es USD 2.000. Una solución que reduzca ese trabajo a 30 horas genera un ahorro bruto de USD 1.250 al mes. Si operar la red y sus integraciones cuesta USD 1.500 adicionales, el ahorro de conciliación por sí solo no justifica el proyecto. Faltaría valorar otros beneficios y compararlos con una alternativa centralizada.",
+    "question": "¿Qué evidencia demostraría que el problema requiere verificación entre organizaciones y no solamente mejorar un sistema interno?",
+    "answer": "Identificar registros incompatibles, partes que no aceptan un único administrador y costos de verificación medidos. Luego comprobar si firmas y auditoría sobre una base compartida ya satisfacen esos requisitos.",
+    "lab": "simuladores/08-decision-arquitectura.html",
+    "sources": [],
+    "page": 3
+  },
+  {
+    "title": "De la digitalización a nuevos modelos de negocio",
+    "summary": "La innovación modifica actividades, ingresos, responsabilidades e incentivos de participación.",
+    "paragraphs": [
+      "Un modelo de negocio explica qué necesidad se atiende, quién recibe valor, quién paga y qué recursos permiten prestar el servicio. Incorporar blockchain puede transformar una actividad de registro o liquidación sin cambiar la propuesta de valor al cliente. En otros casos, permite que varias empresas construyan servicios sobre un mismo registro y compitan en distribución, análisis o experiencia de usuario.",
+      "Conviene descomponer la cadena de valor en identificación, contratación, registro, transferencia, custodia, conciliación y resolución de disputas. Una fintech puede automatizar la transferencia y seguir dependiendo de bancos, custodios y proveedores de identidad. Un banco puede reducir conciliación entre áreas o instituciones sin abrir toda su información. Una Big Tech puede aportar distribución y cómputo, pero su control de la interfaz puede concentrar el acceso aunque la red subyacente sea distribuida.",
+      "Los incentivos de adopción suelen ser asimétricos. El comprador puede ahorrar auditoría mientras el proveedor soporta la captura de datos. Una red necesita acordar quién financia la integración, cómo se reparten costos y beneficios, qué ocurre si alguien abandona y quién controla las reglas. Los efectos de red pueden mejorar la utilidad al sumar participantes, pero también dificultar el ingreso si los primeros miembros concentran decisiones."
+    ],
+    "example": "Un consorcio logístico hipotético ofrece a sus miembros un registro de eventos verificables. Cobra una cuota de participación y un precio por operación. El transportista obtiene menos reclamos documentales; el comprador, mejor seguimiento; el banco, evidencia para evaluar una financiación. Ninguno de esos beneficios aparece automáticamente: cada actor debe aportar información útil y aceptar responsabilidades.",
+    "question": "¿Dónde permanecería la intermediación aunque la transferencia se automatice?",
+    "answer": "En identidad, custodia, captura de datos, financiamiento, atención al cliente, arbitraje y gobierno. Desintermediar una función puede crear nuevos intermediarios en otras.",
+    "lab": "casos.html",
+    "sources": [],
+    "page": 4
+  },
+  {
+    "title": "Qué aporta una blockchain y qué no garantiza",
+    "summary": "Hashes, firmas, consenso y ejecución cumplen funciones diferentes.",
+    "paragraphs": [
+      "Una blockchain enlaza bloques mediante referencias criptográficas y utiliza reglas para validar y ordenar operaciones. Un hash resume datos: si cambia el contenido, normalmente cambia su huella. Una firma permite comprobar que una autorización corresponde a una clave, bajo los supuestos del esquema criptográfico y de su gestión. Ninguno de esos mecanismos certifica que una persona haya recibido físicamente una mercadería.",
+      "El consenso coordina qué historia acepta la red frente a propuestas concurrentes y participantes potencialmente adversarios. Las reglas de ejecución determinan si una transacción es válida y qué estado produce. No basta con ordenar: también hay que rechazar gastos inválidos y llamadas que incumplen condiciones. La seguridad surge de la combinación de mecanismos, incentivos y supuestos operativos.",
+      "La resistencia a alteraciones no debe confundirse con una imposibilidad absoluta de cambio. La finalización depende de la red y su protocolo; pueden existir reorganizaciones o procedimientos de gobierno. Por eso una aplicación define cuándo considera liquidada una operación, qué evidencia conserva y cómo responde ante incidentes. Estos fundamentos se profundizan en la Unidad 2; aquí sirven para evaluar promesas comerciales."
+    ],
+    "example": "Si se registra el hash de un certificado de entrega, luego se puede comparar el documento presentado con esa huella. Una coincidencia permite comprobar integridad respecto de lo registrado. No demuestra que el certificado haya sido emitido correctamente ni que la mercadería estuviera en buen estado.",
+    "question": "¿Qué diferencia hay entre integridad, autorización y verdad del dato?",
+    "answer": "Integridad: detectar cambios respecto de un contenido comprometido. Autorización: verificar una firma o permiso. Verdad: correspondencia con el hecho externo, que requiere evidencia y procesos adicionales.",
+    "lab": "simuladores/01-hash-lab.html",
+    "sources": [
+      "bitcoin",
+      "evm"
+    ],
+    "page": 5
+  },
+  {
+    "title": "Evolución: Bitcoin, Ethereum y redes empresariales",
+    "summary": "Distintas arquitecturas responden a distintos requisitos; no forman un ranking universal.",
+    "paragraphs": [
+      "Bitcoin propone transferencias electrónicas entre pares y coordina una historia de gastos sin depender de un único operador del registro. Su diseño combina firmas, reglas de gasto y prueba de trabajo. El aporte conceptual es resolver un problema de coordinación en un entorno abierto con incentivos y verificación distribuida.",
+      "Ethereum amplía las posibilidades de programación mediante contratos que contienen código y estado. Las aplicaciones pueden interactuar con contratos existentes, lo que permite componer servicios, pero también propagar fallos entre dependencias. La ejecución y el acceso a una red pública deben analizarse junto con costos, privacidad y gestión de claves.",
+      "Las DLT empresariales exploran acuerdos entre organizaciones identificadas con permisos y reglas de gobierno explícitas. No toda DLT distribuye todos los datos a todos los participantes, ni toda red necesita una criptomoneda nativa para operar. El problema de confianza cambia: se puede reducir la dependencia de un operador único y mantener dependencia de un consorcio o servicio de identidad."
+    ],
+    "example": "Una aplicación abierta a usuarios desconocidos y un convenio de intercambio de información entre cinco hospitales tienen necesidades distintas. La primera puede priorizar acceso abierto y verificación pública. La segunda puede priorizar identidad institucional, confidencialidad y control de quién consulta cada dato.",
+    "question": "¿Por qué una plataforma más programable no es necesariamente mejor para cualquier negocio?",
+    "answer": "Porque la programación general incorpora costos y superficies de riesgo que tal vez el caso no necesita. La selección se hace por requisitos, no por cantidad de funciones.",
+    "lab": "comparador.html",
+    "sources": [
+      "bitcoin",
+      "contracts",
+      "fabric"
+    ],
+    "page": 6
+  },
+  {
+    "title": "Comparar las cinco plataformas del programa",
+    "summary": "Evaluar acceso, información, ejecución y gobernanza permite justificar la elección.",
+    "paragraphs": [
+      "Bitcoin y Litecoin son redes públicas orientadas a transferencias de valor, con condiciones de gasto programables dentro de sus respectivos diseños. No conviene describirlas simplemente como sistemas sin programación. Ethereum ofrece un entorno general de contratos; eso favorece aplicaciones y composición, pero exige evaluar permisos de los contratos, costos y exposición de datos.",
+      "Hyperledger es un ecosistema de proyectos, no una única blockchain. Para una comparación concreta, aquí se usa Hyperledger Fabric 2.5: una arquitectura empresarial con identidades, políticas de validación y opciones para compartir datos entre subconjuntos de organizaciones. Las colecciones privadas distribuyen información a participantes autorizados y registran hashes que sirven como evidencia; no hacen que todos los participantes vean automáticamente el contenido privado.",
+      "Corda 5.1 sirve como referencia de DLT donde las operaciones se comparten con los participantes pertinentes. Se distingue la validez de una transacción de la unicidad de sus entradas, para evitar reutilizar estados ya consumidos. El servicio de notaría participa en esa verificación de unicidad. Las características deben contrastarse siempre con la versión y configuración de la implementación evaluada.",
+      "Una matriz de decisión útil compara quién entra, quién escribe, quién valida, quién ve datos, cómo se ejecutan reglas y quién modifica la red. Una cifra de rendimiento aislada no resuelve la selección: tamaño de transacciones, hardware, configuración, confidencialidad y criterios de finalización cambian el resultado."
+    ],
+    "example": "Un grupo de aseguradoras podría considerar Fabric o Corda si requiere participantes identificados e intercambio selectivo. Una aplicación que necesita acceso abierto a contratos públicos podría considerar Ethereum. En ambos casos, una base centralizada sigue siendo una alternativa si el acuerdo institucional la hace suficiente.",
+    "question": "¿Qué requisito descartaría una opción aunque tuviera bajo costo por transacción?",
+    "answer": "Por ejemplo, no poder satisfacer la confidencialidad requerida, carecer de reglas aceptables de recuperación o depender de una gobernanza que las partes no aceptan.",
+    "lab": "comparador.html",
+    "sources": [
+      "fabric",
+      "corda",
+      "litecoin"
+    ],
+    "page": 7
+  },
+  {
+    "title": "Smart contracts como máquinas de estados",
+    "summary": "Un contrato define estados, acciones, actores y condiciones de transición.",
+    "paragraphs": [
+      "Un smart contract puede entenderse como un programa que conserva datos y admite determinadas operaciones. Para diseñarlo, primero se describen sus estados posibles y las acciones permitidas en cada uno. Después se identifican actores autorizados, condiciones de entrada y efectos. Esta representación conecta el acuerdo de negocio con reglas que puedan verificarse sin ambigüedad.",
+      "En un depósito en garantía o escrow, puede haber estados como creado, financiado, liberado y reembolsado. Financiar exige un importe acordado. Liberar requiere un actor autorizado y una condición válida. Un estado final debe impedir un segundo pago incompatible. Especificar estas reglas obliga a preguntar qué sucede si nadie actúa, si el dato llega tarde o si una parte impugna el resultado.",
+      "La ejecución necesita una llamada o transacción: el contrato no se despierta por sí solo al llegar una fecha. Los servicios de automatización pueden enviar transacciones cuando detectan una condición, pero su disponibilidad y financiación pasan a ser dependencias. También debe distinguirse la regla programada del acuerdo comercial más amplio: no todo compromiso puede verificarse directamente dentro de la red."
+    ],
+    "example": "Escrow hipotético de 100 unidades: el comprador deposita, una confirmación válida habilita liberar al vendedor y una regla alternativa permite reembolsar antes de la liberación. Una propiedad de conservación exige que los pagos acumulados no superen lo efectivamente depositado. El laboratorio permite observar acciones inválidas y estados finales.",
+    "question": "¿Qué propiedad debería mantenerse después de cualquier secuencia de acciones?",
+    "answer": "Una invariante: por ejemplo, no pagar dos veces el mismo depósito ni permitir que un actor sin permiso libere fondos. Debe verificarse para secuencias válidas y adversarias.",
+    "lab": "simuladores/06-smart-contract-lab.html",
+    "sources": [
+      "contracts",
+      "fsm"
+    ],
+    "page": 8
+  },
+  {
+    "title": "Transacciones, estado, EVM y costo de ejecución",
+    "summary": "La ejecución transforma un estado bajo reglas y consume recursos medidos.",
+    "paragraphs": [
+      "Una transacción propone un cambio. Antes de aplicar sus efectos, el sistema verifica condiciones como autorización y disponibilidad de recursos. En Bitcoin, el conjunto de salidas no gastadas permite representar qué puede consumirse en nuevos pagos. En un modelo de cuentas, se utilizan saldos y otros datos asociados a cuentas. Son maneras diferentes de representar y validar cambios.",
+      "La EVM ejecuta código de Ethereum de forma consistente conforme a las reglas del protocolo. El gas mide trabajo computacional. El costo monetario depende tanto del gas utilizado como del precio efectivo por unidad de gas. Las unidades de gas no son dólares ni una comisión fija universal; el laboratorio de la unidad es un modelo didáctico para comparar operaciones, no un estimador de precios en tiempo real.",
+      "Si una ejecución revierte, sus cambios de estado se deshacen, pero el trabajo consumido puede seguir generando comisión. Hay que separar esa reversión de aplicación de los efectos propios de procesar una transacción, como el pago del gas. En términos de negocio, una operación fallida también puede costar dinero y dejar una tarea pendiente que requiera reintento."
+    ],
+    "example": "Con valores puramente hipotéticos, 50.000 unidades de gas a 20 gwei por unidad cuestan 1.000.000 gwei, equivalentes a 0,001 ETH. Su valor en moneda depende de la cotización. No es una tarifa actual ni una promesa de costo para un contrato concreto.",
+    "question": "¿Por qué escribir muchos datos puede ser una decisión de negocio además de una decisión técnica?",
+    "answer": "Porque incide en costo, exposición, mantenimiento y dependencia de la red. Conviene decidir qué conservar fuera de cadena y qué evidencia mínima registrar.",
+    "lab": "simuladores/05-gas-lab.html",
+    "sources": [
+      "evm",
+      "gas"
+    ],
+    "page": 9
+  },
+  {
+    "title": "Oráculos: conectar reglas con hechos externos",
+    "summary": "Un oráculo introduce una fuente de datos y un conjunto de supuestos de confianza.",
+    "paragraphs": [
+      "Una condición comercial suele depender de información que no existe dentro de la blockchain: una temperatura, una entrega o un precio. Un oráculo aporta esa información al sistema. Es necesario definir origen, frecuencia, unidad, fecha y autoridad de la observación. Recibir un número sin contexto puede ser insuficiente para ejecutar una regla correctamente.",
+      "Los riesgos incluyen datos incorrectos, retrasos, indisponibilidad y manipulación. Varias fuentes pueden reducir ciertas dependencias, pero no garantizan independencia si todas reutilizan el mismo proveedor. Un diseño debe definir límites de antigüedad, controles de coherencia, conductas ante discrepancias y qué ocurre cuando no llega información.",
+      "El contrato debe distinguir un resultado negativo de la ausencia de dato. Confundir cero con dato faltante puede disparar una decisión equivocada. También se necesitan mecanismos para detener, escalar o revisar operaciones bajo reglas conocidas. El problema económico consiste en asignar quién responde por errores y quién financia la continuidad del servicio."
+    ],
+    "example": "Una póliza hipotética paga si el retraso supera seis horas. Un dato de siete horas cumple el umbral solo si corresponde al envío correcto y a una fuente admitida dentro del plazo definido. Un dato desactualizado de otro envío no debería activar el pago aunque sea numéricamente suficiente.",
+    "question": "¿Por qué consenso sobre un dato no equivale a comprobar el hecho físico?",
+    "answer": "Porque los participantes pueden acordar registrar la misma observación equivocada. La calidad del proceso de medición sigue siendo una condición externa.",
+    "lab": "simuladores/09-seguro-oraculo.html",
+    "sources": [
+      "oracles"
+    ],
+    "page": 10
+  },
+  {
+    "title": "InsurTech: seguro paramétrico y riesgo de base",
+    "summary": "La regla de pago, el daño económico y la capacidad de pagar son problemas separados.",
+    "paragraphs": [
+      "En un seguro paramétrico, una regla vincula el pago con un indicador definido de antemano. La ventaja potencial es reducir verificaciones individuales y acelerar una decisión. Para analizarlo, hay que precisar población cubierta, indicador, fuente, umbral, período de observación, importe y límites de cobertura. El ejemplo de esta unidad representa esa lógica, no una póliza comercial.",
+      "El riesgo de base aparece cuando el indicador no refleja bien la pérdida individual. Puede existir daño sin que se active el pago, o pago sin daño equivalente. Mejorar ese ajuste exige estudiar datos y el diseño del producto; desplegar la regla en blockchain no elimina la diferencia.",
+      "La solvencia también es independiente de la ejecución. Un contrato que determina correctamente un pago puede no disponer de fondos suficientes. Deben modelarse obligaciones simultáneas, reservas, concentración y escenarios extremos. La automatización puede acelerar el agotamiento de una reserva si las reglas de cobertura y los fondos no son coherentes."
+    ],
+    "example": "Tres coberturas hipotéticas prometen 100 unidades cada una y el fondo disponible es 200. Si las tres cumplen el umbral, la obligación total es 300 y faltan 100. El orden de las llamadas no debe convertirse, sin una regla explícita, en una forma accidental de decidir quién cobra.",
+    "question": "¿Qué tres pruebas harías antes de recomendar la automatización?",
+    "answer": "Comprobar calidad y disponibilidad del indicador; medir su relación con pérdidas; y analizar fondos suficientes bajo activaciones simultáneas. Después probar errores, plazos y disputas.",
+    "lab": "simuladores/09-seguro-oraculo.html",
+    "sources": [],
+    "page": 11
+  },
+  {
+    "title": "Logística: trazabilidad, entrega y coordinación",
+    "summary": "Una evidencia documental puede ser compartida; la calidad de su captura sigue siendo decisiva.",
+    "paragraphs": [
+      "En logística participan productor, transportista, depósito, comprador y, a veces, financiador. Un registro común puede enlazar eventos e identificar quién declaró cada uno. Antes de diseñarlo hay que acordar identificadores de lote, vocabulario de eventos y responsables. Sin esos acuerdos, compartir datos solo distribuye inconsistencias más rápido.",
+      "Es útil separar tres afirmaciones: existe un registro de entrega; ese registro fue firmado por una parte autorizada; la entrega ocurrió en la cantidad y condición acordadas. Las dos primeras pueden comprobarse criptográficamente bajo ciertos supuestos. La tercera requiere procesos físicos, documentos y eventualmente sensores o inspecciones.",
+      "Un contrato podría retener fondos y liberarlos cuando llegan evidencias aceptadas. Debe prever entregas parciales, devolución, discrepancias de calidad, fallos del sensor y plazos. También hay que evaluar si los actores tienen incentivos para registrar eventos a tiempo y si el costo de captura se compensa con menos disputas."
+    ],
+    "example": "En un envío hipotético de frutos amazónicos, el lote L-104 sale de planta con un registro de peso, pasa por un depósito y llega al comprador. Una lectura de temperatura puede agregarse como evidencia. El hash del documento no demuestra que el sensor estuviera calibrado ni que el contenido del lote no se haya sustituido.",
+    "question": "¿Qué dejarías dentro y fuera del registro compartido?",
+    "answer": "Dentro, identificadores y evidencias mínimas necesarias; fuera, documentos voluminosos o confidenciales bajo controles adecuados. Debe mantenerse disponibilidad y vínculo verificable entre ambos.",
+    "lab": "casos.html",
+    "sources": [],
+    "page": 12
+  },
+  {
+    "title": "Salud: información sensible y acceso selectivo",
+    "summary": "Compartir evidencia no implica publicar historias clínicas.",
+    "paragraphs": [
+      "La interoperabilidad en salud exige identificar personas, instituciones, autorizaciones y formatos. Un registro puede ayudar a coordinar evidencias de acceso o procedencia de un documento, pero no reemplaza esos acuerdos. El objetivo debe formularse con precisión: evitar duplicación de procesos, verificar un documento o conocer quién accedió a determinada información.",
+      "En el diseño didáctico, los documentos clínicos permanecen fuera de un registro público. Se evalúan referencias, permisos y evidencia de integridad, con una política explícita para modificar accesos y administrar claves. Eliminar un permiso no borra copias que ya obtuvo otra parte; registrar una huella tampoco vuelve anónimos todos los datos asociados.",
+      "La gobernanza debe contemplar errores de identificación, recuperación, disponibilidad del repositorio externo y auditoría. Las necesidades de atención no desaparecen cuando una red está indisponible. La comparación con una plataforma centralizada exige valorar continuidad y facilidad de integración, además de verificabilidad."
+    ],
+    "example": "Dos hospitales hipotéticos quieren comprobar que un informe recibido corresponde a una versión emitida por una institución autorizada. Pueden compartir una referencia y evidencia verificable sin replicar públicamente el informe completo. Aun así, necesitan autenticar al profesional y garantizar acceso al documento cuando corresponde.",
+    "question": "¿Qué problema queda sin resolver si la huella está disponible pero el documento externo desaparece?",
+    "answer": "La disponibilidad: puede verificarse una copia existente, pero no reconstruir el documento original a partir de su hash. Se necesitan conservación, respaldo y responsables.",
+    "lab": "simuladores/08-decision-arquitectura.html",
+    "sources": [],
+    "page": 13
+  },
+  {
+    "title": "PropTech y tokenización: activo, derecho y registro",
+    "summary": "Un token representa algo solo si existe un vínculo operativo y verificable con el derecho declarado.",
+    "paragraphs": [
+      "Tokenizar consiste en representar digitalmente un derecho o una posición mediante unidades registradas. Hay que especificar qué representa el token: acceso, participación económica, crédito, propiedad de un bien u otra relación. El identificador digital no responde por sí mismo esa pregunta.",
+      "En PropTech debe distinguirse el inmueble, la entidad o acuerdo asociado, el derecho económico y el token. También importan custodia, registro relevante, restricciones de transferencia, administración y procedimiento ante incumplimiento. No se presume que una transferencia del token produzca automáticamente todos los efectos sobre el activo físico; esos efectos deben verificarse para cada estructura.",
+      "La divisibilidad digital no crea liquidez por sí sola. Para vender se necesitan compradores, información, reglas de transferencia y mecanismos de negociación y liquidación. Pueden existir costos, períodos de bloqueo y límites de acceso. Un diseño debe explicar cómo se distribuyen flujos y qué ocurre si no se generan o si el administrador falla."
+    ],
+    "example": "Un proyecto hipotético emite 1.000 tokens vinculados a una participación en flujos de alquiler. Tener 10 tokens podría representar un 1% de los flujos definidos si así lo establece la estructura; no permite inferir un 1% de dominio directo del inmueble ni un rendimiento garantizado.",
+    "question": "¿Qué verificarías antes de afirmar que un activo está respaldado?",
+    "answer": "Existencia del activo o derecho, documentación del vínculo, custodia, límites de la representación, mecanismos de reclamación y evidencia de que no se prometió el mismo respaldo varias veces.",
+    "lab": "simuladores/07-tokenization-designer.html",
+    "sources": [],
+    "page": 14
+  },
+  {
+    "title": "Bancos, fintech y medios de pago",
+    "summary": "Registro, liquidación, custodia y experiencia de usuario deben evaluarse por separado.",
+    "paragraphs": [
+      "Un pago comercial combina instrucciones, validaciones, movimiento de activos y conciliación. Registrar un mensaje de pago no equivale a entregar un activo aceptado por el receptor. Para analizar una solución, identificá qué se transfiere, quién mantiene los fondos y cuándo las partes consideran terminada su obligación.",
+      "Una transferencia de un token puede liquidarse dentro de una red y mantener dependencias fuera de ella. Si el activo representa un derecho frente a un emisor, importan condiciones de rescate, reservas y operatividad de ese emisor. En una arquitectura con custodia, el usuario puede depender de un proveedor aunque el activo subyacente exista en una blockchain pública.",
+      "La programabilidad puede coordinar transferencias condicionadas. Sin embargo, cuando una operación cruza sistemas distintos, deben examinarse consistencia, reversibilidad, tiempos y posibles fallos parciales. El ahorro se mide sobre el proceso completo y no solamente sobre la comisión visible de una transacción."
+    ],
+    "example": "Una fintech hipotética propone pagar a proveedores con un token. Antes de comparar costos, el proveedor necesita saber si puede utilizarlo o convertirlo, qué comisiones pagará y cuánto tarda el retiro. Una transferencia rápida puede coexistir con una salida lenta hacia el sistema bancario.",
+    "question": "¿Qué indicadores compararías entre el proceso actual y el propuesto?",
+    "answer": "Costo total, tiempo hasta disponibilidad efectiva, operaciones fallidas, trabajo de conciliación, liquidez inmovilizada y concentración de dependencias.",
+    "lab": "casos.html",
+    "sources": [],
+    "page": 15
+  },
+  {
+    "title": "Seguridad, gobernanza y límites de la automatización",
+    "summary": "El código es una parte de un sistema que también incluye personas, claves y datos.",
+    "paragraphs": [
+      "La seguridad comienza por especificar quién puede hacer qué. En contratos hay que analizar permisos, llamadas externas, transiciones inválidas y conservación de fondos. En la operación importan claves, proveedores, actualizaciones y monitoreo. Una auditoría aporta evidencia sobre un alcance definido; no equivale a una garantía absoluta de ausencia de fallos.",
+      "Algunas aplicaciones usan mecanismos de actualización. Eso introduce preguntas sobre quién puede cambiar la lógica, con qué controles, qué plazo de aviso existe y cómo pueden salir los usuarios. Otras despliegan lógica fija y necesitan una estrategia diferente si descubren un error. Inmutabilidad de un despliegue y capacidad de actualización de una aplicación no son afirmaciones intercambiables.",
+      "La gobernanza también incluye entrada y salida de miembros, reparto de costos, incidentes y conflictos. En una red permisionada, varios servidores bajo un mismo control no necesariamente distribuyen la decisión. En una red abierta, la interfaz, el custodio o el oráculo pueden seguir siendo puntos relevantes de concentración."
+    ],
+    "example": "Si una sola clave puede cambiar la dirección de pago de todos los contratos, esa clave concentra un poder que el número de nodos no corrige. El análisis debería incluir autorización múltiple, separación de funciones, monitoreo y un procedimiento de respuesta acorde al caso.",
+    "question": "¿Qué diferencia hay entre verificar código y verificar un sistema de negocio?",
+    "answer": "El código comprueba reglas implementadas; el sistema requiere además validar supuestos, incentivos, fuentes externas, custodia, operación y mecanismos de gobierno.",
+    "lab": "simuladores/06-smart-contract-lab.html",
+    "sources": [
+      "verification",
+      "fsm"
+    ],
+    "page": 16
+  },
+  {
+    "title": "Caso integrador: decidir, experimentar y argumentar",
+    "summary": "La recomendación debe explicar una alternativa, sus supuestos y la evidencia que podría refutarla.",
+    "paragraphs": [
+      "Un exportador, un operador logístico, un comprador y una aseguradora quieren compartir eventos de un envío y automatizar una compensación por retraso. El caso es hipotético. La primera entrega del equipo es un mapa de actores con sus registros actuales, conflictos y costos. Después debe expresar qué condición se automatiza y qué información se necesita.",
+      "Compará tres arquitecturas: base de datos con auditoría, DLT de consorcio y contrato en una red pública. Para cada una, describí acceso, información visible, captura del evento, operación, financiación y mecanismo de disputa. Elegí una por requisitos; no alcanza con afirmar que una opción es más descentralizada.",
+      "Realizá dos experimentos en los laboratorios: uno con dato oportuno y fondos suficientes, y otro con dato tardío o reserva insuficiente. Registrá parámetros, resultado y explicación. Definí además un escenario donde sería conveniente abandonar la opción elegida, como costos superiores al ahorro o falta de participación del proveedor de datos."
+    ],
+    "example": "Entrega sugerida: una recomendación de una página y un anexo con escenarios. Distribuí los tres días orientativos de la guía entre lectura y mapa de actores; comparación y simulación; y argumentación con cuestionario. Los resultados del portal son formativos y no modifican las pautas de evaluación institucional.",
+    "question": "¿Qué distingue una recomendación argumentada de una descripción de tecnología?",
+    "answer": "La recomendación vincula un problema medido con requisitos, alternativas y riesgos; propone métricas y condiciones para revisar la decisión. Una descripción solo enumera funciones.",
+    "lab": "evaluacion.html",
+    "sources": [],
+    "page": 17
+  }
+]
