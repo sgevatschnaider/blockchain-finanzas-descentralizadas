@@ -8,6 +8,9 @@
   const categoryEl = $("#category");
   const difficultyEl = $("#difficulty");
   let current = [];
+  let activeMode = "practice";
+  let activeCategory = "all";
+  let finished = false;
   const answers = new Map();
 
   function shuffle(items) {
@@ -39,44 +42,44 @@
       <h3>${index + 1}. ${q.question}</h3>
       <div class="option-list">${q.options.map((opt, i) => {
         let cls = "";
-        if (answered && modeEl.value === "practice") {
+        if (answered && activeMode === "practice") {
           if (i === q.answer) cls = "correct";
           else if (i === selected) cls = "incorrect";
         }
-        return `<button type="button" data-option="${i}" class="${cls}" ${answered && modeEl.value === "practice" ? "disabled" : ""}>${opt}</button>`;
+        return `<button type="button" data-option="${i}" class="${cls}" ${answered && activeMode === "practice" ? "disabled" : ""}>${opt}</button>`;
       }).join("")}</div>
-      ${answered && modeEl.value === "practice" ? `<div class="explanation"><strong>${selected === q.answer ? "Correcto." : "Respuesta correcta: " + q.options[q.answer] + "."}</strong> ${q.explanation}</div>` : ""}
+      ${answered && activeMode === "practice" ? `<div class="explanation"><strong>${selected === q.answer ? "Correcto." : "Respuesta correcta: " + q.options[q.answer] + "."}</strong> ${q.explanation}</div>` : ""}
     </article>`;
   }
 
-  function bindQuestions() {
-    quizEl.querySelectorAll("[data-question]").forEach(card => {
-      const idx = Number(card.dataset.question);
-      card.querySelectorAll("[data-option]").forEach(button => button.addEventListener("click", () => {
-        answers.set(idx, Number(button.dataset.option));
-        if (modeEl.value === "practice") {
-          const fresh = document.createElement("div");
-          fresh.innerHTML = renderQuestion(current[idx], idx);
-          card.replaceWith(fresh.firstElementChild);
-          bindQuestions();
-          updateLiveSummary();
-        } else {
-          card.querySelectorAll("[data-option]").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
-          card.querySelectorAll("[data-option]").forEach(b => b.style.borderColor = b === button ? "var(--blue)" : "var(--line)");
-          updateLiveSummary();
-        }
-      }));
-    });
-  }
+  quizEl.addEventListener("click", event => {
+    const button = event.target.closest("[data-option]");
+    if (!button || finished || !quizEl.contains(button)) return;
+    const card = button.closest("[data-question]");
+    const idx = Number(card.dataset.question);
+    if (activeMode === "practice" && answers.has(idx)) return;
+    answers.set(idx, Number(button.dataset.option));
+    if (activeMode === "practice") {
+      const fresh = document.createElement("div");
+      fresh.innerHTML = renderQuestion(current[idx], idx);
+      card.replaceWith(fresh.firstElementChild);
+    } else {
+      card.querySelectorAll("[data-option]").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
+    }
+    updateLiveSummary();
+  });
 
   function updateLiveSummary() {
     const total = current.length;
     const done = answers.size;
     if (!total) { summaryEl.innerHTML = ""; return; }
-    summaryEl.innerHTML = `<div class="summary-grid"><div class="summary-card"><strong>${done}/${total}</strong><span>respondidas</span></div><div class="summary-card"><strong>${window.U01_QUESTION_COUNT || 0}</strong><span>banco total</span></div><div class="summary-card"><strong>${modeEl.value === "practice" ? "Práctica" : "Examen"}</strong><span>modo</span></div><div class="summary-card"><strong>${categoryEl.value === "all" ? "Todas" : categoryEl.value}</strong><span>categoría</span></div></div>`;
+    summaryEl.innerHTML = `<div class="summary-grid"><div class="summary-card"><strong>${done}/${total}</strong><span>respondidas</span></div><div class="summary-card"><strong>${window.U01_QUESTION_COUNT || 0}</strong><span>banco total</span></div><div class="summary-card"><strong>${activeMode === "practice" ? "Práctica" : "Examen"}</strong><span>modo</span></div><div class="summary-card"><strong>${activeCategory === "all" ? "Todas" : activeCategory}</strong><span>categoría</span></div></div>`;
   }
 
   function start() {
+    activeMode = modeEl.value;
+    activeCategory = categoryEl.value;
+    finished = false;
     answers.clear();
     const bank = filteredBank();
     const requested = Number(countEl.value);
@@ -87,13 +90,13 @@
       return;
     }
     quizEl.innerHTML = current.map(renderQuestion).join("");
-    bindQuestions();
     updateLiveSummary();
     window.scrollTo({ top: quizEl.offsetTop - 90, behavior: "smooth" });
   }
 
   function finish() {
     if (!current.length) return;
+    finished = true;
     let correct = 0;
     const byCat = new Map();
     current.forEach((q, i) => {
@@ -117,6 +120,7 @@
 
   function reset() {
     current = [];
+    finished = false;
     answers.clear();
     quizEl.innerHTML = "";
     summaryEl.innerHTML = "";

@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const failures = [];
+await import("./verify-interactions.cjs");
 const pass = msg => console.log(`✓ ${msg}`);
 const fail = msg => failures.push(msg);
 
@@ -15,10 +16,15 @@ const labs = [
   "04-evm-explorer.html",
   "05-gas-lab.html",
   "06-smart-contract-lab.html",
-  "07-tokenization-designer.html"
+  "07-tokenization-designer.html",
+  "08-decision-arquitectura.html",
+  "09-seguro-oraculo.html"
 ];
-const questionFiles = [1,2,3,4,5].map(n => `data/questions-0${n}.js`);
+const questionFiles = [1,2,3,4,5,6].map(n => `data/questions-0${n}.js`);
+const newPages = ["glosario.html", "comparador.html", "casos.html", "guia-estudio.html"];
+const newScripts = ["data/glosario.js", "assets/glosario.js", "assets/decision.js", "assets/seguro.js"];
 const required = [
+  ...newPages, ...newScripts,
   "index.html", "evaluacion.html", "README.md", "Guía Unidad 1.pdf",
   "assets/u01.css", "assets/u01.js", "assets/evaluacion.js", "validate.mjs",
   "python/El_Impacto_de_las_Nuevas_Tecnologías_en_los_Negocios.ipynb",
@@ -34,7 +40,7 @@ for (const rel of required) {
 }
 if (!failures.length) pass(`${required.length} recursos obligatorios presentes`);
 
-const coreHtml = ["index.html", "evaluacion.html", ...labs.map(name => `simuladores/${name}`), "html/merkle.html", "html/Cuestionario.html", "html/tokenizacion.html"];
+const coreHtml = [...newPages,"index.html", "evaluacion.html", ...labs.map(name => `simuladores/${name}`), "html/merkle.html", "html/Cuestionario.html", "html/tokenizacion.html"];
 for (const rel of coreHtml) {
   const file = path.join(root, rel);
   if (!fs.existsSync(file)) continue;
@@ -59,9 +65,9 @@ for (const rel of coreHtml) {
     catch (error) { fail(`${rel}: JavaScript inline inválido (${error.message})`); }
   });
 }
-if (!failures.some(x => x.includes("enlace local") || x.includes("IDs repetidos"))) pass("HTML v2 sin enlaces locales rotos ni IDs duplicados");
+if (!failures.some(x => x.includes("enlace local") || x.includes("IDs repetidos"))) pass("HTML sin enlaces locales rotos ni IDs duplicados");
 
-for (const rel of ["assets/u01.js", "assets/evaluacion.js", ...questionFiles]) {
+for (const rel of [...newScripts, "assets/u01.js", "assets/evaluacion.js", ...questionFiles]) {
   try { new vm.Script(fs.readFileSync(path.join(root, rel), "utf8"), { filename: rel }); }
   catch (error) { fail(`${rel}: JavaScript inválido (${error.message})`); }
 }
@@ -71,31 +77,44 @@ const context = { window: {} };
 vm.createContext(context);
 for (const rel of questionFiles) vm.runInContext(fs.readFileSync(path.join(root, rel), "utf8"), context);
 const questions = context.window.U01_QUESTIONS || [];
-if (questions.length !== 50) fail(`Banco de evaluación: ${questions.length}; se esperaban 50`);
-else pass("Banco de evaluación: 50 preguntas");
+if (questions.length !== 70) fail(`Banco de evaluación: ${questions.length}; se esperaban 70`);
+else pass("Banco de evaluación: 70 preguntas");
 const categories = new Set(questions.map(q => q.category));
-if (categories.size !== 10) fail(`Categorías: ${categories.size}; se esperaban 10`);
-else pass("Evaluación distribuida en 10 categorías");
+if (categories.size !== 14) fail(`Categorías: ${categories.size}; se esperaban 14`);
+else pass("Evaluación distribuida en 14 categorías");
 questions.forEach((q,i) => {
   if (!q.question || !q.explanation || !q.category || !q.difficulty) fail(`Pregunta ${i+1}: metadatos incompletos`);
   if (!Array.isArray(q.options) || q.options.length < 2 || q.options.length > 4) fail(`Pregunta ${i+1}: opciones inválidas`);
   if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) fail(`Pregunta ${i+1}: respuesta inválida`);
 });
 
-if (labs.length === 7) pass("7 laboratorios v2 declarados");
+if (labs.length === 9) pass("9 laboratorios declarados");
 const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 for (const name of labs) if (!index.includes(`simuladores/${name}`)) fail(`Portal no enlaza laboratorio: ${name}`);
-if (!failures.some(x => x.startsWith("Portal"))) pass("Portal enlaza los 7 laboratorios");
+if (!failures.some(x => x.startsWith("Portal"))) pass("Portal enlaza los 9 laboratorios");
 
 for (const rel of ["index.html", "evaluacion.html", ...labs.map(n => `simuladores/${n}`)]) {
   const source = fs.readFileSync(path.join(root, rel), "utf8");
-  if (/fonts\.googleapis\.com|soundjay\.com|slides\.google\.com/i.test(source)) fail(`${rel}: dependencia externa no permitida en núcleo v2`);
+  if (/fonts\.googleapis\.com|soundjay\.com|slides\.google\.com/i.test(source)) fail(`${rel}: dependencia externa no permitida en núcleo`);
 }
-if (!failures.some(x => x.includes("dependencia externa"))) pass("Núcleo v2 sin dependencias de Google Fonts, SoundJay o Google Slides");
+if (!failures.some(x => x.includes("dependencia externa"))) pass("Núcleo sin dependencias de Google Fonts, SoundJay o Google Slides");
+
+vm.runInContext(fs.readFileSync(path.join(root,"data/glosario.js"),"utf8"), context);
+const glossary = context.window.U01_GLOSSARY;
+if (glossary.length !== 40) fail("El glosario debe tener 40 términos");
+if (new Set(glossary.map(t=>t.term)).size !== glossary.length) fail("Términos duplicados");
+for (const t of glossary) {
+  for (const key of ["term","category","definition","example","limit","link"]) if (!t[key]) fail(`Glosario incompleto: ${t.term}`);
+  if (!fs.existsSync(path.join(root,t.link))) fail(`Glosario: enlace roto ${t.link}`);
+}
+if (new Set(questions.map(q=>q.question)).size !== questions.length) fail("Preguntas duplicadas");
+const evaluation = fs.readFileSync(path.join(root,"evaluacion.html"),"utf8");
+for (const f of questionFiles) if (!evaluation.includes(f)) fail(`Evaluación no carga ${f}`);
+pass("Glosario, vínculos y carga del banco ampliado comprobados");
 
 if (failures.length) {
   console.error("\nValidación fallida:");
   failures.forEach(x => console.error(`✗ ${x}`));
   process.exit(1);
 }
-console.log("\nUnidad 1 v2 validada sin omisiones estructurales.");
+console.log("\nUnidad 1 validada sin omisiones estructurales.");
