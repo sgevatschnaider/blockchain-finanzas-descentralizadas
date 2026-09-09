@@ -1,98 +1,249 @@
-# Unidad 1 · Blockchain y smart contracts en los negocios
+<p align="center">
+  <img src="assets/readme-u01-hero.svg" alt="Unidad 1 · Blockchain y smart contracts en los negocios" width="100%">
+</p>
 
-Unidad experimental de **Blockchain y Finanzas Descentralizadas**. La arquitectura de aprendizaje combina material completo, lectura por capítulos, comparación de plataformas, casos sectoriales y nueve laboratorios interactivos organizados mediante una guía que exige **predicción → experimento → falla → explicación → transferencia**.
+<p align="center">
+  <strong>Blockchain y Finanzas Descentralizadas · Universidad de Belgrano</strong><br>
+  Material completo · experimentación guiada · aplicaciones sectoriales · evaluación
+</p>
 
-## Accesos principales
+---
 
-- `index.html` — portal completo de la unidad.
-- `visor.html` — visor de 18 páginas + guía original + PDF + Google Slides.
-- `laboratorios-guia.html` — **guía interactiva de los 9 laboratorios**.
-- `desarrollo.html` — lectura accesible por 15 capítulos.
-- `comparador.html` — Bitcoin, Ethereum, Litecoin, Hyperledger Fabric y Corda.
-- `casos.html` — aplicaciones sectoriales y discusión.
-- `glosario.html` — 40 términos con ejemplos y límites.
-- `evaluacion.html` — 70 preguntas explicadas, 14 categorías.
+# Acceso directo
 
-## Qué cambia en la nueva guía de laboratorios
+> **No hace falta navegar por las carpetas del repositorio.** Elegí un acceso y entrá directamente a la experiencia publicada en GitHub Pages.
 
-Los simuladores ya no se presentan como nueve demos independientes. `laboratorios-guia.html` los convierte en estaciones experimentales con un **pasaporte local** por laboratorio:
+<table>
+<tr>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/">
+<img src="assets/readme-btn-portal.svg" alt="ABRIR UNIDAD 1" width="100%">
+</a>
+</td>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html">
+<img src="assets/readme-btn-visor.svg" alt="MATERIAL COMPLETO" width="100%">
+</a>
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+<a href="https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk">
+<img src="assets/readme-btn-slides.svg" alt="GOOGLE SLIDES" width="100%">
+</a>
+</td>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html">
+<img src="assets/readme-btn-labs.svg" alt="LABORATORIOS GUIADOS" width="100%">
+</a>
+</td>
+</tr>
+</table>
 
-1. **Predicción:** el estudiante declara qué espera antes de ejecutar.
-2. **Experimento base:** sigue una secuencia con una variable controlada.
-3. **Falla/caso límite:** provoca revert, borde, dato falso o cambio de arquitectura.
-4. **Explicación causal:** debe explicar por qué cambió el resultado.
-5. **Transferencia:** aplica el concepto a un problema de negocio.
+<table>
+<tr>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/desarrollo.html">
+<img src="assets/readme-btn-chapters.svg" alt="15 CAPÍTULOS" width="100%">
+</a>
+</td>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/casos.html">
+<img src="assets/readme-btn-cases.svg" alt="CASOS SECTORIALES" width="100%">
+</a>
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/glosario.html">
+<img src="assets/readme-btn-glossary.svg" alt="GLOSARIO · 40 TÉRMINOS" width="100%">
+</a>
+</td>
+<td width="50%" align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html">
+<img src="assets/readme-btn-eval.svg" alt="EVALUACIÓN · 70 PREGUNTAS" width="100%">
+</a>
+</td>
+</tr>
+</table>
 
-Cada estación incluye además: hipótesis falsificable, objetivos, qué observar, límite del modelo, pregunta de transferencia y —en **Modo docente**— respuesta esperada, error conceptual frecuente, intervención sugerida y evidencia de aprendizaje.
+### Accesos de respaldo
+
+Si tu navegador bloqueara alguna imagen, estos enlaces de texto llevan a los mismos recursos:
+
+**[🌐 Abrir Unidad 1](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/)** · **[📚 Abrir visor](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html)** · **[▶ Google Slides](https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk)** · **[🧪 Laboratorios guiados](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html)**
+
+---
+
+# Unidad 1 · propósito
+
+Esta unidad experimental de **Blockchain y Finanzas Descentralizadas** combina material completo, lectura por capítulos, comparación de plataformas, casos sectoriales y nueve laboratorios interactivos. El objetivo no es memorizar tecnologías, sino aprender a pasar de un problema de coordinación a una decisión argumentada de arquitectura.
+
+La lógica pedagógica central es:
+
+**comprender → predecir → experimentar → provocar una falla → explicar → transferir → decidir**
+
+## Qué vas a encontrar
+
+| Recurso | Contenido | Uso recomendado |
+|---|---|---|
+| **Portal principal** | navegación general de toda la unidad | punto de entrada |
+| **Visor completo** | 18 páginas de desarrollo, guía original, PDF y Slides | estudio visual y presentación |
+| **Lectura HTML** | 15 capítulos | estudio continuo y accesible |
+| **Guía de laboratorios** | 9 experimentos, 3 rutas, pasaporte y progreso | aprendizaje experimental |
+| **Casos sectoriales** | logística, salud, fintech, PropTech e InsurTech | transferencia a negocio |
+| **Glosario** | 40 términos con ejemplos y límites | consolidación conceptual |
+| **Evaluación** | 70 preguntas explicadas en 14 categorías | práctica y autoevaluación |
+
+---
+
+# Laboratorios: de demo a experimento
+
+Los simuladores no se presentan como nueve demos independientes. `laboratorios-guia.html` los organiza como estaciones con un **pasaporte experimental**. Cada laboratorio exige cinco evidencias:
+
+1. **Predicción** — declarar qué se espera antes de ejecutar.
+2. **Experimento base** — seguir un caso controlado.
+3. **Falla o caso límite** — provocar revert, borde, dato falso o cambio de arquitectura.
+4. **Explicación causal** — justificar por qué cambió el resultado.
+5. **Transferencia** — aplicar el concepto a un problema de negocio.
+
+Cada estación incluye hipótesis falsificable, objetivo, variables, qué observar, límite del modelo y pregunta de transferencia. En **Modo docente** se añaden respuesta esperada, error conceptual frecuente, intervención sugerida y evidencia de aprendizaje.
 
 ## Tres rutas
 
 | Ruta | Laboratorios | Uso recomendado |
 |---|---|---|
-| **Esencial** | 01 → 06 → 08 → 09 | Una sesión de 45–55 min para captar integridad, reglas, arquitectura y oráculos. |
-| **Técnica completa** | 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 | Recorrido acumulativo de 100–120 min. |
-| **Negocios / Fintech** | 03 → 06 → 07 → 08 → 09 | Estado, derechos, decisión de arquitectura y datos externos. |
+| **Esencial** | 01 → 06 → 08 → 09 | 45–55 min: integridad, reglas, arquitectura y oráculos |
+| **Técnica completa** | 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 | 100–120 min: recorrido acumulativo completo |
+| **Negocios / Fintech** | 03 → 06 → 07 → 08 → 09 | estado, derechos, arquitectura y datos externos |
 
-El progreso y las notas se guardan **solo en `localStorage` del navegador**; no se envían a un servidor y no sustituyen la evaluación institucional.
+El progreso y las notas se guardan únicamente en `localStorage` del navegador y no sustituyen la evaluación institucional.
 
 ## Los nueve laboratorios
 
-| Nº | Laboratorio | Concepto principal | Falla/caso límite recomendado |
+| Nº | Laboratorio | Pregunta central | Falla / contraste recomendado |
 |---:|---|---|---|
-| 01 | Hash & Avalanche | SHA-256, Hamming, integridad | confundir distancia de hash con similitud semántica |
-| 02 | Merkle Proof | raíz y prueba de inclusión | mutar una hoja y comparar root |
-| 03 | UTXO vs Account | representación del estado | fondos distintos en ambos modelos |
-| 04 | EVM State Explorer | pipeline y revert | transferencia con saldo insuficiente |
-| 05 | Gas Economics | costo de recursos | escrituras 0 vs 5; no usar como cotización real |
-| 06 | Smart Contract State Machine | roles, estados e invariantes | actor incorrecto y orden inválido |
-| 07 | Tokenization Designer | activo, derecho, custodia | transferencia abierta vs restricciones reales |
-| 08 | ¿Qué registro necesita el negocio? | arquitectura | aceptar administrador único y observar cambio |
-| 09 | Seguro y oráculos | dato, reserva y riesgo de base | 120/130, 30/31, 90/100 y dato falso autorizado |
+| **01** | Hash & Avalanche | ¿Qué ocurre con el digest si cambia mínimamente el mensaje? | comparar mensajes idénticos y luego mutar un carácter |
+| **02** | Merkle Proof | ¿Cómo verificar inclusión sin reconstruir todo el conjunto? | mutar una hoja y comparar la raíz |
+| **03** | UTXO vs Account | ¿Dónde está representado el valor en cada modelo? | diseñar fondos distintos en ambos modelos |
+| **04** | EVM State Explorer | ¿Qué ocurre entre una llamada y un nuevo estado? | transferencia con saldo insuficiente y `revert` |
+| **05** | Gas Economics | ¿Qué decisiones vuelven más costosa la ejecución? | comparar escrituras 0 vs 5 |
+| **06** | Smart Contract State Machine | ¿Cuándo una acción es válida? | actor incorrecto y orden de estados inválido |
+| **07** | Tokenization Designer | ¿Qué representa realmente el token? | transferencia abierta frente a restricciones reales |
+| **08** | ¿Qué registro necesita el negocio? | ¿Base de datos, registro central, DLT o red pública? | aceptar un administrador único y observar el cambio |
+| **09** | Seguro y oráculos | ¿Qué pasa cuando regla, dato y fondos no coinciden? | 120/130, 30/31, 90/100 y dato falso autorizado |
 
-## Mapa conceptual
+---
 
-`DATO → HASH → COMPROMISO → TRANSACCIÓN → ESTADO → EJECUCIÓN → COSTO → REGLA → DERECHO → ARQUITECTURA → DATO EXTERNO → DECISIÓN`
+# Mapa conceptual de la Unidad 1
 
-La secuencia evita cuatro confusiones frecuentes:
+```text
+DATO
+  ↓
+HASH
+  ↓
+COMPROMISO
+  ↓
+TRANSACCIÓN
+  ↓
+ESTADO
+  ↓
+EJECUCIÓN
+  ↓
+COSTO
+  ↓
+REGLA
+  ↓
+DERECHO
+  ↓
+ARQUITECTURA
+  ↓
+DATO EXTERNO
+  ↓
+DECISIÓN
+```
+
+La secuencia busca evitar cuatro confusiones frecuentes:
 
 - **Hash ≠ verdad del dato.**
 - **Consenso ≠ calidad del oráculo.**
 - **Smart contract ≠ comprensión del acuerdo comercial.**
-- **Token ≠ derecho sobre el subyacente sin un vínculo operativo/jurídico verificable.**
+- **Token ≠ derecho sobre el subyacente sin un vínculo operativo o jurídico verificable.**
 
-## Caso integrador final
+---
 
-La guía termina con un escenario hipotético de **exportador + operador logístico + banco + aseguradora**. El estudiante debe justificar diez decisiones: fricción medida, actores, evidencia on/off-chain, Merkle, modelo de estado, roles e invariantes, oráculo, financiación, comparación de arquitecturas y una condición de abandono.
+# Caso integrador final
 
-La recomendación final debe ser falsificable: debe explicar **qué evidencia haría cambiar de arquitectura**.
+La guía termina con un escenario hipotético de **exportador + operador logístico + banco + aseguradora**. El estudiante debe justificar diez decisiones:
 
-## Estructura técnica relevante
+1. fricción concreta y métrica;
+2. actores e incentivos;
+3. evidencia on-chain y off-chain;
+4. uso posible de hashes y Merkle;
+5. modelo de estado;
+6. roles, permisos e invariantes;
+7. fuente de datos y oráculo;
+8. financiación de obligaciones;
+9. comparación de arquitecturas;
+10. condición bajo la cual abandonaría la solución propuesta.
+
+La recomendación final debe ser **falsificable**: tiene que explicar qué evidencia haría cambiar de arquitectura.
+
+---
+
+# Google Slides y material completo
+
+La presentación nativa de Google Slides está conectada mediante `materiales/config.js`. El visor mantiene simultáneamente:
+
+- desarrollo completo por páginas;
+- PDF local;
+- guía original;
+- miniaturas y navegación por capítulos;
+- zoom y reproducción;
+- Google Slides;
+- lectura HTML accesible.
+
+**[Abrir Google Slides directamente](https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk)**
+
+---
+
+# Uso docente sugerido · 75–90 min
+
+| Tiempo | Etapa | Evidencia buscada |
+|---:|---|---|
+| 10 min | pregunta rectora + predicción | hipótesis explícita |
+| 15 min | demostración del caso base | lectura correcta de variables |
+| 25 min | exploración en parejas | una variable por vez |
+| 15 min | falla deliberada / borde | identificación de condición causal |
+| 10 min | puesta en común | explicación, no solo resultado |
+| 10 min | transferencia | aplicación a un caso real |
+
+---
+
+# Estructura técnica
 
 ```text
 u01-fundamentos-smart-contracts/
 ├── index.html
-├── laboratorios-guia.html
 ├── visor.html
+├── laboratorios-guia.html
 ├── desarrollo.html
 ├── guia-estudio.html
 ├── comparador.html
 ├── casos.html
 ├── glosario.html
 ├── evaluacion.html
+├── assets/
+│   ├── u01.css / u01.js
+│   ├── visor.css / visor.js
+│   ├── lab-guide.css / lab-guide.js
+│   └── readme-*.svg
 ├── data/
 │   ├── labs-guide.js
 │   ├── labs-guide-2.js
 │   ├── labs-guide-3.js
 │   ├── glosario.js
 │   └── questions-01.js ... questions-06.js
-├── assets/
-│   ├── lab-guide.css
-│   ├── lab-guide.js
-│   ├── u01.css
-│   ├── u01.js
-│   ├── visor.css / visor.js
-│   ├── decision.js
-│   └── seguro.js
 ├── simuladores/
 │   ├── 01-hash-lab.html
 │   ├── 02-merkle-lab.html
@@ -110,29 +261,28 @@ u01-fundamentos-smart-contracts/
     └── config.js
 ```
 
-## Google Slides
-
-La presentación nativa de Google Slides de la Unidad 1 está conectada mediante `materiales/config.js`. El visor normaliza enlaces compartidos de Google Slides y conserva el PDF local como alternativa. La política de permisos de la presentación se administra desde Google Drive/Slides.
-
-## Uso docente sugerido (75–90 min)
-
-- 10 min — pregunta rectora y predicción.
-- 15 min — demostración de un caso base.
-- 25 min — exploración en parejas con una variable por vez.
-- 15 min — falla deliberada/caso límite.
-- 10 min — puesta en común centrada en causas.
-- 10 min — transferencia a un caso real.
-
 ## Validación
 
-Ejecutar desde el repositorio:
+Desde la raíz del repositorio:
 
 ```bash
 node unidades/u01-fundamentos-smart-contracts/validate.mjs
 ```
 
-El validador comprueba recursos obligatorios, enlaces locales, IDs, sintaxis JavaScript, 9 laboratorios, datos de la guía, 70 preguntas, 14 categorías, 40 términos y activos del visor.
+El validador comprueba recursos obligatorios, enlaces locales, IDs, sintaxis JavaScript, los 9 laboratorios, los datos de la guía, 70 preguntas, 14 categorías, 40 términos y los activos del visor.
 
-## Alcance
+---
 
-Los laboratorios son **modelos didácticos**. No sustituyen documentación de protocolo, estándares, auditorías, asesoramiento jurídico ni pruebas de producción. Los parámetros simplificados deben interpretarse como instrumentos para razonar sobre causalidad, supuestos y límites.
+# Alcance
+
+Los laboratorios son **modelos didácticos**. No sustituyen documentación oficial de protocolos, auditorías, asesoramiento jurídico, pruebas de seguridad ni diseño de producción. Los parámetros simplificados sirven para razonar sobre causalidad, supuestos, gobernanza y límites.
+
+---
+
+<p align="center"><strong>Dr. Sergio Gevatschnaider · Blockchain y Finanzas Descentralizadas</strong></p>
+<p align="center">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/">Unidad 1</a> ·
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html">Material completo</a> ·
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html">Laboratorios</a> ·
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html">Evaluación</a>
+</p>
