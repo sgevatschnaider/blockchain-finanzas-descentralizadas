@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Guía interactiva de los nueve laboratorios de la Unidad 1: predicción, experimento, falla, explicación, transferencia y progreso local.">
+  <meta name="theme-color" content="#030b14">
+  <title>Guía interactiva de laboratorios · Unidad 1</title>
+  <link rel="stylesheet" href="assets/u01.css?v=20260909">
+  <link rel="stylesheet" href="assets/lab-guide.css?v=20260909">
+  <script src="assets/u01.js?v=20260909" defer></script>
+  <script src="data/labs-guide.js?v=20260909" defer></script>
+  <script src="assets/lab-guide.js?v=20260909" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="index.html#laboratorios"><span class="brand-mark">U1</span><span class="brand-copy"><strong>Laboratorio guiado</strong><span>Blockchain y smart contracts en los negocios</span></span></a>
+    <nav class="nav" aria-label="Navegación de la guía">
+      <a class="keep-mobile" href="index.html">Unidad 1</a>
+      <a href="visor.html">Material</a>
+      <a href="glosario.html">Glosario</a>
+      <a href="evaluacion.html">Evaluación</a>
+      <button type="button" data-theme-toggle>Tema claro</button>
+    </nav>
+  </div>
+</header>
+<main id="contenido">
+  <section class="shell lab-guide-hero">
+    <div>
+      <p class="eyebrow">Unidad 1 · aprender experimentando</p>
+      <h1>Guía interactiva de laboratorios</h1>
+      <p class="lede">No se trata de mover controles hasta obtener un resultado. En cada laboratorio vas a <strong>predecir → experimentar → provocar una falla → explicar → transferir</strong> el concepto a una decisión real.</p>
+      <div class="guide-principles" aria-label="Método experimental">
+        <span>1 · Predecir</span><span>2 · Experimentar</span><span>3 · Fallar</span><span>4 · Explicar</span><span>5 · Transferir</span>
+      </div>
+    </div>
+    <aside class="guide-progress-card" aria-label="Progreso de laboratorios">
+      <div class="eyebrow">Pasaporte experimental</div>
+      <strong data-global-count>0/9</strong>
+      <span>laboratorios completos</span>
+      <div class="guide-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0"><span data-global-bar></span></div>
+      <button type="button" class="button" data-reset-guide>Reiniciar guía</button>
+    </aside>
+  </section>
+
+  <section class="shell guide-toolbar" aria-label="Configuración de la ruta">
+    <div>
+      <p class="eyebrow">Elegí el recorrido</p>
+      <div class="route-tabs" data-route-tabs></div>
+    </div>
+    <div>
+      <p class="eyebrow">Vista</p>
+      <div class="mode-switch" role="group" aria-label="Modo de visualización">
+        <button type="button" class="button primary" data-mode="student">Estudiante</button>
+        <button type="button" class="button" data-mode="teacher">Docente</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head"><div><p class="eyebrow">Mapa de aprendizaje</p><h2>De los datos a una decisión económica</h2></div><p>Cada laboratorio agrega una capa. El objetivo final es poder justificar cuándo una arquitectura aporta valor y qué queda fuera de su alcance.</p></div>
+      <div class="learning-chain" aria-label="Cadena conceptual"><span>Dato</span><b>→</b><span>Hash</span><b>→</b><span>Compromiso</span><b>→</b><span>Transacción</span><b>→</b><span>Estado</span><b>→</b><span>Ejecución</span><b>→</b><span>Costo</span><b>→</b><span>Regla</span><b>→</b><span>Derecho</span><b>→</b><span>Arquitectura</span><b>→</b><span>Dato externo</span><b>→</b><span>Decisión</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="estaciones">
+    <div class="shell">
+      <div class="section-head"><div><p class="eyebrow">Estaciones experimentales</p><h2 data-route-title>Ruta técnica completa</h2></div><p data-route-subtitle></p></div>
+      <div class="lab-station-grid" data-lab-grid></div>
+    </div>
+  </section>
+
+  <section class="section lab-workbench-section" id="mesa">
+    <div class="shell">
+      <div class="section-head"><div><p class="eyebrow">Mesa de experimentación</p><h2 data-active-title>Seleccioná un laboratorio</h2></div><p data-active-subtitle>La guía te indicará qué predecir, qué cambiar y qué evidencia registrar.</p></div>
+      <div class="lab-workbench" data-workbench>
+        <aside class="experiment-guide" data-experiment-guide></aside>
+        <div class="simulator-frame-panel">
+          <div class="simulator-frame-head"><div><strong data-frame-title>Simulador</strong><span>Se ejecuta dentro de la guía; también podés abrirlo en una pestaña independiente.</span></div><a class="button" data-open-direct href="#">Abrir aparte</a></div>
+          <iframe data-simulator-frame title="Simulador de la Unidad 1" loading="lazy" allow="clipboard-write"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="integrador">
+    <div class="shell integrator-shell">
+      <div class="section-head"><div><p class="eyebrow">Desafío final · transferencia</p><h2>Exportador + logística + banco + aseguradora</h2></div><p>Usá los nueve laboratorios como instrumentos para justificar una arquitectura. El caso es hipotético y el objetivo es argumentar, no adivinar una tecnología.</p></div>
+      <div class="integrator-grid">
+        <article class="panel"><div class="panel-head"><h3>Escenario</h3></div><div class="panel-body"><p>Un exportador despacha mercadería. Un operador logístico registra hitos de entrega. Un banco financia parte del ciclo y una aseguradora paga una compensación si el retraso supera un umbral. Las partes quieren reducir conciliaciones y disputas.</p><div class="callout"><strong>Regla metodológica:</strong> compará siempre contra una alternativa centralizada con firmas, auditoría y acuerdos de servicio.</div></div></article>
+        <article class="panel"><div class="panel-head"><h3>Checklist de arquitectura</h3></div><div class="panel-body integrator-checks" data-integrator-checks></div></article>
+      </div>
+      <article class="panel integrator-answer"><div class="panel-head"><h3>Recomendación argumentada</h3></div><div class="panel-body"><label for="integrator-note">Escribí una síntesis: problema medido, arquitectura elegida, datos, regla automatizada, riesgo principal y condición que haría abandonar la solución.</label><textarea id="integrator-note" rows="8" placeholder="Mi recomendación es…" data-integrator-note></textarea><div class="callout" data-integrator-status>Completá el checklist y redactá una recomendación que pueda ser refutada por evidencia.</div></div></article>
+    </div>
+  </section>
+
+  <section class="section teacher-only" id="docente" hidden>
+    <div class="shell"><div class="section-head"><div><p class="eyebrow">Modo docente</p><h2>Cómo conducir una sesión de 75–90 minutos</h2></div><p>La guía convierte la metodología de tus otros repositorios en una secuencia más estricta y observable.</p></div>
+      <div class="teacher-session-grid"><article><strong>10 min · Activación</strong><span>Pregunta rectora + predicción individual.</span></article><article><strong>15 min · Demostración</strong><span>Un caso base con una variable a la vez.</span></article><article><strong>25 min · Exploración</strong><span>Parejas registran parámetros y resultados.</span></article><article><strong>15 min · Falla</strong><span>Provocar borde, revert, dato falso o arquitectura alternativa.</span></article><article><strong>10 min · Explicación</strong><span>Comparar causas, no solo pantallas.</span></article><article><strong>10 min · Transferencia</strong><span>Aplicar el concepto a un caso de negocio.</span></article></div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="shell footer-inner"><span>Unidad 1 · Blockchain y Finanzas Descentralizadas · Dr. Sergio Gevatschnaider</span><a href="index.html">Volver a la Unidad 1</a></div></footer>
+</body>
+</html>
