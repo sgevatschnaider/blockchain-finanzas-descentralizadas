@@ -1,5 +1,11 @@
 <div align="center">
 
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/">
+<img src="assets/u01-smart-contracts-hero.webp" alt="Fundamentos de Smart Contracts · Blockchain y Finanzas Descentralizadas" width="100%">
+</a>
+
+<br>
+
 # Unidad 1 · Blockchain y smart contracts en los negocios
 
 **Blockchain y Finanzas Descentralizadas · Universidad de Belgrano**
