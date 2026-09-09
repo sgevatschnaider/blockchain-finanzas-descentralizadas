@@ -1,54 +1,36 @@
-# Unidad 1 — Del registro verificable al código ejecutable
+# Unidad 1 — Blockchain y smart contracts en los negocios
 
 **Asignatura:** Blockchain y Finanzas Descentralizadas  
 **Docente:** Dr. Sergio Gevatschnaider  
 **Año:** 2026
 
-La Unidad 1 continúa de forma directa el Módulo 0. El foco deja de ser una segunda introducción general a blockchain y pasa a una pregunta técnica central: **¿cómo una red representa, verifica y modifica un estado compartido hasta permitir la ejecución de reglas programables?**
+La unidad trabaja el impacto de blockchain en los negocios, la comparación de plataformas y los casos de smart contracts, según el programa de la asignatura. La ruta principal parte del problema económico; los siete laboratorios técnicos existentes se conservan como profundización.
+
+## Ruta de estudio
+
+1. [Guía de estudio y bibliografía](guia-estudio.html): problemas de coordinación, incentivos y modelos de negocio.
+2. [Comparación de plataformas](comparador.html): Bitcoin, Ethereum, Litecoin, Hyperledger Fabric y Corda.
+3. [Laboratorio de arquitectura](simuladores/08-decision-arquitectura.html): actores, apertura y privacidad.
+4. [Seguro paramétrico y oráculos](simuladores/09-seguro-oraculo.html): condición, dato, financiación y riesgo de base.
+5. [Seis casos sectoriales](casos.html): consignas, criterios de respuesta y rúbrica orientativa.
+6. [Glosario](glosario.html): 40 términos con ejemplos, límites, búsqueda y tarjetas.
+7. [Cuestionario](evaluacion.html): 70 preguntas explicadas.
 
 <p align="center">
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><img alt="Abrir Unidad 1" src="https://img.shields.io/badge/ABRIR-UNIDAD%201-0284c7?style=for-the-badge&logo=html5&logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img alt="Abrir evaluación" src="https://img.shields.io/badge/EVALUACIÓN-50%20PREGUNTAS-d97706?style=for-the-badge&logo=checkmarx&logoColor=white"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img alt="Abrir evaluación" src="https://img.shields.io/badge/EVALUACIÓN-70%20PREGUNTAS-d97706?style=for-the-badge&logo=checkmarx&logoColor=white"></a>
   <a href="Guía%20Unidad%201.pdf"><img alt="Abrir guía PDF" src="https://img.shields.io/badge/ABRIR-GUÍA%20PDF-475569?style=for-the-badge&logo=adobeacrobatreader&logoColor=white"></a>
 </p>
 
 ## Objetivos de aprendizaje
 
-Al finalizar la unidad, el estudiante podrá:
-
-- explicar las propiedades básicas de un hash criptográfico y observar el efecto avalancha;
-- construir conceptualmente un árbol de Merkle y verificar una prueba de inclusión;
-- distinguir los modelos **UTXO** y **account-based** como representaciones diferentes del estado;
-- describir el recorrido de una transacción que invoca un contrato en Ethereum;
-- relacionar EVM, storage, eventos, revert y transición de estado;
-- separar **gas usado** de **precio por unidad de gas** y razonar sobre intensidad de recursos;
-- interpretar un smart contract como una máquina de estados con funciones y precondiciones;
-- distinguir tokenización técnica, derecho representado, custodia, restricciones y dependencias off-chain;
-- integrar integridad, autorización, ejecución, datos externos, permisos y diseño económico dentro de un análisis de seguridad.
-
-## Ruta conceptual
-
-```text
-Datos
-  ↓
-Hash
-  ↓
-Merkle
-  ↓
-Bloque
-  ↓
-Transacción
-  ↓
-Estado
-  ↓
-EVM
-  ↓
-Gas
-  ↓
-Smart Contract
-  ↓
-Seguridad y activos programables
-```
+- Identificar problemas de coordinación y cambios en modelos de negocio.
+- Comparar redes públicas y DLT permisionadas con una alternativa centralizada.
+- Explicar estados, permisos y condiciones de un smart contract.
+- Separar integridad del registro, verdad del dato y efectos del derecho representado.
+- Analizar logística, salud, pagos, PropTech e InsurTech.
+- Justificar decisiones con supuestos, riesgos y una métrica de evaluación.
+- Profundizar, mediante laboratorios opcionales, hash, Merkle, UTXO, EVM y gas.
 
 ## Laboratorios interactivos
 
@@ -84,7 +66,7 @@ Los laboratorios de EVM, gas, smart contracts y tokenización son **modelos educ
 
 ## Evaluación
 
-La evaluación contiene **50 preguntas explicadas** distribuidas en diez categorías:
+La evaluación contiene **70 preguntas explicadas** distribuidas en catorce categorías:
 
 1. Hash
 2. Merkle
@@ -96,6 +78,10 @@ La evaluación contiene **50 preguntas explicadas** distribuidas en diez categor
 8. Smart Contracts
 9. Tokenización
 10. Seguridad
+11. Negocios
+12. Comparación de redes
+13. Oráculos y seguros
+14. Casos sectoriales
 
 Incluye modo **Práctica** y **Examen**, selección por categoría y dificultad, corrección explicada y resumen de desempeño por competencia.
 
@@ -121,19 +107,15 @@ Los recursos previos se conservan y se integran como material complementario de 
 
 Los enlaces históricos `html/merkle.html`, `html/Cuestionario.html` y `html/tokenizacion.html` se mantienen por compatibilidad y redirigen a las experiencias actuales correspondientes.
 
-## Agenda sugerida — 3 horas
+## Secuencia sugerida — tres días
 
-| Tiempo | Actividad |
-|---:|---|
-| 15 min | Conexión con Módulo 0 y mapa conceptual |
-| 25 min | Hash y efecto avalancha |
-| 35 min | Merkle tree + proof |
-| 25 min | UTXO vs account model |
-| 35 min | Estado, Ethereum y EVM |
-| 20 min | Gas y costo de ejecución |
-| 20 min | Smart contract state machine |
-| 15 min | Tokenización y dependencias off-chain |
-| 10 min | Evaluación / cierre |
+| Día | Actividad | Entregable |
+|---|---|---|
+| 1 | Lectura y comparación | Mapa de actores y problema |
+| 2 | Simulaciones y experimentos | Dos escenarios contrastados |
+| 3 | Caso integrador y cuestionario | Recomendación argumentada |
+
+La secuencia sigue la guía original de la unidad. La rúbrica de casos y el cuestionario son formativos y no modifican las ponderaciones oficiales.
 
 ## Bibliografía principal
 
@@ -146,8 +128,10 @@ Los enlaces históricos `html/merkle.html`, `html/Cuestionario.html` y `html/tok
 
 ## Validación técnica
 
-La unidad incluye `validate.mjs`, que comprueba recursos obligatorios, enlaces locales, sintaxis JavaScript, presencia de los 7 laboratorios y conteo de las 50 preguntas.
+La unidad incluye `validate.mjs`, que comprueba recursos obligatorios, enlaces locales, sintaxis JavaScript, presencia de los 9 laboratorios, las 70 preguntas y los 40 términos del glosario.
 
 ```bash
 node unidades/u01-fundamentos-smart-contracts/validate.mjs
 ```
+
+Las fuentes específicas de la ampliación están en [la guía de estudio](guia-estudio.html#fuentes). El estándar para revisar las siguientes unidades está en [ESTRUCTURA-DIDACTICA.md](../../ESTRUCTURA-DIDACTICA.md).
