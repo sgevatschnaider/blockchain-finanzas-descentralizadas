@@ -1,70 +1,79 @@
+<div align="center">
+
 # Unidad 1 · Blockchain y smart contracts en los negocios
 
 **Blockchain y Finanzas Descentralizadas · Universidad de Belgrano**
 
-Esta unidad integra **material completo**, **lectura por capítulos**, **Google Slides**, **simuladores guiados**, **casos sectoriales**, **glosario** y **evaluación**. La propuesta no presenta blockchain como una lista de tecnologías: organiza el aprendizaje alrededor de problemas de coordinación, modelos de estado, reglas programables, arquitectura, datos externos y decisiones de negocio.
+Material completo · experimentación guiada · aplicaciones sectoriales · evaluación
 
-> **Acceso recomendado:** no hace falta navegar por las carpetas del repositorio. Usá directamente los accesos de esta página.
+<br>
+
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><img src="https://img.shields.io/badge/ABRIR-UNIDAD%201-0EA5E9?style=for-the-badge" alt="Abrir Unidad 1"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html"><img src="https://img.shields.io/badge/MATERIAL-COMPLETO-0284C7?style=for-the-badge" alt="Material completo"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html"><img src="https://img.shields.io/badge/LABORATORIOS-GUIADOS-7C3AED?style=for-the-badge" alt="Laboratorios guiados"></a>
+<a href="https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk"><img src="https://img.shields.io/badge/GOOGLE-SLIDES-F59E0B?style=for-the-badge" alt="Google Slides"></a>
+
+</div>
 
 ---
 
 ## Acceso directo
 
+> **No hace falta navegar por las carpetas del repositorio.** Los botones llevan directamente a cada recurso de la Unidad 1.
+
 <table>
-  <tr>
-    <td width="50%" valign="top">
-      <strong>PORTAL DE LA UNIDAD</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><strong>Abrir Unidad 1 →</strong></a><br>
-      Portal principal con acceso a teoría, materiales, laboratorios, casos, glosario y evaluación.
-    </td>
-    <td width="50%" valign="top">
-      <strong>MATERIAL COMPLETO</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html"><strong>Abrir visor →</strong></a><br>
-      Desarrollo de 18 páginas con PDF, miniaturas, capítulos, zoom, reproducción y Google Slides.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <strong>GOOGLE SLIDES</strong><br><br>
-      <a href="https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk"><strong>Abrir presentación →</strong></a><br>
-      Presentación nativa de la Unidad 1 para clase, exposición o estudio secuencial.
-    </td>
-    <td width="50%" valign="top">
-      <strong>LABORATORIOS GUIADOS</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html"><strong>Abrir guía interactiva →</strong></a><br>
-      Nueve simuladores organizados en rutas Esencial, Técnica completa y Negocios/Fintech.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <strong>LECTURA POR CAPÍTULOS</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/desarrollo.html"><strong>Abrir 15 capítulos →</strong></a><br>
-      Desarrollo HTML accesible para lectura conceptual, consulta rápida y navegación temática.
-    </td>
-    <td width="50%" valign="top">
-      <strong>CASOS SECTORIALES</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/casos.html"><strong>Abrir casos →</strong></a><br>
-      Aplicaciones en logística, salud, bancos/fintech, PropTech e InsurTech.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <strong>GLOSARIO</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/glosario.html"><strong>Abrir 40 términos →</strong></a><br>
-      Conceptos clave con definición, ejemplo, alcance y límite.
-    </td>
-    <td width="50%" valign="top">
-      <strong>EVALUACIÓN</strong><br><br>
-      <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><strong>Abrir 70 preguntas →</strong></a><br>
-      Banco explicado, organizado en 14 categorías temáticas.
-    </td>
-  </tr>
+<tr>
+<td width="50%" align="center" valign="top">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/">
+<img src="https://img.shields.io/badge/PORTAL-ABRIR%20UNIDAD%201-0EA5E9?style=for-the-badge" alt="Portal de la Unidad 1">
+</a>
+<br><sub>Entrada principal: teoría, materiales, laboratorios, casos, glosario y evaluación.</sub>
+</td>
+<td width="50%" align="center" valign="top">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html">
+<img src="https://img.shields.io/badge/VISOR-MATERIAL%20COMPLETO-0284C7?style=for-the-badge" alt="Visor del material completo">
+</a>
+<br><sub>18 páginas, miniaturas, capítulos, zoom, reproducción, PDF y Google Slides.</sub>
+</td>
+</tr>
+<tr>
+<td width="50%" align="center" valign="top">
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html">
+<img src="https://img.shields.io/badge/9%20SIMULADORES-LABORATORIOS%20GUIADOS-7C3AED?style=for-the-badge" alt="Laboratorios guiados">
+</a>
+<br><sub>Predicción, experimento, falla, explicación y transferencia en tres rutas.</sub>
+</td>
+<td width="50%" align="center" valign="top">
+<a href="https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk">
+<img src="https://img.shields.io/badge/PRESENTACI%C3%93N-GOOGLE%20SLIDES-F59E0B?style=for-the-badge" alt="Google Slides">
+</a>
+<br><sub>Presentación de la cátedra para clase, exposición o estudio secuencial.</sub>
+</td>
+</tr>
 </table>
+
+### Más recursos
+
+<div align="center">
+
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/materiales/unidad-1-desarrollo-completo.pdf"><img src="https://img.shields.io/badge/PDF-DESARROLLO%20COMPLETO-334155?style=for-the-badge" alt="PDF desarrollo completo"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/desarrollo.html"><img src="https://img.shields.io/badge/LECTURA-15%20CAP%C3%8DTULOS-D97706?style=for-the-badge" alt="Lectura por capítulos"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/guia-estudio.html"><img src="https://img.shields.io/badge/ESTUDIO-GU%C3%8DA%20Y%20BIBLIOGRAF%C3%8DA-64748B?style=for-the-badge" alt="Guía de estudio"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/comparador.html"><img src="https://img.shields.io/badge/COMPARAR-PLATAFORMAS-2563EB?style=for-the-badge" alt="Comparador de plataformas"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/casos.html"><img src="https://img.shields.io/badge/APLICAR-CASOS%20SECTORIALES-DB2777?style=for-the-badge" alt="Casos sectoriales"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/glosario.html"><img src="https://img.shields.io/badge/GLOSARIO-40%20T%C3%89RMINOS-0891B2?style=for-the-badge" alt="Glosario de 40 términos"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img src="https://img.shields.io/badge/EVALUACI%C3%93N-70%20PREGUNTAS-16A34A?style=for-the-badge" alt="Evaluación de 70 preguntas"></a>
+
+</div>
 
 ### Accesos de respaldo
 
+Si un navegador bloqueara imágenes externas, estos enlaces llevan a los mismos recursos:
+
 - **Portal principal:** [`index.html`](index.html)
 - **Visor del material:** [`visor.html`](visor.html)
+- **PDF completo:** [`materiales/unidad-1-desarrollo-completo.pdf`](materiales/unidad-1-desarrollo-completo.pdf)
+- **Guía original:** [`Guía Unidad 1.pdf`](Gu%C3%ADa%20Unidad%201.pdf)
 - **Guía de laboratorios:** [`laboratorios-guia.html`](laboratorios-guia.html)
 - **Lectura por capítulos:** [`desarrollo.html`](desarrollo.html)
 - **Guía de estudio:** [`guia-estudio.html`](guia-estudio.html)
@@ -77,16 +86,16 @@ Esta unidad integra **material completo**, **lectura por capítulos**, **Google 
 
 ## Propósito de la Unidad 1
 
-La unidad busca que el estudiante pueda pasar de una afirmación genérica como *“usar blockchain”* a una decisión fundamentada:
+Esta unidad organiza el aprendizaje alrededor de **problemas de coordinación, estado, reglas programables, arquitectura, datos externos y decisiones de negocio**. El objetivo no es memorizar tecnologías, sino pasar de una afirmación genérica como *“usar blockchain”* a una decisión fundamentada:
 
 **problema → actores → información → estado → reglas → incentivos → arquitectura → riesgos → métrica → decisión**
 
 Al finalizar, el estudiante debería poder:
 
 1. diferenciar integridad criptográfica de verdad del dato;
-2. comparar UTXO y modelos de cuentas como formas distintas de representar estado;
+2. comparar UTXO y modelos de cuentas como representaciones distintas del estado;
 3. explicar cómo una llamada puede producir un cambio de estado o un `revert`;
-4. relacionar diseño de storage y ejecución con costo;
+4. relacionar diseño de `storage` y ejecución con costo;
 5. modelar un smart contract como una máquina de estados con roles, precondiciones e invariantes;
 6. separar activo, derecho, token, custodia y transferibilidad;
 7. decidir entre base de datos, registro central auditado, DLT permisionada y red pública;
@@ -99,10 +108,11 @@ Al finalizar, el estudiante debería poder:
 
 | Recurso | Contenido | Uso recomendado |
 |---|---|---|
-| **Portal principal** | navegación de toda la unidad | punto de entrada |
-| **Visor completo** | 18 páginas, guía original, PDF y Slides | estudio visual y presentación |
+| **Portal principal** | navegación general de la unidad | punto de entrada |
+| **Visor completo** | 18 páginas, guía original, PDF y Google Slides | estudio visual y presentación |
 | **Lectura HTML** | 15 capítulos | estudio continuo y accesible |
 | **Guía de laboratorios** | 9 experimentos, 3 rutas, pasaporte y progreso local | aprendizaje experimental |
+| **Guía de estudio** | orientación, secuencia y bibliografía | planificación del estudio |
 | **Comparador** | Bitcoin, Ethereum, Litecoin, Hyperledger Fabric y Corda | comparación de plataformas |
 | **Casos sectoriales** | logística, salud, fintech, PropTech e InsurTech | transferencia a negocio |
 | **Glosario** | 40 términos | consolidación conceptual |
@@ -116,7 +126,7 @@ La secuencia pedagógica central es:
 
 **comprender → predecir → experimentar → provocar una falla → explicar → transferir → decidir**
 
-Los simuladores no se presentan como demos aisladas. La guía convierte cada uno en un **experimento guiado** con cinco evidencias:
+Los simuladores no se presentan como demos aisladas. `laboratorios-guia.html` convierte cada uno en un **experimento guiado** con cinco evidencias:
 
 1. **Predicción** — declarar qué se espera antes de ejecutar.
 2. **Experimento base** — seguir una secuencia controlada.
@@ -124,7 +134,7 @@ Los simuladores no se presentan como demos aisladas. La guía convierte cada uno
 4. **Explicación causal** — justificar por qué cambió el resultado.
 5. **Transferencia** — aplicar el concepto a un problema real.
 
-Cada estación añade una hipótesis falsificable, objetivos, variables, qué observar, límite del modelo y pregunta de transferencia.
+Cada estación incorpora una hipótesis falsificable, objetivos, variables, qué observar, límite del modelo y pregunta de transferencia.
 
 ---
 
@@ -148,13 +158,15 @@ El progreso y las notas se guardan **solo en `localStorage` del navegador**. No 
 | **02** | Merkle Proof | ¿Cómo verificar inclusión sin reconstruir todo el conjunto? | mutar una hoja y comparar la raíz |
 | **03** | UTXO vs Account | ¿Dónde está representado el valor en cada modelo? | ejecutar el mismo pago bajo dos representaciones distintas |
 | **04** | EVM State Explorer | ¿Qué ocurre entre una llamada y un nuevo estado? | provocar una transferencia con saldo insuficiente y observar `revert` |
-| **05** | Gas Economics | ¿Qué decisiones vuelven más costosa la ejecución? | comparar escrituras 0 vs 5 y observar el peso del storage |
+| **05** | Gas Economics | ¿Qué decisiones vuelven más costosa la ejecución? | comparar escrituras 0 vs 5 y observar el peso del `storage` |
 | **06** | Smart Contract State Machine | ¿Cuándo una acción es válida? | probar actor incorrecto y secuencia de estados inválida |
 | **07** | Tokenization Designer | ¿Qué representa realmente el token? | comparar transferencia técnica libre con restricciones reales |
 | **08** | ¿Qué registro necesita el negocio? | ¿Base de datos, registro central, DLT o red pública? | aceptar un administrador único y observar el cambio de recomendación |
 | **09** | Seguro y oráculos | ¿Qué pasa cuando regla, dato y fondos no coinciden? | explorar 120/130, 30/31, 90/100 y dato falso autorizado |
 
-### Secuencia conceptual acumulativa
+---
+
+## Secuencia conceptual acumulativa
 
 ```text
 DATO
@@ -244,7 +256,7 @@ La recomendación final debe ser **falsificable**: tiene que explicar qué evide
 
 ## Google Slides y material completo
 
-La presentación nativa de Google Slides está conectada mediante `materiales/config.js`. El visor mantiene simultáneamente:
+El enlace de Google Slides está configurado en `materiales/config.js`. El visor mantiene simultáneamente:
 
 - desarrollo completo por páginas;
 - PDF local;
@@ -254,7 +266,15 @@ La presentación nativa de Google Slides está conectada mediante `materiales/co
 - Google Slides;
 - lectura HTML accesible.
 
-**[Abrir Google Slides directamente](https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk)**
+<div align="center">
+
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html"><img src="https://img.shields.io/badge/ABRIR-VISOR%20COMPLETO-0284C7?style=for-the-badge" alt="Abrir visor completo"></a>
+<a href="https://docs.google.com/presentation/d/1A-dU3SMIGzEwbqd4XOF1gJQWI-TCETFGH7MXe679XyM/edit?usp=drivesdk"><img src="https://img.shields.io/badge/ABRIR-GOOGLE%20SLIDES-F59E0B?style=for-the-badge" alt="Abrir Google Slides"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/materiales/unidad-1-desarrollo-completo.pdf"><img src="https://img.shields.io/badge/ABRIR-PDF%20COMPLETO-334155?style=for-the-badge" alt="Abrir PDF completo"></a>
+
+</div>
+
+> Para uso con estudiantes, los permisos de Google Slides deben configurarse desde Google Drive/Slides de acuerdo con la política de acceso de la cátedra.
 
 ---
 
@@ -284,6 +304,7 @@ u01-fundamentos-smart-contracts/
 ├── casos.html
 ├── glosario.html
 ├── evaluacion.html
+├── Guía Unidad 1.pdf
 ├── assets/
 │   ├── u01.css
 │   ├── u01.js
@@ -314,6 +335,7 @@ u01-fundamentos-smart-contracts/
     ├── unidad-1-desarrollo-completo.pdf
     ├── capitulos.json
     ├── documentos.json
+    ├── fuentes.json
     └── config.js
 ```
 
@@ -337,6 +359,13 @@ Los laboratorios son **modelos didácticos**. No sustituyen documentación ofici
 
 ---
 
+<div align="center">
+
 **Dr. Sergio Gevatschnaider · Blockchain y Finanzas Descentralizadas**
 
-[Unidad 1](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/) · [Material completo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html) · [Laboratorios](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html) · [Evaluación](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html)
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><img src="https://img.shields.io/badge/UNIDAD%201-INICIO-0EA5E9?style=flat-square" alt="Unidad 1"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/visor.html"><img src="https://img.shields.io/badge/MATERIAL-VISOR-0284C7?style=flat-square" alt="Visor"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/laboratorios-guia.html"><img src="https://img.shields.io/badge/LABS-GU%C3%8DA-7C3AED?style=flat-square" alt="Laboratorios"></a>
+<a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img src="https://img.shields.io/badge/EVALUACI%C3%93N-70%20PREGUNTAS-16A34A?style=flat-square" alt="Evaluación"></a>
+
+</div>
