@@ -1,147 +1,138 @@
-# Unidad 1 — Blockchain y smart contracts en los negocios
+# Unidad 1 · Blockchain y smart contracts en los negocios
 
-**Asignatura:** Blockchain y Finanzas Descentralizadas  
-**Docente:** Dr. Sergio Gevatschnaider  
-**Año:** 2026
+Unidad experimental de **Blockchain y Finanzas Descentralizadas**. La arquitectura de aprendizaje combina material completo, lectura por capítulos, comparación de plataformas, casos sectoriales y nueve laboratorios interactivos organizados mediante una guía que exige **predicción → experimento → falla → explicación → transferencia**.
 
-La unidad trabaja el impacto de blockchain en los negocios, la comparación de plataformas y los casos de smart contracts, según el programa de la asignatura. La ruta principal parte del problema económico; los siete laboratorios técnicos existentes se conservan como profundización.
+## Accesos principales
 
-## Visor y desarrollo completo
+- `index.html` — portal completo de la unidad.
+- `visor.html` — visor de 18 páginas + guía original + PDF + Google Slides.
+- `laboratorios-guia.html` — **guía interactiva de los 9 laboratorios**.
+- `desarrollo.html` — lectura accesible por 15 capítulos.
+- `comparador.html` — Bitcoin, Ethereum, Litecoin, Hyperledger Fabric y Corda.
+- `casos.html` — aplicaciones sectoriales y discusión.
+- `glosario.html` — 40 términos con ejemplos y límites.
+- `evaluacion.html` — 70 preguntas explicadas, 14 categorías.
 
-- [Visor integrado](visor.html): desarrollo completo (18 páginas), guía original (2 páginas), navegación, miniaturas, zoom, pantalla completa y reproducción con pausa e intervalo.
-- [Lectura completa](desarrollo.html): 15 capítulos con ejemplos, preguntas, criterios de respuesta y acceso a actividades.
-- [PDF del desarrollo completo](materiales/unidad-1-desarrollo-completo.pdf).
-- Google Slides acepta enlaces compartidos y publicados; no hay una presentación configurada hasta disponer de su enlace real. El enlace ingresado por un visitante se guarda solo en su navegador. Para toda la clase, establecer `googleSlidesUrl` en `materiales/config.js` y asignar los permisos correspondientes desde Google.
-- El modo PDF usa el visor nativo del navegador para búsqueda e impresión; el modo Páginas funciona con imágenes locales. La lectura HTML aporta el texto accesible. El visor no inicia sesión ni cambia permisos de Google.
+## Qué cambia en la nueva guía de laboratorios
 
-## Ruta de estudio
+Los simuladores ya no se presentan como nueve demos independientes. `laboratorios-guia.html` los convierte en estaciones experimentales con un **pasaporte local** por laboratorio:
 
-1. [Guía de estudio y bibliografía](guia-estudio.html): problemas de coordinación, incentivos y modelos de negocio.
-2. [Comparación de plataformas](comparador.html): Bitcoin, Ethereum, Litecoin, Hyperledger Fabric y Corda.
-3. [Laboratorio de arquitectura](simuladores/08-decision-arquitectura.html): actores, apertura y privacidad.
-4. [Seguro paramétrico y oráculos](simuladores/09-seguro-oraculo.html): condición, dato, financiación y riesgo de base.
-5. [Seis casos sectoriales](casos.html): consignas, criterios de respuesta y rúbrica orientativa.
-6. [Glosario](glosario.html): 40 términos con ejemplos, límites, búsqueda y tarjetas.
-7. [Cuestionario](evaluacion.html): 70 preguntas explicadas.
+1. **Predicción:** el estudiante declara qué espera antes de ejecutar.
+2. **Experimento base:** sigue una secuencia con una variable controlada.
+3. **Falla/caso límite:** provoca revert, borde, dato falso o cambio de arquitectura.
+4. **Explicación causal:** debe explicar por qué cambió el resultado.
+5. **Transferencia:** aplica el concepto a un problema de negocio.
 
-<p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><img alt="Abrir Unidad 1" src="https://img.shields.io/badge/ABRIR-UNIDAD%201-0284c7?style=for-the-badge&logo=html5&logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img alt="Abrir evaluación" src="https://img.shields.io/badge/EVALUACIÓN-70%20PREGUNTAS-d97706?style=for-the-badge&logo=checkmarx&logoColor=white"></a>
-  <a href="Guía%20Unidad%201.pdf"><img alt="Abrir guía PDF" src="https://img.shields.io/badge/ABRIR-GUÍA%20PDF-475569?style=for-the-badge&logo=adobeacrobatreader&logoColor=white"></a>
-</p>
+Cada estación incluye además: hipótesis falsificable, objetivos, qué observar, límite del modelo, pregunta de transferencia y —en **Modo docente**— respuesta esperada, error conceptual frecuente, intervención sugerida y evidencia de aprendizaje.
 
-## Objetivos de aprendizaje
+## Tres rutas
 
-- Identificar problemas de coordinación y cambios en modelos de negocio.
-- Comparar redes públicas y DLT permisionadas con una alternativa centralizada.
-- Explicar estados, permisos y condiciones de un smart contract.
-- Separar integridad del registro, verdad del dato y efectos del derecho representado.
-- Analizar logística, salud, pagos, PropTech e InsurTech.
-- Justificar decisiones con supuestos, riesgos y una métrica de evaluación.
-- Profundizar, mediante laboratorios opcionales, hash, Merkle, UTXO, EVM y gas.
-
-## Laboratorios interactivos
-
-Todos los laboratorios son autocontenidos y se ejecutan directamente en el navegador. Los accesos principales se presentan como botones para entrar a cada experiencia sin recorrer tablas ni archivos internos.
-
-<p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/01-hash-lab.html"><img alt="Hash & Avalanche Lab" src="https://img.shields.io/badge/01-HASH%20%26%20AVALANCHE-2563eb?style=for-the-badge&logo=hashnode&logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/02-merkle-lab.html"><img alt="Merkle Proof Lab" src="https://img.shields.io/badge/02-MERKLE%20PROOF-0891b2?style=for-the-badge&logo=databricks&logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/03-utxo-account.html"><img alt="UTXO vs Account Model" src="https://img.shields.io/badge/03-UTXO%20vs%20ACCOUNT-0f766e?style=for-the-badge&logo=bitcoin&logoColor=white"></a>
-</p>
-
-<p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/04-evm-explorer.html"><img alt="EVM State Explorer" src="https://img.shields.io/badge/04-EVM%20STATE%20EXPLORER-6d28d9?style=for-the-badge&logo=ethereum&logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/05-gas-lab.html"><img alt="Gas Economics Lab" src="https://img.shields.io/badge/05-GAS%20ECONOMICS-a16207?style=for-the-badge&logo=ethereum&logoColor=white"></a>
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/06-smart-contract-lab.html"><img alt="Smart Contract State Machine" src="https://img.shields.io/badge/06-SMART%20CONTRACT-7c3aed?style=for-the-badge&logo=solidity&logoColor=white"></a>
-</p>
-
-<p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/simuladores/07-tokenization-designer.html"><img alt="Tokenization Designer" src="https://img.shields.io/badge/07-TOKENIZATION%20DESIGNER-047857?style=for-the-badge&logo=ethereum&logoColor=white"></a>
-</p>
-
-### Qué trabaja cada laboratorio
-
-- **Hash & Avalanche Lab:** calcular SHA-256 y medir sensibilidad a cambios mínimos.
-- **Merkle Proof Lab:** construir una raíz y verificar una prueba de inclusión.
-- **UTXO vs Account Model:** comparar dos representaciones del estado para el mismo pago.
-- **EVM State Explorer:** seguir firma, validación, lectura, ejecución, escritura y evento.
-- **Gas Economics Lab:** comparar intensidad de lecturas, escrituras, calldata y logs.
-- **Smart Contract State Machine:** observar estados, precondiciones, eventos y revert en un escrow educativo.
-- **Tokenization Designer:** separar activo, derecho, token, custodia, transferencias y oráculos.
-
-Los laboratorios de EVM, gas, smart contracts y tokenización son **modelos educativos**. No representan implementaciones listas para producción ni sustituyen documentación técnica, auditorías, análisis jurídico o evaluación de seguridad.
-
-## Evaluación
-
-La evaluación contiene **70 preguntas explicadas** distribuidas en catorce categorías:
-
-1. Hash
-2. Merkle
-3. Transacciones
-4. Bitcoin
-5. Ethereum
-6. EVM
-7. Gas
-8. Smart Contracts
-9. Tokenización
-10. Seguridad
-11. Negocios
-12. Comparación de redes
-13. Oráculos y seguros
-14. Casos sectoriales
-
-Incluye modo **Práctica** y **Examen**, selección por categoría y dificultad, corrección explicada y resumen de desempeño por competencia.
-
-<p align="center">
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/evaluacion.html"><img alt="Comenzar evaluación" src="https://img.shields.io/badge/COMENZAR-EVALUACIÓN-d97706?style=for-the-badge&logo=checkmarx&logoColor=white"></a>
-</p>
-
-## Material de estudio y recursos complementarios
-
-Los recursos previos se conservan y se integran como material complementario de la secuencia principal.
-
-<p align="center">
-  <a href="Guía%20Unidad%201.pdf"><img alt="Guía Unidad 1 PDF" src="https://img.shields.io/badge/PDF-GUÍA%20UNIDAD%201-b91c1c?style=for-the-badge&logo=adobeacrobatreader&logoColor=white"></a>
-  <a href="python/El_Impacto_de_las_Nuevas_Tecnologías_en_los_Negocios.ipynb"><img alt="Notebook impacto de nuevas tecnologías" src="https://img.shields.io/badge/NOTEBOOK-IMPACTO%20TECNOLOGÍAS-f59e0b?style=for-the-badge&logo=jupyter&logoColor=white"></a>
-  <a href="python/Definiciones_con_ejemplos_Unidad_1_.ipynb"><img alt="Notebook definiciones con ejemplos" src="https://img.shields.io/badge/NOTEBOOK-DEFINICIONES-f59e0b?style=for-the-badge&logo=jupyter&logoColor=white"></a>
-</p>
-
-- [Caso visual — Escrow / smart contract](html/smart_contract.html)
-- [Recurso — Clave criptográfica](html/clave.html)
-- [Recurso — Bitcoin](html/BITCOIN.html)
-- [Recurso — Colateral](html/colateral.html)
-- [Recurso — FT & DeFi](html/FT_DEFI.html)
-
-Los enlaces históricos `html/merkle.html`, `html/Cuestionario.html` y `html/tokenizacion.html` se mantienen por compatibilidad y redirigen a las experiencias actuales correspondientes.
-
-## Secuencia sugerida — tres días
-
-| Día | Actividad | Entregable |
+| Ruta | Laboratorios | Uso recomendado |
 |---|---|---|
-| 1 | Lectura y comparación | Mapa de actores y problema |
-| 2 | Simulaciones y experimentos | Dos escenarios contrastados |
-| 3 | Caso integrador y cuestionario | Recomendación argumentada |
+| **Esencial** | 01 → 06 → 08 → 09 | Una sesión de 45–55 min para captar integridad, reglas, arquitectura y oráculos. |
+| **Técnica completa** | 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 | Recorrido acumulativo de 100–120 min. |
+| **Negocios / Fintech** | 03 → 06 → 07 → 08 → 09 | Estado, derechos, decisión de arquitectura y datos externos. |
 
-La secuencia sigue la guía original de la unidad. La rúbrica de casos y el cuestionario son formativos y no modifican las ponderaciones oficiales.
+El progreso y las notas se guardan **solo en `localStorage` del navegador**; no se envían a un servidor y no sustituyen la evaluación institucional.
 
-## Bibliografía principal
+## Los nueve laboratorios
 
-- Narayanan et al., *Bitcoin and Cryptocurrency Technologies*.
-- Antonopoulos & Wood, *Mastering Ethereum*.
-- Bashir, I., *Mastering Blockchain*.
-- Drescher, D., *Blockchain Basics*.
-- Documentación oficial de Bitcoin, Ethereum y Solidity.
-- OpenZeppelin Docs para primitivas y patrones de contratos.
+| Nº | Laboratorio | Concepto principal | Falla/caso límite recomendado |
+|---:|---|---|---|
+| 01 | Hash & Avalanche | SHA-256, Hamming, integridad | confundir distancia de hash con similitud semántica |
+| 02 | Merkle Proof | raíz y prueba de inclusión | mutar una hoja y comparar root |
+| 03 | UTXO vs Account | representación del estado | fondos distintos en ambos modelos |
+| 04 | EVM State Explorer | pipeline y revert | transferencia con saldo insuficiente |
+| 05 | Gas Economics | costo de recursos | escrituras 0 vs 5; no usar como cotización real |
+| 06 | Smart Contract State Machine | roles, estados e invariantes | actor incorrecto y orden inválido |
+| 07 | Tokenization Designer | activo, derecho, custodia | transferencia abierta vs restricciones reales |
+| 08 | ¿Qué registro necesita el negocio? | arquitectura | aceptar administrador único y observar cambio |
+| 09 | Seguro y oráculos | dato, reserva y riesgo de base | 120/130, 30/31, 90/100 y dato falso autorizado |
 
-## Validación técnica
+## Mapa conceptual
 
-La unidad incluye `validate.mjs`, que comprueba recursos obligatorios, enlaces locales, sintaxis JavaScript, presencia de los 9 laboratorios, las 70 preguntas y los 40 términos del glosario.
+`DATO → HASH → COMPROMISO → TRANSACCIÓN → ESTADO → EJECUCIÓN → COSTO → REGLA → DERECHO → ARQUITECTURA → DATO EXTERNO → DECISIÓN`
+
+La secuencia evita cuatro confusiones frecuentes:
+
+- **Hash ≠ verdad del dato.**
+- **Consenso ≠ calidad del oráculo.**
+- **Smart contract ≠ comprensión del acuerdo comercial.**
+- **Token ≠ derecho sobre el subyacente sin un vínculo operativo/jurídico verificable.**
+
+## Caso integrador final
+
+La guía termina con un escenario hipotético de **exportador + operador logístico + banco + aseguradora**. El estudiante debe justificar diez decisiones: fricción medida, actores, evidencia on/off-chain, Merkle, modelo de estado, roles e invariantes, oráculo, financiación, comparación de arquitecturas y una condición de abandono.
+
+La recomendación final debe ser falsificable: debe explicar **qué evidencia haría cambiar de arquitectura**.
+
+## Estructura técnica relevante
+
+```text
+u01-fundamentos-smart-contracts/
+├── index.html
+├── laboratorios-guia.html
+├── visor.html
+├── desarrollo.html
+├── guia-estudio.html
+├── comparador.html
+├── casos.html
+├── glosario.html
+├── evaluacion.html
+├── data/
+│   ├── labs-guide.js
+│   ├── labs-guide-2.js
+│   ├── labs-guide-3.js
+│   ├── glosario.js
+│   └── questions-01.js ... questions-06.js
+├── assets/
+│   ├── lab-guide.css
+│   ├── lab-guide.js
+│   ├── u01.css
+│   ├── u01.js
+│   ├── visor.css / visor.js
+│   ├── decision.js
+│   └── seguro.js
+├── simuladores/
+│   ├── 01-hash-lab.html
+│   ├── 02-merkle-lab.html
+│   ├── 03-utxo-account.html
+│   ├── 04-evm-explorer.html
+│   ├── 05-gas-lab.html
+│   ├── 06-smart-contract-lab.html
+│   ├── 07-tokenization-designer.html
+│   ├── 08-decision-arquitectura.html
+│   └── 09-seguro-oraculo.html
+└── materiales/
+    ├── unidad-1-desarrollo-completo.pdf
+    ├── capitulos.json
+    ├── documentos.json
+    └── config.js
+```
+
+## Google Slides
+
+La presentación nativa de Google Slides de la Unidad 1 está conectada mediante `materiales/config.js`. El visor normaliza enlaces compartidos de Google Slides y conserva el PDF local como alternativa. La política de permisos de la presentación se administra desde Google Drive/Slides.
+
+## Uso docente sugerido (75–90 min)
+
+- 10 min — pregunta rectora y predicción.
+- 15 min — demostración de un caso base.
+- 25 min — exploración en parejas con una variable por vez.
+- 15 min — falla deliberada/caso límite.
+- 10 min — puesta en común centrada en causas.
+- 10 min — transferencia a un caso real.
+
+## Validación
+
+Ejecutar desde el repositorio:
 
 ```bash
 node unidades/u01-fundamentos-smart-contracts/validate.mjs
 ```
 
-Las fuentes específicas de la ampliación están en [la guía de estudio](guia-estudio.html#fuentes). El estándar para revisar las siguientes unidades está en [ESTRUCTURA-DIDACTICA.md](../../ESTRUCTURA-DIDACTICA.md).
+El validador comprueba recursos obligatorios, enlaces locales, IDs, sintaxis JavaScript, 9 laboratorios, datos de la guía, 70 preguntas, 14 categorías, 40 términos y activos del visor.
 
-La validación del visor usa un arnés de eventos y comprueba navegación, límites, reproducción, modos y validación de enlaces. No simula la autenticación de Google ni sustituye una prueba visual en navegador. El PDF generado fue renderizado y revisado por páginas. Para regenerar el material: `python materiales/generar_materiales.py` desde esta unidad (requiere ReportLab, PyMuPDF y Pillow).
+## Alcance
+
+Los laboratorios son **modelos didácticos**. No sustituyen documentación de protocolo, estándares, auditorías, asesoramiento jurídico ni pruebas de producción. Los parámetros simplificados deben interpretarse como instrumentos para razonar sobre causalidad, supuestos y límites.
