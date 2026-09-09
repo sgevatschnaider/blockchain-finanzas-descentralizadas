@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = path.dirname(fileURLToPath(import.meta.url));
 const failures = [];
 await import("./verify-interactions.cjs");
+await (await import("./verify-viewer.cjs")).default;
 const pass = msg => console.log(`✓ ${msg}`);
 const fail = msg => failures.push(msg);
 
@@ -21,10 +22,10 @@ const labs = [
   "09-seguro-oraculo.html"
 ];
 const questionFiles = [1,2,3,4,5,6].map(n => `data/questions-0${n}.js`);
-const newPages = ["glosario.html", "comparador.html", "casos.html", "guia-estudio.html"];
-const newScripts = ["data/glosario.js", "assets/glosario.js", "assets/decision.js", "assets/seguro.js"];
+const newPages = ["visor.html", "desarrollo.html","glosario.html", "comparador.html", "casos.html", "guia-estudio.html"];
+const newScripts = ["assets/visor.js", "materiales/config.js","data/glosario.js", "assets/glosario.js", "assets/decision.js", "assets/seguro.js"];
 const required = [
-  ...newPages, ...newScripts,
+  ...newPages, ...newScripts, "materiales/capitulos.json", "materiales/documentos.json", "materiales/unidad-1-desarrollo-completo.pdf", "assets/visor.css",
   "index.html", "evaluacion.html", "README.md", "Guía Unidad 1.pdf",
   "assets/u01.css", "assets/u01.js", "assets/evaluacion.js", "validate.mjs",
   "python/El_Impacto_de_las_Nuevas_Tecnologías_en_los_Negocios.ipynb",

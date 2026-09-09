@@ -1,0 +1,42 @@
+{
+  "bitcoin": [
+    "Nakamoto (2008). Bitcoin: A Peer-to-Peer Electronic Cash System",
+    "https://bitcoin.org/bitcoin.pdf"
+  ],
+  "contracts": [
+    "Ethereum. Introducción a smart contracts",
+    "https://ethereum.org/developers/docs/smart-contracts/"
+  ],
+  "evm": [
+    "Ethereum. Ethereum Virtual Machine",
+    "https://ethereum.org/developers/docs/evm/"
+  ],
+  "gas": [
+    "Ethereum. Gas y comisiones",
+    "https://ethereum.org/developers/docs/gas/"
+  ],
+  "oracles": [
+    "Ethereum. Oráculos",
+    "https://ethereum.org/es/developers/docs/oracles/"
+  ],
+  "fabric": [
+    "Hyperledger Fabric 2.5. Datos privados",
+    "https://hyperledger-fabric.readthedocs.io/en/release-2.5/private-data/private-data.html"
+  ],
+  "corda": [
+    "R3. Corda 5.1: Notaries",
+    "https://docs.r3.com/en/platform/corda/5.1/developing-applications/ledger/notaries.html"
+  ],
+  "litecoin": [
+    "Litecoin. Proyecto oficial",
+    "https://litecoin.org/"
+  ],
+  "fsm": [
+    "Mavridou y Laszka (2017). Designing Secure Ethereum Smart Contracts",
+    "https://arxiv.org/abs/1711.09327"
+  ],
+  "verification": [
+    "Ethereum. Verificación de contratos",
+    "https://ethereum.org/developers/docs/smart-contracts/verifying/"
+  ]
+}

@@ -6,6 +6,14 @@
 
 La unidad trabaja el impacto de blockchain en los negocios, la comparación de plataformas y los casos de smart contracts, según el programa de la asignatura. La ruta principal parte del problema económico; los siete laboratorios técnicos existentes se conservan como profundización.
 
+## Visor y desarrollo completo
+
+- [Visor integrado](visor.html): desarrollo completo (18 páginas), guía original (2 páginas), navegación, miniaturas, zoom, pantalla completa y reproducción con pausa e intervalo.
+- [Lectura completa](desarrollo.html): 15 capítulos con ejemplos, preguntas, criterios de respuesta y acceso a actividades.
+- [PDF del desarrollo completo](materiales/unidad-1-desarrollo-completo.pdf).
+- Google Slides acepta enlaces compartidos y publicados; no hay una presentación configurada hasta disponer de su enlace real. El enlace ingresado por un visitante se guarda solo en su navegador. Para toda la clase, establecer `googleSlidesUrl` en `materiales/config.js` y asignar los permisos correspondientes desde Google.
+- El modo PDF usa el visor nativo del navegador para búsqueda e impresión; el modo Páginas funciona con imágenes locales. La lectura HTML aporta el texto accesible. El visor no inicia sesión ni cambia permisos de Google.
+
 ## Ruta de estudio
 
 1. [Guía de estudio y bibliografía](guia-estudio.html): problemas de coordinación, incentivos y modelos de negocio.
@@ -135,3 +143,5 @@ node unidades/u01-fundamentos-smart-contracts/validate.mjs
 ```
 
 Las fuentes específicas de la ampliación están en [la guía de estudio](guia-estudio.html#fuentes). El estándar para revisar las siguientes unidades está en [ESTRUCTURA-DIDACTICA.md](../../ESTRUCTURA-DIDACTICA.md).
+
+La validación del visor usa un arnés de eventos y comprueba navegación, límites, reproducción, modos y validación de enlaces. No simula la autenticación de Google ni sustituye una prueba visual en navegador. El PDF generado fue renderizado y revisado por páginas. Para regenerar el material: `python materiales/generar_materiales.py` desde esta unidad (requiere ReportLab, PyMuPDF y Pillow).
