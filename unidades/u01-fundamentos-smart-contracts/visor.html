@@ -1,13 +1,154 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Visor de la Unidad 1: desarrollo completo, guía original, PDF y Google Slides."><title>Visor de materiales · Unidad 1</title><link rel="stylesheet" href="assets/u01.css?v=20260909"><link rel="stylesheet" href="assets/visor.css?v=20260909"><script src="assets/u01.js?v=20260909" defer></script><script src="materiales/config.js?v=20260909" defer></script><script src="assets/visor.js?v=20260909" defer></script></head>
-<body><a class="skip-link" href="#viewer">Saltar al visor</a><header class="topbar viewer-header"><div class="shell topbar-inner"><a class="brand" href="index.html" target="_top"><span class="brand-mark">U1</span><span>Biblioteca de la unidad</span></a><nav class="nav"><a class="keep-mobile" href="desarrollo.html" target="_top">Lectura completa</a><a class="keep-mobile" href="index.html" target="_top">Unidad 1</a><button data-theme-toggle type="button">Tema claro</button></nav></div></header>
-<main class="viewer-shell"><div class="viewer-heading"><div><p class="eyebrow">Leer · presentar · descargar</p><h1>Material completo de estudio</h1></div><a class="button" href="desarrollo.html" target="_top">Leer como texto</a></div>
-<div id="viewer" class="document-viewer">
-<div class="viewer-toolbar"><label>Documento<select id="document-select"><option value="desarrollo">Desarrollo completo · 15 capítulos</option><option value="original">Guía original · Plan de trabajo</option></select></label><div class="viewer-tabs" role="group" aria-label="Modo de visualización"><button class="button" id="mode-pages" aria-pressed="true">Páginas</button><button class="button" id="mode-pdf" aria-pressed="false">PDF</button><button class="button" id="mode-google" aria-pressed="false">Google Slides</button></div><button class="button" id="fullscreen" type="button">Pantalla completa</button></div>
-<div class="viewer-toolbar" id="page-controls"><button class="button" id="previous" aria-label="Página anterior">Anterior</button><label class="page-input">Página<input id="page-number" type="number" value="1" min="1" inputmode="numeric"></label><span id="page-total">/ …</span><button class="button" id="next" aria-label="Página siguiente">Siguiente</button><label>Zoom<select id="zoom"><option value="fit">Ajustar</option><option value="100">100%</option><option value="150">150%</option><option value="200">200%</option></select></label><button class="button" id="play" aria-pressed="false">Reproducir</button><label>Intervalo<select id="delay"><option value="5000">5 segundos</option><option value="10000">10 segundos</option><option value="20000" selected>20 segundos</option><option value="30000">30 segundos</option></select></label><label class="loop-label"><input id="loop" type="checkbox"> Repetir</label></div>
-<p id="viewer-status" class="viewer-status" role="status" aria-live="polite">Cargando materiales…</p>
-<div id="pages-panel" class="viewer-layout"><aside class="viewer-index"><label for="chapter-select">Ir a un capítulo</label><select id="chapter-select"><option value="1">Portada</option></select><details><summary>Miniaturas de todas las páginas</summary><ol id="thumbnails" class="thumbnails"></ol></details><p>Flechas: cambiar página. Inicio/Fin: primera/última. Espacio: reproducir o pausar, cuando el foco está en la página.</p><a class="button" id="chapter-reading" href="desarrollo.html" target="_top">Leer este tema</a></aside><div class="page-stage" id="page-stage" tabindex="0" aria-label="Página del documento"><img id="page-image" alt="" decoding="async"><p id="image-error" hidden>No se pudo cargar la página. Podés abrir el PDF o usar la lectura completa.</p></div></div>
-<section id="pdf-panel" hidden><p class="viewer-hint">El visor PDF del navegador permite buscar texto, imprimir y guardar. Si no se muestra, usá «Abrir PDF» o volvé a «Páginas».</p><iframe id="pdf-frame" title="Documento PDF completo"></iframe></section>
-<section id="google-panel" hidden><div class="google-setup"><h2>Tu presentación de Google Slides</h2><p>Conectá un enlace de presentación o de «Publicar en la Web». Se recuerda solamente en este navegador.</p><form id="google-form"><label for="google-url">Enlace de Google Slides</label><div class="google-form-row"><input id="google-url" type="url" placeholder="https://docs.google.com/presentation/d/…" required><button class="button primary" type="submit">Conectar presentación</button><button class="button" type="button" id="google-clear">Quitar enlace guardado</button></div></form><p id="google-status" role="status">No hay una presentación de Google Slides configurada para la unidad.</p><div id="google-actions" hidden><a class="button" id="google-open" target="_blank" rel="noopener noreferrer">Abrir en Google / iniciar sesión</a></div><details><summary>Permisos y presentación para toda la clase</summary><p>Para un visor público, en Google Slides elegí Archivo → Compartir → Publicar en la Web, publicá la presentación y pegá el enlace resultante. Publicar hace visible el contenido: elegí esta opción solo para material que quieras compartir públicamente. Si mantenés acceso restringido, cada alumno debe tener permiso y puede necesitar iniciar sesión en Google en otra pestaña.</p><p>Este visor no modifica permisos ni solicita contraseñas. Los bloqueos de Google dentro del marco no pueden detectarse automáticamente; si aparece un aviso de acceso, abrí la presentación en Google. El PDF de la unidad sigue disponible.</p><a href="https://support.google.com/docs/answer/183965?hl=es" target="_blank" rel="noopener">Ayuda oficial de Google</a></details></div><iframe id="google-frame" title="Presentación de Google Slides" allow="fullscreen" allowfullscreen hidden></iframe></section>
-<div class="viewer-toolbar viewer-downloads"><a class="button primary" id="download-pdf" href="materiales/unidad-1-desarrollo-completo.pdf" download>Descargar PDF</a><a class="button" id="open-pdf" href="materiales/unidad-1-desarrollo-completo.pdf" target="_blank" rel="noopener">Abrir PDF</a><button class="button" id="copy-link">Copiar enlace a esta página</button><a class="button" href="glosario.html" target="_top">Glosario</a><a class="button" href="evaluacion.html" target="_top">Cuestionario</a></div>
-</div><noscript><p>Para usar los controles activá JavaScript. El <a href="materiales/unidad-1-desarrollo-completo.pdf">PDF completo</a>, la <a href="Guía%20Unidad%201.pdf">guía original</a> y la <a href="desarrollo.html">lectura por capítulos</a> funcionan sin JavaScript.</p></noscript></main></body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Visor completo de la Unidad 1: desarrollo de 18 páginas, guía original, PDF, Google Slides, miniaturas, zoom y reproducción.">
+  <meta name="theme-color" content="#030b14">
+  <title>Material completo · Unidad 1</title>
+  <link rel="stylesheet" href="assets/u01.css?v=20260909">
+  <link rel="stylesheet" href="assets/visor.css?v=20260909">
+  <link rel="stylesheet" href="assets/u01-home.css?v=20260909b">
+  <script src="assets/u01.js?v=20260909" defer></script>
+  <script src="materiales/config.js?v=20260909" defer></script>
+  <script src="assets/visor.js?v=20260909" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#viewer">Saltar al visor</a>
+
+<header class="topbar viewer-header">
+  <div class="shell topbar-inner">
+    <a class="brand" href="index.html" target="_top"><span class="brand-mark">U1</span><span class="brand-copy"><strong>Material completo</strong><span>Blockchain y smart contracts en los negocios</span></span></a>
+    <nav class="nav" aria-label="Navegación del visor">
+      <a class="keep-mobile" href="index.html#material-completo" target="_top">Biblioteca</a>
+      <a class="keep-mobile" href="desarrollo.html" target="_top">Lectura</a>
+      <a href="glosario.html" target="_top">Glosario</a>
+      <a href="evaluacion.html" target="_top">Evaluación</a>
+      <button data-theme-toggle type="button">Tema claro</button>
+    </nav>
+  </div>
+</header>
+
+<main class="viewer-shell">
+  <section class="viewer-page-intro" aria-labelledby="visor-titulo">
+    <div>
+      <p class="eyebrow">Biblioteca U1 · leer · presentar · descargar</p>
+      <h1 id="visor-titulo">Visor completo de materiales</h1>
+      <p>Elegí el desarrollo completo o la guía original y después seleccioná cómo querés estudiar: páginas con miniaturas y reproducción, PDF del navegador o una presentación de Google Slides.</p>
+    </div>
+    <div class="actions">
+      <a class="button primary" href="materiales/unidad-1-desarrollo-completo.pdf" target="_blank" rel="noopener">Abrir PDF completo</a>
+      <a class="button" href="desarrollo.html" target="_top">Leer por capítulos</a>
+      <a class="button" href="index.html#ruta" target="_top">Volver a la ruta</a>
+    </div>
+  </section>
+
+  <div class="viewer-help-grid" aria-label="Funciones principales del visor">
+    <article><strong>1 · Elegí el documento</strong><span>Desarrollo completo de 18 páginas o guía original de 2 páginas.</span></article>
+    <article><strong>2 · Elegí el modo</strong><span>Páginas, PDF o Google Slides sin perder el acceso al material local.</span></article>
+    <article><strong>3 · Navegá y presentá</strong><span>Miniaturas, capítulo, zoom, teclado, reproducción y pantalla completa.</span></article>
+  </div>
+
+  <div id="viewer" class="document-viewer">
+    <div class="viewer-toolbar" aria-label="Documento y modo de visualización">
+      <label>Documento
+        <select id="document-select">
+          <option value="desarrollo">Desarrollo completo · 18 páginas</option>
+          <option value="original">Guía original · 2 páginas</option>
+        </select>
+      </label>
+      <div class="viewer-tabs" role="group" aria-label="Modo de visualización">
+        <button class="button" id="mode-pages" type="button" aria-pressed="true">Páginas</button>
+        <button class="button" id="mode-pdf" type="button" aria-pressed="false">PDF</button>
+        <button class="button" id="mode-google" type="button" aria-pressed="false">Google Slides</button>
+      </div>
+      <button class="button" id="fullscreen" type="button">Pantalla completa</button>
+    </div>
+
+    <div class="viewer-toolbar" id="page-controls" aria-label="Controles de páginas">
+      <button class="button" id="previous" type="button" aria-label="Página anterior">Anterior</button>
+      <label class="page-input">Página <input id="page-number" type="number" value="1" min="1" inputmode="numeric"></label>
+      <span id="page-total">/ …</span>
+      <button class="button" id="next" type="button" aria-label="Página siguiente">Siguiente</button>
+      <label>Zoom
+        <select id="zoom">
+          <option value="fit">Ajustar</option>
+          <option value="100">100%</option>
+          <option value="150">150%</option>
+          <option value="200">200%</option>
+        </select>
+      </label>
+      <button class="button" id="play" type="button" aria-pressed="false">Reproducir</button>
+      <label>Intervalo
+        <select id="delay">
+          <option value="5000">5 segundos</option>
+          <option value="10000">10 segundos</option>
+          <option value="20000" selected>20 segundos</option>
+          <option value="30000">30 segundos</option>
+        </select>
+      </label>
+      <label class="loop-label"><input id="loop" type="checkbox"> Repetir</label>
+    </div>
+
+    <p id="viewer-status" class="viewer-status" role="status" aria-live="polite">Cargando materiales…</p>
+
+    <div id="pages-panel" class="viewer-layout">
+      <aside class="viewer-index">
+        <label for="chapter-select">Ir a un capítulo</label>
+        <select id="chapter-select"><option value="1">Portada</option></select>
+        <details>
+          <summary>Miniaturas de todas las páginas</summary>
+          <ol id="thumbnails" class="thumbnails"></ol>
+        </details>
+        <p><strong>Atajos:</strong> ←/→ cambia página · Inicio/Fin va a primera/última · Espacio reproduce o pausa cuando el foco está en la página.</p>
+        <a class="button" id="chapter-reading" href="desarrollo.html" target="_top">Leer este tema como texto</a>
+      </aside>
+      <div class="page-stage" id="page-stage" tabindex="0" aria-label="Página del documento">
+        <img id="page-image" alt="" decoding="async">
+        <p id="image-error" hidden>No se pudo cargar la imagen de esta página. Podés abrir el PDF o usar la lectura por capítulos.</p>
+      </div>
+    </div>
+
+    <section id="pdf-panel" hidden>
+      <p class="viewer-hint">El visor PDF del navegador permite buscar texto, imprimir y guardar. Si el navegador bloquea el PDF embebido, usá “Abrir PDF” en la barra inferior.</p>
+      <iframe id="pdf-frame" title="Documento PDF completo"></iframe>
+    </section>
+
+    <section id="google-panel" hidden>
+      <div class="google-setup">
+        <h2>Google Slides</h2>
+        <p>Podés conectar una presentación compartida o una presentación publicada en la Web. El enlace ingresado se guarda solamente en este navegador; el material PDF de la unidad permanece disponible aunque Google solicite autorización.</p>
+        <form id="google-form">
+          <label for="google-url">Enlace de Google Slides</label>
+          <div class="google-form-row">
+            <input id="google-url" type="url" placeholder="https://docs.google.com/presentation/d/…" required>
+            <button class="button primary" type="submit">Conectar presentación</button>
+            <button class="button" type="button" id="google-clear">Quitar enlace guardado</button>
+          </div>
+        </form>
+        <p id="google-status" role="status">No hay una presentación de Google Slides configurada para la unidad.</p>
+        <div id="google-actions" hidden><a class="button" id="google-open" target="_blank" rel="noopener noreferrer">Abrir en Google / iniciar sesión</a></div>
+        <details>
+          <summary>Cómo compartir una presentación con toda la clase</summary>
+          <p>Para un visor público, en Google Slides elegí Archivo → Compartir → Publicar en la Web y pegá el enlace resultante. Si mantenés acceso restringido, cada alumno debe tener permiso y puede necesitar iniciar sesión en Google.</p>
+          <p>Este visor no solicita contraseñas, no modifica permisos y no puede resolver bloqueos de autenticación de Google dentro del marco. Ante un aviso de acceso, usá el botón para abrir la presentación directamente en Google.</p>
+          <a href="https://support.google.com/docs/answer/183965?hl=es" target="_blank" rel="noopener">Ayuda oficial de Google</a>
+        </details>
+      </div>
+      <iframe id="google-frame" title="Presentación de Google Slides" allow="fullscreen" allowfullscreen hidden></iframe>
+    </section>
+
+    <div class="viewer-toolbar viewer-downloads" aria-label="Acciones del documento">
+      <a class="button primary" id="download-pdf" href="materiales/unidad-1-desarrollo-completo.pdf" download>Descargar PDF</a>
+      <a class="button" id="open-pdf" href="materiales/unidad-1-desarrollo-completo.pdf" target="_blank" rel="noopener">Abrir PDF</a>
+      <button class="button" id="copy-link" type="button">Copiar enlace a esta página</button>
+      <a class="button" href="Guía%20Unidad%201.pdf" target="_blank" rel="noopener">Guía original PDF</a>
+      <a class="button" href="glosario.html" target="_top">Glosario</a>
+      <a class="button" href="evaluacion.html" target="_top">Cuestionario</a>
+    </div>
+  </div>
+
+  <noscript><p>Para usar navegación, zoom y reproducción activá JavaScript. El <a href="materiales/unidad-1-desarrollo-completo.pdf">PDF completo</a>, la <a href="Guía%20Unidad%201.pdf">guía original</a> y la <a href="desarrollo.html">lectura por capítulos</a> funcionan sin JavaScript.</p></noscript>
+</main>
+</body>
+</html>
