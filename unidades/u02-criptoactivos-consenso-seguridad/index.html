@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Unidad 2 de Bitcoin: white paper, transacciones, minería, consenso, seguridad, halving y Lightning Network.">
+  <title>Unidad 2 · Bitcoin, consenso y seguridad</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f7931a'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='38' font-weight='900' fill='%231b1104'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/modulo-bitcoin.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html"><span class="coin">₿</span><span>Unidad 2<small>Bitcoin, consenso y seguridad</small></span></a>
+      <nav class="topnav" aria-label="Navegación principal">
+        <a href="#ruta">Ruta</a><a href="simuladores/index.html">Laboratorios</a><a href="materiales/index.html">Presentaciones</a><a href="recursos/glosario-bitcoin.html">Glosario</a><a href="evaluacion/cuestionario-bitcoin.html">Evaluación</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Blockchain y Finanzas Descentralizadas</p>
+        <h1>Bitcoin como sistema verificable</h1>
+        <p class="lead">Una ruta completa desde las claves y el modelo UTXO hasta la minería, el consenso probabilístico, el halving y Lightning Network. Cada concepto se estudia, se simula y se evalúa.</p>
+        <div class="actions">
+          <a class="button primary" href="simuladores/01-claves-direcciones.html">Comenzar laboratorio 01</a>
+          <a class="button" href="materiales/index.html">Abrir visor de clase</a>
+          <a class="button subtle" href="../../README.md">Volver al curso</a>
+        </div>
+      </div>
+      <div class="hero-map" aria-label="Representación de una cadena de bloques">
+        <div class="block-chain"><div class="block-chain__row"><span class="mini-block">899</span><i class="link-line"></i><span class="mini-block">900</span><i class="link-line"></i><span class="mini-block">901</span></div></div>
+        <div class="network-stat one"><strong>9 laboratorios</strong><small>con modo automático</small></div>
+        <div class="network-stat two"><strong data-progress-count>0/9</strong><small>progreso guardado localmente</small></div>
+      </div>
+    </section>
+
+    <div class="quick-grid" aria-label="Componentes del módulo">
+      <div class="quick"><strong>150 diapositivas</strong><span>cuatro presentaciones integradas</span></div>
+      <div class="quick"><strong>9 simulaciones</strong><span>cada una en su propio archivo</span></div>
+      <div class="quick"><strong>49 términos</strong><span>definiciones y conexiones técnicas</span></div>
+      <div class="quick"><strong>20 preguntas</strong><span>retroalimentación explicada</span></div>
+    </div>
+
+    <section class="section" id="ruta">
+      <div class="section-head"><div><p class="eyebrow">Secuencia conceptual</p><h2>Ruta de aprendizaje</h2></div><p>El orden evita estudiar minería como un mecanismo aislado: primero explica qué se transfiere, después cómo la red acuerda un historial y finalmente cómo escala.</p></div>
+      <div class="path">
+        <article class="path-card"><span class="tag">Fundamentos</span><h3>Propiedad y transacción</h3><p>Claves, direcciones, firmas, hashes, UTXO, inputs, outputs, cambio y comisión.</p></article>
+        <article class="path-card"><span class="tag">Consenso</span><h3>Bloques y Proof of Work</h3><p>Mempool, selección por fee rate, Merkle root, nonce, target y ajuste de dificultad.</p></article>
+        <article class="path-card"><span class="tag">Seguridad</span><h3>Chainwork y ataques</h3><p>Forks, confirmaciones, finalidad probabilística, reorganizaciones y límites de un ataque del 51%.</p></article>
+        <article class="path-card"><span class="tag">Economía y escala</span><h3>Halving y Lightning</h3><p>Subsidio, comisiones, seguridad presupuestaria, canales de pago, HTLC y liquidación en la capa base.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><p class="eyebrow">Aprender haciendo</p><h2>Laboratorios interactivos</h2></div><p>Todos incluyen explicación conceptual, parámetros editables, resultados visibles y recorrido automático. El progreso permanece guardado en el navegador.</p></div>
+      <div class="card-grid">
+        <a class="resource-card" data-lab-id="01-claves-direcciones.html" href="simuladores/01-claves-direcciones.html"><span class="number">LAB 01</span><h3>Claves y direcciones</h3><p>Desde la entropía hasta una identidad de recepción, con separación rigurosa entre clave privada, pública y dirección.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="02-sha256-avalancha.html" href="simuladores/02-sha256-avalancha.html"><span class="number">LAB 02</span><h3>SHA-256 y avalancha</h3><p>Comparación bit a bit para observar difusión, sensibilidad de entrada y resistencia práctica a la predicción.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="03-modelo-utxo.html" href="simuladores/03-modelo-utxo.html"><span class="number">LAB 03</span><h3>Modelo UTXO</h3><p>Selección de salidas, construcción de inputs, pago, cambio y conservación contable del valor.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="04-transaccion-bitcoin.html" href="simuladores/04-transaccion-bitcoin.html"><span class="number">LAB 04</span><h3>Bitcoin Transaction Lab</h3><p>Flujo completo de wallet a mempool con firma, validación y lectura de una transacción.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="05-mempool-fees-mineria.html" href="simuladores/05-mempool-fees-mineria.html"><span class="number">LAB 05</span><h3>Mempool, fees y minería</h3><p>Priorización económica, bloque candidato y búsqueda probabilística de un hash válido.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="06-merkle-tree-proof.html" href="simuladores/06-merkle-tree-proof.html"><span class="number">LAB 06</span><h3>Merkle Tree y prueba</h3><p>Construcción del árbol, raíz compacta y verificación de inclusión con una rama mínima.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="07-fork-chainwork-confirmaciones.html" href="simuladores/07-fork-chainwork-confirmaciones.html"><span class="number">LAB 07</span><h3>Fork y chainwork</h3><p>Competencia entre ramas válidas y por qué la red sigue el mayor trabajo acumulado.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="08-ataque-51.html" href="simuladores/08-ataque-51.html"><span class="number">LAB 08</span><h3>Ataque del 51%</h3><p>Carrera probabilística, reorganización, doble gasto y acciones que el atacante no puede ejecutar.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="09-lightning-network.html" href="simuladores/09-lightning-network.html"><span class="number">LAB 09</span><h3>Lightning Network</h3><p>Canales, liquidez, ruteo, HTLC y relación entre pagos off-chain y liquidación on-chain.</p><span class="meta">Abrir laboratorio</span></a>
+      </div>
+    </section>
+
+    <section class="section split">
+      <article class="panel"><p class="eyebrow">Material de clase</p><h2>Visor con reproducción automática</h2><p>Las presentaciones centrales se leen a pantalla completa, con control de página, velocidad y avance automático. El white paper original se abre en el mismo espacio de estudio.</p><div class="checklist"><div class="check"><i>1</i><span>White paper y arquitectura de Bitcoin</span></div><div class="check"><i>2</i><span>Proof of Work frente a Proof of Stake</span></div><div class="check"><i>3</i><span>Halving, incentivos y Layer 2</span></div></div><p><a class="button primary" href="materiales/index.html">Abrir presentaciones</a></p></article>
+      <article class="panel"><p class="eyebrow">Consolidación</p><h2>Glosario, cuestionario y planilla</h2><p>El glosario desarrolla cada término con función, relación y error frecuente. El cuestionario entrega una explicación extensa después de responder. La planilla permite registrar experimentos de minería y probabilidad.</p><div class="actions"><a class="button" href="recursos/glosario-bitcoin.html">Consultar glosario</a><a class="button" href="evaluacion/cuestionario-bitcoin.html">Resolver cuestionario</a><a class="button" href="planillas/laboratorio-bitcoin.xlsx">Descargar planilla</a></div></article>
+    </section>
+
+    <section class="section"><div class="callout"><strong>Criterio docente.</strong> Los recursos anteriores de ciberseguridad permanecen disponibles en la carpeta <code>html/</code> para conservar enlaces, pero ya no interrumpen la secuencia específica de Bitcoin. Composabilidad DeFi corresponde a una unidad posterior.</div></section>
+  </main>
+
+  <footer class="site-footer"><div class="shell"><strong>Material elaborado por el profesor Sergio Gevatschnaider</strong><br>Unidad 2 · Criptoactivos, consenso y seguridad</div></footer>
+  <script src="assets/modulo-bitcoin.js"></script>
+</body>
+</html>

@@ -756,9 +756,6 @@
   function updateHashrateDisplay() {
     const total = simulationData.honestHashrate + simulationData.attackerHashrate;
     const honestPercent = (simulationData.honestHashrate / total) * 100;
-    const attackerPercent = (simulationDatafunction updateHashrateDisplay() {
-    const total = simulationData.honestHashrate + simulationData.attackerHashrate;
-    const honestPercent = (simulationData.honestHashrate / total) * 100;
     const attackerPercent = (simulationData.attackerHashrate / total) * 100;
     
     document.getElementById('sim-honest').textContent = simulationData.honestHashrate.toFixed(1) + ' EH/s';

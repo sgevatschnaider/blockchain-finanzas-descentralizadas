@@ -197,12 +197,12 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 
 ---
 
-### [U2 — Criptoactivos, Consenso & Ciberseguridad](unidades/u02-criptoactivos-consenso-seguridad/)
+### [U2 — Bitcoin, Criptoactivos, Consenso & Seguridad](unidades/u02-criptoactivos-consenso-seguridad/)
 
 `unidades/u02-criptoactivos-consenso-seguridad/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
-Taxonomía de criptoactivos (coins, stablecoins, tokens, NFT), consenso (PoW/PoS, finality), criptografía aplicada (hash SHA-256/SHA-3, ECDSA secp256k1), ciberseguridad (gestión de claves, Sybil/51%).
+Módulo interactivo con cuatro presentaciones integradas, nueve simulaciones independientes con reproducción automática, glosario desarrollado, cuestionario formativo y planilla de experimentación compatible con Google Sheets. La secuencia conecta claves, SHA-256, UTXO y transacciones con minería, Merkle, chainwork, ataques, halving y Lightning Network.
 </details>
 
 **Lab:** ECDSA (secp256k1) + PoW mínimo + integridad con Keccak/SHA-3
