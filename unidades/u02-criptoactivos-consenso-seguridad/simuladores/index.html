@@ -1,0 +1,18 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratorios de Bitcoin · Unidad 2</title><link rel="stylesheet" href="../assets/modulo-bitcoin.css"></head><body>
+<header class="site-header"><div class="site-header__inner"><a class="brand" href="../index.html"><span class="coin">₿</span><span>Unidad 2<small>Laboratorios de Bitcoin</small></span></a><nav class="topnav"><a href="../index.html">Inicio</a><a aria-current="page" href="index.html">Simulaciones</a><a href="../materiales/index.html">Presentaciones</a><a href="../evaluacion/cuestionario-bitcoin.html">Evaluación</a></nav></div></header>
+<main class="shell"><section class="page-head"><p class="eyebrow">Nueve experiencias independientes</p><h1>Laboratorios interactivos</h1><p>Abra cada simulación en una pestaña o proyecte en pantalla completa. Use “Simulación dinámica” para el recorrido automático y marque cada laboratorio al completarlo.</p><div class="progress-track"><div class="progress-fill" data-progress-bar></div></div><p><strong data-progress-count>0/9</strong> completados</p></section>
+<section class="section"><div class="card-grid" id="labs"></div></section></main>
+<footer class="site-footer"><div class="shell"><strong>Material elaborado por el profesor Sergio Gevatschnaider</strong></div></footer>
+<script>
+const labs=[
+["01","Claves y direcciones","Control criptográfico, identidad y recepción","01-claves-direcciones.html"],
+["02","SHA-256 y efecto avalancha","Integridad, difusión y sensibilidad de entrada","02-sha256-avalancha.html"],
+["03","Modelo UTXO","Inputs, outputs, cambio y conservación del valor","03-modelo-utxo.html"],
+["04","Bitcoin Transaction Lab","Firma, validación y propagación a la mempool","04-transaccion-bitcoin.html"],
+["05","Mempool, fees y minería","Selección de transacciones y búsqueda PoW","05-mempool-fees-mineria.html"],
+["06","Merkle Tree y Merkle Proof","Compromiso criptográfico y prueba de inclusión","06-merkle-tree-proof.html"],
+["07","Fork, chainwork y confirmaciones","Selección de cadena y seguridad acumulada","07-fork-chainwork-confirmaciones.html"],
+["08","Ataque del 51%","Probabilidad de alcance, reorganización y límites","08-ataque-51.html"],
+["09","Lightning Network","Canales, rutas, liquidez y liquidación final","09-lightning-network.html"]];
+document.querySelector('#labs').innerHTML=labs.map(x=>`<a class="resource-card" data-lab-id="${x[3]}" href="${x[3]}"><span class="number">LAB ${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><span class="meta">Abrir laboratorio</span></a>`).join('');
+</script><script src="../assets/modulo-bitcoin.js"></script></body></html>

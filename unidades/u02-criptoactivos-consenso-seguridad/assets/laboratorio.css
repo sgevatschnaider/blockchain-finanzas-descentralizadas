@@ -1,0 +1,25 @@
+.lab-course-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px max(14px, calc((100vw - 1250px)/2));
+  border-bottom: 1px solid rgba(247,147,26,.28);
+  background: rgba(5,12,18,.92);
+  backdrop-filter: blur(16px);
+  color: #b7c7d4;
+  font: 700 13px/1.2 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+.lab-course-nav a { padding: 6px 9px; border: 1px solid rgba(255,255,255,.12); border-radius: 8px; color: #f4f7f9; text-decoration: none; }
+.lab-course-nav span { margin-left: auto; color: #f7931a; }
+.lab-course-footer { padding: 24px 18px 90px; text-align: center; color: var(--muted, #9aabc1); font: 650 13px/1.4 Inter,ui-sans-serif,system-ui,sans-serif; }
+.lab-progress-dock { position: fixed; left: 50%; bottom: 14px; z-index: 1000; transform: translateX(-50%); width: min(720px,calc(100% - 22px)); display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 9px; padding: 8px; border: 1px solid rgba(247,147,26,.35); border-radius: 16px; background: rgba(7,16,24,.94); backdrop-filter: blur(18px); box-shadow: 0 18px 50px rgba(0,0,0,.38); }
+.lab-progress-dock a, .lab-progress-dock button { min-height: 40px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.13); border-radius: 10px; background: #111c26; color: #eff5f8; text-decoration: none; cursor: pointer; font-weight: 750; }
+.lab-progress-dock button { color: #1c1206; background: #f7931a; border-color: #f7931a; }
+.lab-progress-dock button.done { color: #d2fff5; background: rgba(54,211,197,.14); border-color: #36d3c5; }
+.lab-progress-dock .lab-position { text-align: center; color: #a6b8c7; font-size: 13px; }
+.lab-progress-line { position: fixed; inset: 42px 0 auto; z-index: 999; height: 3px; background: linear-gradient(90deg,#f7931a var(--lab-progress,11%),rgba(255,255,255,.08) 0); }
+@media(max-width:680px){.lab-course-nav span{display:none}.lab-progress-dock{grid-template-columns:auto 1fr auto auto}.lab-progress-dock .lab-position{font-size:0}.lab-progress-dock .lab-position::after{content:attr(data-short);font-size:12px}.lab-progress-dock a,.lab-progress-dock button{padding:7px;font-size:12px}}

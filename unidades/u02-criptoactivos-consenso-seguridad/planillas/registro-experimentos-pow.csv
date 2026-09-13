@@ -1,0 +1,7 @@
+Dificultad_hex,Intentos_observados,Tiempo_observado_segundos,Hashrate_estimado_Hs,Intentos_esperados,Tiempo_esperado_segundos
+1,,,1000000,16,0.000016
+2,,,1000000,256,0.000256
+3,,,1000000,4096,0.004096
+4,,,1000000,65536,0.065536
+5,,,1000000,1048576,1.048576
+6,,,1000000,16777216,16.777216

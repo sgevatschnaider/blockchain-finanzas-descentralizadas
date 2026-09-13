@@ -1,204 +1,93 @@
-# U2 — Criptoactivos, Consenso & Ciberseguridad
+# Unidad 2 — Bitcoin, criptoactivos, consenso y seguridad
 
-**Material elaborado:** Dr. Sergio Gevatschnaider
+**Material elaborado por el profesor Sergio Gevatschnaider**
 
-> En esta unidad profundizamos en la **clasificación de criptoactivos** (coins, stablecoins, tokens, NFTs), los **mecanismos de consenso** (PoW / PoS) y las **primitivas de criptografía** indispensables (hash, firmas digitales, AEAD). Cerramos con un **laboratorio práctico**: ECDSA (secp256k1), PoW mínimo y **Keccak-256** para asegurar integridad.
+Esta unidad estudia Bitcoin como un sistema completo: control criptográfico, modelo UTXO, construcción de transacciones, minería, selección de cadena, seguridad económica, emisión y escalabilidad. El contenido se organiza para que cada concepto teórico tenga una simulación, una guía de consulta y una instancia de evaluación.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/assets/blockchain%20.gif" alt="Blockchain Lab GIF" width="820">
-</p>
+## Acceso principal
 
-[⬅️ Volver a Unidades](..)
+[Abrir el módulo interactivo de la Unidad 2](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/)
 
----
+## Ruta pedagógica
 
-## 🎯 Objetivos de la unidad
+| Bloque | Pregunta central | Contenidos | Laboratorios |
+|---|---|---|---|
+| 1. Propiedad y transacción | ¿Qué se controla y cómo se transfiere? | Claves, direcciones, firmas, hashes, UTXO, inputs, outputs, cambio y fees | 01 a 04 |
+| 2. Consenso | ¿Cómo acuerda la red un historial sin autoridad central? | Mempool, bloque candidato, Merkle root, nonce, target, dificultad y PoW | 05 y 06 |
+| 3. Seguridad | ¿Por qué una historia resulta más costosa de reemplazar? | Forks, chainwork, confirmaciones, reorganizaciones y ataque del 51% | 07 y 08 |
+| 4. Economía y escala | ¿Cómo evoluciona el incentivo y cómo se amplía la capacidad de pago? | Subsidio, halving, comisiones, canales, HTLC, liquidez y ruteo | 09 y presentaciones |
 
-- Comprender el mapa de **criptoactivos** y sus propiedades económicas/técnicas.
-- Entender el rol de **consenso** (PoW/PoS) y su impacto en seguridad y costos.
-- Repasar **hashes**, **firmas ECDSA** y **autenticidad/integridad** de mensajes.
-- Ejecutar un **lab guiado**: firma/validación con ECDSA (secp256k1), hash con **Keccak-256**, y **PoW mínimo**.
+## Simulaciones independientes
 
----
-## ⛓️ Unidad 2 — Criptoactivos, Consenso & Seguridad (Recursos HTML y PDF)
+Cada simulación funciona como HTML autónomo, incluye cambio de tema y recorrido automático. La barra inferior permite avanzar por la secuencia y guardar el progreso en el navegador.
 
-| 📄 Recurso | 📥 Acceso |
-| ---------- | --------- |
-| **HTML: Índice Interactivo del Módulo** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Índice interactivo y desplegable con el temario completo del módulo. Ofrece una vista general de todos los temas cubiertos, desde los fundamentos de criptoactivos hasta el ecosistema DeFi y las herramientas de desarrollo.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/indice.html) |
-| **HTML: La Minería de Bitcoin (Teoría)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Guía teórica exhaustiva sobre el proceso de minería en Bitcoin. Abarca desde los fundamentos del Proof-of-Work hasta la economía, seguridad y los requisitos técnicos actuales.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Mineria_bitcoin.html) |
-| **HTML: Simulación de Minería Bitcoin** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Simulador interactivo del proceso de minería. Permite ajustar parámetros como el hashrate y la dificultad para observar su impacto en la construcción de bloques, el Árbol de Merkle y la probabilidad de encontrar una solución.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Mineria_bitcoin_simulacion.html) |
-| **HTML: Simulación de Ataque 51%** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Visualización interactiva que demuestra las consecuencias de un ataque del 51%. Explora escenarios de doble gasto y censura de transacciones al controlar la mayoría del hashrate de la red.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/hashrate_simulacion.html) |
-| **HTML: Finalidad de una Transacción** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Análisis conceptual de la finalidad de una transacción. Compara la finalidad probabilística de Proof-of-Work (Bitcoin) con la finalidad determinista de Proof-of-Stake (Ethereum) y los sistemas financieros tradicionales.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Definicion-%20finalidad.html) |
-| **HTML: Composabilidad en DeFi** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Exploración del concepto de 'Legos de Dinero' en las Finanzas Descentralizadas (DeFi). Demuestra cómo diferentes protocolos se interconectan para crear estrategias financieras complejas y analiza los riesgos sistémicos asociados.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Definicion-composabilidad.html) |
-| **PDF: Paneles de Minería Bitcoin** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Listado simplificado de herramientas y exploradores clave para monitorear el estado de la red Bitcoin, incluyendo el mempool, hashrate, estadísticas de pools de minería y más.</p></details> | [![Abrir PDF](https://img.shields.io/badge/Abrir-PDF-red?style=for-the-badge&logo=adobeacrobatreader)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Paneles_Mineria_Bitcoin_Simplificado.pdf) |
+1. [Claves y direcciones](simuladores/01-claves-direcciones.html)
+2. [SHA-256 y efecto avalancha](simuladores/02-sha256-avalancha.html)
+3. [Modelo UTXO](simuladores/03-modelo-utxo.html)
+4. [Bitcoin Transaction Lab](simuladores/04-transaccion-bitcoin.html)
+5. [Mempool, fees y minería PoW](simuladores/05-mempool-fees-mineria.html)
+6. [Merkle Tree y Merkle Proof](simuladores/06-merkle-tree-proof.html)
+7. [Fork, chainwork y confirmaciones](simuladores/07-fork-chainwork-confirmaciones.html)
+8. [Ataque del 51%](simuladores/08-ataque-51.html)
+9. [Lightning Network](simuladores/09-lightning-network.html)
 
-## 📖 Evaluaciones y Referencias (Recursos HTML)
+[Abrir el índice de simulaciones](simuladores/index.html)
 
-| 📄 Recurso | 📥 Acceso |
-| ---------- | --------- |
-| **HTML: Cuestionario Experto** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Cuestionario interactivo con 20 preguntas de nivel experto diseñadas para evaluar la comprensión de los mecanismos de consenso, seguridad y la arquitectura de DeFi. Cada pregunta incluye una respuesta detallada que sirve como material de estudio.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Cuestionario.html) |
-| **HTML: Glosario Interactivo** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir/colapsar)</em></summary><p>Glosario completo con definiciones detalladas de los conceptos fundamentales de criptoactivos, consenso y DeFi. Incluye un filtro de búsqueda en tiempo real y navegación alfabética para facilitar la consulta y el estudio de términos clave.</p></details> | [![Abrir HTML](https://img.shields.io/badge/Abrir-HTML5-green?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/html/Glosario.html) |
+## Presentaciones y documentos
 
-## 🗺️ Plan de trabajo (visión general)
+El [visor integrado](materiales/index.html) permite avanzar manualmente, reproducir automáticamente, modificar la velocidad y usar pantalla completa. Incluye:
 
-- **Sección 1 (conceptos)**  
-  Tipos de criptoactivos, diseño de incentivos, riesgos y casos de uso.
-- **Sección 2 (consenso)**  
-  PoW vs PoS: seguridad, finalización, censura, costos y huella energética.
-- **Sección 3 (cripto aplicada)**  
-  Hashes (SHA-3/Keccak), firmas ECDSA (secp256k1), AEAD (ChaCha20-Poly1305).
-- **Sección 4 (hands-on)**  
-  **Lab**: ECDSA + PoW mínimo + Keccak-256; verificación y reporte breve.
+- Bitcoin desde el white paper, 36 diapositivas.
+- Proof of Work frente a Proof of Stake, 55 diapositivas.
+- Halving de Bitcoin, 21 diapositivas.
+- Layer 2 en Bitcoin y Ethereum, 38 diapositivas.
+- White paper original de Satoshi Nakamoto.
+- Secuencia docente que relaciona presentaciones y simulaciones.
 
-> Sugerencia operativa: 1 sesión sincrónica (3 h) + 3 días de trabajo autónomo con lecturas y práctica.
+La presentación alternativa sobre el paper y la guía extensa de las simulaciones se consolidaron en el visor, el glosario y las explicaciones propias de cada laboratorio para evitar duplicación conceptual.
 
----
+## Glosario y evaluación
 
-## ⏱️ Agenda sugerida para la sesión (3 h)
+- [Glosario desarrollado de Bitcoin](recursos/glosario-bitcoin.html): búsqueda instantánea, filtros por capa y explicaciones sobre función, relación y errores frecuentes.
+- [Cuestionario formativo](evaluacion/cuestionario-bitcoin.html): 20 preguntas con corrección, puntaje y respuestas ampliamente explicadas.
 
-1) Panorama de criptoactivos y riesgos (30’)  
-2) Consenso PoW/PoS: trade-offs y seguridad (40’)  
-3) Cripto aplicada: hash y firmas (30’)  
-4) **Hands-on**: ECDSA + PoW + Keccak (60’)  
-5) Q&A y siguientes pasos (20’)
+## Planilla para Google Sheets y Excel
 
----
+[Descargar laboratorio-bitcoin.xlsx](planillas/laboratorio-bitcoin.xlsx)
 
-## 🧪 Laboratorio principal (propuesto por la cátedra)
+La planilla contiene:
 
-**Título:** ECDSA (secp256k1) + PoW mínimo + integridad con Keccak-256  
-**Descripción:**  
-- Generá un par de claves (privada/pública) **secp256k1**.  
-- **Firmá** un mensaje y **verificalo** con la clave pública.  
-- Calculá **Keccak-256** del mensaje para asegurar integridad.  
-- Implementá un **PoW mínimo**: buscá un `nonce` tal que `keccak256(prefix || nonce)` tenga `n` ceros iniciales en hex.
+- una tabla para registrar intentos y tiempos de Proof of Work;
+- fórmulas de intentos y tiempo esperado por dificultad;
+- una matriz didáctica de probabilidad de alcance del atacante;
+- una hoja de seguimiento de los nueve laboratorios.
 
-> **Notebook sugerido:** `notebooks/U02_ecdsa_pow_keccak.ipynb` *(sugerido por la cátedra; podés crearlo a partir de los snippets de abajo).*  
+El archivo se abre directamente con Excel o se importa en Google Sheets. También se incluye un [CSV liviano](planillas/registro-experimentos-pow.csv).
 
-### Snippets base (Python)
+## Material previo conservado
 
-> Podés ejecutar esto en un notebook. Si falta una librería, instalala en Colab o tu venv:
-> `pip install ecdsa pycryptodome`
+La carpeta [`html/`](html/) conserva los recursos anteriores para no romper enlaces externos. Los materiales específicamente vinculados con Bitcoin pueden usarse como complemento. Los recursos sobre ciberseguridad general y composabilidad DeFi quedan separados de la ruta principal porque corresponden a otros núcleos conceptuales del programa.
 
-**1) Firmas ECDSA (secp256k1)**
+## Estructura
 
-```python
-from ecdsa import SigningKey, SECP256k1
-
-# 1) Generar par de claves
-sk = SigningKey.generate(curve=SECP256k1)       # clave privada
-vk = sk.get_verifying_key()                     # clave pública
-
-msg = b"Hola, blockchain U2"
-
-# 2) Firmar
-signature = sk.sign(msg)
-
-# 3) Verificar
-ok = vk.verify(signature, msg)
-print("Validez de la firma:", ok)  # True
-````
-
-**2) Keccak-256 (integridad)**
-
-```python
-from Crypto.Hash import keccak
-
-def keccak256(data: bytes) -> bytes:
-    k = keccak.new(digest_bits=256)
-    k.update(data)
-    return k.digest()
-
-digest = keccak256(b"Hola, blockchain U2")
-print("Keccak-256:", digest.hex())
+```text
+u02-criptoactivos-consenso-seguridad/
+├── index.html
+├── assets/
+├── simuladores/
+│   ├── index.html
+│   └── 01...09.html
+├── materiales/
+│   ├── index.html
+│   └── pdf/
+├── recursos/
+│   └── glosario-bitcoin.html
+├── evaluacion/
+│   └── cuestionario-bitcoin.html
+├── planillas/
+│   ├── laboratorio-bitcoin.xlsx
+│   └── registro-experimentos-pow.csv
+└── html/  (material previo conservado)
 ```
 
-**3) PoW mínimo (didáctico)**
-
-```python
-from Crypto.Hash import keccak
-
-def keccak256_hex(data: bytes) -> str:
-    k = keccak.new(digest_bits=256); k.update(data)
-    return k.hexdigest()
-
-prefix = b"U2-demo"
-difficulty = 3  # cantidad de '0' iniciales en hex (aumentá para más dificultad)
-target = "0" * difficulty
-
-nonce = 0
-while True:
-    h = keccak256_hex(prefix + nonce.to_bytes(8, "big"))
-    if h.startswith(target):
-        print(f"Nonce encontrado: {nonce}, hash: {h}")
-        break
-    nonce += 1
-```
-
-> 📌 **Reflexión:** ¿Cómo varía el tiempo del PoW al incrementar `difficulty`? Medí tiempos y graficá.
-
----
-
-## 📚 Material de estudio
-
-### Base (ES)
-
-* Bashir, I. *Mastering Blockchain* (2ª ed.).
-* Beltrán, M. (coord.), Nespral, D., Fernández-Hergueta, R. *Blockchain: el modelo descentralizado hacia la economía digital*.
-* Drescher, D. *Blockchain Basics: A Non-Technical Introduction in 25 Steps*.
-* Edmunds, J. C. *DeFi. El nuevo paradigma de las finanzas modernas*.
-* Lewis, A. *The Basics of Bitcoins and Blockchains*.
-
-### Complementaria (EN)
-
-* Narayanan et al., *Bitcoin and Cryptocurrency Technologies* (Princeton).
-* Antonopoulos & Wood, *Mastering Ethereum* (O’Reilly).
-* **NIST FIPS-202** (SHA-3), **SEC-1** (ECC), **RFC 8439** (ChaCha20-Poly1305), **RFC 8032** (EdDSA).
-* OpenZeppelin Docs (estándares y utilidades).
-
-> La bibliografía ampliada vive en `recursos/bibliografia.md`.
-
----
-
-## 🧱 Prerrequisitos técnicos
-
-* **Python 3.10+** → `pip install -r requirements.txt`
-* (Opcional) **Foundry/Anvil** para práctica EVM (intensivo en U6).
-
----
-
-## ✅ Rúbrica (U2 Lab)
-
-| Criterio     |                                                       Descripción |  Puntos |
-| ------------ | ----------------------------------------------------------------: | ------: |
-| Correctitud  |    ECDSA firma/verificación + PoW funcional + Keccak-256 correcto |      40 |
-| Claridad     |             Código limpio, comentarios, explicación de decisiones |      25 |
-| Pruebas      | Casos y métricas (tiempos vs dificultad; pruebas de verificación) |      20 |
-| Presentación |                 Informe 1 pág. con resultados/figuras y discusión |      15 |
-| **Total**    |                                                                   | **100** |
-
-**Entrega:** notebook con celdas ejecutadas + informe breve (MD/PDF).
-
----
-
-## 👥 Organización y normas
-
-* Conformar **grupos** (si aplica) y comunicar al docente.
-* **Citar fuentes** (APA 7) en informes y presentaciones.
-
----
-
-## 🧩 Sugerencias de extensión (opcional)
-
-* **Compare PoW vs PoS**: redactá pros/cons (seguridad, latencia, costos).
-* **Ataques ECDSA**: explorá riesgos si se reutiliza `k` (nonce) o mala entropía.
-* **AEAD**: breve demo de **ChaCha20-Poly1305** para confidencialidad + integridad.
-
----
-
-[⬅️ Volver a Unidades](..)
-
-
-
-
-
+[Volver al curso](../../)
