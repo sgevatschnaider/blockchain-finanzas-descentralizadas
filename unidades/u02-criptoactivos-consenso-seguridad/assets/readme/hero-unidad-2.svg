@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Unidad 2: Bitcoin, consenso y seguridad</title>
+  <desc id="desc">Ruta interactiva con simulaciones, presentaciones, glosario y evaluación.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071018"/><stop offset="1" stop-color="#102532"/></linearGradient>
+    <linearGradient id="coin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb34f"/><stop offset="1" stop-color="#f7931a"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#f7931a" stop-opacity=".28"/><stop offset="1" stop-color="#f7931a" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000" flood-opacity=".38"/></filter>
+  </defs>
+  <rect width="1200" height="420" rx="30" fill="url(#bg)"/>
+  <g opacity=".08" stroke="#cde7f1"><path d="M0 70h1200M0 140h1200M0 210h1200M0 280h1200M0 350h1200M100 0v420M200 0v420M300 0v420M400 0v420M500 0v420M600 0v420M700 0v420M800 0v420M900 0v420M1000 0v420M1100 0v420"/></g>
+  <circle cx="992" cy="204" r="205" fill="url(#glow)"/>
+  <text x="70" y="76" fill="#f7931a" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="800" letter-spacing="4">BLOCKCHAIN Y FINANZAS DESCENTRALIZADAS</text>
+  <text x="70" y="155" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="62" font-weight="900">Unidad 2 · Bitcoin</text>
+  <text x="70" y="212" fill="#c2d0d9" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="600">Consenso, seguridad y escalabilidad</text>
+  <text x="70" y="270" fill="#8fa6b5" font-family="Inter,Arial,sans-serif" font-size="21">Comprender → experimentar → verificar</text>
+  <g font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">
+    <rect x="70" y="310" width="150" height="44" rx="22" fill="#f7931a" fill-opacity=".16" stroke="#f7931a" stroke-opacity=".55"/><text x="145" y="338" text-anchor="middle" fill="#ffc16f">9 simulaciones</text>
+    <rect x="232" y="310" width="175" height="44" rx="22" fill="#36d3c5" fill-opacity=".09" stroke="#36d3c5" stroke-opacity=".45"/><text x="320" y="338" text-anchor="middle" fill="#75e1d7">150 diapositivas</text>
+    <rect x="419" y="310" width="152" height="44" rx="22" fill="#6ea8fe" fill-opacity=".09" stroke="#6ea8fe" stroke-opacity=".45"/><text x="495" y="338" text-anchor="middle" fill="#9fc4ff">49 conceptos</text>
+  </g>
+  <g filter="url(#shadow)">
+    <circle cx="990" cy="202" r="116" fill="url(#coin)"/>
+    <circle cx="990" cy="202" r="96" fill="none" stroke="#7d480a" stroke-width="3" stroke-opacity=".42"/>
+    <text x="990" y="250" text-anchor="middle" fill="#241403" font-family="Inter,Arial,sans-serif" font-size="132" font-weight="900">₿</text>
+  </g>
+  <g fill="#0b1720" stroke="#f7931a" stroke-opacity=".65" stroke-width="2">
+    <rect x="782" y="86" width="64" height="64" rx="15"/><rect x="852" y="86" width="64" height="64" rx="15"/><rect x="922" y="86" width="64" height="64" rx="15"/>
+  </g>
+  <path d="M846 118h6M916 118h6" stroke="#36d3c5" stroke-width="4"/>
+</svg>

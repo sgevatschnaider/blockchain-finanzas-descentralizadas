@@ -1,37 +1,85 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visor de presentaciones · Bitcoin</title><link rel="stylesheet" href="../assets/modulo-bitcoin.css"></head>
-<body><header class="site-header"><div class="site-header__inner"><a class="brand" href="../index.html"><span class="coin">₿</span><span>Unidad 2<small>Visor de presentaciones</small></span></a><nav class="topnav"><a href="../index.html">Inicio</a><a href="../simuladores/index.html">Simulaciones</a><a aria-current="page" href="index.html">Presentaciones</a><a href="../recursos/glosario-bitcoin.html">Glosario</a></nav></div></header>
-<main class="viewer-layout">
-  <aside class="deck-list"><p class="eyebrow">Biblioteca docente</p><h2>Materiales</h2><p style="color:var(--muted)">Seleccione un documento. El visor conserva el control manual durante la reproducción automática.</p><div id="deckList"></div><a class="button subtle" href="pdf/bitcoin-whitepaper-original.pdf" target="_blank">White paper original</a><a class="button subtle" href="pdf/secuencia-docente.pdf" target="_blank">Secuencia docente</a></aside>
-  <section class="viewer-stage">
-    <div class="viewer-toolbar" aria-label="Controles del visor">
-      <button id="prev" type="button">← Anterior</button><button id="play" type="button">▶ Reproducir</button><button id="next" type="button">Siguiente →</button>
-      <select id="speed" aria-label="Velocidad"><option value="8000">8 s</option><option value="12000" selected>12 s</option><option value="18000">18 s</option><option value="25000">25 s</option></select>
-      <button id="full" type="button">Pantalla completa</button><a class="button" id="download" download>Descargar parte</a><span class="status" id="status">Página 1</span>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Presentaciones de Bitcoin en PDF y Google Slides con reproducción automática, navegación manual y pantalla completa.">
+  <title>Visor de presentaciones · Bitcoin</title>
+  <link rel="stylesheet" href="../assets/modulo-bitcoin.css">
+</head>
+<body class="viewer-page">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../index.html"><span class="coin">₿</span><span>Unidad 2<small>Visor de presentaciones</small></span></a>
+      <nav class="topnav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../simuladores/index.html">Simulaciones</a><a aria-current="page" href="index.html">Presentaciones</a><a href="../recursos/glosario-bitcoin.html">Glosario</a></nav>
     </div>
-    <div class="canvas-wrap" id="stage"><canvas id="pdfCanvas" aria-label="Diapositiva actual"></canvas><p class="pdf-fallback hidden" id="fallback">El visor integrado no pudo iniciarse. Use “Descargar PDF” para abrir el material.</p></div>
-    <input id="pageRange" type="range" min="1" max="1" value="1" style="width:100%;margin-top:14px" aria-label="Página">
-  </section>
-</main>
-<script type="module">
-import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
-const makeParts=(stem,count)=>Array.from({length:count},(_,i)=>`pdf/${stem}-parte-${String(i+1).padStart(2,'0')}.pdf`);
-const decks=[
-  {title:'Bitcoin desde el white paper',meta:'36 diapositivas · fundamentos y arquitectura',pages:36,parts:makeParts('bitcoin-whitepaper-clase',6)},
-  {title:'Proof of Work y Proof of Stake',meta:'55 diapositivas · consenso y seguridad',pages:55,parts:makeParts('proof-of-work-vs-proof-of-stake',10)},
-  {title:'Halving de Bitcoin',meta:'21 diapositivas · emisión e incentivos',pages:21,parts:makeParts('halving-bitcoin',4)},
-  {title:'Layer 2: Bitcoin y Ethereum',meta:'38 diapositivas · escalabilidad y Lightning',pages:38,parts:makeParts('layer-2-bitcoin-ethereum',7)}
-];
-const list=document.querySelector('#deckList'),canvas=document.querySelector('#pdfCanvas'),ctx=canvas.getContext('2d'),range=document.querySelector('#pageRange'),status=document.querySelector('#status');
-let pdf=null,page=1,loadedPart=-1,renderTask=null,timer=null,current=0;
-list.innerHTML=decks.map((d,i)=>`<button class="deck-button" data-index="${i}"><strong>${d.title}</strong><small>${d.meta}</small></button>`).join('');
-async function loadPart(part){if(part===loadedPart&&pdf)return;loadedPart=part;const file=decks[current].parts[part];document.querySelector('#download').href=file;pdf=await pdfjsLib.getDocument(file).promise;}
-async function loadDeck(index){pause();current=index;page=1;loadedPart=-1;document.querySelectorAll('.deck-button').forEach((b,i)=>b.classList.toggle('active',i===index));range.max=decks[index].pages;status.textContent='Cargando…';try{await render();}catch(error){console.error(error);document.querySelector('#fallback').classList.remove('hidden');status.textContent='No disponible';}}
-async function render(){const part=Math.floor((page-1)/6),localPage=(page-1)%6+1;await loadPart(part);if(renderTask)try{renderTask.cancel()}catch{}const p=await pdf.getPage(localPage);const base=p.getViewport({scale:1});const width=Math.min(1280,document.querySelector('#stage').clientWidth-24);const viewport=p.getViewport({scale:width/base.width});canvas.width=viewport.width*devicePixelRatio;canvas.height=viewport.height*devicePixelRatio;canvas.style.width=`${viewport.width}px`;canvas.style.height=`${viewport.height}px`;renderTask=p.render({canvasContext:ctx,viewport,transform:[devicePixelRatio,0,0,devicePixelRatio,0,0]});try{await renderTask.promise}catch(e){if(e.name!=='RenderingCancelledException')throw e}range.value=page;status.textContent=`Página ${page} de ${decks[current].pages}`;}
-function go(delta){page+=delta;if(page>decks[current].pages)page=1;if(page<1)page=decks[current].pages;render();}
-function pause(){clearInterval(timer);timer=null;document.querySelector('#play').textContent='▶ Reproducir';}
-function play(){if(timer){pause();return}document.querySelector('#play').textContent='⏸ Pausar';timer=setInterval(()=>go(1),Number(document.querySelector('#speed').value));}
-list.addEventListener('click',e=>{const b=e.target.closest('[data-index]');if(b)loadDeck(Number(b.dataset.index));});
-document.querySelector('#prev').onclick=()=>go(-1);document.querySelector('#next').onclick=()=>go(1);document.querySelector('#play').onclick=play;document.querySelector('#speed').onchange=()=>{if(timer){pause();play()}};range.oninput=()=>{page=Number(range.value);render()};document.querySelector('#full').onclick=()=>document.querySelector('#stage').requestFullscreen?.();addEventListener('resize',()=>render());document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(-1);if(e.key==='ArrowRight')go(1);if(e.key===' '){e.preventDefault();play()}});loadDeck(0);
-</script></body></html>
+  </header>
+
+  <main class="viewer-layout">
+    <aside class="deck-list">
+      <p class="eyebrow">Biblioteca docente</p>
+      <h1>Presentaciones</h1>
+      <p class="deck-intro">Elija un material y decida cómo verlo: PDF interactivo o Google Slides.</p>
+      <div id="deckList" aria-label="Presentaciones disponibles"></div>
+      <div class="deck-documents">
+        <p class="deck-documents__title">Documentos de consulta</p>
+        <a class="button subtle" href="pdf/bitcoin-whitepaper-original.pdf" target="_blank" rel="noopener">White paper original ↗</a>
+        <a class="button subtle" href="pdf/secuencia-docente.pdf" target="_blank" rel="noopener">Secuencia docente ↗</a>
+      </div>
+    </aside>
+
+    <section class="viewer-stage" id="viewerStage" aria-label="Visor de diapositivas">
+      <div class="viewer-heading">
+        <div>
+          <p class="eyebrow" id="deckEyebrow">Presentación 1 de 4</p>
+          <h2 id="deckTitle">Bitcoin desde el white paper</h2>
+        </div>
+        <div class="view-mode" role="group" aria-label="Formato de visualización">
+          <button class="mode-button active" id="pdfMode" type="button" aria-pressed="true">PDF interactivo</button>
+          <button class="mode-button" id="slidesMode" type="button" aria-pressed="false">Google Slides</button>
+        </div>
+      </div>
+
+      <div class="viewer-toolbar" aria-label="Controles del visor PDF">
+        <button id="prev" type="button" title="Diapositiva anterior (←)"><span aria-hidden="true">←</span> Anterior</button>
+        <button class="play-button" id="play" type="button" title="Reproducir o pausar (espacio)">▶ Reproducir</button>
+        <button id="next" type="button" title="Diapositiva siguiente (→)">Siguiente <span aria-hidden="true">→</span></button>
+        <label class="speed-control">Intervalo
+          <select id="speed" aria-label="Intervalo de reproducción automática"><option value="6000">6 s</option><option value="8000">8 s</option><option value="12000" selected>12 s</option><option value="18000">18 s</option><option value="25000">25 s</option></select>
+        </label>
+        <button id="full" type="button" title="Activar pantalla completa (F)">⛶ Pantalla completa</button>
+        <a class="button" id="download" download>Descargar PDF</a>
+      </div>
+
+      <div class="viewer-surface">
+        <div class="pdf-view" id="pdfView">
+          <div class="canvas-wrap" id="stage">
+            <canvas id="pdfCanvas" aria-label="Diapositiva actual"></canvas>
+            <button class="slide-edge slide-edge--prev" id="stagePrev" type="button" aria-label="Diapositiva anterior">‹</button>
+            <button class="slide-edge slide-edge--next" id="stageNext" type="button" aria-label="Diapositiva siguiente">›</button>
+            <div class="loading-indicator hidden" id="loading" role="status">Cargando diapositiva…</div>
+            <p class="pdf-fallback hidden" id="fallback">El visor integrado no pudo iniciarse. Use “Descargar PDF” para abrir el material.</p>
+          </div>
+          <div class="viewer-progress">
+            <span class="status" id="status" aria-live="polite">Página 1</span>
+            <input id="pageRange" type="range" min="1" max="1" value="1" aria-label="Ir a una diapositiva">
+            <span class="keyboard-hint">← → navegar · espacio reproducir · F pantalla completa</span>
+          </div>
+          <div class="autoplay-track" aria-hidden="true"><span id="autoplayProgress"></span></div>
+        </div>
+
+        <div class="slides-view hidden" id="slidesView">
+          <iframe id="slidesFrame" title="Presentación en Google Slides" loading="lazy" allowfullscreen></iframe>
+          <div class="slides-actions">
+            <p><strong>Vista nativa de Google Slides.</strong> Incluye sus propios controles. Si Google solicita acceso, use el PDF o habilite “Cualquier persona con el enlace”.</p>
+            <a class="button primary" id="googleOpen" target="_blank" rel="noopener">Abrir en Google Slides ↗</a>
+            <button class="button" id="returnPdf" type="button">Volver al PDF</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="../assets/materiales.js"></script>
+</body>
+</html>

@@ -1,74 +1,88 @@
-# Unidad 2 — Bitcoin, criptoactivos, consenso y seguridad
+<p align="center">
+  <img src="./assets/readme/hero-unidad-2.svg" width="100%" alt="Unidad 2: Bitcoin, consenso y seguridad">
+</p>
 
-**Material elaborado por el profesor Sergio Gevatschnaider**
+<p align="center"><strong>Material elaborado por el profesor Sergio Gevatschnaider</strong></p>
 
-Esta unidad estudia Bitcoin como un sistema completo: control criptográfico, modelo UTXO, construcción de transacciones, minería, selección de cadena, seguridad económica, emisión y escalabilidad. El contenido se organiza para que cada concepto teórico tenga una simulación, una guía de consulta y una instancia de evaluación.
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/"><img src="./assets/readme/boton-modulo.svg" width="46%" alt="Abrir módulo interactivo"></a>
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/"><img src="./assets/readme/boton-simulaciones.svg" width="46%" alt="Explorar las simulaciones"></a>
+</p>
 
-## Acceso principal
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/materiales/">Presentaciones</a> ·
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/recursos/glosario-bitcoin.html">Glosario</a> ·
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin.html">Cuestionario</a> ·
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/planillas/laboratorio-bitcoin.xlsx">Planilla de laboratorio</a>
+</p>
 
-[Abrir el módulo interactivo de la Unidad 2](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/)
+---
+
+## Una unidad para comprender Bitcoin como sistema
+
+Esta unidad conecta criptografía, transacciones, minería, consenso, seguridad económica, emisión y escalabilidad. La secuencia combina explicación conceptual, experimentación visual y evaluación con retroalimentación.
+
+| Experiencia | Contenido |
+|---|---|
+| **9 laboratorios interactivos** | Parámetros editables, resultados visuales, modo automático y progreso local |
+| **150 diapositivas** | Cuatro presentaciones en PDF interactivo y Google Slides |
+| **49 conceptos** | Glosario desarrollado con relaciones y errores frecuentes |
+| **20 preguntas** | Cuestionario formativo con explicación de cada respuesta |
 
 ## Ruta pedagógica
 
-| Bloque | Pregunta central | Contenidos | Laboratorios |
+| Bloque | Pregunta central | Núcleo conceptual | Laboratorios |
 |---|---|---|---|
-| 1. Propiedad y transacción | ¿Qué se controla y cómo se transfiere? | Claves, direcciones, firmas, hashes, UTXO, inputs, outputs, cambio y fees | 01 a 04 |
-| 2. Consenso | ¿Cómo acuerda la red un historial sin autoridad central? | Mempool, bloque candidato, Merkle root, nonce, target, dificultad y PoW | 05 y 06 |
-| 3. Seguridad | ¿Por qué una historia resulta más costosa de reemplazar? | Forks, chainwork, confirmaciones, reorganizaciones y ataque del 51% | 07 y 08 |
-| 4. Economía y escala | ¿Cómo evoluciona el incentivo y cómo se amplía la capacidad de pago? | Subsidio, halving, comisiones, canales, HTLC, liquidez y ruteo | 09 y presentaciones |
+| **1 · Propiedad y transacción** | ¿Qué se controla y cómo se transfiere? | Claves, direcciones, hashes, UTXO, inputs, outputs, cambio y fees | 01–04 |
+| **2 · Consenso** | ¿Cómo acuerda la red un historial? | Mempool, bloque candidato, Merkle root, nonce, target, dificultad y PoW | 05–06 |
+| **3 · Seguridad** | ¿Por qué es costoso reemplazar la historia? | Forks, chainwork, confirmaciones, reorganizaciones y ataque del 51 % | 07–08 |
+| **4 · Economía y escala** | ¿Cómo evolucionan los incentivos y la capacidad? | Subsidio, halving, comisiones, canales, HTLC, liquidez y ruteo | 09 + presentaciones |
 
 ## Simulaciones independientes
 
-Cada simulación funciona como HTML autónomo, incluye cambio de tema y recorrido automático. La barra inferior permite avanzar por la secuencia y guardar el progreso en el navegador.
+Cada tarjeta abre la simulación publicada en GitHub Pages, no el archivo fuente de GitHub. Los laboratorios son HTML autónomos, incluyen cambio de tema, recorrido automático y guardado de progreso en el navegador.
 
-1. [Claves y direcciones](simuladores/01-claves-direcciones.html)
-2. [SHA-256 y efecto avalancha](simuladores/02-sha256-avalancha.html)
-3. [Modelo UTXO](simuladores/03-modelo-utxo.html)
-4. [Bitcoin Transaction Lab](simuladores/04-transaccion-bitcoin.html)
-5. [Mempool, fees y minería PoW](simuladores/05-mempool-fees-mineria.html)
-6. [Merkle Tree y Merkle Proof](simuladores/06-merkle-tree-proof.html)
-7. [Fork, chainwork y confirmaciones](simuladores/07-fork-chainwork-confirmaciones.html)
-8. [Ataque del 51%](simuladores/08-ataque-51.html)
-9. [Lightning Network](simuladores/09-lightning-network.html)
+| | | |
+|---|---|---|
+| **01 · [Claves y direcciones](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/01-claves-direcciones.html)**<br><sub>Entropía, clave privada, clave pública y dirección.</sub> | **02 · [SHA-256 y efecto avalancha](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/02-sha256-avalancha.html)**<br><sub>Difusión y sensibilidad de entrada.</sub> | **03 · [Modelo UTXO](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/03-modelo-utxo.html)**<br><sub>Inputs, outputs, cambio y conservación del valor.</sub> |
+| **04 · [Bitcoin Transaction Lab](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/04-transaccion-bitcoin.html)**<br><sub>Firma, validación y propagación.</sub> | **05 · [Mempool, fees y minería PoW](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/05-mempool-fees-mineria.html)**<br><sub>Selección económica y búsqueda de nonce.</sub> | **06 · [Merkle Tree y Merkle Proof](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/06-merkle-tree-proof.html)**<br><sub>Raíz compacta y prueba de inclusión.</sub> |
+| **07 · [Fork, chainwork y confirmaciones](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/07-fork-chainwork-confirmaciones.html)**<br><sub>Selección de cadena y finalidad probabilística.</sub> | **08 · [Ataque del 51 %](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/08-ataque-51.html)**<br><sub>Reorganización, doble gasto y límites.</sub> | **09 · [Lightning Network](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/09-lightning-network.html)**<br><sub>Canales, liquidez, HTLC y liquidación.</sub> |
 
-[Abrir el índice de simulaciones](simuladores/index.html)
+<p align="center">
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/"><img src="./assets/readme/boton-simulaciones.svg" width="55%" alt="Abrir índice visual de simulaciones"></a>
+</p>
 
 ## Presentaciones y documentos
 
-El [visor integrado](materiales/index.html) permite avanzar manualmente, reproducir automáticamente, modificar la velocidad y usar pantalla completa. Incluye:
+El [visor de clase](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/materiales/) permite:
 
-- Bitcoin desde el white paper, 36 diapositivas.
-- Proof of Work frente a Proof of Stake, 55 diapositivas.
-- Halving de Bitcoin, 21 diapositivas.
-- Layer 2 en Bitcoin y Ethereum, 38 diapositivas.
-- White paper original de Satoshi Nakamoto.
-- Secuencia docente que relaciona presentaciones y simulaciones.
+- elegir entre **PDF interactivo** y **Google Slides**;
+- avanzar con botones laterales, flechas del teclado, barra deslizante o gestos táctiles;
+- reproducir automáticamente con intervalos configurables;
+- conservar controles y autoplay al entrar en pantalla completa;
+- descargar la parte PDF que se está consultando.
 
-La presentación alternativa sobre el paper y la guía extensa de las simulaciones se consolidaron en el visor, el glosario y las explicaciones propias de cada laboratorio para evitar duplicación conceptual.
+Presentaciones incluidas:
 
-## Glosario y evaluación
+1. Bitcoin desde el white paper — 36 diapositivas.
+2. Proof of Work frente a Proof of Stake — 55 diapositivas.
+3. Halving de Bitcoin — 21 diapositivas.
+4. Layer 2 en Bitcoin y Ethereum — 38 diapositivas.
 
-- [Glosario desarrollado de Bitcoin](recursos/glosario-bitcoin.html): búsqueda instantánea, filtros por capa y explicaciones sobre función, relación y errores frecuentes.
-- [Cuestionario formativo](evaluacion/cuestionario-bitcoin.html): 20 preguntas con corrección, puntaje y respuestas ampliamente explicadas.
+También se encuentran el white paper original de Satoshi Nakamoto y la secuencia docente que vincula presentaciones y simulaciones.
 
-## Planilla para Google Sheets y Excel
+## Consolidación y evaluación
 
-[Descargar laboratorio-bitcoin.xlsx](planillas/laboratorio-bitcoin.xlsx)
+| Recurso | Uso recomendado |
+|---|---|
+| [Glosario desarrollado](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/recursos/glosario-bitcoin.html) | Buscar conceptos por capa y revisar función, relaciones y errores frecuentes |
+| [Cuestionario formativo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin.html) | Comprobar comprensión con 20 preguntas y retroalimentación explicada |
+| [Planilla de laboratorio](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/planillas/laboratorio-bitcoin.xlsx) | Registrar experimentos PoW, analizar riesgo de reversión y seguir la ruta |
 
-La planilla contiene:
+La planilla puede abrirse con Excel o importarse directamente en Google Sheets. También hay un [CSV para registrar experimentos](planillas/registro-experimentos-pow.csv).
 
-- una tabla para registrar intentos y tiempos de Proof of Work;
-- fórmulas de intentos y tiempo esperado por dificultad;
-- una matriz didáctica de probabilidad de alcance del atacante;
-- una hoja de seguimiento de los nueve laboratorios.
-
-El archivo se abre directamente con Excel o se importa en Google Sheets. También se incluye un [CSV liviano](planillas/registro-experimentos-pow.csv).
-
-## Material previo conservado
-
-La carpeta [`html/`](html/) conserva los recursos anteriores para no romper enlaces externos. Los materiales específicamente vinculados con Bitcoin pueden usarse como complemento. Los recursos sobre ciberseguridad general y composabilidad DeFi quedan separados de la ruta principal porque corresponden a otros núcleos conceptuales del programa.
-
-## Estructura
+<details>
+<summary><strong>Estructura técnica del módulo</strong></summary>
 
 ```text
 u02-criptoactivos-consenso-seguridad/
@@ -80,14 +94,14 @@ u02-criptoactivos-consenso-seguridad/
 ├── materiales/
 │   ├── index.html
 │   └── pdf/
-├── recursos/
-│   └── glosario-bitcoin.html
-├── evaluacion/
-│   └── cuestionario-bitcoin.html
+├── recursos/glosario-bitcoin.html
+├── evaluacion/cuestionario-bitcoin.html
 ├── planillas/
-│   ├── laboratorio-bitcoin.xlsx
-│   └── registro-experimentos-pow.csv
 └── html/  (material previo conservado)
 ```
 
-[Volver al curso](../../)
+</details>
+
+> **Criterio docente:** los recursos previos de ciberseguridad general permanecen en `html/` para conservar enlaces externos, pero no interrumpen la secuencia específica de Bitcoin. La composabilidad DeFi corresponde a una unidad posterior.
+
+<p align="center"><a href="../../">← Volver al curso completo</a></p>
