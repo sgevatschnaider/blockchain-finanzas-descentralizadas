@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Unidad 2 de Bitcoin: white paper, transacciones, minería, consenso, seguridad, halving y Lightning Network.">
+  <meta name="description" content="Unidad 2 de Bitcoin: transacciones, consenso, seguridad, economía monetaria, HODL, métricas on-chain y finanzas conductuales.">
   <title>Unidad 2 · Bitcoin, consenso y seguridad</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f7931a'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='38' font-weight='900' fill='%231b1104'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/modulo-bitcoin.css">
@@ -23,7 +23,7 @@
       <div>
         <p class="eyebrow">Blockchain y Finanzas Descentralizadas · Unidad 2</p>
         <h1><span class="bitcoin-word">Bitcoin</span> como sistema verificable</h1>
-        <p class="lead">Una ruta completa desde las claves y el modelo UTXO hasta la minería, el consenso probabilístico, el halving y Lightning Network. Cada concepto se estudia, se simula y se evalúa.</p>
+        <p class="lead">Una ruta completa desde las claves y el modelo UTXO hasta la minería, el consenso probabilístico, la economía monetaria, HODL y el análisis on-chain. Cada concepto se estudia, se simula y se evalúa.</p>
         <div class="hero-pills" aria-label="Metodología"><span>Comprender</span><i>→</i><span>Experimentar</span><i>→</i><span>Verificar</span></div>
         <div class="actions">
           <a class="button primary button-large" href="simuladores/01-claves-direcciones.html">Comenzar la ruta →</a>
@@ -33,23 +33,24 @@
       </div>
       <div class="hero-map" aria-label="Representación de una cadena de bloques">
         <div class="block-chain"><div class="block-chain__row"><span class="mini-block">899</span><i class="link-line"></i><span class="mini-block">900</span><i class="link-line"></i><span class="mini-block">901</span></div></div>
-        <div class="network-stat one"><strong>9 laboratorios</strong><small>interactivos y autónomos</small></div>
-        <div class="network-stat two"><strong data-progress-count>0/9</strong><small>progreso guardado localmente</small></div>
+        <div class="network-stat one"><strong>14 laboratorios</strong><small>interactivos y autónomos</small></div>
+        <div class="network-stat two"><strong data-progress-count>0/14</strong><small>progreso guardado localmente</small></div>
       </div>
     </section>
 
     <section class="entry-grid" aria-label="Accesos principales del módulo">
-      <a class="entry-card entry-card--orange" href="simuladores/index.html"><span class="entry-icon">⚙</span><span><small>Experimentar</small><strong>Simulaciones</strong><em>9 laboratorios paso a paso</em></span><b>→</b></a>
-      <a class="entry-card" href="materiales/index.html"><span class="entry-icon">▶</span><span><small>Estudiar</small><strong>Presentaciones</strong><em>PDF, Google Slides y autoplay</em></span><b>→</b></a>
+      <a class="entry-card entry-card--orange" href="simuladores/index.html"><span class="entry-icon">⚙</span><span><small>Experimentar</small><strong>Simulaciones</strong><em>14 laboratorios paso a paso</em></span><b>→</b></a>
+      <a class="entry-card" href="materiales/index.html"><span class="entry-icon">▶</span><span><small>Estudiar</small><strong>Presentaciones</strong><em>PDF, PPTX, Google Slides y autoplay</em></span><b>→</b></a>
       <a class="entry-card" href="recursos/glosario-bitcoin.html"><span class="entry-icon">⌕</span><span><small>Consultar</small><strong>Glosario</strong><em>49 conceptos conectados</em></span><b>→</b></a>
       <a class="entry-card" href="evaluacion/cuestionario-bitcoin.html"><span class="entry-icon">✓</span><span><small>Comprobar</small><strong>Evaluación</strong><em>20 preguntas explicadas</em></span><b>→</b></a>
+      <a class="entry-card entry-card--orange" href="recursos/hodl-estudio-index.html"><span class="entry-icon">◎</span><span><small>Integrar</small><strong>HODL y on-chain</strong><em>Guía, 5 laboratorios y 36 preguntas</em></span><b>→</b></a>
     </section>
 
     <div class="quick-grid" aria-label="Componentes del módulo">
-      <div class="quick"><strong>150 diapositivas</strong><span>cuatro presentaciones integradas</span></div>
-      <div class="quick"><strong>9 simulaciones</strong><span>cada una en su propio archivo</span></div>
-      <div class="quick"><strong>49 términos</strong><span>definiciones y conexiones técnicas</span></div>
-      <div class="quick"><strong>20 preguntas</strong><span>retroalimentación explicada</span></div>
+      <div class="quick"><strong>209 diapositivas</strong><span>seis presentaciones integradas</span></div>
+      <div class="quick"><strong>14 simulaciones</strong><span>cada una en su propio archivo</span></div>
+      <div class="quick"><strong>103 términos</strong><span>dos glosarios desarrollados</span></div>
+      <div class="quick"><strong>56 preguntas</strong><span>retroalimentación explicada</span></div>
     </div>
 
     <section class="section" id="ruta">
@@ -59,6 +60,7 @@
         <article class="path-card"><span class="tag">Consenso</span><h3>Bloques y Proof of Work</h3><p>Mempool, selección por fee rate, Merkle root, nonce, target y ajuste de dificultad.</p></article>
         <article class="path-card"><span class="tag">Seguridad</span><h3>Chainwork y ataques</h3><p>Forks, confirmaciones, finalidad probabilística, reorganizaciones y límites de un ataque del 51%.</p></article>
         <article class="path-card"><span class="tag">Economía y escala</span><h3>Halving y Lightning</h3><p>Subsidio, comisiones, seguridad presupuestaria, canales de pago, HTLC y liquidación en la capa base.</p></article>
+        <article class="path-card"><span class="tag">Comportamiento y datos</span><h3>HODL y análisis on-chain</h3><p>Horizonte, coin age, HODL Waves, CDD, inferencia, sesgos, asignación y liquidez personal.</p></article>
       </div>
     </section>
 
@@ -74,12 +76,17 @@
         <a class="resource-card" data-lab-id="07-fork-chainwork-confirmaciones.html" href="simuladores/07-fork-chainwork-confirmaciones.html"><span class="number">LAB 07</span><h3>Fork y chainwork</h3><p>Competencia entre ramas válidas y por qué la red sigue el mayor trabajo acumulado.</p><span class="meta">Abrir laboratorio</span></a>
         <a class="resource-card" data-lab-id="08-ataque-51.html" href="simuladores/08-ataque-51.html"><span class="number">LAB 08</span><h3>Ataque del 51%</h3><p>Carrera probabilística, reorganización, doble gasto y acciones que el atacante no puede ejecutar.</p><span class="meta">Abrir laboratorio</span></a>
         <a class="resource-card" data-lab-id="09-lightning-network.html" href="simuladores/09-lightning-network.html"><span class="number">LAB 09</span><h3>Lightning Network</h3><p>Canales, liquidez, ruteo, HTLC y relación entre pagos off-chain y liquidación on-chain.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="10-hodl-strategy-lab.html" href="simuladores/10-hodl-strategy-lab.html"><span class="number">LAB 10</span><h3>HODL Strategy Lab</h3><p>HODL, DCA, valoración, aportes y riesgo de reentrada sobre una misma trayectoria.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="11-utxo-aging-hodl-waves.html" href="simuladores/11-utxo-aging-hodl-waves.html"><span class="number">LAB 11</span><h3>UTXO Aging + HODL Waves</h3><p>Edad de salidas, bandas temporales y rejuvenecimiento de oferta al gastar UTXO.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="12-coin-days-destroyed.html" href="simuladores/12-coin-days-destroyed.html"><span class="number">LAB 12</span><h3>Coin Days Destroyed</h3><p>Cantidad por antigüedad para distinguir volumen transferido de edad destruida.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="13-behavioral-bitcoin-lab.html" href="simuladores/13-behavioral-bitcoin-lab.html"><span class="number">LAB 13</span><h3>Behavioral Bitcoin Lab</h3><p>Disposition effect, punto de referencia y diferencia entre convicción e inercia.</p><span class="meta">Abrir laboratorio</span></a>
+        <a class="resource-card" data-lab-id="14-hodl-risk-allocation-lab.html" href="simuladores/14-hodl-risk-allocation-lab.html"><span class="number">LAB 14</span><h3>HODL Risk &amp; Allocation</h3><p>Asignación, drawdown, reserva de efectivo, rebalanceo y venta forzada.</p><span class="meta">Abrir laboratorio</span></a>
       </div>
     </section>
 
     <section class="section split">
-      <article class="panel"><p class="eyebrow">Material de clase</p><h2>Visor con reproducción automática</h2><p>Las presentaciones centrales se leen a pantalla completa, con control de página, velocidad y avance automático. El white paper original se abre en el mismo espacio de estudio.</p><div class="checklist"><div class="check"><i>1</i><span>White paper y arquitectura de Bitcoin</span></div><div class="check"><i>2</i><span>Proof of Work frente a Proof of Stake</span></div><div class="check"><i>3</i><span>Halving, incentivos y Layer 2</span></div></div><p><a class="button primary" href="materiales/index.html">Abrir presentaciones</a></p></article>
-      <article class="panel"><p class="eyebrow">Consolidación</p><h2>Glosario, cuestionario y planilla</h2><p>El glosario desarrolla cada término con función, relación y error frecuente. El cuestionario entrega una explicación extensa después de responder. La planilla permite registrar experimentos de minería y probabilidad.</p><div class="actions"><a class="button" href="recursos/glosario-bitcoin.html">Consultar glosario</a><a class="button" href="evaluacion/cuestionario-bitcoin.html">Resolver cuestionario</a><a class="button" href="planillas/laboratorio-bitcoin.xlsx">Descargar planilla</a></div></article>
+      <article class="panel"><p class="eyebrow">Material de clase</p><h2>Visor con reproducción automática</h2><p>Las presentaciones centrales se leen a pantalla completa, con control de página, velocidad y avance automático. El bloque HODL incorpora una presentación conceptual y otra aplicada al análisis on-chain.</p><div class="checklist"><div class="check"><i>1</i><span>White paper y arquitectura de Bitcoin</span></div><div class="check"><i>2</i><span>Consenso, halving y Layer 2</span></div><div class="check"><i>3</i><span>HODL, UTXO, métricas y conducta</span></div></div><p><a class="button primary" href="materiales/index.html">Abrir presentaciones</a></p></article>
+      <article class="panel"><p class="eyebrow">Consolidación</p><h2>Glosarios, cuestionarios y planilla</h2><p>El bloque técnico conserva su glosario y evaluación. La extensión HODL añade 54 conceptos, 36 preguntas y una ruta específica que conecta estrategia, datos on-chain y riesgo.</p><div class="actions"><a class="button" href="recursos/glosario-bitcoin.html">Glosario Bitcoin</a><a class="button" href="recursos/hodl-estudio-index.html">Guía HODL</a><a class="button" href="evaluacion/hodl-cuestionario.html">Cuestionario HODL</a><a class="button" href="planillas/laboratorio-bitcoin.xlsx">Descargar planilla</a></div></article>
     </section>
 
     <section class="section"><div class="callout"><strong>Criterio docente.</strong> Los recursos anteriores de ciberseguridad permanecen disponibles en la carpeta <code>html/</code> para conservar enlaces, pero ya no interrumpen la secuencia específica de Bitcoin. Composabilidad DeFi corresponde a una unidad posterior.</div></section>

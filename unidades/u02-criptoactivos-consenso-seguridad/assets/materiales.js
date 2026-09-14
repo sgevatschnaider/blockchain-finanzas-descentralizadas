@@ -36,6 +36,24 @@ const decks = [
     parts: makeParts('layer-2-bitcoin-ethereum', 7),
     googleId: '1kOaW2YhTGEx5L6Lc3afhhRmqAHeFD3-CshF9Rn4SBzo',
   },
+  {
+    title: 'HODL: protocolo, economía y comportamiento',
+    meta: '28 diapositivas · estrategia, riesgo y custodia',
+    pages: 28,
+    parts: makeParts('hodl-protocolo-economia-comportamiento', 5),
+    fullPdf: 'pdf/hodl-protocolo-economia-comportamiento.pdf',
+    pptx: 'pptx/hodl-protocolo-economia-comportamiento.pptx',
+    googleId: null,
+  },
+  {
+    title: 'HODL y análisis on-chain',
+    meta: '31 diapositivas · UTXO, Waves, CDD y conducta',
+    pages: 31,
+    parts: makeParts('hodl-analisis-onchain-finanzas-conductuales', 6),
+    fullPdf: 'pdf/hodl-analisis-onchain-finanzas-conductuales.pdf',
+    pptx: 'pptx/hodl-analisis-onchain-finanzas-conductuales.pptx',
+    googleId: null,
+  },
 ];
 
 const elements = {
@@ -56,6 +74,7 @@ const elements = {
   slidesFrame: document.querySelector('#slidesFrame'),
   googleOpen: document.querySelector('#googleOpen'),
   download: document.querySelector('#download'),
+  downloadPptx: document.querySelector('#downloadPptx'),
   deckTitle: document.querySelector('#deckTitle'),
   deckEyebrow: document.querySelector('#deckEyebrow'),
   autoplayProgress: document.querySelector('#autoplayProgress'),
@@ -117,7 +136,7 @@ async function loadPart(partIndex) {
   if (partIndex === loadedPart && pdfDocument) return;
   const requestedDeck = currentDeck;
   const file = decks[requestedDeck].parts[partIndex];
-  elements.download.href = file;
+  elements.download.href = decks[requestedDeck].fullPdf || file;
   const loadedDocument = await pdfjsLib.getDocument(file).promise;
   if (requestedDeck !== currentDeck) return;
   pdfDocument = loadedDocument;
@@ -189,6 +208,7 @@ function changePage(delta) {
 
 function updateGoogleView() {
   const deck = decks[currentDeck];
+  if (!deck.googleId) return;
   const previewUrl = `https://docs.google.com/presentation/d/${deck.googleId}/preview?slide=id.p`;
   const editUrl = `https://docs.google.com/presentation/d/${deck.googleId}/edit?usp=sharing`;
   if (elements.slidesFrame.dataset.deck !== String(currentDeck)) {
@@ -222,8 +242,9 @@ async function loadDeck(index) {
   currentPage = 1;
   loadedPart = -1;
   pdfDocument = null;
-  elements.range.max = decks[index].pages;
-  elements.deckTitle.textContent = decks[index].title;
+  const deck = decks[index];
+  elements.range.max = deck.pages;
+  elements.deckTitle.textContent = deck.title;
   elements.deckEyebrow.textContent = `Presentación ${index + 1} de ${decks.length}`;
   elements.status.textContent = 'Cargando…';
   elements.list.querySelectorAll('.deck-button').forEach((button, buttonIndex) => {
@@ -232,6 +253,12 @@ async function loadDeck(index) {
     button.setAttribute('aria-pressed', String(isActive));
   });
   elements.slidesFrame.removeAttribute('data-deck');
+  const hasGoogleSlides = Boolean(deck.googleId);
+  elements.slidesMode.disabled = !hasGoogleSlides;
+  elements.slidesMode.title = hasGoogleSlides ? 'Abrir la versión publicada en Google Slides' : 'Esta presentación se ofrece en PDF y PPTX';
+  elements.downloadPptx.classList.toggle('control-hidden', !deck.pptx);
+  if (deck.pptx) elements.downloadPptx.href = deck.pptx;
+  if (!hasGoogleSlides && mode === 'slides') setMode('pdf');
   if (mode === 'pdf') await renderPage();
   else updateGoogleView();
 }

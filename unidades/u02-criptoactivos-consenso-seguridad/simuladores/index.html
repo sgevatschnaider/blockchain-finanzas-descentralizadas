@@ -1,6 +1,6 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratorios de Bitcoin · Unidad 2</title><link rel="stylesheet" href="../assets/modulo-bitcoin.css"></head><body>
 <header class="site-header"><div class="site-header__inner"><a class="brand" href="../index.html"><span class="coin">₿</span><span>Unidad 2<small>Laboratorios de Bitcoin</small></span></a><nav class="topnav"><a href="../index.html">Inicio</a><a aria-current="page" href="index.html">Simulaciones</a><a href="../materiales/index.html">Presentaciones</a><a href="../evaluacion/cuestionario-bitcoin.html">Evaluación</a></nav></div></header>
-<main class="shell"><section class="page-head"><p class="eyebrow">Nueve experiencias independientes</p><h1>Laboratorios interactivos</h1><p>Abra cada simulación en una pestaña o proyecte en pantalla completa. Use “Simulación dinámica” para el recorrido automático y marque cada laboratorio al completarlo.</p><div class="progress-track"><div class="progress-fill" data-progress-bar></div></div><p><strong data-progress-count>0/9</strong> completados</p></section>
+<main class="shell"><section class="page-head"><p class="eyebrow">Catorce experiencias independientes</p><h1>Laboratorios interactivos</h1><p>La ruta avanza desde propiedad, transacciones y consenso hasta HODL, métricas on-chain, conducta y riesgo. Abra cada simulación en una pestaña o proyecte en pantalla completa, use la ejecución dinámica y marque el laboratorio al completarlo.</p><div class="progress-track"><div class="progress-fill" data-progress-bar></div></div><p><strong data-progress-count>0/14</strong> completados</p></section>
 <section class="section"><div class="card-grid" id="labs"></div></section></main>
 <footer class="site-footer"><div class="shell"><strong>Material elaborado por el profesor Sergio Gevatschnaider</strong></div></footer>
 <script>
@@ -13,6 +13,11 @@ const labs=[
 ["06","Merkle Tree y Merkle Proof","Compromiso criptográfico y prueba de inclusión","06-merkle-tree-proof.html"],
 ["07","Fork, chainwork y confirmaciones","Selección de cadena y seguridad acumulada","07-fork-chainwork-confirmaciones.html"],
 ["08","Ataque del 51%","Probabilidad de alcance, reorganización y límites","08-ataque-51.html"],
-["09","Lightning Network","Canales, rutas, liquidez y liquidación final","09-lightning-network.html"]];
+["09","Lightning Network","Canales, rutas, liquidez y liquidación final","09-lightning-network.html"],
+["10","HODL Strategy Lab","HODL, DCA, valoración y riesgo de reentrada","10-hodl-strategy-lab.html"],
+["11","UTXO Aging + HODL Waves","Edad de UTXO y distribución temporal de la oferta","11-utxo-aging-hodl-waves.html"],
+["12","Coin Days Destroyed","Actividad ponderada por cantidad y antigüedad","12-coin-days-destroyed.html"],
+["13","Behavioral Bitcoin Lab","Disposition effect, convicción y sesgos","13-behavioral-bitcoin-lab.html"],
+["14","HODL Risk & Allocation Lab","Asignación, drawdown, liquidez y venta forzada","14-hodl-risk-allocation-lab.html"]];
 document.querySelector('#labs').innerHTML=labs.map(x=>`<a class="resource-card" data-lab-id="${x[3]}" href="${x[3]}"><span class="number">LAB ${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><span class="meta">Abrir laboratorio</span></a>`).join('');
 </script><script src="../assets/modulo-bitcoin.js"></script></body></html>
