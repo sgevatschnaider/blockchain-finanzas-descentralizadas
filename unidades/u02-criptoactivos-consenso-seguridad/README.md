@@ -26,7 +26,7 @@ Esta unidad conecta criptografía, transacciones, minería, consenso, seguridad 
 | Experiencia | Contenido |
 |---|---|
 | **14 laboratorios interactivos** | Parámetros editables, resultados visuales, modo automático y progreso local |
-| **209 diapositivas** | Seis presentaciones en PDF; las dos nuevas también incluyen PPTX editable |
+| **223 diapositivas** | Seis presentaciones en PDF; la presentación del white paper y las dos de HODL también incluyen PPTX editable |
 | **103 conceptos** | Glosario general de 49 términos + glosario HODL/on-chain de 54 términos |
 | **56 preguntas** | Cuestionario general de 20 preguntas + autoevaluación HODL de 36 preguntas |
 
@@ -64,11 +64,11 @@ El [visor de clase](https://sgevatschnaider.github.io/blockchain-finanzas-descen
 - avanzar con botones laterales, flechas del teclado, barra deslizante o gestos táctiles;
 - reproducir automáticamente con intervalos configurables;
 - conservar controles y autoplay al entrar en pantalla completa;
-- descargar PDF completo o PPTX editable en las dos presentaciones HODL.
+- descargar el PDF completo o el PPTX editable de la presentación del white paper y de las dos presentaciones HODL.
 
 Presentaciones incluidas:
 
-1. Bitcoin desde el white paper — 36 diapositivas.
+1. Bitcoin desde el white paper — 50 diapositivas.
 2. Proof of Work frente a Proof of Stake — 55 diapositivas.
 3. Halving de Bitcoin — 21 diapositivas.
 4. Layer 2 en Bitcoin y Ethereum — 38 diapositivas.

@@ -10,9 +10,12 @@ const makeParts = (stem, count) => Array.from(
 const decks = [
   {
     title: 'Bitcoin desde el white paper',
-    meta: '36 diapositivas · fundamentos y arquitectura',
-    pages: 36,
-    parts: makeParts('bitcoin-whitepaper-clase', 6),
+    meta: '50 diapositivas · fundamentos, arquitectura y profundización técnica',
+    pages: 50,
+    parts: ['pdf/bitcoin-whitepaper-clase.pdf'],
+    partSize: 50,
+    fullPdf: 'pdf/bitcoin-whitepaper-clase.pdf',
+    pptx: 'pptx/bitcoin-whitepaper-clase.pptx',
     googleId: '1o6oABbnty3ehYVfnqmkhqospVSH07hMjyXmkfMQzofk',
   },
   {
@@ -146,8 +149,9 @@ async function loadPart(partIndex) {
 async function renderPage() {
   if (mode !== 'pdf') return;
   const version = ++renderVersion;
-  const partIndex = Math.floor((currentPage - 1) / 6);
-  const localPage = (currentPage - 1) % 6 + 1;
+  const partSize = decks[currentDeck].partSize || 6;
+  const partIndex = Math.floor((currentPage - 1) / partSize);
+  const localPage = (currentPage - 1) % partSize + 1;
   setLoading(true);
   elements.fallback.classList.add('hidden');
 

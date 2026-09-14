@@ -202,7 +202,7 @@ def merkle_root(leaves: list[bytes]) -> bytes:
 `unidades/u02-criptoactivos-consenso-seguridad/README.md`
 
 <details><summary><strong>Resumen (clic para expandir)</strong></summary>
-Módulo interactivo con cuatro presentaciones integradas, nueve simulaciones independientes con reproducción automática, glosario desarrollado, cuestionario formativo y planilla de experimentación compatible con Google Sheets. La secuencia conecta claves, SHA-256, UTXO y transacciones con minería, Merkle, chainwork, ataques, halving y Lightning Network.
+Módulo interactivo con seis presentaciones integradas —223 diapositivas—, catorce simulaciones independientes con reproducción automática, dos glosarios, dos cuestionarios formativos y una planilla de experimentación compatible con Google Sheets. La secuencia conecta claves, SHA-256, UTXO y transacciones con minería, Merkle, chainwork, ataques, halving y Lightning Network, y añade una ruta transversal sobre HODL, coin age, HODL Waves, CDD, finanzas conductuales y gestión del riesgo.
 </details>
 
 **Lab:** ECDSA (secp256k1) + PoW mínimo + integridad con Keccak/SHA-3
