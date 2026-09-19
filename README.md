@@ -12,7 +12,7 @@ Campus docente de nivel posgrado elaborado por el profesor **Sergio Gevatschnaid
 - [M0 · Clase inicial](unidades/u00-clase-inicial-blockchain-negocios/)
 - [U1 · Fundamentos y Smart Contracts](unidades/u01-fundamentos-smart-contracts/)
 - [U2 · Bitcoin, consenso y seguridad](unidades/u02-criptoactivos-consenso-seguridad/)
-- [U3 · Ethereum](unidades/u03-ethereum/)
+- [U3 · Ethereum — abrir campus interactivo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-ethereum/)
 - [U4 · IoT, IA/ML y Metaverso](unidades/u04-iot-ia-metaverso/)
 - [U5 · Algoritmos y criptografía aplicada](unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/)
 - [U6 · Indicadores y trading](unidades/u06-indicadores-trading/)
