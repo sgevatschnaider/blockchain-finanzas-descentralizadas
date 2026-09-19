@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Ethereum Lab 07: Proof-of-Stake — validators, proposer, slots, attestations, epochs y participación.">
+<title>Ethereum Lab 07 · Proof-of-Stake</title>
+<style>
+:root{
+  --bg:#f4f7fb;--bg2:#e9eef7;--panel:#fff;--panel2:#f7f9fc;--text:#172033;--muted:#68768a;
+  --line:#d7e0ec;--accent:#627eea;--accent2:#8b5cf6;--cyan:#0891b2;--ok:#059669;--warn:#b7791f;
+  --bad:#dc2626;--gold:#b98517;--shadow:0 16px 44px rgba(20,34,70,.11);--glow:rgba(98,126,234,.18);
+  --code:#eef3fa;
+}
+html[data-theme="dark"]{
+  --bg:#070b14;--bg2:#0b1220;--panel:#101827;--panel2:#0d1522;--text:#edf2ff;--muted:#9ba9bf;
+  --line:#26344d;--accent:#8ea2ff;--accent2:#b58cff;--cyan:#22d3ee;--ok:#34d399;--warn:#fbbf24;
+  --bad:#fb7185;--gold:#f5c35b;--shadow:0 20px 58px rgba(0,0,0,.34);--glow:rgba(142,162,255,.20);
+  --code:#09111d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);line-height:1.5;
+  background:
+    radial-gradient(920px 500px at 92% -8%,rgba(139,92,246,.18),transparent 60%),
+    radial-gradient(760px 440px at -8% 8%,rgba(34,211,238,.12),transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 55%,var(--bg));
+}
+button,input,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}
+.header{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.topbar{max-width:1500px;margin:auto;padding:12px 18px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.ethMark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;font-weight:900;font-size:1.3rem;box-shadow:0 0 30px var(--glow)}
+.brand strong{display:block}.brand small{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:720px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 12px;border-radius:12px;font-weight:800;transition:.18s}
+.btn:hover{transform:translateY(-1px);border-color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:white}
+.btn.cyan{background:color-mix(in srgb,var(--cyan) 16%,var(--panel));border-color:color-mix(in srgb,var(--cyan) 50%,var(--line))}
+.btn.gold{background:color-mix(in srgb,var(--gold) 14%,var(--panel));border-color:color-mix(in srgb,var(--gold) 48%,var(--line))}
+.btn.danger{background:color-mix(in srgb,var(--bad) 13%,var(--panel));border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
+main{max-width:1500px;margin:auto;padding:24px 18px 60px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:18px}
+.card,.panel{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),var(--panel));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.card{padding:24px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-150px;background:radial-gradient(circle,var(--glow),transparent 68%)}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:900}
+h1{font-size:clamp(2rem,4vw,3.35rem);line-height:1.02;margin:.25rem 0 .8rem}.lead{font-size:1.08rem;color:var(--muted);max-width:930px}
+.goal{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:15px}.goal b{display:block;margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-3{grid-column:span 3}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-9{grid-column:span 9}.span-12{grid-column:1/-1}
+.panel{overflow:hidden}.panelHead{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.panelHead h2,.panelHead h3{margin:0;font-size:1rem}.panelBody{padding:16px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:.75rem;color:var(--muted);background:var(--panel2)}
+label{display:block;font-size:.79rem;color:var(--muted);font-weight:800;margin:9px 0 5px}
+input,select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px 11px}
+input[type=range]{padding:0}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sliderPair{display:grid;grid-template-columns:1fr 78px;gap:8px;align-items:end}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:11px;min-width:0}.kpi b{display:block;font-size:1.06rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kpi small{color:var(--muted)}
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--panel2);border-radius:12px;padding:12px}.callout.ok{border-left-color:var(--ok)}.callout.warn{border-left-color:var(--warn)}.callout.bad{border-left-color:var(--bad)}
+.statusline{display:flex;align-items:center;gap:8px;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;background:var(--line)}.dot.ok{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 15%,transparent)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.epochGrid{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}.slot{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:8px;text-align:center;min-height:72px;transition:.25s;position:relative}.slot .n{font-size:.69rem;color:var(--muted);font-weight:900}.slot .ico{font-size:1.25rem}.slot.current{border-color:var(--accent);box-shadow:0 0 0 2px var(--glow);transform:translateY(-2px)}.slot.block{border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}.slot.missed{border-color:color-mix(in srgb,var(--bad) 55%,var(--line));background:color-mix(in srgb,var(--bad) 7%,var(--panel2))}
+.epochBar{height:12px;border-radius:999px;background:var(--line);overflow:hidden}.epochBar>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:.25s}
+.clock{width:180px;height:180px;margin:4px auto 10px;border-radius:50%;border:1px solid var(--line);background:radial-gradient(circle,color-mix(in srgb,var(--accent) 12%,var(--panel2)),var(--panel2) 66%);position:relative;display:grid;place-items:center;box-shadow:inset 0 0 40px var(--glow)}
+.clock:before{content:"";position:absolute;inset:12px;border-radius:50%;border:1px dashed var(--line)}
+.hand{position:absolute;left:50%;top:50%;width:3px;height:64px;background:linear-gradient(var(--accent),var(--cyan));transform-origin:50% 100%;transform:translate(-50%,-100%) rotate(0deg);border-radius:99px;transition:.35s}
+.clockCenter{text-align:center;z-index:2}.clockCenter b{display:block;font-size:1.4rem}.clockCenter small{color:var(--muted)}
+.network{position:relative;min-height:365px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 48%,rgba(98,126,234,.12),transparent 24%),radial-gradient(circle at 50% 50%,rgba(139,92,246,.08),transparent 50%),var(--panel2)}
+.validatorCloud{position:absolute;inset:20px;display:grid;grid-template-columns:repeat(12,1fr);gap:7px;align-content:center}
+.val{aspect-ratio:1;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--accent) 15%,var(--panel));min-width:8px;transition:.25s}.val.committee{border-color:var(--cyan);background:color-mix(in srgb,var(--cyan) 28%,var(--panel));box-shadow:0 0 12px color-mix(in srgb,var(--cyan) 30%,transparent)}.val.attest{background:var(--ok);border-color:var(--ok)}.val.offline{background:var(--bad);border-color:var(--bad);opacity:.72}.val.proposer{background:var(--gold);border-color:var(--gold);box-shadow:0 0 18px color-mix(in srgb,var(--gold) 45%,transparent);transform:scale(1.35)}
+.centerNode{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:116px;height:116px;border-radius:30px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 72%,#111),color-mix(in srgb,var(--accent2) 75%,#111));color:#fff;border:1px solid color-mix(in srgb,#fff 28%,transparent);display:grid;place-items:center;text-align:center;z-index:4;box-shadow:0 0 42px var(--glow)}.centerNode .diamond{font-size:2.15rem}.centerNode small{display:block;opacity:.78}
+.attBar{height:18px;border-radius:999px;background:var(--line);overflow:hidden;position:relative}.attFill{height:100%;background:linear-gradient(90deg,var(--bad),var(--warn),var(--ok));transition:.35s}.threshold{position:absolute;left:66.666%;top:0;bottom:0;width:2px;background:var(--text);opacity:.8}.attLabels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:5px}
+.proposerCard{border:1px solid color-mix(in srgb,var(--gold) 50%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 10%,var(--panel2)),var(--panel2));border-radius:18px;padding:15px;text-align:center}.proposerAvatar{width:68px;height:68px;border-radius:20px;margin:auto;display:grid;place-items:center;background:linear-gradient(145deg,var(--gold),#d97706);color:#fff;font-size:1.5rem;font-weight:900;box-shadow:0 0 30px color-mix(in srgb,var(--gold) 25%,transparent)}.proposerCard .id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;font-weight:900;margin-top:8px}
+.eventFeed{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:auto}.event{display:grid;grid-template-columns:84px 1fr;gap:10px;border-left:3px solid var(--line);padding:8px 10px;background:var(--panel2);border-radius:0 10px 10px 0}.event.ok{border-left-color:var(--ok)}.event.warn{border-left-color:var(--warn)}.event.bad{border-left-color:var(--bad)}
+.scoreGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.score{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:10px}.score b{display:block;font-size:1.1rem}.score small{color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.step{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:9px;opacity:.55}.step.active{opacity:1;border-color:var(--accent)}.step.done{opacity:.9;border-color:var(--ok)}.step .n{font-size:.68rem;color:var(--muted);font-weight:900}.step b{display:block;font-size:.82rem}.explain{margin-top:10px;border-left:4px solid var(--cyan);background:var(--panel2);border-radius:11px;padding:13px}.explain h3{margin:0 0 4px;font-size:1rem}
+.references{font-size:.83rem;color:var(--muted)}.references a{word-break:break-all}
+.footer{max-width:1500px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.82rem}
+@media(max-width:1120px){.hero{grid-template-columns:1fr}.span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9{grid-column:1/-1}.controls{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr 1fr}.brand small{display:none}}
+@media(max-width:720px){.topbar{align-items:flex-start}.actions .btn{padding:8px 9px}.controls,.kpis,.scoreGrid,.steps{grid-template-columns:1fr}.epochGrid{grid-template-columns:repeat(4,1fr)}.validatorCloud{grid-template-columns:repeat(8,1fr)}.sliderPair{grid-template-columns:1fr 76px}.network{min-height:430px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="topbar">
+    <div class="brand">
+      <div class="ethMark">Ξ</div>
+      <div><strong>07 · Ethereum Proof-of-Stake Lab</strong><small>validators · proposer · slots · attestations · epochs · participación</small></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="themeBtn">☀ Tema claro</button>
+      <button class="btn primary" id="autoBtn">▶ Ejecución automática</button>
+      <button class="btn cyan" id="slotBtn">⏱ Ejecutar slot</button>
+      <button class="btn gold" id="epochBtn">⏩ Completar epoch</button>
+      <button class="btn" id="resetBtn">↻ Reiniciar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="card">
+      <div class="eyebrow">Laboratorio interactivo Ethereum · Proof of Stake</div>
+      <h1>Del reloj de slots al voto de los validators</h1>
+      <p class="lead">Simulá un conjunto de validators, la selección de un <strong>block proposer</strong>, comités de atestación, slots de <strong>12 segundos</strong> y epochs de <strong>32 slots</strong>. Observá cómo la participación modifica el peso de las attestations y cómo los slots perdidos afectan el ritmo de la cadena.</p>
+    </div>
+    <div class="card">
+      <div class="goal"><b>Objetivo de aprendizaje</b>Comprender la coordinación temporal de Ethereum PoS: un proposer por slot crea un bloque cuando está disponible, mientras validators asignados emiten attestations sobre su visión de la cadena.</div>
+      <div class="statusline" style="margin-top:14px"><span class="dot" id="statusDot"></span><span id="statusText">Preparado</span></div>
+      <div class="callout" style="margin-top:12px"><b>Parámetros protocolarios:</b> 12 s por slot · 32 slots por epoch · 6,4 min por epoch. Cada validator activo atesta una vez por epoch, distribuido entre slots/comités.</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Parámetros de la red simulada</h2><span class="pill">no consulta mainnet</span></div>
+      <div class="panelBody">
+        <div class="controls">
+          <div>
+            <label>Validators activos</label>
+            <select id="validatorCount">
+              <option value="320">320</option>
+              <option value="3200" selected>3.200</option>
+              <option value="32000">32.000</option>
+              <option value="320000">320.000</option>
+              <option value="1000000">1.000.000</option>
+            </select>
+          </div>
+          <div>
+            <label>Participación de attestations</label>
+            <div class="sliderPair"><input id="participation" type="range" min="50" max="100" step="1" value="96"><input id="participationN" type="number" min="0" max="100" value="96"></div>
+          </div>
+          <div>
+            <label>Probabilidad proposer offline</label>
+            <div class="sliderPair"><input id="offlineRate" type="range" min="0" max="30" step="1" value="3"><input id="offlineRateN" type="number" min="0" max="100" value="3"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn" data-preset="healthy">✅ Red saludable</button>
+          <button class="btn" data-preset="degraded">⚠ Participación baja</button>
+          <button class="btn" data-preset="missed">🚫 Proposer inestable</button>
+        </div>
+        <div class="callout warn" style="margin-top:12px"><b>Simplificación explícita:</b> para visualizar el concepto, el laboratorio distribuye aproximadamente N/32 validators por slot como grupo de atestación. Ethereum real puede organizar múltiples committees por slot; el objetivo aquí es enseñar roles, tiempo y participación, no reproducir toda la asignación de committees.</div>
+      </div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Reloj de consenso</h2><span class="pill" id="timePill">0 s</span></div>
+      <div class="panelBody">
+        <div class="clock">
+          <div class="hand" id="clockHand"></div>
+          <div class="clockCenter"><b id="clockSlot">Slot 0</b><small id="clockEpoch">Epoch 0</small></div>
+        </div>
+        <div class="epochBar"><div id="epochProgress" style="width:0"></div></div>
+        <div class="attLabels"><span>inicio epoch</span><span id="epochSlotLabel">0 / 32</span><span>checkpoint</span></div>
+      </div>
+    </section>
+
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Validator set — muestra visual</h2><span class="pill">96 nodos representativos</span></div>
+      <div class="panelBody">
+        <div class="network">
+          <div class="validatorCloud" id="validatorCloud"></div>
+          <div class="centerNode"><div><div class="diamond">◇</div><b>Beacon</b><small>consensus view</small></div></div>
+        </div>
+        <div class="attBar" style="margin-top:12px"><div class="attFill" id="attFill" style="width:0"></div><div class="threshold"></div></div>
+        <div class="attLabels"><span>0%</span><span>⅔ supermajority</span><span>100%</span></div>
+      </div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Proposer del slot</h2><span class="pill">1 seleccionado</span></div>
+      <div class="panelBody">
+        <div class="proposerCard">
+          <div class="proposerAvatar">P</div>
+          <div class="id" id="proposerId">validator #—</div>
+          <div class="statusline" style="justify-content:center;margin-top:8px"><span class="dot" id="proposerDot"></span><span id="proposerStatus">esperando slot</span></div>
+        </div>
+        <div class="scoreGrid" style="margin-top:10px">
+          <div class="score"><b id="blocksKpi">0</b><small>bloques propuestos</small></div>
+          <div class="score"><b id="missedKpi">0</b><small>slots perdidos</small></div>
+          <div class="score"><b id="scoreKpi">0</b><small>score pedagógico</small></div>
+        </div>
+        <div class="callout" style="margin-top:10px"><b>Score:</b> indicador didáctico, no una recompensa ETH real. Sirve para visualizar incentivos sin simular la fórmula completa de rewards.</div>
+      </div>
+    </section>
+
+    <section class="panel span-12">
+      <div class="panelHead"><h2>Epoch actual — 32 slots</h2><span class="pill" id="epochPill">Epoch 0</span></div>
+      <div class="panelBody"><div class="epochGrid" id="epochGrid"></div></div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Attestations del slot</h2><span class="pill" id="committeePill">committee —</span></div>
+      <div class="panelBody">
+        <div class="kpis">
+          <div class="kpi"><b id="scheduledKpi">—</b><small>validators asignados</small></div>
+          <div class="kpi"><b id="attestedKpi">—</b><small>attestations</small></div>
+          <div class="kpi"><b id="participationKpi">—</b><small>participación</small></div>
+          <div class="kpi"><b id="epochAttKpi">0</b><small>attestations epoch</small></div>
+          <div class="kpi"><b id="epochPartKpi">—</b><small>participación epoch</small></div>
+        </div>
+        <div class="callout" id="supermajorityBox" style="margin-top:12px"><b>Supermajority:</b> ejecutá un slot para observar el umbral.</div>
+      </div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Flujo del slot</h2><span class="pill" id="stepPill">Paso 1</span></div>
+      <div class="panelBody">
+        <div class="steps" id="steps"></div>
+        <div class="explain" id="stepExplain"></div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Actividad de consenso</h2><span class="pill">event feed</span></div>
+      <div class="panelBody"><div class="eventFeed" id="eventFeed"></div></div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Resumen del epoch</h2><span class="pill">checkpoint</span></div>
+      <div class="panelBody">
+        <div class="scoreGrid">
+          <div class="score"><b id="epochBlocks">0</b><small>slots con bloque</small></div>
+          <div class="score"><b id="epochMissed">0</b><small>slots sin bloque</small></div>
+          <div class="score"><b id="epochVotes">0</b><small>votes acumulados</small></div>
+        </div>
+        <div class="callout" id="checkpointBox" style="margin-top:10px"><b>Checkpoint:</b> el epoch aún no terminó.</div>
+        <div class="callout warn" style="margin-top:8px"><b>Importante:</b> superar ⅔ de participación es una condición relevante para la lógica de justificación/finalidad, pero este laboratorio no implementa Casper FFG ni LMD-GHOST. Eso corresponde a la Simulación 08.</div>
+      </div>
+    </section>
+
+    <section class="panel span-12">
+      <div class="panelHead"><h2>Referencias y precisión técnica</h2><span class="pill">Ethereum.org</span></div>
+      <div class="panelBody references">
+        <p>Ethereum organiza el tiempo PoS en slots de 12 segundos y epochs de 32 slots. En cada slot se selecciona un proposer, y validators asignados a committees emiten attestations. Cada validator activo atesta una vez por epoch. El depósito base para activar un validator continúa documentado como 32 ETH.</p>
+        <p>
+          <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener">Proof-of-Stake</a> ·
+          <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/attestations/" target="_blank" rel="noopener">Attestations</a> ·
+          <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/block-proposal/" target="_blank" rel="noopener">Block proposal</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong> Laboratorio educativo. No consulta validators reales ni transmite datos a Ethereum.</footer>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  let epoch=0,slotInEpoch=0,absoluteSlot=0,timer=null,seed=123456789;
+  let blocks=0,missed=0,score=0,epochBlocks=0,epochMissed=0,epochScheduled=0,epochAttested=0;
+  let slotResults=Array(32).fill(null),step=0;
+  const stepDefs=[
+    {t:'1. Tick',x:'El reloj de consenso avanza un slot de 12 segundos. Cada slot es una oportunidad de producir un bloque.'},
+    {t:'2. Proposer',x:'Un validator es seleccionado pseudoaleatoriamente para proponer el bloque de ese slot.'},
+    {t:'3. Block',x:'Si el proposer está online, publica un bloque. Si falla, el slot puede quedar sin un nuevo bloque; la cadena continúa en el slot siguiente.'},
+    {t:'4. Committee',x:'Un subconjunto de validators está asignado a atestar en ese slot. En conjunto, todos los validators activos están distribuidos a lo largo del epoch.'},
+    {t:'5. Attest',x:'Los validators participantes emiten attestations sobre su visión de la cabeza de la cadena y checkpoints de finality.'},
+    {t:'6. Aggregate',x:'Las firmas BLS pueden agregarse, reduciendo el costo de transportar y procesar muchos votos individuales.'},
+    {t:'7. Epoch',x:'Las attestations se acumulan durante 32 slots. El porcentaje de participación permite observar si se alcanza una supermayoría de ⅔.'},
+    {t:'8. Checkpoint',x:'Al cerrar el epoch aparece un checkpoint. La lógica completa de justificación/finalidad se estudia en el laboratorio siguiente.'}
+  ];
+
+  function rand(){
+    seed=(1664525*seed+1013904223)>>>0;
+    return seed/4294967296;
+  }
+  function randint(n){return Math.floor(rand()*n)}
+  function fmt(n,d=1){return Number(n).toFixed(d).replace(/\.0$/,'')}
+  function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem('ethlab-theme',t);$('themeBtn').textContent=t==='dark'?'☀ Tema claro':'🌙 Tema oscuro'}
+  function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')}
+  function setStatus(t,type=''){ $('statusText').textContent=t;$('statusDot').className='dot'+(type?' '+type:'') }
+  function addEvent(label,text,type=''){
+    const d=document.createElement('div');d.className='event '+type;d.innerHTML=`<b>${label}</b><span>${text}</span>`;
+    $('eventFeed').prepend(d)
+  }
+  function params(){
+    return {
+      validators:Number($('validatorCount').value),
+      participation:Math.max(0,Math.min(100,Number($('participation').value))),
+      offline:Math.max(0,Math.min(100,Number($('offlineRate').value)))
+    }
+  }
+  function renderValidators(proposerVisual=-1,committeeSet=new Set(),attestSet=new Set(),offlineSet=new Set()){
+    const c=$('validatorCloud');c.innerHTML='';
+    for(let i=0;i<96;i++){
+      const d=document.createElement('div');d.className='val';
+      if(committeeSet.has(i))d.classList.add('committee');
+      if(attestSet.has(i))d.classList.add('attest');
+      if(offlineSet.has(i))d.classList.add('offline');
+      if(i===proposerVisual)d.classList.add('proposer');
+      d.title=`Validator representativo #${i+1}`;
+      c.appendChild(d)
+    }
+  }
+  function renderEpoch(){
+    const g=$('epochGrid');g.innerHTML='';
+    for(let i=0;i<32;i++){
+      const r=slotResults[i],d=document.createElement('div');
+      d.className='slot'+(i===slotInEpoch?' current':'')+(r?.block?' block':'')+(r&&!r.block?' missed':'');
+      d.innerHTML=`<div class="n">SLOT ${i}</div><div class="ico">${r?(r.block?'🧱':'∅'):'·'}</div><small>${r?fmt(r.participation,0)+'%':'—'}</small>`;
+      g.appendChild(d)
+    }
+    $('epochPill').textContent=`Epoch ${epoch}`;
+    $('epochProgress').style.width=(slotInEpoch/32*100)+'%';
+    $('epochSlotLabel').textContent=`${slotInEpoch} / 32`;
+  }
+  function renderSteps(){
+    $('steps').innerHTML=stepDefs.map((s,i)=>`<div class="step ${i===step?'active':''} ${i<step?'done':''}"><span class="n">PASO ${i+1}</span><b>${s.t.replace(/^\d+\.\s*/,'')}</b></div>`).join('');
+    $('stepPill').textContent=`Paso ${step+1}`;
+    $('stepExplain').innerHTML=`<h3>${stepDefs[step].t}</h3><div>${stepDefs[step].x}</div>`;
+  }
+  function updateClock(){
+    $('clockSlot').textContent=`Slot ${absoluteSlot}`;
+    $('clockEpoch').textContent=`Epoch ${epoch}`;
+    $('timePill').textContent=`${absoluteSlot*12} s protocolo`;
+    $('clockHand').style.transform=`translate(-50%,-100%) rotate(${(slotInEpoch/32)*360}deg)`;
+  }
+  function updateSummary(){
+    const p=epochScheduled?epochAttested/epochScheduled*100:0;
+    $('blocksKpi').textContent=blocks;$('missedKpi').textContent=missed;$('scoreKpi').textContent=score;
+    $('epochBlocks').textContent=epochBlocks;$('epochMissed').textContent=epochMissed;$('epochVotes').textContent=epochAttested.toLocaleString('es-AR');
+    $('epochAttKpi').textContent=epochAttested.toLocaleString('es-AR');$('epochPartKpi').textContent=epochScheduled?fmt(p,1)+'%':'—';
+  }
+  function sampleVisual(participation, proposerVisual){
+    const committee=new Set(),attest=new Set(),offline=new Set();
+    // 24 representative validators highlighted as this slot's committee sample.
+    const candidates=[...Array(96).keys()];
+    for(let i=0;i<24;i++){
+      const j=i+randint(96-i);[candidates[i],candidates[j]]=[candidates[j],candidates[i]];
+      committee.add(candidates[i]);
+    }
+    committee.forEach(v=>{if(rand()*100<participation)attest.add(v);else offline.add(v)});
+    renderValidators(proposerVisual,committee,attest,offline)
+  }
+  function executeSlot(){
+    const p=params();
+    const proposerId=randint(p.validators);
+    const proposerOnline=rand()*100>=p.offline;
+    const scheduled=Math.max(1,Math.round(p.validators/32));
+    const stochastic=Math.max(0,Math.min(100,p.participation+(rand()-.5)*4));
+    const attested=Math.round(scheduled*stochastic/100);
+    const actualPart=attested/scheduled*100;
+    const proposerVisual=proposerId%96;
+
+    step=1;renderSteps();
+    $('proposerId').textContent=`validator #${proposerId.toLocaleString('es-AR')}`;
+    $('proposerStatus').textContent=proposerOnline?'online · bloque propuesto':'offline · slot sin bloque';
+    $('proposerDot').className='dot '+(proposerOnline?'ok':'bad');
+    addEvent(`Slot ${absoluteSlot}`,`Proposer #${proposerId.toLocaleString('es-AR')} seleccionado.`,'warn');
+
+    if(proposerOnline){
+      blocks++;epochBlocks++;score+=8;
+      addEvent('Block','Bloque publicado y propagado.','ok');
+    }else{
+      missed++;epochMissed++;score-=2;
+      addEvent('Missed','El proposer no publicó un bloque en este slot.','bad');
+    }
+
+    epochScheduled+=scheduled;epochAttested+=attested;
+    score+=Math.round(actualPart/10);
+
+    $('scheduledKpi').textContent=scheduled.toLocaleString('es-AR');
+    $('attestedKpi').textContent=attested.toLocaleString('es-AR');
+    $('participationKpi').textContent=fmt(actualPart,1)+'%';
+    $('committeePill').textContent=`≈ ${scheduled.toLocaleString('es-AR')} asignados`;
+    $('attFill').style.width=Math.max(0,Math.min(100,actualPart))+'%';
+
+    const sm=actualPart>=66.666;
+    $('supermajorityBox').className='callout '+(sm?'ok':'bad');
+    $('supermajorityBox').innerHTML=sm
+      ?`<b>Supermajority del slot:</b> ${fmt(actualPart,1)}% supera ⅔. Es un buen nivel de participación para alimentar fork choice/finality.`
+      :`<b>Participación insuficiente:</b> ${fmt(actualPart,1)}% está por debajo de ⅔. El consenso puede seguir produciendo slots, pero la finality puede verse afectada.`;
+
+    sampleVisual(actualPart,proposerVisual);
+    slotResults[slotInEpoch]={block:proposerOnline,participation:actualPart,proposer:proposerId,attested,scheduled};
+    addEvent('Attest',`${attested.toLocaleString('es-AR')} / ${scheduled.toLocaleString('es-AR')} validators asignados atestaron (${fmt(actualPart,1)}%).`,sm?'ok':'bad');
+
+    step=6;renderSteps();
+    absoluteSlot++;slotInEpoch++;
+    updateSummary();updateClock();renderEpoch();
+    setStatus(proposerOnline?'Slot ejecutado':'Slot perdido; cadena continúa',proposerOnline?'ok':'warn');
+
+    if(slotInEpoch>=32)closeEpoch();
+  }
+  function closeEpoch(){
+    const part=epochScheduled?epochAttested/epochScheduled*100:0;
+    step=7;renderSteps();
+    $('checkpointBox').className='callout '+(part>=66.666?'ok':'bad');
+    $('checkpointBox').innerHTML=part>=66.666
+      ?`<b>Checkpoint epoch ${epoch}:</b> participación agregada ${fmt(part,2)}%. Se alcanzó el umbral de ⅔ que es relevante para justificar/finalizar checkpoints en la lógica completa de Casper FFG.`
+      :`<b>Checkpoint epoch ${epoch}:</b> participación agregada ${fmt(part,2)}%. No alcanzó ⅔; este epoch no ofrece la supermayoría necesaria para avanzar normalmente la finality.`;
+    addEvent('Epoch',`Epoch ${epoch} completado · ${epochBlocks} bloques · ${epochMissed} slots perdidos · participación ${fmt(part,1)}%.`,part>=66.666?'ok':'bad');
+
+    epoch++;
+    slotInEpoch=0;epochBlocks=0;epochMissed=0;epochScheduled=0;epochAttested=0;slotResults=Array(32).fill(null);
+    $('epochPill').textContent=`Epoch ${epoch}`;updateClock();updateSummary();
+    // Keep previous checkpoint message while visually opening next epoch.
+    setTimeout(()=>renderEpoch(),250);
+  }
+  function completeEpoch(){
+    let remaining=32-slotInEpoch;
+    if(remaining<=0)remaining=32;
+    const oldAuto=timer;
+    if(oldAuto)return;
+    let n=0;
+    timer=setInterval(()=>{
+      executeSlot();n++;
+      if(n>=remaining){clearInterval(timer);timer=null;$('autoBtn').textContent='▶ Ejecución automática'}
+    },220)
+  }
+  function auto(){
+    if(timer){clearInterval(timer);timer=null;$('autoBtn').textContent='▶ Ejecución automática';setStatus('Pausado','warn');return}
+    $('autoBtn').textContent='⏸ Pausar';setStatus('Simulación automática','ok');
+    timer=setInterval(executeSlot,850)
+  }
+  function preset(name){
+    const p={
+      healthy:{participation:97,offline:2},
+      degraded:{participation:61,offline:5},
+      missed:{participation:91,offline:22}
+    }[name];
+    $('participation').value=p.participation;$('participationN').value=p.participation;
+    $('offlineRate').value=p.offline;$('offlineRateN').value=p.offline;
+    setStatus(`Escenario: ${name}`,'warn')
+  }
+  function reset(){
+    if(timer){clearInterval(timer);timer=null}
+    $('autoBtn').textContent='▶ Ejecución automática';
+    epoch=0;slotInEpoch=0;absoluteSlot=0;seed=123456789;blocks=0;missed=0;score=0;epochBlocks=0;epochMissed=0;epochScheduled=0;epochAttested=0;slotResults=Array(32).fill(null);step=0;
+    $('eventFeed').innerHTML='';$('proposerId').textContent='validator #—';$('proposerStatus').textContent='esperando slot';$('proposerDot').className='dot';
+    $('scheduledKpi').textContent='—';$('attestedKpi').textContent='—';$('participationKpi').textContent='—';$('attFill').style.width='0';
+    $('supermajorityBox').className='callout';$('supermajorityBox').innerHTML='<b>Supermajority:</b> ejecutá un slot para observar el umbral.';
+    $('checkpointBox').className='callout';$('checkpointBox').innerHTML='<b>Checkpoint:</b> el epoch aún no terminó.';
+    renderValidators();renderEpoch();renderSteps();updateClock();updateSummary();setStatus('Preparado','ok');
+    addEvent('Inicio','Validator set inicializado. Ejecutá un slot o activá el modo automático.','ok')
+  }
+  function bindPair(rangeId,numId){
+    $(rangeId).addEventListener('input',()=>{$(numId).value=$(rangeId).value});
+    $(numId).addEventListener('input',()=>{
+      let v=Math.max(Number($(numId).min),Math.min(Number($(numId).max),Number($(numId).value)||0));
+      $(numId).value=v;$(rangeId).value=v
+    })
+  }
+  bindPair('participation','participationN');bindPair('offlineRate','offlineRateN');
+  document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>preset(b.dataset.preset));
+  $('themeBtn').onclick=toggleTheme;$('autoBtn').onclick=auto;$('slotBtn').onclick=executeSlot;$('epochBtn').onclick=completeEpoch;$('resetBtn').onclick=reset;
+  const saved=localStorage.getItem('ethlab-theme');setTheme(saved||'dark');reset();
+})();
+</script>
+<script src="../assets/resource-shell.js"></script></body>
+</html>

@@ -1,0 +1,31 @@
+name: CI sitio estático
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validar campus, manifests y enlaces internos
+        run: node scripts/validate-static-site.mjs
+      - name: Validar U0
+        run: node validate.mjs
+        working-directory: unidades/u00-clase-inicial-blockchain-negocios
+      - name: Validar U1
+        run: node validate.mjs
+        working-directory: unidades/u01-fundamentos-smart-contracts
+      - name: Validar U1 · visor e interacciones
+        run: |
+          node verify-viewer.cjs
+          node verify-interactions.cjs
+        working-directory: unidades/u01-fundamentos-smart-contracts

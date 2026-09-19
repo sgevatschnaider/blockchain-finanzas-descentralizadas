@@ -1,0 +1,38 @@
+[
+  {
+    "id":"ethereum-01","order":1,"title":"De Blockchain a la Computadora Mundial","subtitle":"Arquitectura, estado, cuentas, transacciones y visión del protocolo","description":"Marco general para entender Ethereum como infraestructura de ejecución, liquidación y coordinación económica.","slides":37,
+    "pdf":"pdf/Ethereum_PPT1_Computadora_Mundial_Sergio_Gevatschnaider.pdf","pptx":"pptx/Ethereum_PPT1_Computadora_Mundial_Sergio_Gevatschnaider.pptx","thumbnail":"thumbs/ethereum-1.webp",
+    "googleSlides":"https://docs.google.com/presentation/d/1wZB_PCmOcQVPds9wddoXZvAr71vVzy8b3NSGa3Uobzo/edit?usp=drivesdk","googleEmbed":null,"googlePublic":false,"googleAccess":"restricted",
+    "relatedLabs":[{"number":1,"title":"Cuenta, clave y dirección","file":"01-cuenta-clave-direccion.html"},{"number":4,"title":"Ethereum State Machine","file":"04-state-machine.html"}]
+  },
+  {
+    "id":"ethereum-02","order":2,"title":"Cuentas, Transacciones, EVM y Gas","subtitle":"De la firma criptográfica a la ejecución determinística","description":"Cuentas EOA y contratos, anatomía de transacciones, ciclo de vida, EVM, gas y EIP-1559.","slides":25,
+    "pdf":"pdf/Ethereum_PPT2_Cuentas_Transacciones_EVM_Gas_Sergio_Gevatschnaider.pdf","pptx":"pptx/Ethereum_PPT2_Cuentas_Transacciones_EVM_Gas_Sergio_Gevatschnaider.pptx","thumbnail":"thumbs/ethereum-2.webp",
+    "googleSlides":"https://docs.google.com/presentation/d/12i-gm20QqGM4Vrz7aO8hShhAhZ0XLukDfvV1m2cSneM/edit?usp=drivesdk","googleEmbed":null,"googlePublic":false,"googleAccess":"restricted",
+    "relatedLabs":[{"number":2,"title":"Anatomía de una transacción","file":"02-anatomia-transaccion.html"},{"number":3,"title":"EIP-1559 Gas Lab","file":"03-eip1559-gas-lab.html"},{"number":5,"title":"EVM Interactive Lab","file":"05-evm-interactive.html"}]
+  },
+  {
+    "id":"ethereum-03","order":3,"title":"Proof of Stake y Consenso","subtitle":"Validadores, slots, epochs, attestations, finality y seguridad económica","description":"La coordinación de Ethereum después de The Merge, desde la propuesta de bloques hasta LMD-GHOST y Casper FFG.","slides":16,
+    "pdf":"pdf/Ethereum_PPT3_Proof_of_Stake_Consenso_Sergio_Gevatschnaider.pdf","pptx":"pptx/Ethereum_PPT3_Proof_of_Stake_Consenso_Sergio_Gevatschnaider.pptx","thumbnail":"thumbs/ethereum-3.webp",
+    "googleSlides":"https://docs.google.com/presentation/d/1mULbDt8-n_CEE2Is_qUFOMYJKL7efB-qMoaKDR1Y-H8/edit?usp=drivesdk","googleEmbed":null,"googlePublic":false,"googleAccess":"restricted",
+    "relatedLabs":[{"number":7,"title":"Proof of Stake","file":"07-proof-of-stake.html"},{"number":8,"title":"Finality y Fork Choice","file":"08-finality-fork-choice.html"},{"number":9,"title":"Slashing y economía del validador","file":"09-slashing-validator-economics.html"}]
+  },
+  {
+    "id":"ethereum-04","order":4,"title":"Smart Contracts, Tokens y Aplicaciones","subtitle":"Reglas, activos digitales y coordinación programable","description":"Ciclo de vida de contratos, Solidity, ERC-20, ERC-721, composabilidad, oráculos y seguridad.","slides":18,
+    "pdf":"pdf/Ethereum_PPT4_Smart_Contracts_Tokens_Aplicaciones_Sergio_Gevatschnaider.pdf","pptx":"pptx/Ethereum_PPT4_Smart_Contracts_Tokens_Aplicaciones_Sergio_Gevatschnaider.pptx","thumbnail":"thumbs/ethereum-4.webp",
+    "googleSlides":"https://docs.google.com/presentation/d/1rZO46aphV0-_eDpifiCTueKbS76-Cw2qaJBVQlkcIYE/edit?usp=drivesdk","googleEmbed":null,"googlePublic":false,"googleAccess":"restricted",
+    "relatedLabs":[{"number":6,"title":"Smart Contract Lifecycle","file":"06-smart-contract-lifecycle.html"},{"number":10,"title":"ERC-20 y ERC-721","file":"10-erc20-erc721-token-lab.html"}]
+  },
+  {
+    "id":"ethereum-05","order":5,"title":"Escalabilidad, L2, Rollups, Blobs y Data Availability","subtitle":"La hoja de ruta rollup-centric","description":"Optimistic y ZK rollups, secuenciadores, blobs, disponibilidad de datos, bridges y modelos de costo.","slides":20,
+    "pdf":"pdf/Ethereum_PPT5_Escalabilidad_L2_Rollups_Blobs_Data_Availability_Sergio_Gevatschnaider.pdf","pptx":"pptx/Ethereum_PPT5_Escalabilidad_L2_Rollups_Blobs_Data_Availability_Sergio_Gevatschnaider.pptx","thumbnail":"thumbs/ethereum-5.webp",
+    "googleSlides":"https://docs.google.com/presentation/d/1ou7n1pkUra5QCxnd9T282qMjJPGbUzP0lF9H-yGjDJQ/edit?usp=drivesdk","googleEmbed":null,"googlePublic":false,"googleAccess":"restricted",
+    "relatedLabs":[{"number":11,"title":"L1 vs L2 y costos de rollups","file":"11-l1-l2-rollup-cost-lab.html"}]
+  },
+  {
+    "id":"ethereum-06","order":6,"title":"Economía, Seguridad, MEV y Roadmap","subtitle":"Ethereum como sistema económico y protocolo evolutivo","description":"Emisión, burn, staking, seguridad económica, cadena de suministro del bloque, PBS, MEV y roadmap.","slides":20,
+    "pdf":"pdf/Ethereum_PPT6_Economia_Seguridad_MEV_Roadmap_Sergio_Gevatschnaider.pdf","pptx":"pptx/Ethereum_PPT6_Economia_Seguridad_MEV_Roadmap_Sergio_Gevatschnaider.pptx","thumbnail":"thumbs/ethereum-6.webp",
+    "googleSlides":"https://docs.google.com/presentation/d/19WIqkE6jBTIgyi87jJ3iM1gyFSshhcqpKgp520gRgKE/edit?usp=drivesdk","googleEmbed":null,"googlePublic":false,"googleAccess":"restricted",
+    "relatedLabs":[{"number":9,"title":"Slashing y economía del validador","file":"09-slashing-validator-economics.html"},{"number":12,"title":"MEV y construcción de bloques","file":"12-mev-block-building.html"}]
+  }
+]

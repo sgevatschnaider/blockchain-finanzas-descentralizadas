@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="dark light" />
+<meta name="description" content="Ethereum Lab 03: EIP-1559 Gas Lab — base fee, priority fee, gas used, ETH/USD, burn, validator tip y costo final." />
+<title>Ethereum Lab 03 · EIP-1559 Gas Lab</title>
+<style>
+:root{
+  --bg:#f4f7fb;--bg2:#e9eef7;--panel:#fff;--panel2:#f7f9fc;--text:#172033;--muted:#68768a;
+  --line:#d7e0ec;--accent:#627eea;--accent2:#8b5cf6;--cyan:#0891b2;--ok:#059669;--warn:#b7791f;
+  --bad:#dc2626;--gold:#be8a18;--burn:#ea580c;--shadow:0 16px 44px rgba(20,34,70,.11);--glow:rgba(98,126,234,.18);
+}
+html[data-theme="dark"]{
+  --bg:#070b14;--bg2:#0b1220;--panel:#101827;--panel2:#0d1522;--text:#edf2ff;--muted:#9ba9bf;
+  --line:#26344d;--accent:#8ea2ff;--accent2:#b58cff;--cyan:#22d3ee;--ok:#34d399;--warn:#fbbf24;
+  --bad:#fb7185;--gold:#f5c35b;--burn:#fb923c;--shadow:0 20px 58px rgba(0,0,0,.34);--glow:rgba(142,162,255,.2);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);line-height:1.5;
+  background:
+    radial-gradient(900px 480px at 93% -8%,rgba(139,92,246,.18),transparent 60%),
+    radial-gradient(760px 440px at -8% 8%,rgba(34,211,238,.12),transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 55%,var(--bg));
+}
+button,input,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}
+.header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.topbar{max-width:1460px;margin:auto;padding:12px 18px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}.ethMark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;font-weight:900;font-size:1.3rem;box-shadow:0 0 30px var(--glow)}
+.brand strong{display:block}.brand small{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:650px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 12px;border-radius:12px;font-weight:800;transition:.18s}
+.btn:hover{transform:translateY(-1px);border-color:var(--accent)}.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.btn.cyan{background:color-mix(in srgb,var(--cyan) 16%,var(--panel));border-color:color-mix(in srgb,var(--cyan) 50%,var(--line))}
+.btn.gold{background:color-mix(in srgb,var(--gold) 14%,var(--panel));border-color:color-mix(in srgb,var(--gold) 48%,var(--line))}
+main{max-width:1460px;margin:auto;padding:24px 18px 60px}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-bottom:18px}
+.card,.panel{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),var(--panel));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.card{padding:24px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-150px;background:radial-gradient(circle,var(--glow),transparent 68%)}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:900}h1{font-size:clamp(2rem,4vw,3.35rem);line-height:1.02;margin:.25rem 0 .8rem}.lead{font-size:1.08rem;color:var(--muted);max-width:900px}
+.goal{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:15px}.goal b{display:block;margin-bottom:4px}
+.progress{height:9px;border-radius:999px;background:var(--line);overflow:hidden}.progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:.35s}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-3{grid-column:span 3}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-9{grid-column:span 9}.span-12{grid-column:1/-1}
+.panel{overflow:hidden}.panelHead{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.panelHead h2,.panelHead h3{margin:0;font-size:1rem}.panelBody{padding:16px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:.75rem;color:var(--muted);background:var(--panel2)}
+label{display:block;font-size:.79rem;color:var(--muted);font-weight:800;margin:9px 0 5px}input,select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px 11px}input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}input[type=range]{padding:0}
+.controlGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sliderRow{display:grid;grid-template-columns:1fr 78px;gap:8px;align-items:end}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:11px}.kpi b{display:block;font-size:1.06rem}.kpi small{color:var(--muted)}
+.bigKpi{border:1px solid color-mix(in srgb,var(--accent) 42%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 10%,var(--panel2)),color-mix(in srgb,var(--accent2) 9%,var(--panel2)));border-radius:18px;padding:15px}.bigKpi .n{font-size:1.8rem;font-weight:900;letter-spacing:-.02em}.bigKpi small{color:var(--muted)}
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--panel2);border-radius:12px;padding:12px}.callout.ok{border-left-color:var(--ok)}.callout.warn{border-left-color:var(--warn)}.callout.bad{border-left-color:var(--bad)}.callout.burn{border-left-color:var(--burn)}
+.formula{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow:auto;font-size:.82rem}
+.feeFlow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center}.feeBox{border:1px solid var(--line);border-radius:16px;background:var(--panel2);padding:13px;text-align:center;min-height:118px;display:grid;place-items:center}.feeBox b{font-size:1.05rem}.feeBox small{color:var(--muted)}.feeBox.burn{border-color:color-mix(in srgb,var(--burn) 55%,var(--line));box-shadow:inset 0 0 34px color-mix(in srgb,var(--burn) 8%,transparent)}.feeBox.tip{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));box-shadow:inset 0 0 34px color-mix(in srgb,var(--gold) 8%,transparent)}.arrow{font-size:1.3rem;color:var(--muted);font-weight:900}
+.meter{height:18px;border-radius:999px;background:var(--line);overflow:hidden;position:relative}.meterFill{height:100%;background:linear-gradient(90deg,var(--ok),var(--warn),var(--bad));transition:.3s}.meterTarget{position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--text);opacity:.7}.meterLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.chartWrap{height:300px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);overflow:hidden;position:relative}.chartWrap canvas{width:100%;height:100%;display:block}
+.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.76rem}.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+.scenarios{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.scenario{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:13px;padding:10px;text-align:left}.scenario b{display:block}.scenario small{color:var(--muted)}.scenario:hover{border-color:var(--accent)}
+.statusline{display:flex;align-items:center;gap:8px;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;background:var(--line)}.dot.ok{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 15%,transparent)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.step{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:9px;opacity:.55}.step.active{opacity:1;border-color:var(--accent)}.step.done{opacity:.9;border-color:var(--ok)}.step .n{font-size:.68rem;color:var(--muted);font-weight:900}.step b{display:block;font-size:.82rem}
+.explain{margin-top:12px;border-left:4px solid var(--cyan);background:var(--panel2);border-radius:11px;padding:13px}.explain h3{margin:0 0 4px;font-size:1rem}
+.blockSim{border:1px solid var(--line);border-radius:18px;background:
+ radial-gradient(circle at 20% 60%,rgba(34,211,238,.10),transparent 25%),
+ radial-gradient(circle at 75% 40%,rgba(139,92,246,.11),transparent 25%),var(--panel2);padding:16px;min-height:260px}
+.blockRow{display:flex;align-items:flex-end;gap:9px;height:165px}.blk{flex:1;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 24%,var(--panel)),color-mix(in srgb,var(--accent2) 12%,var(--panel)));border-radius:10px 10px 4px 4px;min-width:34px;transition:.35s;position:relative}.blk span{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-size:.65rem;font-weight:800;color:var(--muted)}
+.footer{max-width:1460px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.82rem}
+@media(max-width:1080px){.hero{grid-template-columns:1fr}.span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9{grid-column:1/-1}.controlGrid{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.scenarios{grid-template-columns:1fr 1fr}.brand small{display:none}}
+@media(max-width:690px){.topbar{align-items:flex-start}.actions .btn{padding:8px 9px}.controlGrid,.feeFlow{grid-template-columns:1fr}.feeFlow .arrow{transform:rotate(90deg);text-align:center}.scenarios,.stepper{grid-template-columns:1fr}.sliderRow{grid-template-columns:1fr 70px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="topbar">
+    <div class="brand">
+      <div class="ethMark">Ξ</div>
+      <div><strong>03 · EIP-1559 Gas Lab</strong><small>base fee · priority fee · max fee · gas used · burn · validator tip · ETH/USD</small></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="themeBtn">☀ Tema claro</button>
+      <button class="btn primary" id="autoBtn">▶ Ejecución automática</button>
+      <button class="btn cyan" id="nextBtn">⏭ Siguiente paso</button>
+      <button class="btn" id="resetBtn">↻ Reiniciar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="card">
+      <div class="eyebrow">Laboratorio interactivo Ethereum · EIP-1559</div>
+      <h1>¿Quién cobra, quién quema y cuánto paga realmente el usuario?</h1>
+      <p class="lead">Experimentá con <strong>base fee</strong>, <strong>priority fee</strong>, <strong>max fee</strong>, gas usado y precio de ETH. El laboratorio separa el costo económico entre <strong>ETH quemado</strong>, <strong>tip al validator</strong> y <strong>costo total efectivo</strong>, y muestra cómo la congestión empuja la base fee del bloque siguiente.</p>
+    </div>
+    <div class="card">
+      <div class="goal"><b>Objetivo de aprendizaje</b>Entender EIP-1559 como un mecanismo de precio dinámico: la base fee es protocolaria y se quema; la priority fee remunera la inclusión; maxFeePerGas fija el techo dispuesto a pagar por unidad de gas.</div>
+      <div class="progress" style="margin-top:14px"><div id="progressBar"></div></div>
+      <div class="statusline" style="margin-top:14px"><span class="dot" id="statusDot"></span><span id="statusText">Preparado</span></div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Panel de parámetros</h2><span class="pill">modelo didáctico EIP-1559</span></div>
+      <div class="panelBody">
+        <div class="controlGrid">
+          <div>
+            <label>Base fee actual (gwei)</label>
+            <div class="sliderRow"><input id="baseFee" type="range" min="1" max="200" step="1" value="30"><input id="baseFeeN" type="number" min="1" max="10000" step="1" value="30"></div>
+          </div>
+          <div>
+            <label>Max priority fee (gwei)</label>
+            <div class="sliderRow"><input id="priority" type="range" min="0" max="20" step=".1" value="2"><input id="priorityN" type="number" min="0" max="1000" step=".1" value="2"></div>
+          </div>
+          <div>
+            <label>Max fee per gas (gwei)</label>
+            <div class="sliderRow"><input id="maxFee" type="range" min="1" max="300" step="1" value="60"><input id="maxFeeN" type="number" min="1" max="10000" step="1" value="60"></div>
+          </div>
+          <div>
+            <label>Gas limit</label>
+            <div class="sliderRow"><input id="gasLimit" type="range" min="21000" max="500000" step="1000" value="21000"><input id="gasLimitN" type="number" min="21000" max="5000000" step="1000" value="21000"></div>
+          </div>
+          <div>
+            <label>Gas used</label>
+            <div class="sliderRow"><input id="gasUsed" type="range" min="21000" max="500000" step="1000" value="21000"><input id="gasUsedN" type="number" min="21000" max="5000000" step="1000" value="21000"></div>
+          </div>
+          <div>
+            <label>ETH/USD</label>
+            <div class="sliderRow"><input id="ethUsd" type="range" min="500" max="10000" step="50" value="3000"><input id="ethUsdN" type="number" min="1" max="100000" step="10" value="3000"></div>
+          </div>
+        </div>
+        <label>Utilización del bloque respecto del target</label>
+        <div class="sliderRow"><input id="utilization" type="range" min="0" max="200" step="1" value="100"><input id="utilizationN" type="number" min="0" max="200" step="1" value="100"></div>
+        <div class="meter" style="margin-top:10px"><div class="meterFill" id="utilFill"></div><div class="meterTarget"></div></div>
+        <div class="meterLabels"><span>0% target</span><span>100% target</span><span>200% target</span></div>
+      </div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Escenarios rápidos</h2><span class="pill">presets</span></div>
+      <div class="panelBody">
+        <div class="scenarios">
+          <button class="scenario" data-scenario="quiet"><b>🌙 Calma</b><small>base fee baja</small></button>
+          <button class="scenario" data-scenario="normal"><b>⚖ Normal</b><small>target ≈ 100%</small></button>
+          <button class="scenario" data-scenario="busy"><b>🔥 Congestión</b><small>bloques llenos</small></button>
+          <button class="scenario" data-scenario="under"><b>🧯 Max fee insuf.</b><small>no incluible</small></button>
+        </div>
+        <div class="callout" id="eligibility" style="margin-top:12px"><b>Elegibilidad:</b> calculando…</div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Descomposición del pago</h2><span class="pill">por gas realmente usado</span></div>
+      <div class="panelBody">
+        <div class="feeFlow">
+          <div class="feeBox"><div><div style="font-size:1.8rem">👤</div><b>Usuario</b><small id="userPays">—</small></div></div>
+          <div class="arrow">→</div>
+          <div class="feeBox burn"><div><div style="font-size:1.8rem">🔥</div><b>Base fee quemada</b><small id="burnEth">—</small></div></div>
+          <div class="arrow">+</div>
+          <div class="feeBox tip"><div><div style="font-size:1.8rem">🏛️</div><b>Priority fee</b><small id="tipEth">—</small></div></div>
+        </div>
+        <div class="kpis" style="margin-top:12px">
+          <div class="kpi"><b id="effectiveGasPrice">—</b><small>effective gas price</small></div>
+          <div class="kpi"><b id="effectiveTip">—</b><small>priority efectiva</small></div>
+          <div class="kpi"><b id="maxPossible">—</b><small>techo gasLimit × maxFee</small></div>
+          <div class="kpi"><b id="unusedGas">—</b><small>gas no usado</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Costo final</h2><span class="pill">ETH + USD</span></div>
+      <div class="panelBody">
+        <div class="bigKpi"><small>Costo efectivo</small><div class="n" id="costEth">— ETH</div><div id="costUsd" style="font-weight:900;color:var(--gold)">— USD</div></div>
+        <div class="bigKpi" style="margin-top:10px"><small>Base fee siguiente bloque</small><div class="n" id="nextBase">— gwei</div><div class="muted" id="baseDirection">—</div></div>
+        <div class="callout burn" style="margin-top:10px"><b>Importante:</b> el validator no recibe la base fee. Esa porción se quema. El validator recibe la priority fee efectiva y otras posibles fuentes de ingreso fuera de este modelo simplificado.</div>
+      </div>
+    </section>
+
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Dinámica de base fee: bloques consecutivos</h2><span class="pill">máx. ±12,5% por bloque</span></div>
+      <div class="panelBody">
+        <div class="chartWrap"><canvas id="chart"></canvas></div>
+        <div class="legend" style="margin-top:8px"><span><i style="background:var(--accent)"></i>base fee simulada</span><span><i style="background:var(--gold)"></i>target = 100%</span></div>
+      </div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Motor de bloque</h2><span class="pill">utilización</span></div>
+      <div class="panelBody">
+        <div class="blockSim">
+          <div class="blockRow" id="blockRow"></div>
+          <div class="meterLabels"><span>menos carga</span><span>más carga</span></div>
+        </div>
+        <div class="callout" style="margin-top:10px"><b>Lectura:</b> por encima del target, la base fee del bloque siguiente sube. Por debajo, baja. En el target, queda aproximadamente estable.</div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Fórmulas del laboratorio</h2><span class="pill">cálculo visible</span></div>
+      <div class="panelBody">
+        <div class="formula" id="formula1">priority efectiva = min(maxPriorityFee, maxFee − baseFee)</div>
+        <div class="formula" id="formula2" style="margin-top:8px">effectiveGasPrice = baseFee + priority efectiva</div>
+        <div class="formula" id="formula3" style="margin-top:8px">costo efectivo = gasUsed × effectiveGasPrice</div>
+        <div class="formula" id="formula4" style="margin-top:8px">burn = gasUsed × baseFee</div>
+        <div class="formula" id="formula5" style="margin-top:8px">tip validator = gasUsed × priority efectiva</div>
+      </div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Recorrido didáctico</h2><span class="pill" id="stepTag">Paso 1 de 8</span></div>
+      <div class="panelBody">
+        <div class="stepper" id="stepper"></div>
+        <div class="explain" id="stepExplain"></div>
+      </div>
+    </section>
+
+    <section class="panel span-12">
+      <div class="panelHead"><h2>Interpretación económica</h2><span class="pill">qué significa cada parámetro</span></div>
+      <div class="panelBody">
+        <div class="grid" style="gap:10px">
+          <div class="span-3 callout"><b>Base fee</b><br><span class="small">Precio mínimo protocolario por gas para un bloque dado. Se ajusta según la utilización y se quema.</span></div>
+          <div class="span-3 callout"><b>Priority fee</b><br><span class="small">Incentivo que el usuario ofrece por encima de la base fee. La prioridad efectiva está limitada por maxFee.</span></div>
+          <div class="span-3 callout"><b>Max fee</b><br><span class="small">Techo por gas que el usuario acepta pagar. No implica que pagará exactamente ese valor.</span></div>
+          <div class="span-3 callout"><b>Gas used</b><br><span class="small">Trabajo efectivamente consumido por la ejecución. El costo final se calcula sobre este gas, no sobre el gasLimit completo si sobra.</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong> Laboratorio educativo. El ajuste de base fee implementa la lógica conceptual de EIP-1559 con target normalizado; no consulta precios ni bloques en vivo.</footer>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const ids=['baseFee','priority','maxFee','gasLimit','gasUsed','ethUsd','utilization'];
+  const pair={baseFee:'baseFeeN',priority:'priorityN',maxFee:'maxFeeN',gasLimit:'gasLimitN',gasUsed:'gasUsedN',ethUsd:'ethUsdN',utilization:'utilizationN'};
+  let stepIndex=0,timer=null,history=[];
+  const steps=[
+    {t:'1. Base fee',x:'Es el componente protocolario del precio del gas. Todos los usuarios incluidos en el mismo bloque enfrentan la misma base fee por unidad de gas.'},
+    {t:'2. Max priority fee',x:'Es el máximo tip que el usuario está dispuesto a pagar al validator. La priority efectiva puede ser menor si maxFee no deja suficiente margen.'},
+    {t:'3. Max fee',x:'Es el techo total por gas. Para poder incluirse a la base fee actual, debe cubrir al menos esa base fee.'},
+    {t:'4. Gas limit',x:'Es un límite de seguridad del usuario. Autoriza hasta cierta cantidad de gas, pero el costo efectivo depende del gas realmente usado.'},
+    {t:'5. Gas used',x:'Representa el trabajo efectivamente consumido por la ejecución. En una transferencia simple suele ser 21.000 gas; contratos pueden consumir mucho más.'},
+    {t:'6. Burn + tip',x:'La base fee del gas usado se quema. La priority fee efectiva remunera al validator dentro de este modelo.'},
+    {t:'7. ETH/USD',x:'Convertir a dólares ayuda a separar la mecánica protocolaria del impacto económico para el usuario.'},
+    {t:'8. Bloque siguiente',x:'La base fee cambia según la utilización respecto del target. Con 200% del target puede subir hasta 12,5% en un bloque; con baja carga puede disminuir.'}
+  ];
+  function num(id){return Number($(id).value)}
+  function fmt(n,d=6){if(!isFinite(n))return '—';return Number(n).toFixed(d).replace(/0+$/,'').replace(/\.$/,'')}
+  function sync(a,b){$(b).value=$(a).value}
+  function setStatus(txt,type=''){ $('statusText').textContent=txt;$('statusDot').className='dot'+(type?' '+type:'') }
+  function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem('ethlab-theme',t);$('themeBtn').textContent=t==='dark'?'☀ Tema claro':'🌙 Tema oscuro'}
+  function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')}
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+  function nextBaseFee(base,utilPct){
+    const delta=(utilPct-100)/100;
+    // normalized EIP-1559 idea: change = base * delta / 8, cap ±12.5%
+    return Math.max(0, base*(1+clamp(delta/8,-0.125,0.125)));
+  }
+  function calc(){
+    let base=num('baseFee'),priority=num('priority'),maxFee=num('maxFee'),gasLimit=num('gasLimit'),gasUsed=num('gasUsed'),ethUsd=num('ethUsd'),util=num('utilization');
+    if(gasUsed>gasLimit){gasUsed=gasLimit;$('gasUsed').value=gasUsed;$('gasUsedN').value=gasUsed}
+    const includable=maxFee>=base;
+    const effectiveTip=includable?Math.max(0,Math.min(priority,maxFee-base)):0;
+    const effectivePrice=includable?base+effectiveTip:0;
+    const costEth=gasUsed*effectivePrice*1e-9;
+    const burn=gasUsed*base*1e-9;
+    const tip=gasUsed*effectiveTip*1e-9;
+    const maxPossible=gasLimit*maxFee*1e-9;
+    const unused=Math.max(0,gasLimit-gasUsed);
+    const next=nextBaseFee(base,util);
+    $('effectiveGasPrice').textContent=includable?fmt(effectivePrice,3)+' gwei':'No incluible';
+    $('effectiveTip').textContent=fmt(effectiveTip,3)+' gwei';
+    $('maxPossible').textContent=fmt(maxPossible,8)+' ETH';
+    $('unusedGas').textContent=unused.toLocaleString('es-AR');
+    $('costEth').textContent=includable?fmt(costEth,8)+' ETH':'— ETH';
+    $('costUsd').textContent=includable?'USD '+(costEth*ethUsd).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}):'— USD';
+    $('burnEth').textContent=fmt(burn,8)+' ETH';
+    $('tipEth').textContent=fmt(tip,8)+' ETH';
+    $('userPays').textContent=includable?fmt(costEth,8)+' ETH':'no incluible';
+    $('nextBase').textContent=fmt(next,3)+' gwei';
+    $('baseDirection').textContent=util>100?`↑ +${fmt((next/base-1)*100,2)}%`:util<100?`↓ ${fmt((next/base-1)*100,2)}%`:'≈ estable';
+    $('utilFill').style.width=clamp(util/2,0,100)+'%';
+    $('eligibility').className='callout '+(includable?'ok':'bad');
+    $('eligibility').innerHTML=includable
+      ?`<b>Elegibilidad:</b> maxFee (${fmt(maxFee,2)} gwei) cubre la base fee (${fmt(base,2)} gwei). Priority efectiva: ${fmt(effectiveTip,2)} gwei.`
+      :`<b>No incluible:</b> maxFee (${fmt(maxFee,2)} gwei) está por debajo de la base fee (${fmt(base,2)} gwei). La transacción debe esperar una base fee menor o ser reemplazada con nuevos parámetros.`;
+    setStatus(includable?'Incluible con la base fee actual':'Max fee insuficiente',includable?'ok':'bad');
+
+    $('formula1').textContent=`priority efectiva = min(${fmt(priority,2)}, ${fmt(maxFee,2)} − ${fmt(base,2)}) = ${fmt(effectiveTip,2)} gwei`;
+    $('formula2').textContent=`effectiveGasPrice = ${fmt(base,2)} + ${fmt(effectiveTip,2)} = ${fmt(effectivePrice,2)} gwei`;
+    $('formula3').textContent=`costo efectivo = ${gasUsed.toLocaleString('es-AR')} × ${fmt(effectivePrice,2)} gwei = ${fmt(costEth,8)} ETH`;
+    $('formula4').textContent=`burn = ${gasUsed.toLocaleString('es-AR')} × ${fmt(base,2)} gwei = ${fmt(burn,8)} ETH`;
+    $('formula5').textContent=`tip validator = ${gasUsed.toLocaleString('es-AR')} × ${fmt(effectiveTip,2)} gwei = ${fmt(tip,8)} ETH`;
+
+    updateBlocks(util);updateHistory(base,util);drawChart();
+  }
+  function updateBlocks(util){
+    const row=$('blockRow');row.innerHTML='';
+    const vals=[65,85,100,125,155,util];
+    vals.forEach((v,i)=>{const d=document.createElement('div');d.className='blk';d.style.height=(40+Math.min(200,v)*.55)+'px';d.innerHTML=`<span>${Math.round(v)}%</span>`;if(i===vals.length-1)d.style.outline='2px solid var(--gold)';row.appendChild(d)})
+  }
+  function updateHistory(base,util){
+    history=[base];
+    let b=base;
+    // show a scenario: same utilization for 10 following blocks
+    for(let i=0;i<10;i++){b=nextBaseFee(b,util);history.push(b)}
+  }
+  function drawChart(){
+    const c=$('chart'),ctx=c.getContext('2d'),dpr=window.devicePixelRatio||1;
+    const rect=c.getBoundingClientRect();c.width=rect.width*dpr;c.height=rect.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    const w=rect.width,h=rect.height,p=36;
+    const css=getComputedStyle(document.documentElement);const line=css.getPropertyValue('--line').trim(),text=css.getPropertyValue('--muted').trim(),accent=css.getPropertyValue('--accent').trim(),gold=css.getPropertyValue('--gold').trim();
+    ctx.clearRect(0,0,w,h);ctx.strokeStyle=line;ctx.lineWidth=1;ctx.fillStyle=text;ctx.font='12px system-ui';
+    const min=Math.min(...history)*.92,max=Math.max(...history)*1.08 || 1;
+    for(let i=0;i<5;i++){const y=p+(h-2*p)*i/4;ctx.beginPath();ctx.moveTo(p,y);ctx.lineTo(w-p,y);ctx.stroke();const val=max-(max-min)*i/4;ctx.fillText(fmt(val,1)+' gwei',4,y+4)}
+    const x=i=>p+(w-2*p)*i/(history.length-1),y=v=>p+(h-2*p)*(1-(v-min)/(max-min||1));
+    ctx.strokeStyle=accent;ctx.lineWidth=3;ctx.beginPath();history.forEach((v,i)=>{i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v))});ctx.stroke();
+    history.forEach((v,i)=>{ctx.fillStyle=accent;ctx.beginPath();ctx.arc(x(i),y(v),4,0,Math.PI*2);ctx.fill()});
+    ctx.fillStyle=gold;ctx.fillText('misma utilización aplicada a los bloques siguientes',p,h-10);
+  }
+  function renderSteps(){
+    $('stepper').innerHTML=steps.map((s,i)=>`<div class="step ${i===stepIndex?'active':''} ${i<stepIndex?'done':''}"><span class="n">PASO ${i+1}</span><b>${s.t.replace(/^\d+\.\s*/,'')}</b></div>`).join('');
+    $('stepExplain').innerHTML=`<h3>${steps[stepIndex].t}</h3><div>${steps[stepIndex].x}</div>`;
+    $('stepTag').textContent=`Paso ${stepIndex+1} de ${steps.length}`;
+    $('progressBar').style.width=((stepIndex+1)/steps.length*100)+'%';
+  }
+  function nextStep(){stepIndex=(stepIndex+1)%steps.length;renderSteps()}
+  function preset(name){
+    const p={
+      quiet:{baseFee:8,priority:1,maxFee:20,gasLimit:21000,gasUsed:21000,ethUsd:3000,utilization:55},
+      normal:{baseFee:30,priority:2,maxFee:60,gasLimit:21000,gasUsed:21000,ethUsd:3000,utilization:100},
+      busy:{baseFee:95,priority:4,maxFee:180,gasLimit:120000,gasUsed:92000,ethUsd:3000,utilization:190},
+      under:{baseFee:80,priority:3,maxFee:60,gasLimit:21000,gasUsed:21000,ethUsd:3000,utilization:175}
+    }[name];
+    ids.forEach(id=>{$(id).value=p[id];$(pair[id]).value=p[id]});calc()
+  }
+  function reset(){if(timer){clearInterval(timer);timer=null}$('autoBtn').textContent='▶ Ejecución automática';stepIndex=0;renderSteps();preset('normal')}
+  function auto(){
+    if(timer){clearInterval(timer);timer=null;$('autoBtn').textContent='▶ Ejecución automática';return}
+    let seq=[
+      ()=>preset('quiet'),
+      ()=>{stepIndex=1;renderSteps();preset('normal')},
+      ()=>{stepIndex=2;renderSteps();preset('busy')},
+      ()=>{stepIndex=3;renderSteps();$('gasLimit').value=150000;$('gasLimitN').value=150000;$('gasUsed').value=97000;$('gasUsedN').value=97000;calc()},
+      ()=>{stepIndex=4;renderSteps()},
+      ()=>{stepIndex=5;renderSteps()},
+      ()=>{stepIndex=6;renderSteps();$('ethUsd').value=4200;$('ethUsdN').value=4200;calc()},
+      ()=>{stepIndex=7;renderSteps();preset('under')}
+    ],i=0;
+    $('autoBtn').textContent='⏸ Pausar';seq[0]();
+    timer=setInterval(()=>{i++;if(i>=seq.length){clearInterval(timer);timer=null;$('autoBtn').textContent='▶ Ejecución automática';return}seq[i]()},1800)
+  }
+  ids.forEach(id=>{
+    $(id).addEventListener('input',()=>{sync(id,pair[id]);calc()});
+    $(pair[id]).addEventListener('input',()=>{$(id).value=$(pair[id]).value;calc()})
+  });
+  document.querySelectorAll('.scenario').forEach(b=>b.onclick=()=>preset(b.dataset.scenario));
+  $('themeBtn').onclick=toggleTheme;$('nextBtn').onclick=nextStep;$('resetBtn').onclick=reset;$('autoBtn').onclick=auto;
+  window.addEventListener('resize',drawChart);
+  const saved=localStorage.getItem('ethlab-theme');setTheme(saved||'dark');renderSteps();preset('normal');
+})();
+</script>
+<script src="../assets/resource-shell.js"></script></body>
+</html>
