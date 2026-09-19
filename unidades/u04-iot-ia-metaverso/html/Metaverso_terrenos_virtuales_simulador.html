@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Simulador de Bienes Raíces Virtuales – Metaverso EDU</title>
+<style>
+  :root{
+    --bg:#0f1116;--panel:#171a21;--muted:#9aa4b2;--text:#e6edf3;--acc:#6ae3ff;
+    --buy:#19c37d;--sell:#ff6b6b;--rent:#ffd166;--grid:#2a2f3a;--tile:#1e2530;
+    --you:#f1c40f;--npc:#8e44ad;--sale:#3498db;--plaza:#2ecc71;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(120deg,#0f1116,#0b0d12);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Arial}
+  header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #202635;background:#0f1218;position:sticky;top:0;z-index:5}
+  header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.4px}
+  .wrap{display:grid;grid-template-columns:360px 1fr 380px;gap:14px;padding:14px;max-width:1500px;margin:0 auto}
+  .panel{background:var(--panel);border:1px solid #202635;border-radius:10px;box-shadow:0 1px 0 #000 inset}
+  .panel h2{font-size:13px;text-transform:uppercase;color:var(--muted);letter-spacing:.8px;margin:0;padding:10px 12px;border-bottom:1px solid #202635}
+  .panel section{padding:12px}
+  .row{display:flex;align-items:center;justify-content:space-between;margin:6px 0;gap:8px}
+  .row input[type="number"], .row input[type="text"]{width:120px;padding:6px;border-radius:8px;border:1px solid #2a3242;background:#0f131b;color:var(--text)}
+  .btn{border:0;border-radius:10px;padding:8px 10px;color:#0a0d14;font-weight:700;cursor:pointer}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn.buy{background:var(--buy)}
+  .btn.sell{background:var(--sell)}
+  .btn.rent{background:var(--rent)}
+  .btn.muted{background:#2b3243;color:#dbe3f1}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:12px}
+  .tile{aspect-ratio:1;border-radius:4px;background:var(--tile);border:1px solid var(--grid);position:relative;cursor:pointer;transition:.1s transform, .2s box-shadow}
+  .tile:hover{transform:translateY(-2px)}
+  .tile .tag{position:absolute;inset:auto 4px 4px auto;background:#0008;color:#fff;font-size:10px;padding:2px 6px;border-radius:12px}
+  .tile .fair{position:absolute;inset:4px auto auto 4px;background:#0008;color:#fff;font-size:10px;padding:2px 6px;border-radius:12px}
+  .tile.plaza{background:var(--plaza)}
+  .tile.sale{background:linear-gradient(180deg,var(--sale),#246aa5)}
+  .tile.you{background:linear-gradient(180deg,#f1c40f,#b88700)}
+  .tile.npc{background:linear-gradient(180deg,#8e44ad,#5e337c)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .legend span{display:inline-flex;align-items:center;gap:6px;background:#0f131b;border:1px solid #243146;border-radius:999px;padding:4px 8px;color:#c6d3e1}
+  .dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .dot.sale{background:var(--sale)} .dot.you{background:#f1c40f}
+  .dot.npc{background:#8e44ad} .dot.plaza{background:var(--plaza)}
+  .muted{color:var(--muted)}
+  .kbd{background:#0f131b;border:1px solid #2a3242;border-radius:6px;padding:2px 6px;color:#dce7f6}
+  .list{max-height:320px;overflow:auto;display:grid;gap:8px}
+  .card{border:1px solid #263146;border-radius:10px;padding:10px;background:#101520}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+  footer{padding:12px 14px;color:#9aa4b2;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>Simulador Metaverso EDU · Compra/Venta/Alquiler de Terrenos</h1>
+  <div>
+    <span class="kbd">MANA: <b id="mana">2,000</b></span>
+    <span class="kbd">ETH (gas): <b id="eth">0.50</b></span>
+    <span class="kbd">Día: <b id="day">1</b></span>
+    <button class="btn muted" id="saveBtn">Guardar</button>
+    <button class="btn muted" id="loadBtn">Cargar</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Panel izquierdo: Controles globales -->
+  <div class="panel">
+    <h2>Parámetros del mercado</h2>
+    <section>
+      <div class="row">
+        <label>Demanda (0–100)</label>
+        <input type="range" id="demand" min="0" max="100" value="55" />
+        <span class="kbd" id="demandVal">55</span>
+      </div>
+      <div class="row">
+        <label>Volatilidad %</label>
+        <input type="range" id="vol" min="0" max="50" value="8" />
+        <span class="kbd" id="volVal">8%</span>
+      </div>
+      <div class="row">
+        <label>Gas por tx (ETH)</label>
+        <input type="number" id="gas" min="0" step="0.001" value="0.003" />
+      </div>
+      <div class="row">
+        <button class="btn muted" id="advance1">Avanzar 1 día</button>
+        <button class="btn muted" id="advance7">+7 días</button>
+      </div>
+      <p class="muted">Mayor demanda eleva el precio justo y facilita ventas/alquileres. La volatilidad hace oscilar el valor día a día.</p>
+
+      <div class="legend">
+        <span><i class="dot sale"></i>En venta</span>
+        <span><i class="dot you"></i>Tuya</span>
+        <span><i class="dot npc"></i>NPC</span>
+        <span><i class="dot plaza"></i>Plaza (bono de ubicación)</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Centro: Mapa -->
+  <div class="panel">
+    <h2>Mapa de la ciudad (12×12)</h2>
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <!-- Derecha: Detalle y mercado -->
+  <div class="panel" id="rightPanel">
+    <h2>Detalle de Parcela / Marketplace</h2>
+    <section id="parcelDetail">
+      <p class="muted">Haz clic en cualquier parcela para ver atributos, precio justo y acciones.</p>
+    </section>
+    <section>
+      <h3 style="margin:8px 0">Marketplace (en venta)</h3>
+      <div class="row">
+        <input type="number" id="minPrice" placeholder="Mín MANA" />
+        <input type="number" id="maxPrice" placeholder="Máx MANA" />
+        <button class="btn muted" id="applyFilter">Filtrar</button>
+      </div>
+      <div id="market" class="list"></div>
+    </section>
+  </div>
+
+</div>
+
+<div class="panel" style="max-width:1500px;margin:8px auto;">
+  <h2>Registro de Transacciones (Ledger simulado)</h2>
+  <section id="log" class="list mono"></section>
+</div>
+
+<footer>
+  Simulador educativo. No es consejo financiero. <br/>
+  <strong>Material elaborado por el profesor Sergio Gevatschnaider</strong>
+</footer>
+
+<script>
+/* =======================
+   Modelo de dominio
+   ======================= */
+const SIZE = 12;                       // 12x12
+const PLAZAS = [{x:5,y:5},{x:2,y:9}];  // plazas (bono ubicación)
+const YOUR_ADDR = "0xYOU";             // propietario “tú”
+const NPC_ADDRS = ["0xNPC1","0xNPC2","0xNPC3","0xNPC4"];
+
+let state = {
+  day: 1,
+  mana: 2000,
+  eth: 0.50,
+  gasPerTx: 0.003,
+  demand: 55,      // 0-100
+  vol: 8,          // %
+  parcels: [],     // se llena abajo
+  bids: [],        // {id, from, price}
+  log: []
+};
+
+// hash de transacciones simulado
+const txHash = ()=>"0x"+crypto.getRandomValues(new Uint8Array(8)).reduce((a,b)=>a+b.toString(16).padStart(2,"0"),"");
+
+// helpers UI
+const $ = sel=>document.querySelector(sel);
+const $$ = sel=>Array.from(document.querySelectorAll(sel));
+const fmt = n=>Number(n).toLocaleString("es-AR");
+const log = (msg)=>{ state.log.unshift(`[D${state.day}] ${msg}  · ${txHash()}`); renderLog(); };
+
+/* =======================
+   Inicialización del mundo
+   ======================= */
+function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+
+function basePriceFor(x,y){
+  const center = {x:(SIZE-1)/2, y:(SIZE-1)/2};
+  const d = dist({x,y}, center); // más cerca del centro, más caro
+  const nearPlaza = Math.min(...PLAZAS.map(p=>dist({x,y}, p)));
+  const rarity = 1 + (Math.random()<0.1? 1.0 : Math.random()<0.25? 0.5 : 0); // 10% épica, 25% rara
+  const centerFactor = 1.6 - (d / (Math.sqrt(2)*SIZE/2)); // ~0.6–1.6
+  const plazaBonus = nearPlaza<2.5 ? 1.35 : nearPlaza<4.5 ? 1.15 : 1.0;
+  const base = 120 * Math.max(0.5, centerFactor) * plazaBonus * (1+rarity);
+  return Math.round(base);
+}
+
+function initWorld(){
+  state.parcels = [];
+  let id=0;
+  for(let y=0;y<SIZE;y++){
+    for(let x=0;x<SIZE;x++){
+      const isPlaza = PLAZAS.some(p=>p.x===x && p.y===y);
+      const price = basePriceFor(x,y);
+      state.parcels.push({
+        id:id++,
+        x,y,
+        isPlaza,
+        rarity: Math.random()<0.10? "Épica" : Math.random()<0.35? "Rara" : "Común",
+        owner: Math.random()<0.18? NPC_ADDRS[Math.floor(Math.random()*NPC_ADDRS.length)] : null,
+        forSale: Math.random()<0.38, // algunas listadas
+        listPrice: Math.round(price * (0.9 + Math.random()*0.4)), // ±20%
+        rentPerDay: 0,
+        tenant: null,
+        lastFair: price // precio "justo" base
+      });
+    }
+  }
+}
+
+/* =======================
+   Precios justos dinámicos
+   ======================= */
+function fairPrice(p){
+  // precio justo oscila por volatilidad y demanda
+  const vol = state.vol/100;
+  const demandFactor = 0.8 + (state.demand/100)*0.8; // 0.8–1.6
+  const noise = 1 + (Math.random()*2-1)*vol;        // ±vol
+  const plaza = p.isPlaza? 1.2 : 1;
+  const rarity = p.rarity==="Épica"?1.6: p.rarity==="Rara"?1.25:1;
+  const distCenter = Math.hypot(p.x-(SIZE-1)/2, p.y-(SIZE-1)/2);
+  const centerFactor = 1.4 - distCenter/(Math.sqrt(2)*SIZE/2); // ~0.4–1.4
+  let f = Math.max(0.4,centerFactor) * plaza * rarity * demandFactor * noise * 100;
+  return Math.round(f);
+}
+
+// NUEVO: recalcular todos los precios cuando cambia demanda/volatilidad
+function recalcAllFairPrices(){
+  state.parcels.forEach(p=>{
+    p.lastFair = fairPrice(p);
+  });
+  renderAll();
+  // si hay un detalle abierto, mantenerlo
+  // buscamos un id # en el panel de detalle
+  const idMatch = $("#parcelDetail").dataset.currentId;
+  if(idMatch) showParcel(Number(idMatch));
+}
+
+/* =======================
+   Render del mapa + panel
+   ======================= */
+const grid = $("#grid");
+function renderGrid(){
+  grid.innerHTML="";
+  state.parcels.forEach(p=>{
+    const d = document.createElement("div");
+    d.className="tile";
+    if(p.isPlaza) d.classList.add("plaza");
+    if(p.owner===YOUR_ADDR) d.classList.add("you");
+    else if(p.owner && p.owner!==YOUR_ADDR) d.classList.add("npc");
+    else if(p.forSale) d.classList.add("sale");
+
+    const tag = document.createElement("div");
+    tag.className="tag";
+    tag.textContent = p.forSale? `${p.listPrice} MANA` : p.isPlaza? "Plaza" : `${p.owner? "Ocupado":"Libre"}`;
+    d.appendChild(tag);
+
+    // NUEVO: mostrar fair value resumido en cada tile (actualiza en vivo)
+    const fair = document.createElement("div");
+    fair.className="fair";
+    fair.textContent = `≈ ${p.lastFair}`;
+    d.appendChild(fair);
+
+    d.title = `(${p.x},${p.y}) · ${p.rarity}`;
+    d.onclick = ()=>showParcel(p.id);
+    grid.appendChild(d);
+  });
+}
+
+function showParcel(id){
+  const p = state.parcels.find(x=>x.id===id);
+  // recalcular y guardar fair al abrir
+  const est = fairPrice(p);
+  p.lastFair = est;
+  const youCanBuy = (!p.owner || p.forSale) && p.owner!==YOUR_ADDR;
+  const canList = p.owner===YOUR_ADDR;
+  const canAcceptBids = canList && state.bids.some(b=>b.id===p.id);
+  const bids = state.bids.filter(b=>b.id===p.id).sort((a,b)=>b.price-a.price);
+
+  const box = $("#parcelDetail");
+  box.dataset.currentId = String(id);
+  box.innerHTML = `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div><b>Parcela #${p.id}</b> · (${p.x},${p.y}) · ${p.rarity} ${p.isPlaza? "· <span class='muted'>Cerca de plaza</span>":""}</div>
+        <div class="muted">${p.owner? ("Propietario: "+(p.owner===YOUR_ADDR?"Tú":p.owner)) : "Sin propietario"}</div>
+      </div>
+      <div class="row"><span>Precio justo estimado</span><span><b>${fmt(est)}</b> MANA</span></div>
+      <div class="row"><span>Estado</span><span>${p.owner? (p.owner===YOUR_ADDR? "Tuya": "De NPC") : "Libre"}</span></div>
+      <div class="row"><span>Listado</span><span>${p.forSale? `<b>${fmt(p.listPrice)}</b> MANA` : "No"}</span></div>
+      <div class="row"><span>Alquiler diario</span><span>${p.rentPerDay? `${fmt(p.rentPerDay)} MANA/día` : "No alquilada"}</span></div>
+      <div class="row"><span>Inquilino</span><span>${p.tenant? p.tenant : "-"}</span></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${youCanBuy && p.forSale ? `
+          <button class="btn buy" id="buyBtn">Comprar (${fmt(p.listPrice)} MANA + gas)</button>` : ``}
+        ${!p.forSale && canList ? `
+          <input type="number" id="ask" value="${Math.max(50, est)}" />
+          <button class="btn sell" id="listBtn">Listar en venta</button>` : ``}
+        ${p.forSale && canList ? `
+          <input type="number" id="ask" value="${p.listPrice}" />
+          <button class="btn sell" id="updBtn">Actualizar precio</button>
+          <button class="btn muted" id="unlistBtn">Quitar de venta</button>` : ``}
+        ${canList ? `
+          <input type="number" id="rent" placeholder="MANA/día" value="${p.rentPerDay||''}"/>
+          <button class="btn rent" id="setRentBtn">${p.rentPerDay? "Actualizar renta":"Fijar renta"}</button>
+          ${p.tenant? `<button class="btn muted" id="kickBtn">Desalojar</button>`:""}
+        `:""}
+        ${youCanBuy && !p.forSale ? `
+          <input type="number" id="bid" placeholder="Tu oferta (MANA)" value="${Math.round(est*0.9)}"/>
+          <button class="btn buy" id="bidBtn">Hacer oferta</button>`:""}
+        ${canAcceptBids? `<button class="btn buy" id="acceptBest">Aceptar mejor oferta (${fmt(bids[0].price)})</button>`:""}
+      </div>
+    </div>
+
+    <div class="card">
+      <div><b>Ofertas</b></div>
+      ${bids.length? bids.map(b=>`<div class="row"><span>${b.from}</span><span>${fmt(b.price)} MANA</span></div>`).join("") : `<p class="muted">No hay ofertas por ahora.</p>`}
+    </div>
+  `;
+
+  $("#buyBtn")?.addEventListener("click", ()=>buyParcel(p.id, p.listPrice, p.owner||"0xPOOL"));
+  $("#listBtn")?.addEventListener("click", ()=>{
+    const ask = Number($("#ask").value||0);
+    listParcel(p.id, ask);
+  });
+  $("#updBtn")?.addEventListener("click", ()=>{
+    const ask = Number($("#ask").value||0);
+    updateListing(p.id, ask);
+  });
+  $("#unlistBtn")?.addEventListener("click", ()=>unlist(p.id));
+  $("#bidBtn")?.addEventListener("click", ()=>{
+    const offer = Number($("#bid").value||0);
+    makeBid(p.id, offer);
+  });
+  $("#acceptBest")?.addEventListener("click", ()=>acceptBestBid(p.id));
+  $("#setRentBtn")?.addEventListener("click", ()=>{
+    const r = Number($("#rent").value||0);
+    setRent(p.id, r);
+  });
+  $("#kickBtn")?.addEventListener("click", ()=>kickTenant(p.id));
+}
+
+/* =======================
+   Acciones de mercado
+   ======================= */
+function spendGas(){
+  const g = Number($("#gas").value||state.gasPerTx);
+  if(state.eth < g){ alert("No tienes ETH suficiente para el gas."); return false; }
+  state.eth -= g; state.gasPerTx = g; renderWallet(); return true;
+}
+
+function buyParcel(id, price, seller){
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  if(state.mana < price){ alert("Saldo MANA insuficiente."); return; }
+  state.mana -= price;
+  p.owner = YOUR_ADDR;
+  p.forSale = false;
+  p.listPrice = 0;
+  removeBidsFor(id);
+  log(`Compra: Parcela #${id} por ${fmt(price)} MANA a ${seller}`);
+  renderAll(); showParcel(id);
+}
+
+function listParcel(id, ask){
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  if(p.owner!==YOUR_ADDR){ alert("No eres el propietario."); return; }
+  p.forSale = true;
+  p.listPrice = Math.max(10, Math.round(ask));
+  log(`Listado: Parcela #${id} a ${fmt(p.listPrice)} MANA`);
+  renderAll(); showParcel(id);
+}
+
+function updateListing(id, ask){
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  p.listPrice = Math.max(10, Math.round(ask));
+  log(`Actualizado precio: Parcela #${id} → ${fmt(p.listPrice)} MANA`);
+  renderAll(); showParcel(id);
+}
+
+function unlist(id){
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  p.forSale = false;
+  log(`Quitar de venta: Parcela #${id}`);
+  renderAll(); showParcel(id);
+}
+
+function makeBid(id, price){
+  if(!spendGas()) return;
+  if(price<=0){ alert("Oferta inválida."); return; }
+  state.bids.push({id, from:"0xYOU", price:Math.round(price)});
+  log(`Oferta: ${fmt(price)} MANA por Parcela #${id}`);
+  showParcel(id);
+}
+
+function acceptBestBid(id){
+  const bids = state.bids.filter(b=>b.id===id).sort((a,b)=>b.price-a.price);
+  if(!bids.length) return;
+  const best = bids[0];
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  if(p.owner!==YOUR_ADDR){ alert("No eres el propietario."); return; }
+  state.mana += best.price;
+  p.owner = best.from;
+  p.forSale = false;
+  p.tenant = null; p.rentPerDay = 0;
+  removeBidsFor(id);
+  log(`Venta por oferta: Parcela #${id} vendida a ${best.from} por ${fmt(best.price)} MANA`);
+  renderAll(); showParcel(id);
+}
+
+function setRent(id, rent){
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  if(p.owner!==YOUR_ADDR){ alert("No eres el propietario."); return; }
+  p.rentPerDay = Math.max(0, Math.round(rent));
+  if(p.rentPerDay===0){ p.tenant=null; }
+  log(`Renta configurada: Parcela #${id} → ${fmt(p.rentPerDay)} MANA/día`);
+  renderAll(); showParcel(id);
+}
+function kickTenant(id){
+  if(!spendGas()) return;
+  const p = state.parcels.find(x=>x.id===id);
+  p.tenant=null;
+  log(`Desalojo: Parcela #${id}`);
+  renderAll(); showParcel(id);
+}
+function removeBidsFor(id){ state.bids = state.bids.filter(b=>b.id!==id); }
+
+/* =======================
+   Avance del tiempo y NPCs
+   ======================= */
+function simulateDay(){
+  state.day++;
+
+  // NPCs compran listados atractivos según demanda
+  const desirability = state.demand/100; // 0–1
+  state.parcels.filter(p=>p.forSale && p.owner!==YOUR_ADDR).forEach(p=>{
+    const fair = fairPrice(p);
+    p.lastFair = fair;
+    const discount = fair>0 ? (fair - p.listPrice)/fair : 0;
+    const prob = Math.max(0, (discount*1.6) + desirability*0.25); // ~0–1+
+    if(Math.random() < prob){
+      const npc = NPC_ADDRS[Math.floor(Math.random()*NPC_ADDRS.length)];
+      p.owner = npc; p.forSale=false; p.tenant=null; p.rentPerDay=0;
+      log(`NPC ${npc} compró Parcela #${p.id} por ${fmt(p.listPrice)} MANA`);
+    }
+  });
+
+  // Alquiler: ocupación y cobro
+  state.parcels.filter(p=>p.owner===YOUR_ADDR && p.rentPerDay>0).forEach(p=>{
+    const fair = fairPrice(p);
+    p.lastFair = fair;
+    const rentFair = Math.max(5, Math.round(fair*0.01));
+    if(!p.tenant){
+      const prob = Math.max(0, 0.8 - Math.max(0,(p.rentPerDay-rentFair)/rentFair));
+      if(Math.random()<prob){ p.tenant = "0xTENANT"; log(`Nuevo inquilino en Parcela #${p.id}`); }
+    }else{
+      state.mana += p.rentPerDay;
+      const leaveProb = Math.max(0, (p.rentPerDay - rentFair)/rentFair * 0.3);
+      if(Math.random()<leaveProb){ p.tenant=null; log(`El inquilino abandonó Parcela #${p.id}`); }
+    }
+  });
+
+  // Oscilar y registrar fair para todas
+  state.parcels.forEach(p=>{ p.lastFair = fairPrice(p); });
+
+  renderAll();
+}
+
+function advance(days=1){ for(let i=0;i<days;i++) simulateDay(); }
+
+/* =======================
+   Marketplace y filtros
+   ======================= */
+function renderMarket(){
+  const list = state.parcels.filter(p=>p.forSale).sort((a,b)=>a.listPrice-b.listPrice);
+  const min = Number($("#minPrice").value||0);
+  const max = Number($("#maxPrice").value||Infinity);
+  const filtered = list.filter(p=>p.listPrice>=min && p.listPrice<=max);
+  const el = $("#market");
+  el.innerHTML = filtered.map(p=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between">
+        <b>#${p.id}</b> <span class="muted">(${p.x},${p.y}) · ${p.rarity} ${p.isPlaza?"· Plaza":""}</span>
+      </div>
+      <div class="row"><span>Precio</span><span><b>${fmt(p.listPrice)}</b> MANA</span></div>
+      <div class="row"><span>Precio justo (≈)</span><span><b>${fmt(p.lastFair)}</b> MANA</span></div>
+      <div class="row"><span>Propietario</span><span>${p.owner? (p.owner===YOUR_ADDR?"Tú":p.owner) : "Sin propietario"}</span></div>
+      <div class="row"><button class="btn buy" onclick="quickBuy(${p.id})">Comprar</button>
+      <button class="btn muted" onclick="showParcel(${p.id})">Ver</button></div>
+    </div>
+  `).join("") || `<p class="muted">No hay listados que cumplan el filtro.</p>`;
+}
+function quickBuy(id){
+  const p = state.parcels.find(x=>x.id===id);
+  buyParcel(id, p.listPrice, p.owner||"0xPOOL");
+}
+
+/* =======================
+   Render global y wallet
+   ======================= */
+function renderWallet(){
+  $("#mana").textContent = fmt(state.mana);
+  $("#eth").textContent = state.eth.toFixed(3);
+  $("#day").textContent = state.day;
+}
+function renderLog(){
+  $("#log").innerHTML = state.log.map(l=>`<div>${l}</div>`).join("");
+}
+function renderAll(){
+  renderWallet();
+  renderGrid();
+  renderMarket();
+}
+
+/* =======================
+   Guardar/Cargar
+   ======================= */
+function saveState(){
+  localStorage.setItem("metaversoSim", JSON.stringify(state));
+  alert("Estado guardado en el navegador.");
+}
+function loadState(){
+  const raw = localStorage.getItem("metaversoSim");
+  if(!raw){ alert("No hay estado guardado."); return; }
+  state = JSON.parse(raw);
+  renderAll();
+  $("#parcelDetail").innerHTML = `<p class="muted">Estado cargado. Haz clic en una parcela para ver detalles.</p>`;
+}
+
+/* =======================
+   Listeners UI
+   ======================= */
+$("#demand").addEventListener("input", e=>{
+  state.demand=Number(e.target.value);
+  $("#demandVal").textContent = state.demand;
+  recalcAllFairPrices(); // <-- actualización dinámica
+});
+$("#vol").addEventListener("input", e=>{
+  state.vol=Number(e.target.value);
+  $("#volVal").textContent = state.vol + "%";
+  recalcAllFairPrices(); // <-- actualización dinámica
+});
+$("#gas").addEventListener("change", e=>{ state.gasPerTx=Number(e.target.value); });
+$("#applyFilter").addEventListener("click", renderMarket);
+$("#advance1").addEventListener("click", ()=>advance(1));
+$("#advance7").addEventListener("click", ()=>advance(7));
+$("#saveBtn").addEventListener("click", saveState);
+$("#loadBtn").addEventListener("click", loadState);
+
+/* =======================
+   Boot
+   ======================= */
+initWorld();
+recalcAllFairPrices(); // precalcular y renderizar
+</script>
+</body>
+</html>

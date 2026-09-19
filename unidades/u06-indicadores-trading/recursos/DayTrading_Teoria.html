@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Estudio: Day Trading</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+      --bg-secondary: rgba(255, 255, 255, 0.85);
+      --bg-tertiary: rgba(248, 250, 252, 0.8);
+      --text-primary: #2c3e50;
+      --text-secondary: #34495e;
+      --text-light: #ffffff;
+      --accent-primary: #007bff;
+      --accent-secondary: #0056b3;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+      --border-radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      --bg-secondary: rgba(26, 32, 44, 0.85);
+      --bg-tertiary: rgba(45, 55, 72, 0.7);
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --accent-primary: #00c6ff;
+      --accent-secondary: #0072ff;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.8; background: var(--bg-primary); color: var(--text-primary); transition: var(--transition); min-height: 100vh; position: relative; overflow-x: hidden; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; z-index: 1; }
+    .header { text-align: center; margin-bottom: 3rem; position: relative; }
+    .main-title { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; opacity: 0.95; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); max-width: 900px; margin: auto; }
+
+    .theme-toggle { position: fixed; top: 2rem; right: 2rem; width: 60px; height: 60px; border: 1px solid var(--border-color); border-radius: 50%; background: var(--bg-secondary); backdrop-filter: blur(15px); box-shadow: var(--shadow-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent-primary); transition: var(--transition); z-index: 1000; }
+    .theme-toggle:hover { transform: scale(1.15) rotate(180deg); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(102, 126, 234, 0.3); }
+
+    .index-container { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); padding: 2rem; margin-bottom: 2rem; }
+    .index-title { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); text-align: center; margin-bottom: 1.5rem; }
+    .index-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    .index-list a { text-decoration: none; color: var(--accent-primary); font-weight: 500; display: block; padding: 0.5rem; border-radius: 8px; transition: var(--transition); }
+    .index-list a:hover { background: var(--bg-tertiary); color: var(--accent-secondary); transform: translateX(5px); }
+
+    .lesson-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .topic-card { background: var(--bg-secondary); backdrop-filter: blur(20px); border-radius: var(--border-radius); box-shadow: var(--shadow-card); border: 2px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+    .topic-header { cursor: pointer; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .topic-title { font-size: 1.3rem; font-weight: 600; color: var(--text-primary); }
+    .expand-icon { font-size: 1.2rem; color: var(--text-secondary); transition: var(--transition); }
+    .topic-card.open .expand-icon { transform: rotate(180deg); }
+    .topic-content { max-height: 0; overflow: hidden; transition: max-height 1.5s ease, padding 1.5s ease; background: var(--bg-tertiary); }
+    .topic-card.open .topic-content { max-height: 9000px; padding: 1.5rem 2rem; border-top: 1px solid var(--border-color); }
+    .topic-content p, .topic-content ul { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .topic-content h4 { font-size: 1.2rem; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .topic-content ul { padding-left: 20px; }
+    .topic-content li { margin-bottom: 1rem; line-height: 1.7; }
+    .topic-content strong { color: var(--text-primary); font-weight: 600; }
+
+    .diagram-container, .code-container { background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 2.5rem 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    [data-theme="dark"] .diagram-container, [data-theme="dark"] .code-container { background: rgba(0,0,0,0.2); }
+    .diagram-title { font-weight: 600; text-align: center; margin-bottom: 2rem; color: var(--text-primary); font-size: 1rem; }
+    .diagram-flow, .diagram-grid { display: flex; justify-content: space-around; align-items: center; gap: 1rem; flex-wrap: wrap;}
+    .diagram-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-items: stretch; gap: 1.5rem; }
+    .diagram-box { border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; text-align: center; background: var(--bg-secondary); box-shadow: var(--shadow-card); min-width: 120px; display: flex; flex-direction: column; justify-content: center; }
+    .diagram-box strong { display: block; font-size: 0.9em; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .diagram-box span { font-size: 0.8em; }
+    .diagram-arrow { flex-grow: 1; position: relative; text-align: center; }
+    .diagram-arrow::after { content: '→'; font-size: 2.5rem; color: var(--accent-primary); }
+    .diagram-arrow.down::after { content: '↓'; display: block; margin: 0.5rem 0; }
+    .diagram-arrow-label { font-size: 0.8em; font-weight: 500; }
+    .diagram-col { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .diagram-section { padding: 1rem; border: 2px dashed var(--border-color); border-radius: var(--border-radius); width: 100%; }
+    .diagram-section-title { font-weight: 600; text-align: center; margin-bottom: 1rem; font-size: 0.9em; color: var(--text-primary); }
+
+    footer { text-align: center; margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--border-color); }
+    footer p { color: var(--text-light); opacity: 0.9; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="theme-toggle" id="themeToggleButton" title="Cambiar tema"><i class="fas fa-moon" id="theme-icon"></i></div>
+
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">📘 Guía Completa de Day Trading</h1>
+      <p class="subtitle">Una Guía de Estudio sobre Estrategias, Herramientas y Psicología del Trading Intradía</p>
+    </header>
+
+    <div class="index-container">
+        <h3 class="index-title">Índice de Contenidos</h3>
+        <ul class="index-list">
+            <li><a href="#section1">1. Introducción al Day Trading</a></li>
+            <li><a href="#section2">2. Fundamentos del Mercado</a></li>
+            <li><a href="#section3">3. Herramientas del Day Trader</a></li>
+            <li><a href="#section4">4. Estrategias de Day Trading</a></li>
+            <li><a href="#section5">5. Gestión del Riesgo</a></li>
+            <li><a href="#section6">6. Psicología del Day Trader</a></li>
+            <li><a href="#section7">7. Análisis Avanzado</a></li>
+            <li><a href="#section8">8. Day Trading en Criptomonedas</a></li>
+            <li><a href="#section9">9. Errores Comunes</a></li>
+            <li><a href="#section10">10. Conclusión y Mejores Prácticas</a></li>
+        </ul>
+    </div>
+
+    <div class="lesson-container">
+
+        <div class="topic-card" id="section1">
+            <div class="topic-header"><span class="topic-title">1. Introducción al Day Trading</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El day trading es una forma de operación en la que todas las posiciones se abren y se cierran dentro de la misma jornada. En consecuencia, no se asume el llamado riesgo “overnight”, es decir, el riesgo de que una noticia fuera del horario regular cambie los precios antes de poder reaccionar. A diferencia del scalping, que se centra en segundos o pocos minutos, y del swing trading, que busca movimientos de varios días o semanas, el day trading se mueve en marcos temporales intermedios —minutos u horas— intentando capturar los impulsos característicos de una sesión. Esta modalidad combina oportunidades frecuentes con la exigencia de una disciplina férrea: la velocidad de decisión, la tolerancia a la volatilidad y el apego a un plan son rasgos psicológicos esenciales. Si lo pensamos con una analogía, el day trader se parece a un surfista que entra y sale del agua varias veces durante el día: no espera la marejada perfecta de toda la temporada, pero tampoco intenta montar cada pequeña ola.</p>
+
+                <h4>1.2. Diferencias entre Day Trading, Scalping y Swing Trading</h4>
+                <div class="diagram-container">
+                    <div class="diagram-title">Comparativa de Estilos de Trading</div>
+                    <div class="diagram-grid">
+                        <div class="diagram-box"><strong>Scalping</strong><span>Segundos / Minutos<br>Micro-ganancias</span></div>
+                        <div class="diagram-box"><strong>Day Trading</strong><span>Minutos / Horas<br>Impulsos de sesión</span></div>
+                        <div class="diagram-box"><strong>Swing Trading</strong><span>Días / Semanas<br>Tendencias largas</span></div>
+                    </div>
+                </div>
+
+                <h4>1.3. Ventajas y desventajas</h4>
+                <ul>
+                    <li>✅ <strong>Ventajas:</strong> Evita el riesgo overnight, aprovecha la liquidez diaria y ofrece oportunidades frecuentes de operación.</li>
+                    <li>❌ <strong>Desventajas:</strong> Implica un alto nivel de estrés, requiere una disciplina férrea y puede generar comisiones significativas por el alto volumen de operaciones.</li>
+                </ul>
+
+                <h4>1.4. Perfil psicológico del Day Trader</h4>
+                <p>Un day trader exitoso debe poseer una alta tolerancia a la volatilidad, la capacidad de tomar decisiones rápidas bajo presión y una disciplina inquebrantable para seguir su plan de trading sin dejarse llevar por las emociones.</p>
+                <div class="code-container">
+                    <p>👉 <strong>Analogía:</strong> El scalper es como un francotirador, el day trader es un cazador activo que busca varias presas durante el día, y el swing trader es un pescador paciente.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section2">
+            <div class="topic-header"><span class="topic-title">2. Fundamentos del Mercado</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Para operar intradía es vital comprender el contexto donde se negocian los activos. Aunque el mercado cripto es continuo las 24 horas, la liquidez —entendida como la facilidad para comprar o vender sin mover demasiado el precio— se concentra en ventanas que coinciden con las sesiones asiática, europea y estadounidense. Al mismo tiempo, la volatilidad, que es la magnitud con la que varían los precios, actúa como una espada de doble filo: incrementa las oportunidades de beneficio, pero también amplifica las pérdidas si la gestión del riesgo es deficiente. En acciones y futuros, los calendarios y horarios de apertura introducen fenómenos adicionales, como los gaps entre el cierre y la apertura del día siguiente; en Bitcoin, aun siendo un mercado 24/7, los futuros del CME generan discontinuidades que muchos operadores exploran. Dicho esto, la selección de activos —acciones con alto volumen, pares principales de divisas o criptomonedas como BTC y ETH— debe guiarse por la profundidad del libro de órdenes y por los costos de transacción efectivos.</p>
+
+                <h4>2.1. Horarios y sesiones</h4>
+                <div class="diagram-container">
+                    <div class="diagram-title">Sesiones de Mercado (24h)</div>
+                    <div class="diagram-flow">
+                        <div class="diagram-box"><strong>Sesión Asiática</strong><span>(Tokio/Hong Kong)</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Solapamiento</div></div>
+                        <div class="diagram-box"><strong>Sesión Europea</strong><span>(Londres/Frankfurt)</span></div>
+                        <div class="diagram-arrow"><div class="diagram-arrow-label">Mayor Volatilidad</div></div>
+                        <div class="diagram-box"><strong>Sesión Americana</strong><span>(Nueva York)</span></div>
+                    </div>
+                </div>
+
+                <h4>2.3. Volatilidad e importancia de la liquidez</h4>
+                <p>La volatilidad crea oportunidades, pero la liquidez es lo que permite capitalizarlas. Un mercado líquido garantiza que se pueda entrar y salir de las posiciones rápidamente y a precios justos.</p>
+                <div class="code-container">
+                     <p>👉 <strong>Intuición:</strong> la liquidez es como la anchura de una autopista: en una autopista ancha (mercado líquido), puedes entrar y salir fácil. En una carretera estrecha (mercado ilíquido), te quedas atascado.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section3">
+            <div class="topic-header"><span class="topic-title">3. Herramientas del Day Trader</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La plataforma de ejecución y el gráfico son la cabina de mando del operador. Una orden “market” ejecuta de inmediato al mejor precio disponible, lo que aporta rapidez a costa de un posible deslizamiento; por su parte, una orden “limit” fija el precio de ejecución pero no garantiza que se complete. Para acotar pérdidas, el stop-loss define el nivel a partir del cual la posición se cierra automáticamente, mientras que el take-profit realiza beneficios al tocar un objetivo prefijado. El libro de órdenes —conocido como Level II— muestra las colas de compra y venta pendientes; leer su dinámica ayuda a inferir desequilibrios de oferta y demanda. En el plano del análisis técnico, las medias móviles (por ejemplo, la EMA) suavizan el ruido y aproximan la dirección dominante; el RSI cuantifica impulsos relativos de sobrecompra o sobreventa; el VWAP —precio medio ponderado por volumen— resume el “precio justo” intradía alrededor del cual gravitan muchas instituciones; y el MACD compara medias para estimar cambios de momentum. Estas herramientas no sustituyen al criterio, pero ofrecen un lenguaje común para describir el estado del mercado.</p>
+
+                <h4>3.4. Indicadores técnicos comunes</h4>
+                 <ul>
+                    <li><strong>Medias Móviles (MA/EMA):</strong> Ayudan a identificar la tendencia principal.</li>
+                    <li><strong>Índice de Fuerza Relativa (RSI):</strong> Mide si un activo está sobrecomprado o sobrevendido.</li>
+                    <li><strong>Precio Medio Ponderado por Volumen (VWAP):</strong> Referencia clave para el "precio justo" intradía.</li>
+                    <li><strong>Convergencia/Divergencia de Medias Móviles (MACD):</strong> Detecta cambios en el momentum del precio.</li>
+                </ul>
+
+                <div class="code-container">
+                     <p>👉 <strong>Analogía:</strong> los indicadores son como los instrumentos de un coche (velocímetro, nivel de gasolina). No conducen por ti, pero te ayudan a tomar decisiones informadas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section4">
+            <div class="topic-header"><span class="topic-title">4. Estrategias de Day Trading</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                 <p>Una primera familia de enfoques es la de rupturas o breakouts: cuando el precio supera de forma convincente una resistencia, con volumen y continuidad, el trader entra en la dirección de la ruptura buscando la expansión del rango. Un segundo enfoque se apoya en el momentum: ante una noticia o un incremento abrupto del flujo de órdenes, el precio acelera y, por lo general, continúa durante un tramo adicional; la clave está en distinguir la aceleración genuina de la euforia breve. En paralelo, la reversión a la media parte de la idea estadística de que, cuando el precio se aleja de su promedio intradía —por ejemplo, del VWAP—, tiende a replegarse; la identificación del agotamiento mediante osciladores mejora las probabilidades. En mercados accionarios, el gap trading explota la inercia o el cierre del hueco entre el cierre previo y la apertura; en Bitcoin, una analogía operativa se observa en la relación entre el spot y los futuros del CME al reabrir la semana. Finalmente, el análisis de order flow, que observa cómo y dónde se agreden los libros, permite anticipar zonas donde el precio probablemente acelere o se frene.</p>
+
+                <h4>4.1. Breakout Trading</h4>
+                <p>Consiste en operar cuando el precio rompe un nivel clave de soporte o resistencia, usualmente con un aumento de volumen que confirma la validez del movimiento.</p>
+
+                <h4>4.3. Reversión a la media</h4>
+                <p>Esta estrategia se basa en la idea de que los precios tienden a regresar a su valor medio (como el VWAP) después de movimientos extremos. Se busca operar en contra de la tendencia a corto plazo cuando hay señales de agotamiento.</p>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section5">
+            <div class="topic-header"><span class="topic-title">5. Gestión del Riesgo</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La gestión del riesgo es la arquitectura invisible que sostiene cualquier estrategia. Para empezar, el tamaño de posición debería derivarse del riesgo monetario aceptado por operación: si la cuenta permite perder como máximo un uno por ciento en una idea, el número de unidades se ajusta a partir de la distancia entre la entrada y el stop-loss. A continuación, el ratio riesgo-beneficio establece que el objetivo esperado compense el riesgo asumido; en intradía, buscar relaciones de dos a uno o tres a uno mejora la esperanza matemática aun con tasas de acierto moderadas. Conforme el trade avanza, un trailing stop permite proteger beneficios sin abandonar por completo la posibilidad de capturar tramos más largos. La diversificación intradía —ya sea por activos o por horarios— reduce la dependencia de una única lectura del mercado. Por último, el overtrading, que es la sobreoperación impulsiva, suele aparecer tras rachas de pérdidas o de ganancias; reconocer ese patrón y pausar evita que las comisiones y el desgaste erosionen el resultado.</p>
+
+                <h4>5.2. Ratio Riesgo/Beneficio (RRR)</h4>
+                <p>Es fundamental buscar operaciones donde el beneficio potencial sea significativamente mayor que la pérdida potencial. Un ratio común y saludable en day trading es de 1:2 o 1:3 (arriesgar 1 para ganar 2 o 3).</p>
+
+                <div class="code-container">
+                     <p>👉 <strong>Intuición:</strong> la gestión de riesgo es como el cinturón de seguridad en un coche: no evita accidentes, pero sí evita que un error te destruya.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section6">
+            <div class="topic-header"><span class="topic-title">6. Psicología del Day Trader</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El componente mental del intradía es tan determinante como la técnica. El control emocional comienza antes de abrir la plataforma, con reglas explícitas que definen cuántas operaciones máximas se permitirán, qué pérdidas diarias obligan a detenerse y qué condiciones del mercado habilitan o prohíben ciertas tácticas. Los sesgos cognitivos se filtran de maneras sutiles: la aversión a la pérdida tiende a prolongar posiciones perdedoras con la esperanza de “volver a cero”, mientras que el sesgo de confirmación selecciona la información que valida una idea previa e ignora señales contrarias. Convertir el plan de trading en un documento operativo —con criterios de entrada, de salida y de gestión— reduce el margen de improvisación y, por extensión, la probabilidad de errores emocionales. En términos prácticos, la consistencia se entrena igual que un piloto de aeronave repite listas de chequeo: la rutina correcta protege cuando la adrenalina sube.</p>
+
+                <h4>6.4. Plan de trading escrito</h4>
+                <p>Tener un plan de trading documentado es crucial. Debe incluir reglas claras sobre qué activos operar, bajo qué condiciones entrar y salir, cómo gestionar el riesgo y en qué horarios operar. Esto minimiza las decisiones impulsivas.</p>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section7">
+            <div class="topic-header"><span class="topic-title">7. Análisis Avanzado</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>En el plano sistemático, el trading algorítmico transforma reglas discretas en código para ejecutar con precisión y sin fatiga. Este enfoque permite testear hipótesis sobre datos históricos —lo que se conoce como backtesting—, medir su robustez fuera de muestra y, sólo después, considerar su puesta en producción. Cuando la complejidad de los datos lo justifica, el aprendizaje automático introduce modelos como LSTM o transformadores para capturar dependencias temporales y no linealidades; aun así, su valor real emerge cuando conviven con controles estrictos de sobreajuste y con una latencia de ejecución acorde al horizonte intradía. El análisis de order flow, por su parte, se apoya en huellas microestructurales —agresiones, absorciones, desequilibrios— que revelan dónde se está “pagando el precio” por entrar. Integrar estas capas de análisis no implica complicarlo todo, sino alinear herramientas con objetivos: rapidez, repetibilidad y control del riesgo.</p>
+
+                <h4>7.4. Backtesting</h4>
+                <p>Es el proceso de probar una estrategia de trading con datos históricos para determinar su viabilidad y rentabilidad potencial. Un backtesting riguroso es esencial antes de arriesgar capital real.</p>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section8">
+            <div class="topic-header"><span class="topic-title">8. Day Trading en Criptomonedas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Operar intradía en cripto presenta particularidades. Al ser un mercado continuo, los ciclos de liquidez se organizan más por zonas horarias que por campanazos de apertura; por ello, seleccionar ventanas de operación coherentes con la estrategia es crucial. La volatilidad de Bitcoin, medida por rangos medios intradía, suele superar la de activos tradicionales, lo que permite objetivos relativamente ambiciosos, pero exige stops proporcionados y un apalancamiento prudente en derivados. Además, la microestructura de los exchanges —comisiones maker-taker, profundidad real por escalón de precio y estabilidad de las APIs— incide directamente en el resultado neto. En la práctica, muchas estrategias se centran en rupturas del rango asiático durante la sesión europea o estadounidense, en reversiones alrededor del VWAP cuando el impulso se agota, y en el seguimiento de niveles psicológicos redondos que atraen flujo institucional y minorista.</p>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section9">
+            <div class="topic-header"><span class="topic-title">9. Errores Comunes</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>La mayoría de los tropiezos se resume en cuatro fallas concatenadas. Primero, una gestión de riesgo laxa convierte un mal trade en un daño estructural para la cuenta. Después, el sobreapalancamiento agrava esa fragilidad y dispara liquidaciones innecesarias, especialmente en futuros. A continuación, la toma de decisiones emocional —impulsada por el FOMO tras una ruptura o por la revancha luego de una pérdida— destruye la estadística de cualquier sistema. Finalmente, la ausencia de validación histórica deja al operador a merced de intuiciones no verificadas; sin un backtest sobrio y un registro de operativa, es imposible distinguir entre suerte y ventaja repetible.</p>
+                <ul>
+                    <li><strong>Mala gestión de riesgo:</strong> Arriesgar un porcentaje demasiado alto del capital en una sola operación.</li>
+                    <li><strong>Sobreapalancamiento:</strong> Usar demasiado capital prestado, lo que magnifica tanto ganancias como pérdidas.</li>
+                    <li><strong>Operar por emociones:</strong> Dejarse llevar por el miedo (FOMO) o la avaricia, ignorando el plan de trading.</li>
+                    <li><strong>No validar estrategias:</strong> Operar sin haber realizado un backtesting previo para confirmar la eficacia de la estrategia.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="topic-card" id="section10">
+            <div class="topic-header"><span class="topic-title">10. Conclusión y Mejores Prácticas</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Un proceso intradía saludable comienza con una breve preparación: revisar el calendario de eventos relevantes, identificar niveles técnicos significativos y fijar los parámetros de riesgo para la sesión. Durante la jornada, la ejecución debería limitarse a los escenarios definidos, sin ampliar reglas “sobre la marcha”. Al cierre, un diario de trading —que incluya capturas, razones de entrada y salida, y métricas objetivas— permite refinar criterios y detectar sesgos. La mejora continua no es un eslogan: consiste en cuestionar de forma metódica lo que funciona, lo que no y por qué, aceptando que el mercado cambia y que sólo sobreviven los procesos que se adaptan.</p>
+
+                <h4>10.2. Diario de trading</h4>
+                <p>Llevar un registro detallado de cada operación es una de las prácticas más importantes. Anotar la estrategia utilizada, el resultado, los errores cometidos y las lecciones aprendidas permite identificar patrones y mejorar de forma sistemática.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+      <p>Material de estudio sobre Day Trading</p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('theme-icon');
+        const bodyEl = document.body;
+
+        function setTheme(theme) {
+            bodyEl.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = bodyEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        document.querySelectorAll('.topic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('open');
+            });
+        });
+
+        // Open the first topic card by default
+        const firstCard = document.querySelector('.topic-card');
+        if(firstCard) {
+            firstCard.classList.add('open');
+        }
+    })();
+  </script>
+</body>
+</html>

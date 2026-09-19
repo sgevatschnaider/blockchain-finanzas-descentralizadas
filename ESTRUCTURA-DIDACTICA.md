@@ -1,46 +1,46 @@
-# Estructura didáctica para revisar el curso unidad por unidad
+# Estructura didáctica del curso
 
-Revisión al 9 de septiembre de 2026. Referencias: programa adjunto «Blockchain y Finanzas Descentralizadas» (año académico 2025), guía original de Unidad 1 y estructura de `sgevatschnaider/CriptografiayBlockchain`, especialmente su Módulo 5.
+Revisión integral: 19 de septiembre de 2026.
 
 ## Criterio común
 
-Cada unidad debe ofrecer una entrada HTML con botones, objetivos alineados con el programa, ruta de aprendizaje, lectura/presentación, laboratorios, glosario, cuestionario y caso integrador. La cantidad de recursos debe responder a los objetivos: no hace falta que todas tengan el mismo número de simulaciones o preguntas.
+Cada unidad cuenta con una entrada web, objetivos, una ruta sugerida y accesos a sus recursos. La cantidad de presentaciones, simulaciones o preguntas responde al propósito de aprendizaje y no a una cuota uniforme.
 
-| Componente | Criterio mínimo de diseño |
+| Componente | Criterio de diseño |
 |---|---|
-| Portal | Ruta principal visible, navegación móvil, acceso al material original y regreso al curso |
-| Lectura y presentación | Conceptos desarrollados, ejemplos y fuentes; visor público sólo cuando exista una presentación |
-| Simulaciones | Pregunta, parámetros, resultado observable, interpretación, reinicio y supuestos explícitos |
-| Glosario | Definición, ejemplo, confusión frecuente, vínculo al recurso y búsqueda |
-| Cuestionario | Categorías, dificultad, explicación, práctica/examen y resultados por área |
-| Caso | Consigna aplicada, alternativas, evidencia de aprendizaje y criterios de respuesta |
-| Accesibilidad | Teclado, etiquetas, contraste, diseño adaptable y respeto por movimiento reducido |
-| Mantenimiento | Recursos originales conservados, URLs estables, validación de enlaces, sintaxis y casos límite |
+| Portal | Identidad de unidad, navegación móvil, acceso al campus y unidad anterior/siguiente |
+| Teoría | Conceptos desarrollados, ejemplos, fuentes y masters editables cuando existen |
+| Práctica | Pregunta, parámetros, resultado observable, interpretación, reinicio y supuestos |
+| Evaluación | Explicaciones formativas, filtros y resultados comprensibles |
+| Accesibilidad | Teclado, etiquetas, contraste, diseño adaptable y movimiento reducido |
+| Mantenimiento | URLs compatibles, rutas relativas, manifests y validación automatizada |
 
-Los materiales opcionales deben identificarse como profundización. El programa y la evaluación institucional no se redefinen desde un portal.
+## Mapa canónico
 
-## Estado observado y siguiente intervención
-
-Inventario de archivos y lectura estructural de README; no equivale a una auditoría funcional completa de cada recurso de las unidades pendientes.
-
-| Unidad | Estado observado antes de esta intervención | Prioridad propuesta |
+| Etapa | Tema | Función pedagógica |
 |---|---|---|
-| 0 | Portal, presentaciones, glosario, cuestionario y simulaciones | Mantener como introducción y evitar duplicación con U1 |
-| 1 | Portal, siete laboratorios técnicos, 50 preguntas, guía y dos notebooks; sin glosario propio | Alinear con negocios, redes y casos; implementar glosario y simulaciones aplicadas |
-| 2 | 18 HTML y una guía PDF; sin `index.html` en la raíz de la unidad | Portal integrado; clasificar activos, consenso, claves y estafas según programa |
-| 3 | 17 HTML; README mezcla IoT/IA/metaverso con ciberseguridad y redes | Separar núcleo del programa de profundizaciones; integrar caso de datos y oráculos |
-| 4 | Nueve HTML; foco visible en Lightning, algoritmos y ZKP | Reforzar primero comparación TradFi/DeFi y servicios financieros; dejar algoritmos como extensión |
-| 5 | Trece HTML y un notebook; énfasis en trading y riesgo | Mapear indicadores, ejecución y riesgo al programa y revisar supuestos de los modelos |
-| 6 | README prácticamente vacío y sin HTML o notebooks en su carpeta | Construir ruta Python: datos, indicadores, contratos introductorios y caso ML |
+| M0 | Clase inicial | Lenguaje común y motivación de negocio |
+| U1 | Fundamentos y Smart Contracts | Selección de red, casos y primera práctica técnica |
+| U2 | Bitcoin, consenso y seguridad | Modelo UTXO, minería, incentivos y riesgos |
+| U3 | Ethereum | Estado, EVM, PoS, tokens, rollups, MEV y roadmap |
+| U4 | IoT, IA/ML y Metaverso | Integración de sistemas, evidencia y experiencias digitales |
+| U5 | Algoritmos y criptografía aplicada | Dijkstra, Lightning, ZKP y ZK-rollups |
+| U6 | Indicadores y trading | Microestructura, ejecución, riesgo y LSTM |
+| U7 | Python y Blockchain Analytics | Datos on-chain y proyecto reproducible |
 
-## Intervención realizada en Unidad 1
+## U3 · Ethereum
 
-- Ruta principal centrada en negocios y comparación de redes, conservando siete laboratorios técnicos.
-- Lectura de estudio con bibliografía del programa y fuentes primarias, comparador cualitativo y seis casos hipotéticos.
-- Dos simulaciones nuevas: decisión de arquitectura y seguro paramétrico con datos externos.
-- Glosario de 40 términos con ejemplos, límites y tarjetas; banco de 70 preguntas en 14 categorías.
-- Cuestionario con un único manejador de respuestas y modo de sesión fijo; los filtros se aplican al iniciar una sesión nueva.
-- Escrow con controles explícitos de actor; tema compartido en los laboratorios principales.
-- Validación ampliada de estructura, recursos y contenido. Modelos del seguro y de arquitectura comprobados en casos límite mediante un arnés de eventos; no se realizó prueba visual en navegador.
+La unidad nueva ofrece seis presentaciones completas —136 diapositivas— en PPTX y PDF, un visor local basado en manifest, doce laboratorios, un glosario interactivo de 88 conceptos y un cuestionario de 30 preguntas. La progresión va de cuentas y transacciones a EVM, contratos, PoS, L2 y MEV.
 
-No se editaron contenidos de las unidades 0 y 2–6. La intervención en cada una requiere leer sus recursos y comprobar sus modelos antes de modificarlos.
+Los PPTX se mantienen como masters; los PDF son la representación estable para lectura y descarga. Las copias nativas de Google Slides se registran en el manifest, pero no se muestran como públicas mientras el permiso anónimo no esté confirmado.
+
+## Solapamientos y decisiones
+
+- Los tres recursos históricos de Ethereum dentro de la antigua U3 se conservan en U4 como antecedentes, pero la ruta canónica es ahora U3.
+- Lightning aparece como cierre contextual en U2, como material histórico dentro de U4 y como núcleo algorítmico en U5. No se eliminó contenido: los portales aclaran la función de cada aparición.
+- L2 y rollups se introducen desde la arquitectura de Ethereum en U3 y se profundizan desde pruebas y algoritmos en U5.
+- Trading usa fundamentos de criptoactivos ya vistos en U2; en U6 el foco se desplaza a microestructura, ejecución y gestión del riesgo.
+
+## Compatibilidad
+
+Las unidades anteriores U3–U6 fueron desplazadas a U4–U7. Las rutas HTML históricas mantienen redirecciones estáticas y el notebook de trading conserva además una copia en su antigua ruta para que Colab continúe resolviéndolo.

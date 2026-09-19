@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Glosario interactivo avanzado de Ethereum: 88 conceptos desarrollados, guía de estudio, buscador, filtros, flashcards, quiz y mapa conceptual.">
+<title>Ethereum · Glosario Interactivo y Guía de Estudio</title>
+<style>
+:root{
+  --bg:#f4f7fb;--bg2:#e8eef8;--panel:#ffffff;--panel2:#f7f9fc;--text:#162033;--muted:#66758a;
+  --line:#d8e1ed;--accent:#627eea;--accent2:#8b5cf6;--cyan:#0891b2;--ok:#059669;--warn:#b7791f;--bad:#dc2626;
+  --shadow:0 16px 44px rgba(20,34,70,.11);--glow:rgba(98,126,234,.18);
+}
+html[data-theme="dark"]{
+  --bg:#070b14;--bg2:#0b1220;--panel:#101827;--panel2:#0d1522;--text:#edf2ff;--muted:#9ba9bf;
+  --line:#26344d;--accent:#8ea2ff;--accent2:#b58cff;--cyan:#22d3ee;--ok:#34d399;--warn:#fbbf24;--bad:#fb7185;
+  --shadow:0 20px 58px rgba(0,0,0,.34);--glow:rgba(142,162,255,.20);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--text);line-height:1.55;
+  background:
+    radial-gradient(900px 480px at 92% -8%,rgba(139,92,246,.18),transparent 60%),
+    radial-gradient(760px 440px at -8% 8%,rgba(34,211,238,.12),transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 55%,var(--bg));
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+.header{
+  position:sticky;top:0;z-index:70;
+  background:color-mix(in srgb,var(--panel) 90%,transparent);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--line)
+}
+.topbar{max-width:1580px;margin:auto;padding:12px 18px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.logo{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;font-weight:900;font-size:1.35rem;
+  box-shadow:0 0 30px var(--glow)
+}
+.brand strong{display:block}
+.brand small{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:770px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{
+  border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 12px;border-radius:12px;font-weight:800;
+  transition:.18s
+}
+.btn:hover{transform:translateY(-1px);border-color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.btn.cyan{background:color-mix(in srgb,var(--cyan) 16%,var(--panel));border-color:color-mix(in srgb,var(--cyan) 50%,var(--line))}
+.btn.ok{background:color-mix(in srgb,var(--ok) 12%,var(--panel));border-color:color-mix(in srgb,var(--ok) 50%,var(--line))}
+.btn.warn{background:color-mix(in srgb,var(--warn) 12%,var(--panel));border-color:color-mix(in srgb,var(--warn) 50%,var(--line))}
+main{max-width:1580px;margin:auto;padding:24px 18px 60px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:18px}
+.card,.panel{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),var(--panel));
+  border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)
+}
+.card{padding:24px;position:relative;overflow:hidden}
+.card:before{
+  content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-120px;top:-160px;
+  background:radial-gradient(circle,var(--glow),transparent 68%)
+}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:900}
+h1{font-size:clamp(2rem,4vw,3.45rem);line-height:1.02;margin:.25rem 0 .8rem}
+.lead{font-size:1.08rem;color:var(--muted);max-width:980px}
+.goal{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:15px}
+.goal b{display:block;margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.span-3{grid-column:span 3}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}
+.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-9{grid-column:span 9}.span-12{grid-column:1/-1}
+.panel{overflow:hidden}
+.panelHead{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.panelHead h2,.panelHead h3{margin:0;font-size:1rem}
+.panelBody{padding:16px}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;
+  font-size:.75rem;color:var(--muted);background:var(--panel2)
+}
+label{display:block;font-size:.79rem;color:var(--muted);font-weight:800;margin:8px 0 5px}
+input,select{
+  width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 11px
+}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:11px;min-width:0}
+.kpi b{display:block;font-size:1.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi small{color:var(--muted)}
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--panel2);border-radius:12px;padding:12px}
+.callout.ok{border-left-color:var(--ok)}.callout.warn{border-left-color:var(--warn)}.callout.bad{border-left-color:var(--bad)}
+.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:8px 12px;border-radius:999px;
+  font-weight:800;font-size:.82rem
+}
+.chip.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--glow)}
+.glossary{display:flex;flex-direction:column;gap:12px}
+.entry{border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden;transition:.2s}
+.entry:hover{border-color:var(--accent)}
+.entryHead{
+  padding:16px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;cursor:pointer;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),var(--panel2))
+}
+.entryTitle{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.entryTitle h3{margin:0;font-size:1.06rem}
+.cat{
+  display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+  border-radius:999px;padding:4px 8px;font-size:.72rem;font-weight:800
+}
+.entryShort{color:var(--muted);margin-top:6px}
+.toggle{font-size:1.2rem;font-weight:900;color:var(--muted)}
+.entryBody{display:none;padding:0 16px 16px}
+.entry.open .entryBody{display:block}
+.entry.open .toggle{color:var(--accent)}
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.block{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:12px}
+.block h4{margin:0 0 6px;font-size:.88rem}
+.block p{margin:0;font-size:.93rem}
+.related{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.related button{
+  border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:5px 8px;font-size:.74rem
+}
+.studyCard{min-height:310px;display:grid;align-content:start;gap:10px}
+.studyTerm{font-size:1.55rem;font-weight:900;line-height:1.15}
+.studyMeta{color:var(--muted);font-size:.88rem}
+.studyAnswer{display:none}
+.studyAnswer.show{display:block}
+.progress{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:.25s}
+.masteryRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.path{display:grid;gap:9px}
+.pathItem{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:11px;cursor:pointer}
+.pathItem:hover{border-color:var(--accent)}
+.pathItem b{display:block}
+.pathItem small{color:var(--muted)}
+.quizBox{display:grid;gap:12px}
+.quizQuestion{font-size:1.08rem;font-weight:900}
+.quizOptions{display:grid;gap:8px}
+.quizOpt{
+  border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:11px;text-align:left
+}
+.quizOpt.correct{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--panel2))}
+.quizOpt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 9%,var(--panel2))}
+.quizOpt:disabled{cursor:default}
+.mapWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel2);padding:10px}
+.map{min-width:820px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.mapCol{display:grid;gap:8px;align-content:start}
+.mapNode{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:9px;font-size:.82rem;text-align:center;cursor:pointer}
+.mapNode:hover{border-color:var(--accent)}
+.mapArrow{text-align:center;color:var(--muted);font-weight:900}
+mark{background:color-mix(in srgb,var(--warn) 38%,transparent);color:inherit;padding:.08em .18em;border-radius:4px}
+.hidden{display:none!important}
+.footer{max-width:1580px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.82rem}
+@media(max-width:1140px){
+  .hero{grid-template-columns:1fr}.span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9{grid-column:1/-1}
+  .toolbar{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.blocks{grid-template-columns:1fr}
+  .brand small{display:none}
+}
+@media(max-width:720px){
+  .topbar{align-items:flex-start}.actions .btn{padding:8px 9px}.kpis,.masteryRow{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">Ξ</div>
+      <div>
+        <strong>Ethereum · Glosario Interactivo</strong>
+        <small>guía de estudio · 88 conceptos · flashcards · quiz · mapa conceptual</small>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="themeBtn">☀ Tema claro</button>
+      <button class="btn cyan" id="expandBtn">＋ Expandir todo</button>
+      <button class="btn" id="collapseBtn">－ Colapsar todo</button>
+      <button class="btn primary" id="randomBtn">🎯 Repaso al azar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="card">
+      <div class="eyebrow">Guía de estudio avanzada · Unidad Ethereum</div>
+      <h1>De la clave privada a MEV: un mapa conceptual completo de Ethereum</h1>
+      <p class="lead">Este glosario no está pensado como una lista de definiciones aisladas. Cada concepto incluye una <strong>definición desarrollada</strong>, su <strong>importancia dentro del sistema</strong>, un <strong>ejemplo o contraste</strong> y conexiones con otros conceptos. Podés recorrerlo por tema, buscar ideas, usar flashcards, marcar dominio y realizar un quiz interactivo.</p>
+      <div class="goal"><b>Ruta mental central</b>Cuenta → firma → transacción → gas → transición de estado → EVM → contrato → token → consenso → finality → incentivos → L2 → MEV.</div>
+    </div>
+    <div class="card">
+      <div class="kpis">
+        <div class="kpi"><b id="termCount">88</b><small>conceptos</small></div>
+        <div class="kpi"><b id="catCount">9</b><small>áreas temáticas</small></div>
+        <div class="kpi"><b id="visibleCount">88</b><small>visibles</small></div>
+        <div class="kpi"><b id="masteredCount">0</b><small>dominados</small></div>
+      </div>
+      <div style="margin-top:13px">
+        <div class="progress"><div id="masteryBar" style="width:0"></div></div>
+        <div class="studyMeta" id="masteryText" style="margin-top:5px">0% de dominio registrado</div>
+      </div>
+      <div class="callout warn" style="margin-top:12px"><b>Método recomendado:</b> recorré primero las categorías en orden, después estudiá con flashcards sin mirar la respuesta y terminá con el quiz. El progreso se conserva en este navegador.</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Explorador</h2><span class="pill">buscar · filtrar · ordenar</span></div>
+      <div class="panelBody">
+        <div class="toolbar">
+          <div>
+            <label>Buscar término o idea</label>
+            <input id="search" type="search" placeholder="Ej.: finality, approve, calldata, proposer, blob...">
+          </div>
+          <div>
+            <label>Orden</label>
+            <select id="sortSelect">
+              <option value="alpha">Alfabético</option>
+              <option value="category">Por categoría</option>
+            </select>
+          </div>
+          <div>
+            <label>Filtro de dominio</label>
+            <select id="masteryFilter">
+              <option value="all">Todos</option>
+              <option value="mastered">Dominados</option>
+              <option value="pending">Pendientes</option>
+            </select>
+          </div>
+        </div>
+        <div class="chips" id="chips" style="margin-top:14px"></div>
+      </div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Flashcard de repaso</h2><span class="pill" id="cardCounter">0 repasos</span></div>
+      <div class="panelBody studyCard">
+        <div class="studyMeta" id="studyMeta">Intentá explicar el término con tus propias palabras antes de revelar la respuesta.</div>
+        <div class="studyTerm" id="studyTerm">—</div>
+        <div class="studyAnswer" id="studyAnswer">
+          <div class="callout ok"><b>Definición:</b> <span id="studyDef"></span></div>
+          <div class="callout" style="margin-top:8px"><b>Por qué importa:</b> <span id="studyImp"></span></div>
+          <div class="callout warn" style="margin-top:8px"><b>Ejemplo:</b> <span id="studyEx"></span></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary" id="newCardBtn">Nueva tarjeta</button>
+          <button class="btn" id="showAnswerBtn">Mostrar respuesta</button>
+        </div>
+        <div class="masteryRow">
+          <button class="btn ok" id="masterBtn">✓ Lo domino</button>
+          <button class="btn warn" id="reviewBtn">↻ Repasar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Glosario desarrollado</h2><span class="pill" id="glossaryPill">88 términos</span></div>
+      <div class="panelBody">
+        <div class="glossary" id="glossary"></div>
+      </div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Ruta de estudio</h2><span class="pill">8 etapas</span></div>
+      <div class="panelBody">
+        <div class="path">
+          <div class="pathItem" data-cat="Fundamentos"><b>1 · Fundamentos</b><small>cuentas, claves, firma, dirección, nonce, hash</small></div>
+          <div class="pathItem" data-cat="Transacciones y Gas"><b>2 · Transacciones y Gas</b><small>anatomía, EIP-1559, gas limit, fees, receipts</small></div>
+          <div class="pathItem" data-cat="Estado y EVM"><b>3 · Estado y EVM</b><small>state transition, opcodes, stack, memory, storage</small></div>
+          <div class="pathItem" data-cat="Contratos y Tokens"><b>4 · Contratos y Tokens</b><small>deploy, ABI, events, ERC-20, ERC-721</small></div>
+          <div class="pathItem" data-cat="Consenso"><b>5 · Consenso</b><small>PoS, slots, attestations, fork choice, finality</small></div>
+          <div class="pathItem" data-cat="Seguridad e Incentivos"><b>6 · Seguridad e Incentivos</b><small>rewards, penalties, slashing, inactivity leak</small></div>
+          <div class="pathItem" data-cat="Escalabilidad"><b>7 · Escalabilidad</b><small>rollups, batching, DA, calldata, blobs, proofs</small></div>
+          <div class="pathItem" data-cat="MEV y Block Building"><b>8 · MEV y Block Building</b><small>searcher, builder, PBS, arbitrage, sandwich</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Quiz de conceptos</h2><span class="pill" id="quizScore">0 / 0</span></div>
+      <div class="panelBody quizBox">
+        <div class="quizQuestion" id="quizQuestion">Presioná “Nueva pregunta” para comenzar.</div>
+        <div class="quizOptions" id="quizOptions"></div>
+        <div class="callout hidden" id="quizExplain"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary" id="quizNewBtn">Nueva pregunta</button>
+          <button class="btn" id="quizResetBtn">Reiniciar puntaje</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Cómo estudiar este material</h2><span class="pill">método activo</span></div>
+      <div class="panelBody">
+        <div class="callout"><b>Nivel 1 · Reconocimiento:</b> leé definición + ejemplo y ubicá el concepto en su categoría.</div>
+        <div class="callout" style="margin-top:8px"><b>Nivel 2 · Explicación:</b> cerrá la definición e intentá explicarla sin tecnicismos innecesarios.</div>
+        <div class="callout" style="margin-top:8px"><b>Nivel 3 · Relaciones:</b> conectá cada término con al menos dos relacionados.</div>
+        <div class="callout ok" style="margin-top:8px"><b>Nivel 4 · Aplicación:</b> volvé a las 12 simulaciones y buscá dónde aparece cada concepto en acción.</div>
+      </div>
+    </section>
+
+    <section class="panel span-12">
+      <div class="panelHead"><h2>Mapa conceptual navegable</h2><span class="pill">clic en un nodo para abrir el término</span></div>
+      <div class="panelBody">
+        <div class="mapWrap">
+          <div class="map">
+            <div class="mapCol">
+              <div class="mapNode" data-term="Cuenta Externally Owned Account (EOA)">EOA</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="Clave privada">Clave privada</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="Firma digital">Firma</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="Transacción">Transacción</div>
+            </div>
+            <div class="mapCol">
+              <div class="mapNode" data-term="Gas">Gas</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="EIP-1559">EIP-1559</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="Estado de Ethereum">Estado</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="EVM">EVM</div>
+            </div>
+            <div class="mapCol">
+              <div class="mapNode" data-term="Smart contract">Smart contract</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="ERC-20">ERC-20</div>
+              <div class="mapNode" data-term="ERC-721">ERC-721</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="Composabilidad">Composabilidad</div>
+            </div>
+            <div class="mapCol">
+              <div class="mapNode" data-term="Proof of Stake (PoS)">PoS</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="LMD-GHOST">Fork choice</div>
+              <div class="mapNode" data-term="Casper FFG">Finality</div>
+              <div class="mapArrow">↓</div>
+              <div class="mapNode" data-term="Rollup">Rollups</div>
+              <div class="mapNode" data-term="MEV">MEV</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong> Guía de estudio interactiva de Ethereum. Las definiciones pedagógicas distinguen deliberadamente conceptos relacionados para facilitar comprensión y repaso.</footer>
+
+<script>
+const TERMS = [{"term": "Cuenta Externally Owned Account (EOA)", "slug": "eoa", "category": "Fundamentos", "short": "Cuenta controlada por una clave privada. Puede firmar transacciones, pagar gas y enviar ETH o llamar contratos.", "definition": "Una Externally Owned Account (EOA) es una cuenta de Ethereum cuyo control depende de una clave privada. A diferencia de un contrato inteligente, no contiene lógica ejecutable en sí misma: actúa como origen de transacciones firmadas. La EOA posee una dirección, un balance de ETH, un nonce y, eventualmente, tokens o NFTs registrados en contratos externos.", "importance": "Es el punto de entrada más intuitivo al sistema porque representa a un usuario, una wallet o una entidad operando en la red. Entender la EOA permite comprender quién inicia una transacción, quién paga por el gas y por qué la seguridad del ecosistema depende tanto del manejo de claves privadas.", "example": "Cuando una wallet como MetaMask envía ETH o interactúa con un contrato DeFi, la orden sale desde una EOA. La EOA no “contiene” el token ERC-20; lo que tiene es una dirección que el contrato reconoce como titular de cierto balance.", "related": []}, {"term": "Clave privada", "slug": "private-key", "category": "Fundamentos", "short": "Secreto criptográfico que permite firmar transacciones y demostrar control sobre una cuenta.", "definition": "La clave privada es el dato secreto fundamental de una cuenta. A partir de ella se puede derivar la clave pública y, posteriormente, la dirección Ethereum. En la práctica, quien conoce la clave privada puede autorizar transacciones válidas y controlar los activos asociados a la dirección correspondiente.", "importance": "No es una contraseña recuperable ni un simple identificador: es el núcleo de la propiedad digital. Perderla equivale a perder el control económico de la cuenta; exponerla equivale a cederlo. Por eso la custodia de claves es un eje central de la seguridad en Ethereum.", "example": "Si un atacante obtiene la clave privada de una EOA, puede firmar una transferencia de todos sus fondos. La red aceptará esa transacción como legítima porque la firma será criptográficamente válida.", "related": []}, {"term": "Clave pública", "slug": "public-key", "category": "Fundamentos", "short": "Valor derivado de la clave privada que permite verificar firmas sin revelar el secreto.", "definition": "La clave pública es el componente abierto del par criptográfico. Se deriva matemáticamente de la clave privada y permite verificar que una firma fue producida por el titular correspondiente sin necesidad de conocer la clave secreta. En Ethereum, la dirección se obtiene a partir de la clave pública.", "importance": "Explica cómo la red puede verificar autenticidad sin requerir confianza en un tercero. La relación entre clave privada, clave pública y firma digital es la base de la autorización descentralizada.", "example": "Una transacción firmada puede ser validada por los nodos usando la clave pública recuperable del esquema de firma, confirmando que el remitente efectivamente autorizó el mensaje.", "related": []}, {"term": "Dirección Ethereum", "slug": "address", "category": "Fundamentos", "short": "Identificador de 20 bytes usado para referirse a cuentas y contratos dentro de la red.", "definition": "La dirección Ethereum es el identificador visible con el que cuentas y contratos son referidos en la red. Normalmente se expresa en hexadecimal con prefijo 0x. Conceptualmente, es el “lugar lógico” al que se asigna un balance, desde el que se emiten transacciones o en el que vive un contrato inteligente.", "importance": "Es la unidad básica de interacción. Toda transferencia, aprobación, consulta o llamada de contrato se orienta a una dirección. Comprender que la dirección no es la clave privada, sino un identificador derivado, evita confusiones frecuentes.", "example": "Una wallet puede mostrar una dirección como 0xabc...123. Los usuarios le envían ETH a esa dirección, y los contratos consultan balances utilizando ese identificador.", "related": []}, {"term": "Firma digital", "slug": "digital-signature", "category": "Fundamentos", "short": "Prueba criptográfica de autorización producida con la clave privada.", "definition": "La firma digital es un resultado criptográfico generado sobre un mensaje —por ejemplo, una transacción— usando la clave privada del titular. La red puede verificarla y concluir que el mensaje fue autorizado por el dueño de la cuenta, sin necesidad de revelar la clave secreta.", "importance": "Es el mecanismo que reemplaza a la confianza institucional por verificación matemática. Sin firmas digitales, no habría forma descentralizada de probar que una orden de transferencia o interacción fue realmente autorizada.", "example": "Cuando una EOA firma una transacción con valor, nonce, destino y gas, cualquier nodo puede verificar que la firma coincide con el remitente declarado.", "related": []}, {"term": "Nonce", "slug": "nonce", "category": "Fundamentos", "short": "Contador secuencial que ordena transacciones de una cuenta y evita repeticiones.", "definition": "El nonce es un contador asociado a la cuenta emisora. Cada nueva transacción válida debe usar el siguiente valor disponible. Esto impide la reutilización exacta de la misma transacción y establece un orden lógico de ejecución para las operaciones emitidas por una cuenta.", "importance": "Sin nonce, una transacción podría ser reproducida indefinidamente. Además, el nonce permite que la red detecte reemplazos, transacciones pendientes y conflictos de orden emitidos por una misma cuenta.", "example": "Si una cuenta tiene nonce 15, la siguiente transacción válida deberá usar nonce 15; una vez incluida, la siguiente utilizará 16.", "related": []}, {"term": "Wei, gwei y ETH", "slug": "wei-gwei-eth", "category": "Fundamentos", "short": "Unidades de denominación del activo nativo de Ethereum y de sus tarifas.", "definition": "ETH es la unidad principal del activo nativo de Ethereum. Wei es la unidad mínima indivisible a nivel protocolario, y gwei es una subunidad muy usada para expresar precios de gas. Un ETH equivale a 10^18 wei, y un gwei equivale a 10^9 wei.", "importance": "Es esencial para interpretar balances, costos de gas y precios de transacción. Muchos errores pedagógicos nacen de mezclar ETH con gwei o de no comprender la escala de las unidades.", "example": "Una base fee de 20 gwei no significa 20 ETH; significa 20 × 10^9 wei por unidad de gas.", "related": []}, {"term": "Transacción", "slug": "transaction", "category": "Transacciones y Gas", "short": "Mensaje firmado que solicita una transición de estado en Ethereum.", "definition": "Una transacción es un mensaje firmado que pide a la red ejecutar una acción: transferir ETH, desplegar un contrato o llamar una función. Incluye información como remitente, destino, valor, nonce, límites y precios de gas, y eventualmente datos de entrada para la EVM.", "importance": "Toda modificación del estado global de Ethereum comienza con una transacción. Comprender su anatomía permite conectar seguridad, economía, ejecución y resultados observables en el estado.", "example": "Una llamada a un contrato ERC-20 para realizar un transfer() viaja dentro del campo de datos de una transacción.", "related": []}, {"term": "Sender / receiver / value", "slug": "sender-receiver-value", "category": "Transacciones y Gas", "short": "Elementos básicos de la anatomía de una transacción.", "definition": "El sender es la cuenta que autoriza y paga la transacción; el receiver es la dirección destino, que puede ser otra cuenta o un contrato; y value es la cantidad de ETH nativo transferida en la operación. Aunque en una llamada a contrato el value puede ser cero, la transacción sigue pudiendo mover estado mediante la ejecución de código.", "importance": "Diferenciar estos campos ayuda a entender por qué una transacción puede invocar lógica compleja incluso si no mueve ETH directamente. También permite distinguir transferencia nativa de interacción programable.", "example": "Una transacción puede tener sender=EOA, receiver=contrato DEX y value=0; el verdadero efecto económico ocurre por la lógica del contrato, no por el campo value.", "related": []}, {"term": "Gas", "slug": "gas", "category": "Transacciones y Gas", "short": "Unidad abstracta que mide trabajo computacional y uso de recursos en la EVM.", "definition": "Gas es la unidad con la que Ethereum cuantifica el costo computacional y de almacenamiento de una operación. Cada instrucción de la EVM tiene un costo de gas asociado, y la transacción consume gas a medida que ejecuta pasos. El costo económico final surge al multiplicar gas usado por el precio del gas.", "importance": "Gas conecta técnica y economía: ordena la escasez computacional, desincentiva abuso, permite fijar prioridades y convierte la ejecución en algo medible y pagable.", "example": "Un simple envío de ETH consume mucho menos gas que una interacción compleja con un contrato DeFi, porque la segunda requiere más pasos e impacto en almacenamiento.", "related": []}, {"term": "Gas limit", "slug": "gas-limit", "category": "Transacciones y Gas", "short": "Máximo de gas que el emisor autoriza consumir en una transacción.", "definition": "El gas limit es el techo de gas que una transacción está dispuesta a gastar. No implica que todo ese gas vaya a usarse; sólo fija el máximo permitido. Si la ejecución agota el gas antes de completarse, la transacción revierte sus efectos, aunque el gas ya consumido no se recupera.", "importance": "Obliga a pensar la ejecución con restricción presupuestaria. Un límite demasiado bajo puede hacer fallar la operación; uno demasiado alto no necesariamente encarece el costo final, pero abre margen de autorización innecesario.", "example": "Si un usuario pone un gas limit insuficiente para una llamada compleja, la EVM puede detenerse por out-of-gas y revertir los cambios de estado.", "related": []}, {"term": "Gas used", "slug": "gas-used", "category": "Transacciones y Gas", "short": "Cantidad efectiva de gas consumida por la ejecución.", "definition": "Gas used es el consumo real de gas alcanzado por una transacción o un bloque. Puede ser menor al gas limit y refleja el trabajo efectivamente realizado, incluyendo lectura, escritura, cómputo y otras operaciones internas.", "importance": "Es la magnitud que determina el costo económico final junto con el precio del gas. Analizar gas used permite comparar eficiencia entre diseños de contratos o entre tipos de operaciones.", "example": "Dos transacciones con el mismo gas limit pueden terminar usando cantidades muy distintas de gas según el camino de ejecución que sigan.", "related": []}, {"term": "EIP-1559", "slug": "eip-1559", "category": "Transacciones y Gas", "short": "Mecanismo de tarifas que separa base fee y priority fee.", "definition": "EIP-1559 introdujo un esquema de tarifas en el que cada bloque tiene una base fee protocolaria que se ajusta dinámicamente según la congestión, y una priority fee que incentiva la inclusión por parte del productor del bloque. Además, la base fee se quema, de modo que no se transfiere al productor.", "importance": "Transformó la economía del gas y la experiencia de fijación de tarifas. Permite pensar el costo de una transacción como la suma de una parte obligatoria, determinada por la red, y una propina opcional para mejorar prioridad.", "example": "Si la base fee es 18 gwei y el usuario ofrece 2 gwei de priority fee, el precio total por gas será aproximadamente 20 gwei, con la parte base siendo burn.", "related": []}, {"term": "Base fee", "slug": "base-fee", "category": "Transacciones y Gas", "short": "Tarifa mínima protocolaria por gas que varía con la congestión del bloque.", "definition": "La base fee es el componente obligatorio del precio del gas bajo EIP-1559. Se ajusta automáticamente de bloque en bloque: sube si el bloque anterior estuvo más lleno que el objetivo y baja si estuvo más vacío. Esa cantidad se quema, lo que introduce una dimensión monetaria relevante en Ethereum.", "importance": "Es la referencia central del costo de transacción y del mecanismo de ajuste de congestión. También es clave para comprender la relación entre uso de la red y quema de ETH.", "example": "En momentos de alta actividad, la base fee puede subir rápidamente, encareciendo todas las transacciones incluso aunque la priority fee se mantenga baja.", "related": []}, {"term": "Priority fee (tip)", "slug": "priority-fee", "category": "Transacciones y Gas", "short": "Propina ofrecida para incentivar prioridad de inclusión.", "definition": "La priority fee es el monto adicional por unidad de gas que el usuario ofrece al productor del bloque para incentivar la inclusión y la prioridad relativa de su transacción. A diferencia de la base fee, no se quema sino que forma parte de la retribución del bloque.", "importance": "Explica por qué dos usuarios en el mismo entorno de base fee pueden recibir prioridades diferentes. También conecta con el problema del ordenamiento y, en contextos más complejos, con MEV.", "example": "Un usuario puede aumentar su tip para reemplazar una transacción pendiente y tratar de que sea incluida antes que otras.", "related": []}, {"term": "Max fee / max priority fee", "slug": "max-fees", "category": "Transacciones y Gas", "short": "Parámetros de seguridad con los que el usuario acota el costo que acepta pagar.", "definition": "En el formato de transacción de EIP-1559, el usuario puede especificar un max fee per gas y un max priority fee per gas. El primero es el techo total que está dispuesto a pagar, y el segundo es el techo para la propina. La combinación permite manejar incertidumbre sobre cambios en la base fee entre el envío y la inclusión.", "importance": "Ayuda a comprender el comportamiento de las wallets modernas y cómo equilibran rapidez, previsibilidad y control de costos.", "example": "Si la base fee sube por encima del margen esperado antes de la inclusión, la transacción puede quedar pendiente o dejar de ser competitiva.", "related": []}, {"term": "Estado de Ethereum", "slug": "state", "category": "Estado y EVM", "short": "Conjunto global de cuentas, balances, nonces, código y almacenamiento en un momento dado.", "definition": "El estado de Ethereum es una gran estructura de datos que resume la situación actual de la red: qué cuentas existen, cuánto ETH tienen, cuál es su nonce, qué código contienen los contratos y qué valores guarda su storage. Cada bloque válido transforma el estado anterior en uno nuevo.", "importance": "Sin una noción clara de estado, la blockchain se reduce a una lista de transacciones sin sentido. El verdadero resultado económico y lógico de la red es la evolución del estado.", "example": "Después de una transferencia, el nuevo estado refleja un balance menor para el emisor y mayor para el receptor, además del incremento del nonce del emisor.", "related": []}, {"term": "State transition", "slug": "state-transition", "category": "Estado y EVM", "short": "Paso de un estado global a otro como resultado de ejecutar transacciones válidas.", "definition": "Una transición de estado es el proceso por el cual la red toma un estado inicial, aplica transacciones válidas según las reglas del protocolo y obtiene un nuevo estado. Esta idea sintetiza el funcionamiento de Ethereum: no sólo registra mensajes, sino que computa sus consecuencias.", "importance": "Es la formulación más precisa para enseñar qué hace realmente una blockchain programable. Ethereum puede entenderse como una máquina de estado distribuida.", "example": "Un bloque con varias transacciones puede modificar balances, desplegar código, actualizar storage de contratos y emitir logs, generando un nuevo estado consolidado.", "related": []}, {"term": "EVM", "slug": "evm", "category": "Estado y EVM", "short": "Máquina virtual de Ethereum encargada de ejecutar bytecode de contratos inteligentes.", "definition": "La Ethereum Virtual Machine es el entorno abstracto en el que se ejecuta el código de los contratos inteligentes. La EVM interpreta bytecode, administra stack, memory y storage, cobra gas por operación y garantiza que todos los nodos obtengan el mismo resultado dado el mismo input y estado inicial.", "importance": "Es el motor computacional de Ethereum. Toda interacción compleja con contratos, tokens, protocolos DeFi o NFTs depende de cómo la EVM procesa instrucciones y actualiza el estado.", "example": "Al invocar una función de un contrato ERC-20, la EVM ejecuta las instrucciones necesarias para verificar balances, actualizar storage y emitir el evento Transfer.", "related": []}, {"term": "Opcode", "slug": "opcode", "category": "Estado y EVM", "short": "Instrucción elemental de la EVM con un costo de gas asociado.", "definition": "Un opcode es una operación básica de la EVM, como sumar valores, leer storage, escribir memory o saltar a otra posición del programa. Los contratos se compilan a secuencias de opcodes, y cada uno de ellos consume una cantidad de gas determinada.", "importance": "Permite conectar código de alto nivel con ejecución real. Entender opcodes ayuda a explicar de dónde sale el costo de gas y por qué ciertas operaciones son más caras que otras.", "example": "Leer un valor desde storage cuesta mucho más gas que sumar dos números en stack, porque tiene mayor impacto en recursos del sistema.", "related": []}, {"term": "Stack", "slug": "stack", "category": "Estado y EVM", "short": "Estructura LIFO donde la EVM mantiene operandos temporales de ejecución.", "definition": "El stack de la EVM es una pila de última entrada, primera salida (LIFO) usada para sostener operandos y resultados intermedios durante la ejecución. Muchas instrucciones toman valores del tope del stack y devuelven un resultado nuevamente al stack.", "importance": "Es la forma más simple de entender el “microfuncionamiento” de la EVM. Explica cómo se encadenan operaciones y por qué el bytecode se estructura de cierta manera.", "example": "Un opcode ADD toma los dos elementos superiores del stack, los suma y vuelve a empujar el resultado al tope.", "related": []}, {"term": "Memory", "slug": "memory", "category": "Estado y EVM", "short": "Espacio temporal y volátil disponible durante una ejecución.", "definition": "La memory es un área de trabajo temporal de la EVM que existe sólo mientras dura una llamada. Permite manipular datos intermedios con una lógica más flexible que el stack, pero se descarta al terminar la ejecución.", "importance": "Distinguir memory de storage evita una de las confusiones más frecuentes. Memory es transitoria y más barata; storage es persistente y más costosa.", "example": "Un contrato puede copiar argumentos a memory, transformarlos y luego usar el resultado sin que ese contenido persista después de la transacción.", "related": []}, {"term": "Storage", "slug": "storage", "category": "Estado y EVM", "short": "Memoria persistente del contrato que permanece entre transacciones.", "definition": "Storage es el espacio persistente asociado a un contrato. Allí se guardan variables de estado que permanecen registradas de una transacción a otra. Modificar storage es costoso porque implica cambiar el estado global de la red.", "importance": "Es donde vive la lógica económica duradera de un contrato: balances de tokens, allowances, owners de NFTs, parámetros de gobernanza, etcétera.", "example": "Cuando un contrato ERC-20 actualiza el balance de un usuario, está escribiendo en storage.", "related": []}, {"term": "Calldata", "slug": "calldata", "category": "Estado y EVM", "short": "Datos de entrada de una llamada, no modificables durante la ejecución.", "definition": "Calldata es el área donde la EVM recibe los datos de entrada de una llamada externa: selector de función y argumentos codificados. A diferencia de memory, calldata es de solo lectura durante la ejecución.", "importance": "Permite entender cómo una función sabe qué operación ejecutar y con qué parámetros. También es relevante para análisis de costos y para los modelos de rollups basados en publicación de datos.", "example": "Cuando una wallet llama transfer(address,uint256) sobre un ERC-20, el selector y sus argumentos viajan en calldata.", "related": []}, {"term": "Bytecode", "slug": "bytecode", "category": "Estado y EVM", "short": "Código compilado que la EVM ejecuta dentro de un contrato.", "definition": "El bytecode es la representación de bajo nivel, en secuencia de bytes, que la EVM puede interpretar. Se obtiene al compilar contratos escritos en lenguajes de alto nivel como Solidity o Vyper.", "importance": "Explica por qué la blockchain no ejecuta directamente el código fuente. La red sólo ve bytecode, y toda garantía de comportamiento depende de ese artefacto final.", "example": "Un mismo código fuente puede compilar a bytecode que luego se despliega y queda asociado a la dirección del contrato.", "related": []}, {"term": "Smart contract", "slug": "smart-contract", "category": "Contratos y Tokens", "short": "Programa desplegado en Ethereum que ejecuta reglas automáticas sobre el estado.", "definition": "Un smart contract es un conjunto de reglas programadas que se ejecutan de forma determinística en la EVM cuando reciben llamadas. No “piensa” ni interpreta contexto social; simplemente procesa inputs bajo reglas explícitas y, si corresponde, cambia el estado o emite eventos.", "importance": "Es la unidad que hace a Ethereum una plataforma programable. Tokens, DEXs, préstamos, DAOs y NFTs existen porque los contratos pueden mantener estado y ejecutar lógica definida.", "example": "Un contrato de subasta puede aceptar ofertas, comparar montos y registrar el mayor postor automáticamente.", "related": []}, {"term": "Deploy", "slug": "deploy", "category": "Contratos y Tokens", "short": "Despliegue de un contrato a la red mediante una transacción de creación.", "definition": "Deploy es el proceso por el cual una transacción de creación instala bytecode en una nueva dirección de contrato. A partir de ese momento, el contrato existe en la red, puede recibir llamadas y mantener storage persistente.", "importance": "Marca el paso desde un programa local a una pieza de infraestructura pública e inmutable en una blockchain. También introduce la idea de lifecycle del contrato.", "example": "Publicar un token ERC-20 en Ethereum implica desplegar el contrato correspondiente y dejarlo accesible desde su nueva dirección.", "related": []}, {"term": "Event logs", "slug": "event-logs", "category": "Contratos y Tokens", "short": "Registros emitidos por contratos para facilitar observación e indexación externa.", "definition": "Los event logs son mensajes estructurados emitidos por contratos durante la ejecución. No forman parte del storage persistente del contrato, pero quedan en el receipt de la transacción y pueden ser leídos por interfaces, indexadores y exploradores.", "importance": "Son fundamentales para la trazabilidad y la experiencia de usuario. Muchas aplicaciones reconstruyen actividad a partir de eventos, no leyendo estado bruto constantemente.", "example": "El evento Transfer de un ERC-20 permite a wallets o explorers detectar movimientos de tokens sin inspeccionar directamente cada posición de storage.", "related": []}, {"term": "ERC-20", "slug": "erc20", "category": "Contratos y Tokens", "short": "Estándar de interfaz para tokens fungibles en Ethereum.", "definition": "ERC-20 es una especificación de funciones y eventos que define un comportamiento interoperable para tokens fungibles. Incluye conceptos como totalSupply, balanceOf, transfer, approve, allowance y transferFrom. No obliga a una única implementación interna, pero sí a una interfaz reconocible por aplicaciones del ecosistema.", "importance": "Explica por qué miles de tokens diferentes pueden ser tratados por wallets y protocolos con una lógica común. Es uno de los pilares de la componibilidad en Ethereum.", "example": "USDC o un token de gobernanza pueden comportarse como ERC-20 aunque sus objetivos económicos sean muy distintos.", "related": []}, {"term": "Fungibilidad", "slug": "fungibility", "category": "Contratos y Tokens", "short": "Propiedad por la cual una unidad es intercambiable por otra equivalente del mismo tipo.", "definition": "Un activo fungible es aquel cuyas unidades son mutuamente reemplazables sin pérdida de identidad económica. En un token ERC-20, una unidad es esencialmente equivalente a cualquier otra de la misma serie.", "importance": "Permite distinguir con claridad ERC-20 de ERC-721. La fungibilidad habilita balances agregados y transferencias por cantidad, no por identidad individual.", "example": "Diez unidades de un token fungible no requieren saber cuáles son exactamente; sólo importa la cantidad total.", "related": []}, {"term": "Approve y allowance", "slug": "approve-allowance", "category": "Contratos y Tokens", "short": "Mecanismo por el cual un titular delega a un tercero la capacidad de gastar parte de sus tokens.", "definition": "En ERC-20, approve registra que un spender puede gastar hasta cierto monto en nombre del owner. Ese permiso queda reflejado en la allowance. Luego, transferFrom permite usar esa autorización para mover tokens desde la cuenta del owner al destinatario elegido.", "importance": "Es central para la arquitectura de DeFi, porque muchos protocolos necesitan mover tokens desde la wallet del usuario de forma autorizada. También es una fuente importante de riesgo y de diseño UX.", "example": "Antes de depositar un token en un protocolo, muchas interfaces piden una transacción de approve y luego otra de ejecución.", "related": []}, {"term": "ERC-721", "slug": "erc721", "category": "Contratos y Tokens", "short": "Estándar de interfaz para tokens no fungibles (NFTs).", "definition": "ERC-721 define un modelo de ownership individual por tokenId. Cada NFT es una unidad distinta, con identidad propia, aunque todos pertenezcan a una misma colección. La interfaz típica incluye ownerOf, transferFrom, approve y eventos asociados.", "importance": "Introduce un paradigma de propiedad distinto al de ERC-20. No se trabajan cantidades intercambiables sino ítems singulares que pueden representar arte, membresías, activos digitales o identificadores on-chain.", "example": "En una colección NFT, poseer el tokenId 125 es diferente de poseer el tokenId 338, incluso si ambos pertenecen al mismo contrato.", "related": []}, {"term": "Ownership", "slug": "ownership", "category": "Contratos y Tokens", "short": "Asignación del control económico o jurídico-programático sobre un activo on-chain.", "definition": "Ownership describe quién es reconocido por las reglas del contrato como titular de un activo o derecho. En un ERC-20 se expresa como balance asociado a una dirección; en un ERC-721 como ownerOf(tokenId).", "importance": "Aclara que “tener un activo” on-chain significa que el contrato lo reconoce como propio según su estado, no que el activo exista físicamente dentro de una wallet.", "example": "La wallet no “guarda” el NFT como un archivo; muestra que cierta dirección es owner del tokenId en el contrato correspondiente.", "related": []}, {"term": "Proof of Stake (PoS)", "slug": "pos", "category": "Consenso", "short": "Mecanismo de consenso donde la seguridad depende del stake de validators y de sus incentivos.", "definition": "Proof of Stake es el esquema en el que participantes llamados validators bloquean capital y asumen el rol de proponer y atestiguar bloques. La honestidad se incentiva con rewards y la deshonestidad o negligencia se castiga con penalties y, en ciertos casos, slashing.", "importance": "Es la base de la seguridad moderna de Ethereum. Permite analizar consenso, economía, finality y riesgo de ataques bajo una lógica de stake en lugar de poder de cómputo.", "example": "Un validator correcto recibe recompensas por participar; uno que firma mensajes slashables puede perder parte relevante de su stake.", "related": []}, {"term": "Validator", "slug": "validator", "category": "Consenso", "short": "Participante del consenso PoS que propone y atestigua bloques según el protocolo.", "definition": "Un validator es una entidad activa en la capa de consenso que, tras aportar stake y cumplir requisitos operativos, puede ser seleccionada para proponer bloques o emitir attestations sobre la cadena observada.", "importance": "Es el agente económico-técnico central del consenso PoS. Su comportamiento, sus incentivos y sus castigos determinan la robustez del sistema.", "example": "Miles de validators distribuidos participan en slots y epochs, cada uno con responsabilidades asignadas por el protocolo.", "related": []}, {"term": "Slot", "slug": "slot", "category": "Consenso", "short": "Unidad temporal básica de la capa de consenso en la que puede proponerse un bloque.", "definition": "Un slot es una ventana de tiempo discreta dentro de la cual el protocolo puede asignar a un validator la propuesta de un bloque. No todos los slots necesariamente terminan con un bloque válido, pero la estructura temporal del consenso se organiza en torno a ellos.", "importance": "Permite entender la cadencia del consenso y cómo se reparten responsabilidades. Es la base temporal para proposer selection y attestations.", "example": "En un slot determinado, un validator específico puede ser elegido proposer y otros validar mediante attestations.", "related": []}, {"term": "Epoch", "slug": "epoch", "category": "Consenso", "short": "Agrupación de varios slots usada para organizar justificación, finality y contabilidad de rewards.", "definition": "Un epoch es un intervalo compuesto por un conjunto fijo de slots. Muchas reglas del consenso se evalúan a ese nivel: rewards y penalties, checkpoints, justificación y finalización.", "importance": "Es la escala adecuada para enseñar la lógica agregada del consenso. Muchos fenómenos que un alumno intenta mirar slot por slot se entienden mejor al nivel de epoch.", "example": "El protocolo puede evaluar si un checkpoint fue justificado al cierre de un epoch.", "related": []}, {"term": "Attestation", "slug": "attestation", "category": "Consenso", "short": "Voto de un validator sobre la cadena observada y sus checkpoints.", "definition": "Una attestation es una declaración firmada por un validator que expresa qué bloque considera head y qué checkpoints reconoce en el marco del consenso. Tiene componentes de source, target y head, que participan en rewards y en las reglas de fork choice y finality.", "importance": "Es la materia prima del consenso PoS. Sin attestations no hay señal colectiva suficiente para justificar, finalizar ni orientar la elección de cadena.", "example": "Un validator puede atestiguar correctamente el head del slot observado y recibir la recompensa asociada.", "related": []}, {"term": "Proposer", "slug": "proposer", "category": "Consenso", "short": "Validator asignado a proponer un bloque en un slot determinado.", "definition": "El proposer es el validator responsable de construir o presentar un bloque candidato durante un slot. En contextos modernos puede interactuar con builders, pero conceptualmente su función es colocar un bloque válido a disposición del consenso.", "importance": "Conecta consenso con ordenamiento de transacciones y con MEV. Aunque el consenso final depende de attestations, el proposer tiene un rol crucial en qué payload aparece primero.", "example": "Si un proposer falla en publicar un bloque en su slot, la cadena sigue avanzando, pero ese slot puede quedar sin bloque.", "related": []}, {"term": "LMD-GHOST", "slug": "lmd-ghost", "category": "Consenso", "short": "Regla de fork choice que elige la rama con mayor peso de attestations recientes.", "definition": "LMD-GHOST es la regla que guía la elección de cabeza de cadena observando el último mensaje válido de cada validator y siguiendo iterativamente la rama con más apoyo acumulado. No “vota por bloques” en abstracto, sino que utiliza la estructura del árbol de bloques y el peso de los votos más recientes.", "importance": "Permite separar fork choice de finality. La cadena elegida como head puede cambiar por nuevas attestations incluso antes de existir finalización irreversible.", "example": "Dos ramas compiten; la que reúne mayor peso agregado de últimas attestations termina siendo la elegida como head.", "related": []}, {"term": "Casper FFG", "slug": "casper-ffg", "category": "Consenso", "short": "Componente de finality que trabaja con checkpoints y supermayorías.", "definition": "Casper Friendly Finality Gadget es el mecanismo que, sobre la estructura de la cadena, utiliza votos de validators para justificar y luego finalizar checkpoints cuando se alcanzan umbrales de participación, típicamente de dos tercios del stake.", "importance": "Introduce el concepto de finality económica: una vez finalizado un checkpoint, revertirlo requeriría violaciones slashables de gran escala. Eso distingue a Ethereum de sistemas con simple probabilidad de asentamiento.", "example": "Un checkpoint justificado y su descendiente justificado consecutivamente permiten finalizar el primero bajo las reglas de Casper FFG.", "related": []}, {"term": "Checkpoint", "slug": "checkpoint", "category": "Consenso", "short": "Bloque de referencia por epoch usado para las reglas de justificación y finality.", "definition": "Un checkpoint es un bloque distinguido dentro de la estructura temporal del consenso, normalmente asociado al primer slot de un epoch. Casper FFG usa checkpoints como nodos sobre los que se expresan los vínculos de justificación.", "importance": "Reduce complejidad al resumir el estado de la cadena a hitos periódicos. Sin esta idea, explicar justificación y finalidad se vuelve mucho más difícil.", "example": "Los validators emiten attestations que apoyan la relación entre un source checkpoint y un target checkpoint.", "related": []}, {"term": "Finality", "slug": "finality", "category": "Consenso", "short": "Propiedad por la cual una parte de la cadena se vuelve económicamente muy costosa de revertir.", "definition": "Finality significa que ciertos bloques o checkpoints han alcanzado un estado tal de respaldo económico que revertirlos exigiría violar el protocolo de manera slashable con un costo muy alto. No es mera “probabilidad creciente”, sino una forma de asentamiento fuerte.", "importance": "Es una de las diferencias más importantes entre el seguimiento del head y la seguridad profunda de una operación ya asentada. Para pagos, puentes y aplicaciones, la finality es crítica.", "example": "Una transacción incluida antes de un checkpoint finalizado tiene un grado de seguridad muy superior al de una transacción recién incluida en el head.", "related": []}, {"term": "Slashing", "slug": "slashing", "category": "Seguridad e Incentivos", "short": "Castigo fuerte aplicado a validators que realizan acciones consideradas gravemente incompatibles con el protocolo.", "definition": "Slashing es la penalización severa destinada a validators que firman mensajes slashables, como doble propuesta o votos incompatibles. Implica una pérdida económica inmediata, riesgo de penalización por correlación y salida forzada del conjunto activo.", "importance": "Es el componente disciplinario más fuerte del consenso PoS. No castiga simple mala suerte, sino conductas que amenazan la coherencia del protocolo.", "example": "Si un validator firma dos propuestas distintas para el mismo slot, puede ser slashed.", "related": []}, {"term": "Penalty vs reward", "slug": "penalty-reward", "category": "Seguridad e Incentivos", "short": "Sistema de incentivos que remunera la participación correcta y castiga ausencia o deshonestidad.", "definition": "Los validators reciben rewards por atestiguar y participar correctamente, y penalties cuando fallan en hacerlo o cuando el estado de la red requiere castigos adicionales, como en un inactivity leak. Los castigos ordinarios no equivalen al slashing, que es un caso especial y mucho más grave.", "importance": "Evita la falsa dicotomía de que sólo existen “premios” o “slashing”. En realidad, el consenso vive en una gradación de incentivos y desincentivos.", "example": "Un validator offline puede perder rewards y recibir penalties por no atestiguar, aunque no necesariamente ser slashed.", "related": []}, {"term": "Correlation penalty", "slug": "correlation-penalty", "category": "Seguridad e Incentivos", "short": "Componente del slashing que aumenta cuando muchos validators son slashados en conjunto.", "definition": "La correlation penalty es una penalización adicional que busca hacer más costosos los comportamientos deshonestos coordinados. Si un evento slashable involucra a una fracción mayor del stake, la pérdida económica puede aumentar significativamente.", "importance": "Es una defensa contra ataques colectivos. El protocolo castiga más fuerte la coordinación maliciosa que el incidente aislado.", "example": "Un validador que comete una infracción solo puede perder relativamente menos que un conjunto grande de validators coordinados en la misma infracción.", "related": []}, {"term": "Inactivity leak", "slug": "inactivity-leak", "category": "Seguridad e Incentivos", "short": "Mecanismo que aumenta la presión económica sobre validators inactivos cuando no hay finality.", "definition": "El inactivity leak es un proceso mediante el cual, si la red deja de finalizar por un período suficiente, los validators que no participan correctamente son penalizados progresivamente. El objetivo es que el stake activo restante vuelva a superar el umbral necesario para recuperar la finality.", "importance": "Muestra que la seguridad del consenso no depende sólo del castigo a la deshonestidad explícita, sino también de incentivos para restaurar liveness bajo estrés.", "example": "Si una gran fracción de validators cae offline y la cadena deja de finalizar, el inactivity leak puede ayudar a que el resto recupere el control suficiente para seguir finalizando.", "related": []}, {"term": "Rollup", "slug": "rollup", "category": "Escalabilidad", "short": "Sistema de escalabilidad que ejecuta transacciones fuera de L1 pero publica datos o pruebas en Ethereum.", "definition": "Un rollup es una arquitectura en la que muchas transacciones se ejecutan en una capa adicional (L2), se agrupan y luego se publican datos o compromisos en Ethereum L1. El objetivo es reducir costo por usuario manteniendo seguridad de asentamiento y disponibilidad de datos ligadas a L1.", "importance": "Es la respuesta principal de Ethereum al desafío de escalabilidad sin sacrificar excesivamente descentralización o seguridad.", "example": "Un rollup puede procesar miles de transacciones y publicar un batch comprimido en Ethereum, compartiendo costos entre muchos usuarios.", "related": []}, {"term": "Layer 1 y Layer 2", "slug": "l1-l2", "category": "Escalabilidad", "short": "L1 es la capa base de Ethereum; L2 son sistemas adicionales que descargan ejecución o costos manteniendo anclaje en L1.", "definition": "Layer 1 es la cadena base de Ethereum, donde vive el consenso y el asentamiento principal. Layer 2 refiere a sistemas construidos encima o alrededor de L1 que trasladan parte de la ejecución o agregación fuera de la cadena principal, pero dependen de ella para seguridad, datos o resolución final.", "importance": "Permite ordenar conceptualmente escalabilidad, settlement y composabilidad. Sin esta distinción, las discusiones sobre costos y seguridad quedan confusas.", "example": "Una swap ejecutada en un rollup puede ser barata en L2, pero su sistema sigue apoyándose en Ethereum L1 para publicar datos o resolver estados.", "related": []}, {"term": "Data availability (DA)", "slug": "data-availability", "category": "Escalabilidad", "short": "Garantía de que los datos necesarios para verificar o reconstruir el estado estén accesibles.", "definition": "Data availability significa que la información relevante para validar o reconstruir la evolución del sistema está publicada y accesible. En el contexto de rollups, es crucial porque usuarios y verificadores deben poder revisar los datos del batch y no depender ciegamente de un operador.", "importance": "La escalabilidad no consiste sólo en ejecutar fuera de L1; también importa que los datos sigan estando disponibles. DA es la pieza que sostiene verificabilidad y salida segura.", "example": "Un rollup que publica datos de batches en Ethereum facilita que otros actores verifiquen el historial aunque el secuenciador desaparezca.", "related": []}, {"term": "Calldata en rollups", "slug": "calldata-rollups", "category": "Escalabilidad", "short": "Uso del campo de datos de transacciones L1 para publicar información del batch.", "definition": "Antes de la generalización de blobs, muchos rollups publicaban los datos comprimidos de sus batches como calldata en transacciones de Ethereum. Eso les permitía aprovechar la disponibilidad de datos de L1, aunque pagando según el mercado de gas de ejecución de Ethereum.", "importance": "Es un puente conceptual entre la EVM y la escalabilidad. Ayuda a entender por qué los costos de L2 dependen en parte del costo de publicar datos en L1.", "example": "Un rollup que usa calldata puede ver subir sus costos cuando la base fee de Ethereum se dispara.", "related": []}, {"term": "Blob / EIP-4844", "slug": "blob-eip4844", "category": "Escalabilidad", "short": "Formato de datos efímeros y mercado de tarifas separado para abaratar publicación de datos de rollups.", "definition": "EIP-4844 introdujo blobs como contenedores de datos pensados para mejorar la economía de publicación de datos de rollups. Los blobs usan un mercado de tarifas separado del gas de ejecución y están orientados a data availability de corto/mediano plazo, no a almacenamiento permanente accesible por la EVM como el calldata.", "importance": "Es una innovación central para la hoja de ruta de escalabilidad de Ethereum. Muestra cómo la red puede abaratar L2 sin cambiar radicalmente el modelo de seguridad de L1.", "example": "Un batch que antes publicaba todo como calldata puede beneficiarse de blobs si el mercado blob resulta más barato que el mercado de gas normal.", "related": []}, {"term": "Sequencer", "slug": "sequencer", "category": "Escalabilidad", "short": "Actor que ordena y agrupa transacciones en muchos sistemas L2.", "definition": "El sequencer es el componente que recibe transacciones de usuarios, decide un orden y construye los batches de la L2. En muchos diseños actuales puede estar centralizado operativamente, aunque el sistema mantenga anclaje y verificabilidad en L1.", "importance": "Permite discutir la dimensión práctica de las L2: costo y velocidad pueden mejorar, pero aparecen preguntas sobre centralización operativa, censura y MEV local.", "example": "Un usuario de una L2 suele enviar primero su transacción al sequencer, no directamente a Ethereum L1.", "related": []}, {"term": "MEV", "slug": "mev", "category": "MEV y Block Building", "short": "Valor derivado del poder de incluir, excluir o reordenar transacciones dentro de un bloque.", "definition": "MEV —Maximal/Maximum Extractable Value— describe el valor que puede capturarse alterando el conjunto u orden de transacciones de un bloque dentro de lo permitido por el protocolo. No es sinónimo de fraude ni de una estrategia única: puede surgir de arbitrage, liquidaciones, reordenamientos y otros mecanismos.", "importance": "Es un concepto puente entre microestructura de mercado, economía del consenso y diseño de infraestructura. Comprender MEV es esencial para analizar incentivos reales en la producción de bloques.", "example": "Si reordenar una transacción antes que otra genera un beneficio económico medible, ese margen forma parte del universo MEV.", "related": []}, {"term": "Searcher", "slug": "searcher", "category": "MEV y Block Building", "short": "Agente que detecta oportunidades de MEV y construye estrategias o bundles.", "definition": "Un searcher es quien monitorea oportunidades económicas derivadas del estado y de las transacciones pendientes. Puede construir bundles o secuencias con la intención de capturar arbitrage, liquidaciones u otras formas de valor extraíble.", "importance": "Hace visible que el ecosistema de producción de bloques incluye actores especializados, no sólo validadores y usuarios finales.", "example": "Un searcher puede detectar un gran swap pendiente y evaluar si existe una oportunidad de arbitrage o de otra estrategia basada en orden.", "related": []}, {"term": "Builder", "slug": "builder", "category": "MEV y Block Building", "short": "Actor que construye un bloque candidato maximizando una función económica bajo restricciones de validez.", "definition": "El builder organiza las transacciones y bundles disponibles para producir un payload candidato. Su objetivo puede ser maximizar fees, valor extraíble o una combinación de ambos, siempre respetando las reglas de validez del bloque.", "importance": "Refina la idea clásica de “el proposer ordena todo”. En arquitecturas modernas, la construcción puede especializarse y separarse del rol de propuesta.", "example": "Distintos builders pueden competir entre sí enviando propuestas económicas diferentes para un mismo slot.", "related": []}, {"term": "Sandwich attack (conceptual)", "slug": "sandwich", "category": "MEV y Block Building", "short": "Patrón donde una operación del searcher rodea a una transacción sensible al precio para capturar valor.", "definition": "En un sandwich conceptual, el searcher introduce una transacción antes y otra después de una orden grande del usuario. La primera mueve el precio en una dirección favorable al searcher; la transacción del usuario se ejecuta en peores condiciones; y la segunda operación cristaliza el beneficio potencial.", "importance": "Es una forma pedagógicamente muy poderosa de mostrar que el orden no es neutral. También ayuda a discutir protección al usuario y diseño de mercados.", "example": "En un AMM, un front-run puede subir el precio antes del swap del usuario y un back-run puede cerrar la posición después, dejando al usuario con peor ejecución.", "related": []}, {"term": "Arbitrage", "slug": "arbitrage", "category": "MEV y Block Building", "short": "Captura de diferencia de precio entre mercados o estados inconsistentes.", "definition": "Arbitrage es la explotación de una diferencia de valoración entre dos mercados, pools o estados del sistema. En blockchain suele ocurrir cuando el precio implícito de un AMM se desvía del precio observado en otro mercado o referencia.", "importance": "Es importante distinguirlo de otras formas de MEV porque puede cumplir una función de alineación de precios y no necesariamente perjudicar de la misma manera que otras estrategias.", "example": "Si un AMM valora ETH más barato que otro mercado, un arbitrageur puede comprar en el primero y vender en el segundo.", "related": []}, {"term": "AMM x·y=k", "slug": "amm-xyk", "category": "MEV y Block Building", "short": "Modelo simplificado de market maker automático donde el producto de reservas permanece constante.", "definition": "Un Automated Market Maker del tipo x·y=k mantiene dos reservas cuya multiplicación se conserva, ajustándose el precio según cambian las cantidades. Cada swap altera la composición de reservas y, por ende, el precio marginal disponible para la siguiente operación.", "importance": "Es un marco excelente para enseñar deslizamiento, impacto de precio y sensibilidad al orden de ejecución, todos elementos clave para entender MEV.", "example": "Si entra mucho ETH al pool para comprar USDC, la reserva de ETH sube, la de USDC baja y el precio implícito del ETH cambia.", "related": []}, {"term": "Roadmap de Ethereum", "slug": "roadmap", "category": "Panorama", "short": "Conjunto de líneas estratégicas de evolución técnica enfocadas en escalabilidad, seguridad y eficiencia.", "definition": "La roadmap de Ethereum refiere a la visión de evolución del protocolo, incluyendo mejoras para escalabilidad de rollups, data availability, eficiencia del consenso, experiencia de usuario y simplificación del sistema. No es un documento monolítico e inmutable, sino una orientación estratégica con prioridades técnicas.", "importance": "Ayuda a conectar piezas que el alumno podría estudiar de modo aislado. EIP-1559, PoS, EIP-4844 y el ecosistema de rollups se entienden mejor como parte de una trayectoria más amplia.", "example": "La adopción de blobs se inscribe dentro de la prioridad de mejorar el costo de publicación de datos para L2.", "related": []}, {"term": "ABI (Application Binary Interface)", "slug": "abi", "category": "Contratos y Tokens", "short": "Contrato de comunicación que describe funciones, argumentos, retornos y eventos de un smart contract.", "definition": "La ABI es una descripción estructurada de cómo interactuar con un contrato desde el exterior. Define nombres de funciones, tipos de argumentos, valores de retorno, mutabilidad y eventos. No es el bytecode ni ejecuta lógica: actúa como una interfaz que permite a wallets, bibliotecas y aplicaciones codificar correctamente llamadas y decodificar respuestas.", "importance": "Es el puente práctico entre software de usuario y bytecode on-chain. Sin ABI, una aplicación todavía podría enviar calldata, pero tendría que construir manualmente selectores y parámetros.", "example": "Una interfaz usa la ABI para transformar setValue(42) en bytes de calldata y, luego, interpretar el resultado de una lectura.", "related": ["Calldata", "Function selector", "Smart contract"]}, {"term": "Function selector", "slug": "function-selector", "category": "Contratos y Tokens", "short": "Primeros 4 bytes del hash Keccak-256 de la firma canónica de una función.", "definition": "El function selector identifica qué función externa debe ejecutar un contrato. Se obtiene a partir de la firma textual canónica, por ejemplo transfer(address,uint256), aplicando Keccak-256 y tomando los primeros cuatro bytes. El resto de la calldata contiene los argumentos ABI-encoded.", "importance": "Explica cómo la EVM distingue funciones sin transportar sus nombres completos. También permite leer calldata y entender routers, proxies y trazas.", "example": "Cuando una wallet llama transfer(address,uint256), los cuatro primeros bytes indican la función y los siguientes words representan los parámetros.", "related": ["ABI (Application Binary Interface)", "Calldata", "Keccak-256"]}, {"term": "Transaction receipt", "slug": "receipt", "category": "Transacciones y Gas", "short": "Registro del resultado de una transacción incluida: status, gas consumido, logs y otros metadatos.", "definition": "El transaction receipt resume qué ocurrió después de ejecutar una transacción incluida en un bloque. Puede indicar éxito o fallo, gas usado, logs emitidos y, en una creación de contrato, la dirección creada. Debe distinguirse de la transacción firmada: la transacción expresa una intención; el receipt documenta el resultado de ejecutarla.", "importance": "Es indispensable para verificar que una operación realmente fue incluida y conocer sus efectos observables.", "example": "Una dApp espera el receipt después de enviar una transacción para confirmar status=1 y leer el evento Transfer emitido.", "related": ["Transacción", "Event logs", "Gas used"]}, {"term": "Contract account", "slug": "contract-account", "category": "Contratos y Tokens", "short": "Cuenta de Ethereum asociada a bytecode y storage, sin una clave privada que la controle como una EOA.", "definition": "Una contract account es una dirección cuyo comportamiento está determinado por código ejecutable en la EVM. Puede mantener ETH, bytecode y storage persistente. A diferencia de una EOA clásica, no inicia por sí sola una transacción firmada con clave privada; su código se ejecuta como consecuencia de llamadas.", "importance": "Distinguir EOA de contract account aclara quién firma, quién ejecuta lógica y dónde vive el estado programable.", "example": "Un contrato ERC-20 es una contract account: usuarios llaman sus funciones y el contrato actualiza balances almacenados en su storage.", "related": ["Cuenta Externally Owned Account (EOA)", "Smart contract", "Storage"]}, {"term": "Init code y runtime code", "slug": "init-runtime-code", "category": "Contratos y Tokens", "short": "El init code crea el contrato; el runtime code es el bytecode que queda almacenado y atiende llamadas posteriores.", "definition": "Durante un deploy, la EVM ejecuta init code. Ese código puede procesar argumentos del constructor y finalmente devolver un bloque de bytes: el runtime code. Sólo ese runtime code queda asociado a la dirección del contrato para futuras llamadas.", "importance": "Evita confundir el bytecode enviado al desplegar con el código permanente. Es clave para entender constructors, factory contracts y CREATE/CREATE2.", "example": "El constructor fija un valor inicial en storage; luego devuelve el runtime code que implementa las funciones externas.", "related": ["Deploy", "Bytecode", "CREATE"]}, {"term": "CREATE", "slug": "create", "category": "Contratos y Tokens", "short": "Opcode/mecanismo de creación de contratos cuya dirección depende del creador y su nonce.", "definition": "CREATE crea una nueva contract account ejecutando init code. La dirección resultante se deriva del address del creador y de su nonce de creación. El init code devuelve el runtime bytecode que quedará almacenado.", "importance": "Permite comprender la derivación determinista de direcciones de contratos desplegados de forma convencional.", "example": "Una factory puede ejecutar CREATE varias veces; cada nuevo contrato obtiene una dirección distinta porque cambia el nonce de creación.", "related": ["Deploy", "Init code y runtime code", "CREATE2"]}, {"term": "CREATE2", "slug": "create2", "category": "Contratos y Tokens", "short": "Mecanismo de creación que permite predecir la dirección usando creador, salt e init code hash.", "definition": "CREATE2 deriva la dirección de un contrato a partir de una combinación que incluye la dirección del deployer, un salt y el hash del init code. Esto permite conocer una dirección antes de que el contrato exista, siempre que esos inputs se mantengan.", "importance": "Es importante en factories, account abstraction, canales y arquitecturas donde una dirección contrafactual debe conocerse de antemano.", "example": "Una aplicación puede comunicar una futura dirección de wallet-contract antes de desplegarla y luego crear exactamente allí el contrato esperado.", "related": ["CREATE", "Deploy", "Keccak-256"]}, {"term": "Keccak-256", "slug": "keccak256", "category": "Fundamentos", "short": "Función hash criptográfica utilizada extensamente por Ethereum para direcciones, selectores y compromisos.", "definition": "Keccak-256 transforma datos arbitrarios en un digest fijo de 256 bits. Ethereum la utiliza en múltiples contextos, incluida la derivación de direcciones desde claves públicas, selectores de funciones, topics de eventos y muchas estructuras de contratos.", "importance": "Es una pieza transversal: conecta criptografía, ABI, addresses y diseño de storage.", "example": "La firma textual de un evento se hashea con Keccak-256 para construir su topic0.", "related": ["Dirección Ethereum", "Function selector", "Event topics"]}, {"term": "Event topics", "slug": "event-topics", "category": "Contratos y Tokens", "short": "Campos indexables de un log; topic0 suele identificar la firma del evento y los siguientes representan parámetros indexed.", "definition": "Los topics son palabras de 32 bytes asociadas a un log. En eventos no anónimos, topic0 contiene normalmente el hash de la firma del evento. Los parámetros marcados indexed se codifican en topics adicionales, mientras que los parámetros no indexados se ubican en data.", "importance": "Permiten filtrar eventos eficientemente y entender por qué algunas propiedades pueden buscarse de forma directa en un nodo o indexador.", "example": "Transfer(address,address,uint256) usa topics para las direcciones indexadas y data para el valor cuando así lo define la interfaz.", "related": ["Event logs", "Keccak-256", "ABI (Application Binary Interface)"]}, {"term": "Revert", "slug": "revert", "category": "Estado y EVM", "short": "Terminación que deshace cambios de estado de la ejecución afectada pero no devuelve el gas ya consumido.", "definition": "Un revert detiene una ejecución y revierte los cambios de estado producidos dentro del contexto que falla. Puede llevar datos de error. Aunque los cambios lógicos no se consolidan, el trabajo computacional consumido antes del fallo sigue teniendo costo.", "importance": "Es fundamental para entender atomicidad, errores de contratos y por qué una transacción fallida puede igualmente costar ETH.", "example": "Si un ERC-20 detecta balance insuficiente, puede revertir; el balance queda sin cambios pero el remitente paga gas por la ejecución realizada.", "related": ["Gas", "State transition", "Out of gas"]}, {"term": "Out of gas", "slug": "out-of-gas", "category": "Estado y EVM", "short": "Fallo excepcional que ocurre cuando la ejecución requiere más gas del disponible.", "definition": "Out of gas ocurre cuando una operación intenta consumir más gas del que queda en el contexto de ejecución. La llamada falla y sus cambios de estado se revierten según las reglas de la EVM.", "importance": "Muestra que el gas no es sólo un precio: también es un límite de ejecución que protege al sistema de cómputos no acotados.", "example": "Un loop que consume más gas que el gas limit disponible puede terminar en out of gas y revertir la operación.", "related": ["Gas limit", "Revert", "EVM"]}, {"term": "Atomicidad", "slug": "atomicidad", "category": "Estado y EVM", "short": "Propiedad por la que una operación se aplica por completo o sus cambios de estado se revierten.", "definition": "La atomicidad significa que, dentro de una transacción, una secuencia de cambios dependientes no debe quedar parcialmente consolidada si la ejecución finalmente falla. Esto permite componer múltiples operaciones manteniendo consistencia.", "importance": "Es una de las razones por las que DeFi puede encadenar swaps, préstamos y liquidaciones dentro de una misma transacción.", "example": "Un préstamo flash puede pedir fondos, ejecutar arbitraje y devolverlos; si no puede devolverlos al final, toda la transacción revierte.", "related": ["State transition", "Revert", "Composabilidad"]}, {"term": "Composabilidad", "slug": "composabilidad", "category": "Contratos y Tokens", "short": "Capacidad de contratos y protocolos de interactuar como piezas reutilizables dentro de una misma lógica.", "definition": "Composabilidad es la propiedad por la cual un contrato puede invocar a otros contratos y combinar servicios existentes para crear comportamientos más complejos. En Ethereum, interfaces estandarizadas y atomicidad permiten construir capas de aplicaciones interdependientes.", "importance": "Explica la velocidad de innovación de DeFi y por qué un cambio en un protocolo puede tener efectos en muchos otros.", "example": "Un agregador puede usar varios DEXs y tokens ERC-20 en una sola operación para buscar una ruta de intercambio.", "related": ["Smart contract", "Atomicidad", "ERC-20"]}, {"term": "Committee", "slug": "committee", "category": "Consenso", "short": "Subconjunto de validators asignado a emitir attestations en una porción concreta del tiempo de consenso.", "definition": "Un committee agrupa validators para atestiguar durante un slot. La asignación distribuye el trabajo de consenso y permite agregar múltiples firmas y votos de forma eficiente.", "importance": "Ayuda a entender cómo una red con un gran número de validators puede organizar participación sin exigir que todos hagan exactamente la misma tarea en cada instante.", "example": "En un slot, un committee atestigua la cadena observada mientras un validator específico actúa como proposer.", "related": ["Validator", "Attestation", "Slot"]}, {"term": "BLS signature aggregation", "slug": "bls-aggregation", "category": "Consenso", "short": "Agregación de firmas que permite representar múltiples attestations de forma compacta.", "definition": "Ethereum utiliza firmas BLS en la capa de consenso porque varias firmas compatibles pueden agregarse en una representación compacta verificable. Esto reduce el costo de transmitir y procesar grandes cantidades de votos.", "importance": "Es una pieza técnica clave para escalar el consenso a numerosos validators.", "example": "Muchas attestations de un committee pueden agregarse antes de ser incluidas en un bloque.", "related": ["Attestation", "Committee", "Validator"]}, {"term": "Justification", "slug": "justification", "category": "Consenso", "short": "Estado de un checkpoint que ha recibido suficiente apoyo de votos FFG desde una fuente justificada.", "definition": "La justificación es un paso previo a la finalización. Un checkpoint puede quedar justificado cuando una supermayoría del stake apoya el vínculo correspondiente desde un checkpoint fuente válido.", "importance": "Permite comprender que finality no aparece de una sola vez: existe una secuencia lógica de checkpoints justificados y posteriormente finalizados.", "example": "Un checkpoint target obtiene apoyo de al menos dos tercios del peso requerido y pasa a justified.", "related": ["Casper FFG", "Checkpoint", "Finality"]}, {"term": "Reorg", "slug": "reorg", "category": "Consenso", "short": "Cambio de la cadena canónica cuando fork choice selecciona una rama distinta.", "definition": "Una reorganización ocurre cuando bloques previamente considerados parte de la cadena elegida dejan de serlo porque la regla de fork choice adopta otra rama. Las reorgs superficiales pueden surgir por latencia y competencia temporal; las profundas son mucho más preocupantes.", "importance": "Es fundamental para diferenciar inclusión reciente de finality. Un bloque puede estar en la head y, sin embargo, todavía no poseer seguridad de finalización.", "example": "Dos proposers generan ramas cercanas; nuevas attestations inclinan el peso hacia una de ellas y algunos bloques de la otra rama dejan de ser canónicos.", "related": ["LMD-GHOST", "Finality", "Fork"]}, {"term": "Fork", "slug": "fork-consensus", "category": "Consenso", "short": "Bifurcación temporal del árbol de bloques cuando existen más de una rama candidata.", "definition": "En el contexto de fork choice, un fork es una bifurcación del árbol de bloques. Puede surgir por propagación, simultaneidad o condiciones de red, sin implicar necesariamente un cambio deliberado del protocolo.", "importance": "Evita confundir un fork temporal de consenso con un hard fork de reglas de protocolo.", "example": "A1 y B1 pueden descender del mismo padre; LMD-GHOST debe decidir qué subárbol se convierte en la head.", "related": ["LMD-GHOST", "Reorg", "Head"]}, {"term": "Head", "slug": "head", "category": "Consenso", "short": "Bloque considerado actualmente como punta de la cadena por la regla de fork choice.", "definition": "La head es el bloque que, según la visión local y las reglas de fork choice, representa la punta actual de la cadena. Puede cambiar mientras llegan nuevos bloques y attestations.", "importance": "Es útil separar “head” de “finalized”. Lo más reciente no es necesariamente lo más seguro.", "example": "Una wallet puede ver una transacción incluida cerca de la head, aunque todavía deban pasar checkpoints antes de alcanzar finality.", "related": ["LMD-GHOST", "Finality", "Reorg"]}, {"term": "Effective balance", "slug": "effective-balance", "category": "Seguridad e Incentivos", "short": "Balance protocolario usado para calcular peso y parte de rewards/penalties de un validator.", "definition": "El effective balance es una representación del stake que el protocolo utiliza para varios cálculos de consenso. Puede diferir del balance exacto de la cuenta del validator y está sujeto a reglas de redondeo y límites.", "importance": "Aclara por qué no todos los cálculos usan simplemente el saldo bruto. Es central para estudiar economics de validators.", "example": "Dos validators con balances ligeramente distintos pueden tener el mismo effective balance bajo ciertas condiciones protocolarias.", "related": ["Validator", "Penalty vs reward", "Slashing"]}, {"term": "Blob gas", "slug": "blob-gas", "category": "Escalabilidad", "short": "Unidad separada utilizada para tarificar el uso de blobs, distinta del execution gas convencional.", "definition": "Blob gas representa el recurso consumido por la publicación de blobs y opera en un mercado de tarifas separado del gas de ejecución. Esta separación permite que la demanda de datos de rollups tenga dinámica propia sin competir de forma idéntica con cada operación de la EVM.", "importance": "Es clave para entender por qué EIP-4844 puede reducir y estabilizar parte del costo de data availability de L2.", "example": "Una alta demanda de blobs puede elevar su fee sin exigir que la base fee de ejecución aumente en la misma proporción.", "related": ["Blob / EIP-4844", "Gas", "Data availability (DA)"]}, {"term": "Batching", "slug": "batching", "category": "Escalabilidad", "short": "Agrupación de muchas transacciones para compartir costos fijos de publicación y settlement.", "definition": "Batching consiste en consolidar múltiples operaciones de usuarios en una unidad mayor. Un rollup puede pagar ciertos costos L1 una sola vez por batch y dividir ese overhead entre muchas transacciones.", "importance": "Explica gran parte de las economías de escala de L2: el costo unitario puede caer aunque el costo total del batch aumente.", "example": "Si un batch comparte un overhead fijo entre 2.000 transacciones, cada usuario soporta una fracción mucho menor que en un batch de 20.", "related": ["Rollup", "Layer 1 y Layer 2", "Data availability (DA)"]}, {"term": "Optimistic rollup", "slug": "optimistic-rollup", "category": "Escalabilidad", "short": "Rollup que asume válidos los resultados publicados salvo que una prueba de fraude los impugne dentro de las reglas del sistema.", "definition": "Un optimistic rollup publica resultados y datos en L1 bajo una presunción de validez, pero mantiene mecanismos de challenge o fraud proofs para detectar estados incorrectos. La arquitectura exacta varía entre sistemas.", "importance": "Permite comparar dos grandes familias de rollups y entender que “rollup” no implica un único modelo de verificación.", "example": "Una retirada puede estar sujeta a un período de espera relacionado con el mecanismo de desafío del sistema.", "related": ["Rollup", "ZK rollup", "Data availability (DA)"]}, {"term": "ZK rollup", "slug": "zk-rollup", "category": "Escalabilidad", "short": "Rollup que acompaña actualizaciones de estado con pruebas criptográficas de validez.", "definition": "Un ZK rollup utiliza pruebas de validez para demostrar que una transición de estado agregada cumple las reglas. Ethereum verifica una prueba compacta en lugar de repetir cada paso de ejecución del lote.", "importance": "Muestra cómo la criptografía puede comprimir verificación y habilitar escalabilidad preservando garantías fuertes.", "example": "Miles de transacciones pueden resumirse en una prueba que certifica que el nuevo estado fue calculado correctamente.", "related": ["Rollup", "Optimistic rollup", "Proof de validez"]}, {"term": "Proof de validez", "slug": "validity-proof", "category": "Escalabilidad", "short": "Prueba criptográfica compacta que demuestra que una computación o transición satisface ciertas reglas.", "definition": "Una validity proof permite verificar que una transición compleja fue ejecutada correctamente sin repetir todo el cálculo original. En sistemas ZK, el verificador comprueba una prueba mucho más pequeña que el conjunto completo de operaciones.", "importance": "Es una herramienta central para la escalabilidad basada en pruebas y para separar costo de ejecución de costo de verificación.", "example": "Un contrato en L1 puede aceptar un nuevo state root de una L2 sólo si la prueba asociada verifica correctamente.", "related": ["ZK rollup", "State transition", "Data availability (DA)"]}, {"term": "Proposer-Builder Separation (PBS)", "slug": "pbs", "category": "MEV y Block Building", "short": "Separación conceptual entre quien construye el contenido económico del bloque y quien lo propone en consenso.", "definition": "PBS separa el rol de block building del rol de block proposing. Builders especializados compiten por construir payloads valiosos, mientras el proposer conserva la responsabilidad de proponer un bloque válido según el consenso.", "importance": "Ayuda a analizar MEV, especialización y centralización de infraestructura sin suponer que el validator debe realizar todas las funciones económicas de construcción.", "example": "Un proposer puede recibir ofertas de distintos builders y seleccionar un payload sin haber ordenado directamente cada transacción.", "related": ["Builder", "Proposer", "MEV"]}, {"term": "Priority gas auction", "slug": "priority-gas-auction", "category": "MEV y Block Building", "short": "Competencia por prioridad mediante aumento de fees para lograr una posición favorable en el bloque.", "definition": "Una priority gas auction describe situaciones en las que participantes compiten elevando fees para que sus transacciones sean incluidas antes que otras. Aunque la infraestructura moderna puede utilizar mecanismos más sofisticados, la idea ayuda a entender cómo la prioridad tiene precio.", "importance": "Conecta mercado de gas con ordenamiento y MEV.", "example": "Dos bots detectan la misma oportunidad y aumentan agresivamente sus tips intentando obtener prioridad.", "related": ["Priority fee (tip)", "MEV", "Searcher"]}, {"term": "Slippage", "slug": "slippage", "category": "MEV y Block Building", "short": "Diferencia entre el precio esperado y el precio efectivo de ejecución de una operación.", "definition": "Slippage es la variación entre la cotización estimada y la ejecución real, producida por profundidad de mercado, cambios en reservas, operaciones previas o movimientos durante el tiempo de inclusión. En AMMs, el impacto de precio crece con el tamaño relativo de la orden.", "importance": "Es central para entender por qué el orden de transacciones y el MEV afectan a usuarios.", "example": "Un usuario espera recibir 3.000 USDC por ETH, pero una operación previa mueve el pool y termina recibiendo un precio efectivo menor.", "related": ["AMM x·y=k", "Sandwich attack (conceptual)", "MEV"]}];
+const $ = id => document.getElementById(id);
+let activeCategory = 'Todos';
+let studySeen = 0;
+let currentCard = null;
+let quizCorrect = 0;
+let quizTotal = 0;
+let quizCurrent = null;
+const masteryKey = 'eth-glossary-mastery-v1';
+let mastery = {};
+try { mastery = JSON.parse(localStorage.getItem(masteryKey) || '{}'); } catch(e) { mastery = {}; }
+
+function setTheme(theme){
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem('eth-glossary-theme', theme);
+  $('themeBtn').textContent = theme === 'dark' ? '☀ Tema claro' : '🌙 Tema oscuro';
+}
+function toggleTheme(){ setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'); }
+function categories(){ return ['Todos', ...Array.from(new Set(TERMS.map(t=>t.category))).sort((a,b)=>a.localeCompare(b,'es'))]; }
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function markText(text,query){
+  const safe = escapeHtml(text);
+  if(!query) return safe;
+  const q = escapeHtml(query).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return safe.replace(new RegExp('('+q+')','ig'),'<mark>$1</mark>');
+}
+function saveMastery(){
+  localStorage.setItem(masteryKey, JSON.stringify(mastery));
+  renderMastery();
+}
+function renderMastery(){
+  const n = TERMS.filter(t=>mastery[t.slug]).length;
+  const pct = Math.round(n / TERMS.length * 100);
+  $('masteredCount').textContent = n;
+  $('masteryBar').style.width = pct + '%';
+  $('masteryText').textContent = pct + '% de dominio registrado · ' + n + ' de ' + TERMS.length + ' conceptos';
+}
+function buildChips(){
+  const box=$('chips'); box.innerHTML='';
+  categories().forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='chip'+(cat===activeCategory?' active':'');
+    b.textContent=cat;
+    b.addEventListener('click',()=>{ activeCategory=cat; buildChips(); renderGlossary(); });
+    box.appendChild(b);
+  });
+  $('catCount').textContent=categories().length-1;
+}
+function filteredTerms(){
+  const q=$('search').value.trim().toLowerCase();
+  const mf=$('masteryFilter').value;
+  let data=TERMS.filter(t=>{
+    const pool=[t.term,t.category,t.short,t.definition,t.importance,t.example,(t.related||[]).join(' ')].join(' ').toLowerCase();
+    const qOk=!q || pool.includes(q);
+    const catOk=activeCategory==='Todos' || t.category===activeCategory;
+    const mOk=mf==='all' || (mf==='mastered' && !!mastery[t.slug]) || (mf==='pending' && !mastery[t.slug]);
+    return qOk && catOk && mOk;
+  });
+  if($('sortSelect').value==='alpha'){
+    data.sort((a,b)=>a.term.localeCompare(b.term,'es'));
+  }else{
+    data.sort((a,b)=>a.category.localeCompare(b.category,'es') || a.term.localeCompare(b.term,'es'));
+  }
+  return data;
+}
+function entryHTML(t,q){
+  const rel=(t.related||[]).map(r=>'<button type="button" data-related="'+escapeHtml(r)+'">'+escapeHtml(r)+'</button>').join('');
+  return `
+  <article class="entry" data-slug="${escapeHtml(t.slug)}">
+    <div class="entryHead" tabindex="0" role="button" aria-expanded="false">
+      <div>
+        <div class="entryTitle">
+          <h3>${markText(t.term,q)}</h3>
+          <span class="cat">${escapeHtml(t.category)}</span>
+          ${mastery[t.slug] ? '<span class="cat" style="border-color:var(--ok);color:var(--ok)">✓ dominado</span>' : ''}
+        </div>
+        <div class="entryShort">${markText(t.short,q)}</div>
+      </div>
+      <div class="toggle">＋</div>
+    </div>
+    <div class="entryBody">
+      <div class="blocks">
+        <div class="block"><h4>Definición desarrollada</h4><p>${markText(t.definition,q)}</p></div>
+        <div class="block"><h4>Por qué importa</h4><p>${markText(t.importance,q)}</p></div>
+        <div class="block"><h4>Ejemplo o contraste</h4><p>${markText(t.example,q)}</p></div>
+      </div>
+      <div class="related">
+        <button type="button" data-master="${escapeHtml(t.slug)}">${mastery[t.slug]?'✓ Dominado':'Marcar como dominado'}</button>
+        ${rel}
+      </div>
+    </div>
+  </article>`;
+}
+function wireEntries(){
+  document.querySelectorAll('.entry').forEach(entry=>{
+    const head=entry.querySelector('.entryHead');
+    const toggle=()=>{
+      const open=entry.classList.toggle('open');
+      head.setAttribute('aria-expanded',String(open));
+      entry.querySelector('.toggle').textContent=open?'－':'＋';
+    };
+    head.addEventListener('click',toggle);
+    head.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+  });
+  document.querySelectorAll('[data-master]').forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      const slug=b.dataset.master;
+      mastery[slug]=!mastery[slug];
+      if(!mastery[slug]) delete mastery[slug];
+      saveMastery(); renderGlossary();
+    });
+  });
+  document.querySelectorAll('[data-related]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      openTermByName(b.dataset.related);
+    });
+  });
+}
+function renderGlossary(){
+  const q=$('search').value.trim();
+  const data=filteredTerms();
+  $('visibleCount').textContent=data.length;
+  $('glossaryPill').textContent=data.length+' términos · '+activeCategory;
+  const box=$('glossary');
+  if(!data.length){
+    box.innerHTML='<div class="callout bad"><b>Sin resultados.</b> Probá con otra búsqueda o quitá filtros.</div>';
+    return;
+  }
+  box.innerHTML=data.map(t=>entryHTML(t,q)).join('');
+  wireEntries();
+}
+function expandAll(){
+  document.querySelectorAll('.entry').forEach(e=>{
+    e.classList.add('open');
+    e.querySelector('.entryHead').setAttribute('aria-expanded','true');
+    e.querySelector('.toggle').textContent='－';
+  });
+}
+function collapseAll(){
+  document.querySelectorAll('.entry').forEach(e=>{
+    e.classList.remove('open');
+    e.querySelector('.entryHead').setAttribute('aria-expanded','false');
+    e.querySelector('.toggle').textContent='＋';
+  });
+}
+function chooseCard(){
+  const pending=TERMS.filter(t=>!mastery[t.slug]);
+  const pool=pending.length?pending:TERMS;
+  currentCard=pool[Math.floor(Math.random()*pool.length)];
+  studySeen++;
+  $('cardCounter').textContent=studySeen+' repasos';
+  $('studyTerm').textContent=currentCard.term;
+  $('studyMeta').textContent=currentCard.category+' · Definilo sin mirar y conectalo con otro concepto.';
+  $('studyDef').textContent=currentCard.definition;
+  $('studyImp').textContent=currentCard.importance;
+  $('studyEx').textContent=currentCard.example;
+  $('studyAnswer').classList.remove('show');
+}
+function showAnswer(){
+  if(!currentCard) chooseCard();
+  $('studyAnswer').classList.add('show');
+}
+function markCurrent(value){
+  if(!currentCard) chooseCard();
+  if(value) mastery[currentCard.slug]=true; else delete mastery[currentCard.slug];
+  saveMastery(); renderGlossary(); chooseCard();
+}
+function openTermByName(name){
+  const term=TERMS.find(t=>t.term===name);
+  if(!term) return;
+  activeCategory='Todos';
+  $('search').value=term.term;
+  $('masteryFilter').value='all';
+  buildChips(); renderGlossary();
+  const entry=document.querySelector('.entry[data-slug="'+term.slug+'"]');
+  if(entry){
+    entry.classList.add('open');
+    entry.querySelector('.entryHead').setAttribute('aria-expanded','true');
+    entry.querySelector('.toggle').textContent='－';
+    entry.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function randomDistractors(correct){
+  const pool=TERMS.filter(t=>t.slug!==correct.slug);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0,3);
+}
+function newQuiz(){
+  quizCurrent=TERMS[Math.floor(Math.random()*TERMS.length)];
+  const choices=[quizCurrent,...randomDistractors(quizCurrent)];
+  for(let i=choices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[choices[i],choices[j]]=[choices[j],choices[i]];}
+  $('quizQuestion').textContent='¿Qué concepto corresponde a esta definición? “'+quizCurrent.short+'”';
+  $('quizExplain').className='callout hidden';
+  const box=$('quizOptions'); box.innerHTML='';
+  choices.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='quizOpt'; b.textContent=t.term;
+    b.addEventListener('click',()=>answerQuiz(b,t));
+    box.appendChild(b);
+  });
+}
+function answerQuiz(button,choice){
+  if(!quizCurrent) return;
+  quizTotal++;
+  const ok=choice.slug===quizCurrent.slug;
+  if(ok) quizCorrect++;
+  document.querySelectorAll('.quizOpt').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===quizCurrent.term) b.classList.add('correct');
+  });
+  if(!ok) button.classList.add('wrong');
+  $('quizScore').textContent=quizCorrect+' / '+quizTotal;
+  $('quizExplain').className='callout '+(ok?'ok':'warn');
+  $('quizExplain').innerHTML='<b>'+(ok?'Correcto.':'Respuesta correcta: '+escapeHtml(quizCurrent.term)+'.')+'</b> '+escapeHtml(quizCurrent.definition);
+}
+function resetQuiz(){
+  quizCorrect=0;quizTotal=0;quizCurrent=null;
+  $('quizScore').textContent='0 / 0';
+  $('quizQuestion').textContent='Presioná “Nueva pregunta” para comenzar.';
+  $('quizOptions').innerHTML='';
+  $('quizExplain').className='callout hidden';
+}
+$('themeBtn').addEventListener('click',toggleTheme);
+$('expandBtn').addEventListener('click',expandAll);
+$('collapseBtn').addEventListener('click',collapseAll);
+$('randomBtn').addEventListener('click',chooseCard);
+$('newCardBtn').addEventListener('click',chooseCard);
+$('showAnswerBtn').addEventListener('click',showAnswer);
+$('masterBtn').addEventListener('click',()=>markCurrent(true));
+$('reviewBtn').addEventListener('click',()=>markCurrent(false));
+$('search').addEventListener('input',renderGlossary);
+$('sortSelect').addEventListener('change',renderGlossary);
+$('masteryFilter').addEventListener('change',renderGlossary);
+$('quizNewBtn').addEventListener('click',newQuiz);
+$('quizResetBtn').addEventListener('click',resetQuiz);
+document.querySelectorAll('[data-cat]').forEach(el=>el.addEventListener('click',()=>{
+  activeCategory=el.dataset.cat; $('search').value=''; buildChips(); renderGlossary();
+  $('glossary').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+document.querySelectorAll('[data-term]').forEach(el=>el.addEventListener('click',()=>openTermByName(el.dataset.term)));
+
+const savedTheme=localStorage.getItem('eth-glossary-theme');
+setTheme(savedTheme||'dark');
+$('termCount').textContent=TERMS.length;
+buildChips();
+renderMastery();
+renderGlossary();
+chooseCard();
+</script>
+<script src="../assets/resource-shell.js"></script></body>
+</html>

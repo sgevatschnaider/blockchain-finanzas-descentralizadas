@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Ethereum Lab 12: MEV & Block Building — orden de transacciones, arbitrage, sandwich conceptual, searcher, builder y proposer.">
+<title>Ethereum Lab 12 · MEV & Block Building</title>
+<style>
+:root{
+  --bg:#f4f7fb;--bg2:#e9eef7;--panel:#fff;--panel2:#f7f9fc;--text:#172033;--muted:#68768a;
+  --line:#d7e0ec;--accent:#627eea;--accent2:#8b5cf6;--cyan:#0891b2;--ok:#059669;--warn:#b7791f;
+  --bad:#dc2626;--gold:#b98517;--shadow:0 16px 44px rgba(20,34,70,.11);--glow:rgba(98,126,234,.18);
+}
+html[data-theme="dark"]{
+  --bg:#070b14;--bg2:#0b1220;--panel:#101827;--panel2:#0d1522;--text:#edf2ff;--muted:#9ba9bf;
+  --line:#26344d;--accent:#8ea2ff;--accent2:#b58cff;--cyan:#22d3ee;--ok:#34d399;--warn:#fbbf24;
+  --bad:#fb7185;--gold:#f5c35b;--shadow:0 20px 58px rgba(0,0,0,.34);--glow:rgba(142,162,255,.20);
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);line-height:1.5;
+  background:
+    radial-gradient(900px 480px at 92% -8%,rgba(139,92,246,.18),transparent 60%),
+    radial-gradient(760px 440px at -8% 8%,rgba(34,211,238,.12),transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2) 55%,var(--bg));
+}
+button,input,select{font:inherit}button{cursor:pointer}
+.header{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.topbar{max-width:1500px;margin:auto;padding:12px 18px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}.ethMark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;font-weight:900;font-size:1.3rem;box-shadow:0 0 30px var(--glow)}
+.brand strong{display:block}.brand small{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:720px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 12px;border-radius:12px;font-weight:800;transition:.18s}
+.btn:hover{transform:translateY(-1px);border-color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.btn.cyan{background:color-mix(in srgb,var(--cyan) 16%,var(--panel));border-color:color-mix(in srgb,var(--cyan) 50%,var(--line))}
+.btn.gold{background:color-mix(in srgb,var(--gold) 14%,var(--panel));border-color:color-mix(in srgb,var(--gold) 48%,var(--line))}
+.btn.danger{background:color-mix(in srgb,var(--bad) 13%,var(--panel));border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
+main{max-width:1500px;margin:auto;padding:24px 18px 60px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:18px}
+.card,.panel{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),var(--panel));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.card{padding:24px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-150px;background:radial-gradient(circle,var(--glow),transparent 68%)}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:900}
+h1{font-size:clamp(2rem,4vw,3.35rem);line-height:1.02;margin:.25rem 0 .8rem}.lead{font-size:1.08rem;color:var(--muted);max-width:940px}
+.goal{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:15px}.goal b{display:block;margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-3{grid-column:span 3}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-9{grid-column:span 9}.span-12{grid-column:1/-1}
+.panel{overflow:hidden}.panelHead{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.panelHead h2,.panelHead h3{margin:0;font-size:1rem}.panelBody{padding:16px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:.75rem;color:var(--muted);background:var(--panel2)}
+label{display:block;font-size:.79rem;color:var(--muted);font-weight:800;margin:9px 0 5px}
+input,select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px 11px}
+input[type=range]{padding:0}input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sliderPair{display:grid;grid-template-columns:1fr 86px;gap:8px;align-items:end}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:11px;min-width:0}.kpi b{display:block;font-size:1.06rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kpi small{color:var(--muted)}
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--panel2);border-radius:12px;padding:12px}.callout.ok{border-left-color:var(--ok)}.callout.warn{border-left-color:var(--warn)}.callout.bad{border-left-color:var(--bad)}
+.statusline{display:flex;align-items:center;gap:8px;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;background:var(--line)}.dot.ok{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 15%,transparent)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.mevPipeline{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:8px;align-items:center}.actor{border:1px solid var(--line);background:var(--panel2);border-radius:17px;padding:13px;text-align:center;min-height:128px;display:grid;place-items:center;transition:.25s}.actor.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--glow)}.actor .ico{font-size:1.8rem}.actor small{color:var(--muted)}.arrow{font-size:1.35rem;color:var(--muted);font-weight:900}
+.mempool{display:flex;flex-direction:column;gap:8px}.tx{border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:10px;display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center}.tx.user{border-left:4px solid var(--cyan)}.tx.arb{border-left:4px solid var(--ok)}.tx.mev{border-left:4px solid var(--bad)}.tx.neutral{border-left:4px solid var(--accent)}.tx .num{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 18%,var(--panel));font-weight:900}.tx small{color:var(--muted)}
+.blockList{display:flex;flex-direction:column;gap:8px}.blockTx{border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:10px;display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center}.blockTx.front{border-color:color-mix(in srgb,var(--bad) 50%,var(--line))}.blockTx.victim{border-color:color-mix(in srgb,var(--cyan) 50%,var(--line))}.blockTx.back{border-color:color-mix(in srgb,var(--gold) 50%,var(--line))}
+.amm{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.reserve{border:1px solid var(--line);background:var(--panel2);border-radius:16px;padding:14px;text-align:center}.reserve .big{font-size:1.6rem;font-weight:900}.reserve small{color:var(--muted)}.priceOrb{width:120px;height:120px;border-radius:50%;margin:auto;border:1px solid var(--line);background:radial-gradient(circle,color-mix(in srgb,var(--accent) 16%,var(--panel2)),var(--panel2) 67%);display:grid;place-items:center;text-align:center}.priceOrb b{display:block;font-size:1.2rem}.priceOrb small{color:var(--muted)}
+.chartWrap{height:310px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);overflow:hidden}.chartWrap canvas{width:100%;height:100%;display:block}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:11px}.metric b{display:block;font-size:1.15rem}.metric small{color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.step{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:9px;opacity:.55}.step.active{opacity:1;border-color:var(--accent)}.step.done{opacity:.9;border-color:var(--ok)}.step .n{font-size:.68rem;color:var(--muted);font-weight:900}.step b{display:block;font-size:.82rem}.explain{margin-top:10px;border-left:4px solid var(--cyan);background:var(--panel2);border-radius:11px;padding:13px}.explain h3{margin:0 0 4px;font-size:1rem}
+.feed{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow:auto}.event{display:grid;grid-template-columns:90px 1fr;gap:10px;border-left:3px solid var(--line);padding:8px 10px;background:var(--panel2);border-radius:0 10px 10px 0}.event.ok{border-left-color:var(--ok)}.event.warn{border-left-color:var(--warn)}.event.bad{border-left-color:var(--bad)}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;font-size:.82rem;overflow:auto}
+.footer{max-width:1500px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.82rem}
+@media(max-width:1120px){.hero{grid-template-columns:1fr}.span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9{grid-column:1/-1}.controls{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr 1fr}.brand small{display:none}}
+@media(max-width:720px){.topbar{align-items:flex-start}.actions .btn{padding:8px 9px}.controls,.kpis,.mevPipeline,.amm,.compare,.steps{grid-template-columns:1fr}.mevPipeline .arrow,.amm .arrow{transform:rotate(90deg);text-align:center}.sliderPair{grid-template-columns:1fr 78px}.tx,.blockTx{grid-template-columns:34px 1fr}.tx>div:last-child,.blockTx>div:last-child{grid-column:2}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="topbar">
+    <div class="brand">
+      <div class="ethMark">Ξ</div>
+      <div><strong>12 · MEV & Block Building Lab</strong><small>transaction ordering · arbitrage · sandwich conceptual · searcher · builder · proposer</small></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="themeBtn">☀ Tema claro</button>
+      <button class="btn primary" id="autoBtn">▶ Ejecución automática</button>
+      <button class="btn cyan" id="buildBtn">🧱 Construir bloque</button>
+      <button class="btn gold" id="nextBtn">⏭ Siguiente paso</button>
+      <button class="btn" id="resetBtn">↻ Reiniciar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="card">
+      <div class="eyebrow">Laboratorio interactivo Ethereum · MEV</div>
+      <h1>El orden de las transacciones también tiene valor económico</h1>
+      <p class="lead">Observá cómo distintas políticas de ordenamiento modifican el resultado de un bloque. El laboratorio compara <strong>FIFO</strong>, prioridad por fee, <strong>arbitrage</strong> y un <strong>sandwich conceptual</strong> alrededor de una operación grande en un AMM x·y=k.</p>
+    </div>
+    <div class="card">
+      <div class="goal"><b>Objetivo de aprendizaje</b>Entender MEV como valor asociado a incluir, excluir o reordenar transacciones, y separar los roles conceptuales de <strong>user, searcher, builder y proposer</strong>.</div>
+      <div class="statusline" style="margin-top:14px"><span class="dot" id="statusDot"></span><span id="statusText">Mempool cargada</span></div>
+      <div class="callout warn" style="margin-top:12px"><b>Alcance:</b> el sandwich es exclusivamente pedagógico. No hay conexión a mempools, DEXs, RPCs ni mercados reales y no se generan estrategias operativas de explotación.</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel span-12">
+      <div class="panelHead"><h2>Flujo de block building</h2><span class="pill">modelo conceptual</span></div>
+      <div class="panelBody">
+        <div class="mevPipeline">
+          <div class="actor" id="actorUser"><div><div class="ico">👤</div><b>Users</b><small>envían transacciones</small></div></div>
+          <div class="arrow">→</div>
+          <div class="actor" id="actorSearcher"><div><div class="ico">🔎</div><b>Searcher</b><small>detecta oportunidades</small></div></div>
+          <div class="arrow">→</div>
+          <div class="actor" id="actorBuilder"><div><div class="ico">🧱</div><b>Builder</b><small>ordena un bloque candidato</small></div></div>
+          <div class="arrow">→</div>
+          <div class="actor" id="actorProposer"><div><div class="ico">🏛️</div><b>Proposer</b><small>propone payload/bloque</small></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Mempool pedagógica</h2><span class="pill">transacciones candidatas</span></div>
+      <div class="panelBody">
+        <div class="mempool" id="mempool"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn" id="shuffleBtn">⤨ Mezclar llegada</button>
+          <button class="btn" id="addUserBtn">＋ Agregar swap usuario</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Política de construcción</h2><span class="pill">orden importa</span></div>
+      <div class="panelBody">
+        <div class="controls">
+          <div><label>Política</label><select id="policy"><option value="fifo">FIFO / orden de llegada</option><option value="fee">Priority fee</option><option value="arb">Arbitrage conceptual</option><option value="sandwich">Sandwich conceptual</option></select></div>
+          <div><label>Swap grande del usuario (ETH)</label><div class="sliderPair"><input id="victimEth" type="range" min="1" max="80" step="1" value="30"><input id="victimEthN" type="number" min="1" max="500" value="30"></div></div>
+          <div><label>Searcher front-run (ETH)</label><div class="sliderPair"><input id="frontEth" type="range" min="0.1" max="20" step="0.1" value="6"><input id="frontEthN" type="number" min="0" max="100" step="0.1" value="6"></div></div>
+          <div><label>Pool ETH reserve</label><div class="sliderPair"><input id="reserveEth" type="range" min="100" max="5000" step="50" value="1000"><input id="reserveEthN" type="number" min="1" max="100000" value="1000"></div></div>
+          <div><label>Pool USDC reserve</label><div class="sliderPair"><input id="reserveUsd" type="range" min="100000" max="10000000" step="100000" value="3000000"><input id="reserveUsdN" type="number" min="1" max="100000000" value="3000000"></div></div>
+          <div><label>AMM fee</label><select id="ammFee"><option value="0.0005">0.05%</option><option value="0.003" selected>0.30%</option><option value="0.01">1.00%</option></select></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn" data-preset="normal">Orden normal</button>
+          <button class="btn" data-preset="arb">Arbitrage</button>
+          <button class="btn danger" data-preset="sandwich">Sandwich conceptual</button>
+        </div>
+        <div class="callout" id="policyExplain" style="margin-top:10px"><b>FIFO:</b> se respeta el orden de llegada de la mempool simulada.</div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Bloque candidato</h2><span class="pill" id="blockPill">sin construir</span></div>
+      <div class="panelBody"><div class="blockList" id="blockList"></div></div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>AMM x·y=k</h2><span class="pill">ETH / USDC</span></div>
+      <div class="panelBody">
+        <div class="amm">
+          <div class="reserve"><small>Reserva ETH</small><div class="big" id="rEth">1,000</div><span>ETH</span></div>
+          <div class="priceOrb"><div><small>spot price</small><b id="spot">3,000</b><small>USDC/ETH</small></div></div>
+          <div class="reserve"><small>Reserva USDC</small><div class="big" id="rUsd">3,000,000</div><span>USDC</span></div>
+        </div>
+        <div class="compare" style="margin-top:12px">
+          <div class="metric"><small>Usuario recibe</small><b id="userReceives">— USDC</b></div>
+          <div class="metric"><small>Precio efectivo usuario</small><b id="userPrice">—</b></div>
+          <div class="metric"><small>MEV conceptual searcher</small><b id="mevValue">— USDC</b></div>
+        </div>
+        <div class="callout" id="ammExplain" style="margin-top:10px"><b>Pool inicial:</b> esperando construcción.</div>
+      </div>
+    </section>
+
+    <section class="panel span-8">
+      <div class="panelHead"><h2>Trayectoria del precio dentro del bloque</h2><span class="pill">orden secuencial</span></div>
+      <div class="panelBody"><div class="chartWrap"><canvas id="chart"></canvas></div></div>
+    </section>
+
+    <section class="panel span-4">
+      <div class="panelHead"><h2>Resultado económico</h2><span class="pill">escenario</span></div>
+      <div class="panelBody">
+        <div class="kpis">
+          <div class="kpi"><b id="txCountKpi">0</b><small>tx en bloque</small></div>
+          <div class="kpi"><b id="feeKpi">0</b><small>priority fees relativas</small></div>
+          <div class="kpi"><b id="builderKpi">0</b><small>builder value</small></div>
+          <div class="kpi"><b id="proposerKpi">0</b><small>proposer bid</small></div>
+          <div class="kpi"><b id="slippageKpi">—</b><small>impacto usuario</small></div>
+        </div>
+        <div class="formula" id="formula" style="margin-top:10px">x · y = k</div>
+        <div class="callout warn" style="margin-top:10px"><b>Builder value:</b> es un índice didáctico basado en fees + MEV del escenario; no reproduce subastas, bids o pagos reales.</div>
+      </div>
+    </section>
+
+    <section class="panel span-7">
+      <div class="panelHead"><h2>Recorrido didáctico</h2><span class="pill" id="stepPill">Paso 1</span></div>
+      <div class="panelBody">
+        <div class="steps" id="steps"></div>
+        <div class="explain" id="stepExplain"></div>
+      </div>
+    </section>
+
+    <section class="panel span-5">
+      <div class="panelHead"><h2>Event feed</h2><span class="pill">orden y efectos</span></div>
+      <div class="panelBody"><div class="feed" id="feed"></div></div>
+    </section>
+
+    <section class="panel span-12">
+      <div class="panelHead"><h2>Lectura conceptual</h2><span class="pill">MEV ≠ una sola estrategia</span></div>
+      <div class="panelBody">
+        <div class="grid" style="gap:10px">
+          <div class="span-3 callout"><b>Arbitrage</b><br>Puede alinear precios entre venues y capturar una diferencia de precio. Tiene efectos distintos de otras formas de MEV.</div>
+          <div class="span-3 callout warn"><b>Sandwich</b><br>El orden alrededor de una operación sensible al precio puede empeorar su ejecución. Aquí se muestra sólo como fenómeno económico conceptual.</div>
+          <div class="span-3 callout"><b>Builder</b><br>Construye un payload candidato maximizando una función económica sujeta a validez y restricciones del bloque.</div>
+          <div class="span-3 callout ok"><b>Proposer</b><br>Propone el bloque/payload seleccionado. El laboratorio no simula infraestructura real de relays ni protocolos de subasta.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong> Laboratorio educativo. No escanea mempools reales, no ejecuta operaciones y no implementa estrategias de trading.</footer>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const pairs=[['victimEth','victimEthN'],['frontEth','frontEthN'],['reserveEth','reserveEthN'],['reserveUsd','reserveUsdN']];
+  let mempool=[],block=[],timer=null,step=0,seed=24681357,pricePath=[];
+  const steps=[
+    {t:'1. User order',x:'El usuario firma una transacción con una intención económica. Una vez visible para participantes externos, su posición relativa dentro del bloque puede tener valor.'},
+    {t:'2. Search',x:'Un searcher analiza oportunidades. Arbitrage y sandwich son categorías diferentes: una puede acercar precios entre mercados; la otra puede deteriorar la ejecución de una orden sensible al precio.'},
+    {t:'3. Bundle/order',x:'El searcher puede proponer una secuencia de transacciones. El laboratorio representa sólo el orden y su efecto económico, no mecanismos de envío reales.'},
+    {t:'4. Builder',x:'El builder organiza un payload candidato con transacciones de usuarios y posibles bundles, evaluando fees y valor extraíble.'},
+    {t:'5. Proposer',x:'El proposer selecciona/proporciona un bloque válido. El laboratorio resume la relación builder-proposer sin reproducir infraestructura de producción.'},
+    {t:'6. Execution',x:'La EVM ejecuta las transacciones secuencialmente. El estado dejado por una transacción es el estado que encuentra la siguiente.'},
+    {t:'7. Price impact',x:'En un AMM x·y=k, cada swap modifica las reservas y por lo tanto el precio marginal. El orden cambia el precio que recibe cada participante.'},
+    {t:'8. MEV',x:'MEV mide valor asociado al control de inclusión, exclusión u ordenamiento. Sus efectos económicos dependen de la estrategia concreta.'}
+  ];
+
+  function rand(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
+  function fmt(n,d=4){if(!isFinite(n))return '—';return Number(n).toFixed(d).replace(/0+$/,'').replace(/\.$/,'')}
+  function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem('ethlab-theme',t);$('themeBtn').textContent=t==='dark'?'☀ Tema claro':'🌙 Tema oscuro';drawChart()}
+  function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')}
+  function setStatus(t,type=''){ $('statusText').textContent=t;$('statusDot').className='dot'+(type?' '+type:'') }
+  function addEvent(label,text,type=''){const d=document.createElement('div');d.className='event '+type;d.innerHTML=`<b>${label}</b><span>${text}</span>`;$('feed').prepend(d)}
+  function policyText(){
+    const p=$('policy').value;
+    const texts={
+      fifo:'<b>FIFO:</b> se respeta el orden de llegada de la mempool simulada.',
+      fee:'<b>Priority fee:</b> las transacciones se ordenan por fee relativa descendente.',
+      arb:'<b>Arbitrage conceptual:</b> se inserta una operación que intenta acercar el pool a un precio externo de referencia.',
+      sandwich:'<b>Sandwich conceptual:</b> se coloca una compra del searcher antes de una operación grande y una venta después para mostrar cómo el orden puede perjudicar el precio del usuario.'
+    };
+    $('policyExplain').innerHTML=texts[p]
+  }
+  function baseMempool(){
+    mempool=[
+      {id:'U1',kind:'neutral',label:'Alice · transfer',fee:1.4,arrival:1},
+      {id:'V',kind:'user',label:'Usuario · swap ETH→USDC',fee:2.0,arrival:2,victim:true},
+      {id:'U2',kind:'neutral',label:'Bob · contract call',fee:1.0,arrival:3},
+      {id:'A1',kind:'arb',label:'Searcher · arbitrage candidate',fee:3.6,arrival:4,arb:true},
+      {id:'U3',kind:'neutral',label:'Carol · token transfer',fee:1.8,arrival:5}
+    ];
+    renderMempool()
+  }
+  function renderMempool(){
+    const c=$('mempool');c.innerHTML='';
+    mempool.forEach((tx,i)=>{
+      const d=document.createElement('div');d.className='tx '+tx.kind;
+      d.innerHTML=`<div class="num">${i+1}</div><div><b>${tx.label}</b><small>arrival ${tx.arrival} · priority ${tx.fee.toFixed(1)}</small></div><div><button class="btn" data-up="${i}">↑</button> <button class="btn" data-down="${i}">↓</button></div>`;
+      c.appendChild(d)
+    });
+    c.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>move(Number(b.dataset.up),-1));
+    c.querySelectorAll('[data-down]').forEach(b=>b.onclick=()=>move(Number(b.dataset.down),1))
+  }
+  function move(i,d){const j=i+d;if(j<0||j>=mempool.length)return;[mempool[i],mempool[j]]=[mempool[j],mempool[i]];renderMempool()}
+  function shuffle(){
+    for(let i=mempool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[mempool[i],mempool[j]]=[mempool[j],mempool[i]]}
+    mempool.forEach((t,i)=>t.arrival=i+1);renderMempool();addEvent('Mempool','Orden de llegada mezclado.','warn')
+  }
+  function addUser(){
+    const id='U'+(mempool.length+1);mempool.push({id,kind:'neutral',label:`User ${id} · swap pequeño`,fee:1+rand()*2,arrival:mempool.length+1});renderMempool()
+  }
+  function swapEthForUsd(pool,ethIn){
+    const fee=Number($('ammFee').value),effective=ethIn*(1-fee),k=pool.x*pool.y,newX=pool.x+effective,newY=k/newX,out=pool.y-newY;
+    pool.x+=ethIn;pool.y-=out;return out
+  }
+  function swapUsdForEth(pool,usdIn){
+    const fee=Number($('ammFee').value),effective=usdIn*(1-fee),k=pool.x*pool.y,newY=pool.y+effective,newX=k/newY,out=pool.x-newX;
+    pool.y+=usdIn;pool.x-=out;return out
+  }
+  function spot(pool){return pool.y/pool.x}
+  function simulateBlock(order){
+    const pool={x:Number($('reserveEth').value),y:Number($('reserveUsd').value)},victim=Number($('victimEth').value),front=Number($('frontEth').value);
+    const initialSpot=spot(pool);let userOut=0,searcherProfit=0,frontUsd=0,frontEthOut=0;pricePath=[{label:'inicio',price:initialSpot}];
+    for(const tx of order){
+      if(tx.role==='front'){
+        frontUsd=swapEthForUsd(pool,front);pricePath.push({label:'front',price:spot(pool)})
+      }else if(tx.victim){
+        userOut=swapEthForUsd(pool,victim);pricePath.push({label:'usuario',price:spot(pool)})
+      }else if(tx.role==='back'){
+        frontEthOut=swapUsdForEth(pool,frontUsd);searcherProfit=(frontEthOut-front)*spot(pool);pricePath.push({label:'back',price:spot(pool)})
+      }else if(tx.arb && $('policy').value==='arb'){
+        const external=initialSpot*1.025;
+        const current=spot(pool);
+        if(current<external){
+          const trade=Math.min(10,Math.max(.5,(external/current-1)*pool.x*.15));
+          const usd=swapEthForUsd(pool,trade);
+          searcherProfit=Math.max(0,usd-trade*external);
+        }else{
+          const usdTrade=Math.min(30000,Math.max(1000,(current/external-1)*pool.y*.05));
+          const eth=swapUsdForEth(pool,usdTrade);
+          searcherProfit=Math.max(0,eth*external-usdTrade);
+        }
+        pricePath.push({label:'arb',price:spot(pool)})
+      }
+    }
+    const noOrderPool={x:Number($('reserveEth').value),y:Number($('reserveUsd').value)};
+    const baseline=swapEthForUsd(noOrderPool,victim),effectivePrice=userOut?victim?userOut/victim:0:0,baselinePrice=baseline/victim;
+    return {pool,userOut,searcherProfit,initialSpot,effectivePrice,baselinePrice,impact:baseline?((userOut/baseline)-1)*100:0}
+  }
+  function build(){
+    const policy=$('policy').value;
+    let ordered=mempool.map(x=>({...x}));
+    if(policy==='fifo')ordered.sort((a,b)=>a.arrival-b.arrival);
+    if(policy==='fee')ordered.sort((a,b)=>b.fee-a.fee);
+    if(policy==='arb'){
+      ordered=ordered.filter(t=>!t.arb);const idx=Math.max(0,ordered.findIndex(t=>t.victim));
+      ordered.splice(idx+1,0,{id:'ARB',kind:'arb',label:'Searcher arbitrage',fee:4.2,arb:true})
+    }
+    if(policy==='sandwich'){
+      ordered=ordered.filter(t=>!t.arb && !t.role);
+      const idx=Math.max(0,ordered.findIndex(t=>t.victim));
+      ordered.splice(idx,0,{id:'FRONT',kind:'mev',label:'Searcher · front-run',fee:5.0,role:'front'});
+      ordered.splice(idx+2,0,{id:'BACK',kind:'mev',label:'Searcher · back-run',fee:4.9,role:'back'})
+    }
+    block=ordered;
+    renderBlock();
+    const r=simulateBlock(block);
+    renderAmm(r);
+    const feeSum=block.reduce((s,t)=>s+(t.fee||0),0),builderValue=feeSum+r.searcherProfit/1000,proposerBid=builderValue*.82;
+    $('txCountKpi').textContent=block.length;$('feeKpi').textContent=fmt(feeSum,1);$('builderKpi').textContent=fmt(builderValue,3);$('proposerKpi').textContent=fmt(proposerBid,3);$('slippageKpi').textContent=fmt(r.impact,2)+'%';
+    $('blockPill').textContent=`${block.length} tx · ${policy}`;
+    $('formula').textContent=`x·y=k → precio inicial ${fmt(r.initialSpot,2)} USDC/ETH → precio final ${fmt(spot(r.pool),2)} USDC/ETH`;
+    step=5;renderSteps();drawChart();setStatus('Bloque candidato construido','ok');
+    addEvent('Builder',`Política ${policy}: ${block.length} transacciones ordenadas.`,'ok');
+    if(policy==='sandwich')addEvent('MEV',`Impacto adicional sobre output del usuario: ${fmt(r.impact,2)}%. MEV conceptual: ${fmt(r.searcherProfit,2)} USDC.`,'bad');
+    if(policy==='arb')addEvent('Arbitrage',`Oportunidad conceptual procesada. Valor estimado ${fmt(r.searcherProfit,2)} USDC.`,'ok')
+  }
+  function renderBlock(){
+    const c=$('blockList');c.innerHTML='';
+    block.forEach((tx,i)=>{
+      const cls=tx.role==='front'?'front':tx.victim?'victim':tx.role==='back'?'back':'';
+      const d=document.createElement('div');d.className='blockTx '+cls;
+      d.innerHTML=`<div class="num">${i+1}</div><div><b>${tx.label}</b><small>${tx.role|| (tx.victim?'user swap':tx.arb?'arbitrage':'ordinary tx')}</small></div><div>fee ${fmt(tx.fee||0,1)}</div>`;
+      c.appendChild(d)
+    })
+  }
+  function renderAmm(r){
+    $('rEth').textContent=r.pool.x.toLocaleString('es-AR',{maximumFractionDigits:3});$('rUsd').textContent=r.pool.y.toLocaleString('es-AR',{maximumFractionDigits:2});$('spot').textContent=fmt(spot(r.pool),2);
+    $('userReceives').textContent=r.userOut?fmt(r.userOut,2)+' USDC':'— USDC';$('userPrice').textContent=r.userOut?fmt(r.effectivePrice,2)+' USDC/ETH':'—';$('mevValue').textContent=fmt(r.searcherProfit,2)+' USDC';
+    $('ammExplain').className='callout '+(r.impact<-0.05?'bad':'ok');
+    $('ammExplain').innerHTML=r.userOut
+      ?`<b>Usuario:</b> baseline sin reordenamiento especial ≈ ${fmt(r.baselinePrice,2)} USDC/ETH. En este bloque recibe ≈ ${fmt(r.effectivePrice,2)} USDC/ETH; variación de output ${fmt(r.impact,2)}%.`
+      :'<b>Pool:</b> no hubo swap grande del usuario en el bloque.'
+  }
+  function drawChart(){
+    const c=$('chart'),ctx=c.getContext('2d'),rect=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+    c.width=Math.max(1,rect.width*dpr);c.height=Math.max(1,rect.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+    const w=rect.width,h=rect.height,p=45,css=getComputedStyle(document.documentElement),line=css.getPropertyValue('--line').trim(),muted=css.getPropertyValue('--muted').trim(),accent=css.getPropertyValue('--accent').trim(),bad=css.getPropertyValue('--bad').trim();
+    ctx.clearRect(0,0,w,h);if(!pricePath.length)return;
+    const vals=pricePath.map(d=>d.price),min=Math.min(...vals)*.985,max=Math.max(...vals)*1.015;
+    ctx.font='12px system-ui';ctx.strokeStyle=line;ctx.fillStyle=muted;
+    for(let i=0;i<5;i++){const y=p+(h-2*p)*i/4;ctx.beginPath();ctx.moveTo(p,y);ctx.lineTo(w-p,y);ctx.stroke();ctx.fillText(fmt(max-(max-min)*i/4,0),5,y+4)}
+    const x=i=>p+(w-2*p)*(pricePath.length===1?0:i/(pricePath.length-1)),y=v=>p+(h-2*p)*(1-(v-min)/(max-min||1));
+    ctx.strokeStyle=accent;ctx.lineWidth=3;ctx.beginPath();pricePath.forEach((d,i)=>{i?ctx.lineTo(x(i),y(d.price)):ctx.moveTo(x(i),y(d.price))});ctx.stroke();
+    pricePath.forEach((d,i)=>{ctx.fillStyle=d.label==='usuario'?bad:accent;ctx.beginPath();ctx.arc(x(i),y(d.price),5,0,Math.PI*2);ctx.fill();ctx.fillStyle=muted;ctx.fillText(d.label,x(i)-18,h-12)})
+  }
+  function renderSteps(){
+    $('steps').innerHTML=steps.map((s,i)=>`<div class="step ${i===step?'active':''} ${i<step?'done':''}"><span class="n">PASO ${i+1}</span><b>${s.t.replace(/^\d+\.\s*/,'')}</b></div>`).join('');
+    $('stepPill').textContent=`Paso ${step+1}`;$('stepExplain').innerHTML=`<h3>${steps[step].t}</h3><div>${steps[step].x}</div>`;
+    ['actorUser','actorSearcher','actorBuilder','actorProposer'].forEach((id,i)=>$(id).classList.toggle('active',Math.min(3,Math.floor(step/2))===i))
+  }
+  function nextStep(){step=(step+1)%steps.length;renderSteps()}
+  function bindPair(a,b){
+    $(a).addEventListener('input',()=>{$(b).value=$(a).value});
+    $(b).addEventListener('input',()=>{$(a).value=$(b).value})
+  }
+  function preset(name){
+    if(name==='normal'){$('policy').value='fifo';$('victimEth').value=30;$('victimEthN').value=30}
+    if(name==='arb'){$('policy').value='arb';$('victimEth').value=20;$('victimEthN').value=20}
+    if(name==='sandwich'){$('policy').value='sandwich';$('victimEth').value=50;$('victimEthN').value=50;$('frontEth').value=8;$('frontEthN').value=8}
+    policyText();build()
+  }
+  function auto(){
+    if(timer){clearInterval(timer);timer=null;$('autoBtn').textContent='▶ Ejecución automática';return}
+    reset();$('autoBtn').textContent='⏸ Pausar';let i=0;
+    const seq=[
+      ()=>{step=0;renderSteps();preset('normal')},
+      ()=>{step=1;renderSteps();preset('arb')},
+      ()=>{step=3;renderSteps();preset('sandwich')},
+      ()=>{step=6;renderSteps()},
+      ()=>{step=7;renderSteps();addEvent('Conclusión','El valor depende del orden y de la estrategia; fork choice y validez del bloque siguen siendo restricciones externas.','ok')}
+    ];
+    timer=setInterval(()=>{if(i>=seq.length){clearInterval(timer);timer=null;$('autoBtn').textContent='▶ Ejecución automática';return}seq[i++]()},1900)
+  }
+  function reset(){
+    if(timer){clearInterval(timer);timer=null}$('autoBtn').textContent='▶ Ejecución automática';seed=24681357;step=0;block=[];pricePath=[];
+    $('policy').value='fifo';$('victimEth').value=30;$('victimEthN').value=30;$('frontEth').value=6;$('frontEthN').value=6;$('reserveEth').value=1000;$('reserveEthN').value=1000;$('reserveUsd').value=3000000;$('reserveUsdN').value=3000000;$('ammFee').value='0.003';
+    $('feed').innerHTML='';baseMempool();renderSteps();policyText();build();setStatus('Mempool cargada','ok');addEvent('Inicio','Mempool y pool AMM inicializados.','ok')
+  }
+
+  pairs.forEach(([a,b])=>bindPair(a,b));
+  $('policy').onchange=policyText;$('themeBtn').onclick=toggleTheme;$('autoBtn').onclick=auto;$('buildBtn').onclick=build;$('nextBtn').onclick=nextStep;$('resetBtn').onclick=reset;$('shuffleBtn').onclick=shuffle;$('addUserBtn').onclick=addUser;
+  document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>preset(b.dataset.preset));
+  window.addEventListener('resize',drawChart);
+  const saved=localStorage.getItem('ethlab-theme');setTheme(saved||'dark');reset();
+})();
+</script>
+<script src="../assets/resource-shell.js"></script></body>
+</html>
