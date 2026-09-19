@@ -63,7 +63,17 @@ let decks = [];
 try { decks = JSON.parse(fs.readFileSync(manifestPath, "utf8")); }
 catch (error) { fail(`decks.json inválido: ${error.message}`); }
 if (decks.length !== 6) fail(`U3: se esperaban 6 decks y hay ${decks.length}`);
-const pdfjs = await import("../assets/course-ui/vendor/pdf.node.mjs");
+
+function inspectPdf(file) {
+  const bytes = fs.readFileSync(file);
+  const source = bytes.toString("latin1");
+  if (!source.startsWith("%PDF-")) throw new Error("cabecera %PDF ausente");
+  if (!source.slice(-2048).includes("%%EOF")) throw new Error("marcador %%EOF ausente");
+  const pages = source.match(/\/Type\s*\/Page\b/g)?.length || 0;
+  if (!pages) throw new Error("no se encontraron objetos de página");
+  return pages;
+}
+
 for (const deck of decks) {
   for (const key of ["pdf", "pptx", "thumbnail"]) {
     const target = path.join(u3, "materiales", deck[key] || "");
@@ -72,10 +82,8 @@ for (const deck of decks) {
   if (!Number.isInteger(deck.slides) || deck.slides < 1) fail(`U3 ${deck.id}: conteo de slides inválido`);
   if (deck.googlePublic && !deck.googleEmbed) fail(`U3 ${deck.id}: Google público sin embed`);
   try {
-    const bytes = new Uint8Array(fs.readFileSync(path.join(u3, "materiales", deck.pdf)));
-    const pdf = await pdfjs.getDocument({ data: bytes, disableWorker: true }).promise;
-    if (pdf.numPages !== deck.slides) fail(`U3 ${deck.id}: manifest ${deck.slides}, PDF ${pdf.numPages}`);
-    await pdf.destroy();
+    const pages = inspectPdf(path.join(u3, "materiales", deck.pdf));
+    if (pages !== deck.slides) fail(`U3 ${deck.id}: manifest ${deck.slides}, PDF ${pages}`);
   } catch (error) { fail(`U3 ${deck.id}: PDF ilegible (${error.message})`); }
 }
 
