@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="86" viewBox="0 0 560 86" role="img" aria-labelledby="title">
+  <title id="title">Explorar los doce laboratorios de Ethereum</title>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0d1c31"/><stop offset="1" stop-color="#191536"/></linearGradient></defs>
+  <rect x="5" y="5" width="550" height="76" rx="18" fill="url(#g)" stroke="#22d3ee" stroke-opacity=".62"/>
+  <circle cx="48" cy="43" r="24" fill="#22d3ee" fill-opacity=".12" stroke="#22d3ee" stroke-opacity=".7"/><text x="48" y="51" text-anchor="middle" fill="#67e8f9" font-family="Arial,sans-serif" font-size="24" font-weight="900">⚙</text>
+  <text x="88" y="37" fill="#67e8f9" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="800" letter-spacing="1.5">LABORATORIO</text>
+  <text x="88" y="60" fill="#f3f6ff" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="900">Explorar los 12 laboratorios</text>
+  <text x="515" y="53" text-anchor="middle" fill="#67e8f9" font-family="Arial,sans-serif" font-size="29" font-weight="800">→</text>
+</svg>
