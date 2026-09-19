@@ -12,6 +12,8 @@
 
 Material completo · experimentación guiada · aplicaciones sectoriales · evaluación
 
+[![Validación del campus](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-static-site.yml/badge.svg?branch=main)](https://github.com/sgevatschnaider/blockchain-finanzas-descentralizadas/actions/workflows/ci-static-site.yml)
+
 <br>
 
 <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u01-fundamentos-smart-contracts/"><img src="https://img.shields.io/badge/ABRIR-UNIDAD%201-0EA5E9?style=for-the-badge" alt="Abrir Unidad 1"></a>
