@@ -57,6 +57,14 @@ const decks = [
     pptx: 'pptx/hodl-analisis-onchain-finanzas-conductuales.pptx',
     googleId: null,
   },
+  {
+    title: 'Bitcoin en la práctica: dispositivos y pagos',
+    meta: '9 diapositivas · uso cotidiano, Lightning, custodia y seguridad · HTML interactivo',
+    pages: 9,
+    html: 'html/bitcoin-en-la-practica.html',
+    parts: [],
+    googleId: null,
+  },
 ];
 
 const elements = {
@@ -242,6 +250,11 @@ function setMode(nextMode) {
 
 async function loadDeck(index) {
   setPlaying(false);
+  const selectedDeck = decks[index];
+  if (selectedDeck.html) {
+    window.location.href = selectedDeck.html;
+    return;
+  }
   currentDeck = index;
   currentPage = 1;
   loadedPart = -1;
