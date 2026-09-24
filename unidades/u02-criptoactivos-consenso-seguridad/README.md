@@ -12,7 +12,8 @@
 <p align="center">
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/materiales/">Presentaciones</a> ·
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/recursos/glosario-bitcoin.html">Glosario</a> ·
-  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin.html">Cuestionario</a> ·
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin-completo.html">Cuestionario completo</a> ·
+  <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin.html">Autoevaluación Bitcoin</a> ·
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/simuladores/hodl-index.html">HODL y on-chain</a> ·
   <a href="https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/planillas/laboratorio-bitcoin.xlsx">Planilla de laboratorio</a>
 </p>
@@ -28,7 +29,7 @@ Esta unidad conecta criptografía, transacciones, minería, consenso, seguridad 
 | **14 laboratorios interactivos** | Parámetros editables, resultados visuales, modo automático y progreso local |
 | **223 diapositivas** | Seis presentaciones en PDF; la presentación del white paper y las dos de HODL también incluyen PPTX editable |
 | **103 conceptos** | Glosario general de 49 términos + glosario HODL/on-chain de 54 términos |
-| **56 preguntas** | Cuestionario general de 20 preguntas + autoevaluación HODL de 36 preguntas |
+| **86 preguntas** | Guía completa de 30 preguntas desarrolladas + autoevaluación Bitcoin de 20 + autoevaluación HODL de 36 |
 
 ## Ruta pedagógica
 
@@ -82,7 +83,8 @@ También se encuentran el white paper original de Satoshi Nakamoto y la secuenci
 | Recurso | Uso recomendado |
 |---|---|
 | [Glosario desarrollado](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/recursos/glosario-bitcoin.html) | Buscar conceptos por capa y revisar función, relaciones y errores frecuentes |
-| [Cuestionario formativo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin.html) | Comprobar comprensión con 20 preguntas y retroalimentación explicada |
+| [Cuestionario completo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin-completo.html) | Estudiar con 30 preguntas abiertas, respuestas desarrolladas, ejemplos, puntos clave, errores frecuentes, filtros y modo repaso |
+| [Autoevaluación Bitcoin](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/cuestionario-bitcoin.html) | Comprobar comprensión con 20 preguntas de opción múltiple y retroalimentación explicada |
 | [Guía de estudio HODL](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/recursos/hodl-estudio-index.html) | Recorrer HODL, UTXO, análisis on-chain, conducta y riesgo en una secuencia coherente |
 | [Glosario HODL y on-chain](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/recursos/hodl-glosario.html) | Consultar 54 conceptos con fórmulas, relaciones, errores frecuentes y fuentes |
 | [Autoevaluación HODL](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u02-criptoactivos-consenso-seguridad/evaluacion/hodl-cuestionario.html) | Resolver 36 preguntas con explicación inmediata y plan de repaso por área |
@@ -110,6 +112,7 @@ u02-criptoactivos-consenso-seguridad/
 │   ├── hodl-estudio-index.html
 │   └── hodl-glosario.html
 ├── evaluacion/
+│   ├── cuestionario-bitcoin-completo.html
 │   ├── cuestionario-bitcoin.html
 │   └── hodl-cuestionario.html
 ├── planillas/
