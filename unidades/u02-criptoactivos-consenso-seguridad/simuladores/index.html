@@ -1,8 +1,82 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratorios de Bitcoin · Unidad 2</title><link rel="stylesheet" href="../assets/modulo-bitcoin.css"></head><body>
-<header class="site-header"><div class="site-header__inner"><a class="brand" href="../index.html"><span class="coin">₿</span><span>Unidad 2<small>Laboratorios de Bitcoin</small></span></a><nav class="topnav"><a href="../index.html">Inicio</a><a aria-current="page" href="index.html">Simulaciones</a><a href="../materiales/index.html">Presentaciones</a><a href="../evaluacion/cuestionario-bitcoin-completo.html">Cuestionarios</a></nav></div></header>
-<main class="shell"><section class="page-head"><p class="eyebrow">Catorce experiencias independientes</p><h1>Laboratorios interactivos</h1><p>La ruta avanza desde propiedad, transacciones y consenso hasta HODL, métricas on-chain, conducta y riesgo. Abra cada simulación en una pestaña o proyecte en pantalla completa, use la ejecución dinámica y marque el laboratorio al completarlo.</p><div class="progress-track"><div class="progress-fill" data-progress-bar></div></div><p><strong data-progress-count>0/14</strong> completados</p></section>
-<section class="section"><div class="card-grid" id="labs"></div></section></main>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Catorce laboratorios interactivos de Bitcoin con guía de estudio, experimentos, conceptos y glosario.">
+<meta name="bitcoin-labs-guide-build" content="2026-09-24-study-guide-v1">
+<title>Laboratorios de Bitcoin · Unidad 2</title>
+<link rel="stylesheet" href="../assets/modulo-bitcoin.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html"><span class="coin">₿</span><span>Unidad 2<small>Laboratorios de Bitcoin</small></span></a>
+    <nav class="topnav">
+      <a href="../index.html">Inicio</a>
+      <a aria-current="page" href="index.html">Simulaciones</a>
+      <a href="../materiales/index.html">Presentaciones</a>
+      <a href="../evaluacion/cuestionario-bitcoin-completo.html">Cuestionario</a>
+      <a href="../evaluacion/cuestionario-bitcoin.html">Evaluación</a>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+  <section class="page-head labs-hero">
+    <p class="eyebrow">Catorce experiencias · una ruta de estudio</p>
+    <h1>Laboratorios interactivos</h1>
+    <p>La ruta avanza desde claves y transacciones hasta consenso, Lightning, métricas on-chain, conducta y riesgo. La propuesta es <strong>leer → experimentar → modificar variables → interpretar → explicar</strong>.</p>
+    <div class="study-progress-card">
+      <div>
+        <span class="study-progress-label">Progreso de dominio</span>
+        <strong data-progress-count>0/14</strong>
+      </div>
+      <div class="progress-track"><div class="progress-fill" data-progress-bar></div></div>
+      <span class="study-progress-note">Marcá “Ya puedo explicarlo” cuando puedas describir el mecanismo sin mirar la guía.</span>
+    </div>
+  </section>
+
+  <section class="section compact-section">
+    <div class="section-head">
+      <div><p class="eyebrow">Acceso rápido</p><h2>Abrí una simulación</h2></div>
+      <p>Las tarjetas permiten ir directo al laboratorio. Debajo tenés la guía detallada para convertir cada simulación en una actividad de estudio.</p>
+    </div>
+    <div class="card-grid" id="labs"></div>
+  </section>
+
+  <section class="section study-method" aria-labelledby="metodo-estudio">
+    <div class="section-head">
+      <div><p class="eyebrow">Método de trabajo</p><h2 id="metodo-estudio">Cómo estudiar con las simulaciones</h2></div>
+      <p>No busques sólo “que funcione”. Cambiá una variable por vez y tratá de explicar por qué cambia el resultado.</p>
+    </div>
+    <div class="study-method-grid">
+      <article><span>01</span><strong>Comprender</strong><p>Leé el objetivo y reconocé qué parte del protocolo o del modelo representa.</p></article>
+      <article><span>02</span><strong>Ejecutar</strong><p>Corré primero el escenario por defecto para entender la interfaz y el flujo.</p></article>
+      <article><span>03</span><strong>Experimentar</strong><p>Modificá una variable por vez. Compará el resultado con tu predicción previa.</p></article>
+      <article><span>04</span><strong>Explicar</strong><p>Respondé el checkpoint con tus palabras. Recién entonces marcá el laboratorio como dominado.</p></article>
+    </div>
+  </section>
+
+  <section class="section guide-section" aria-labelledby="guia-labs">
+    <div class="section-head guide-head">
+      <div><p class="eyebrow">Guía completa</p><h2 id="guia-labs">Estudio laboratorio por laboratorio</h2></div>
+      <div class="guide-actions">
+        <button class="button subtle" id="expandAll" type="button">Mostrar todas</button>
+        <button class="button subtle" id="collapseAll" type="button">Ocultar todas</button>
+      </div>
+    </div>
+    <div class="guide-legend" aria-label="Leyenda de precisión">
+      <span><i class="precision-dot protocol"></i><b>Protocolo / concepto</b> representa directamente una idea del sistema.</span>
+      <span><i class="precision-dot model"></i><b>Modelo didáctico</b> conserva la lógica, pero simplifica implementación.</span>
+      <span><i class="precision-dot simulation"></i><b>Simulación</b> usa escenarios hipotéticos para estudiar comportamiento.</span>
+    </div>
+    <div id="studyGuide"></div>
+  </section>
+</main>
+
 <footer class="site-footer"><div class="shell"><strong>Material elaborado por el profesor Sergio Gevatschnaider</strong></div></footer>
+
 <script>
 const labs=[
 ["01","Claves y direcciones","Control criptográfico, identidad y recepción","01-claves-direcciones.html"],
@@ -19,5 +93,525 @@ const labs=[
 ["12","Coin Days Destroyed","Actividad ponderada por cantidad y antigüedad","12-coin-days-destroyed.html"],
 ["13","Behavioral Bitcoin Lab","Disposition effect, convicción y sesgos","13-behavioral-bitcoin-lab.html"],
 ["14","HODL Risk & Allocation Lab","Asignación, drawdown, liquidez y venta forzada","14-hodl-risk-allocation-lab.html"]];
-document.querySelector('#labs').innerHTML=labs.map(x=>`<a class="resource-card" data-lab-id="${x[3]}" href="${x[3]}"><span class="number">LAB ${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><span class="meta">Abrir laboratorio</span></a>`).join('');
-</script><script src="../assets/modulo-bitcoin.js"></script></body></html>
+
+document.querySelector('#labs').innerHTML=labs.map(x=>`
+<a class="resource-card lab-access-card" data-lab-id="${x[3]}" href="${x[3]}">
+  <span class="number">LAB ${x[0]}</span>
+  <h3>${x[1]}</h3>
+  <p>${x[2]}</p>
+  <span class="meta">Abrir laboratorio →</span>
+</a>`).join('');
+
+const groups=[
+{
+ title:"I · Propiedad y transacciones",
+ subtitle:"De la clave privada a una transacción propagada a la red.",
+ labs:[
+{
+ id:"01",file:"01-claves-direcciones.html",title:"Claves y direcciones",precision:"model",precisionLabel:"Modelo didáctico",
+ what:"Muestra el recorrido conceptual desde la entropía hasta una dirección Bitcoin. El pipeline principal representa específicamente P2PKH y distingue clave privada, clave pública, condición de gasto y dirección.",
+ how:[
+ "Pulsá “Generar identidad Bitcoin” para obtener una clave privada didáctica, una clave pública simplificada, HASH160 y una dirección P2PKH Base58Check.",
+ "Usá “Siguiente paso” para recorrer Entropía → Clave privada → Clave pública → HASH160 → Dirección P2PKH.",
+ "Activá “Simulación dinámica” para automatizar el recorrido y observá qué concepto representa cada etapa."
+ ],
+ experiment:[
+ "Generá varias identidades y compará cuánto cambia la clave pública y la dirección cuando cambia la clave privada.",
+ "Leé el panel P2PKH / P2SH / SegWit / Taproot y explicá por qué no existe una única transformación universal “clave pública → dirección”."
+ ],
+ observe:[
+ "La clave privada es un secreto que permite producir firmas; no contiene bitcoins.",
+ "La clave pública se obtiene conceptualmente como P = d·G sobre secp256k1.",
+ "Una dirección codifica datos utilizados para construir una condición o programa de gasto y no es sinónimo de clave pública.",
+ "El flujo HASH160 → Base58Check mostrado corresponde al caso P2PKH."
+ ],
+ checkpoint:"¿Podés explicar, sin mirar, por qué clave privada, clave pública y dirección son tres objetos distintos y qué cambia entre P2PKH y Taproot?",
+ glossary:[
+ ["Entropía","Aleatoriedad utilizada para producir secretos impredecibles."],
+ ["Clave privada","Número secreto d que permite generar firmas y autorizar gastos cuando la condición de gasto lo exige."],
+ ["Clave pública","Punto P = d·G obtenido por multiplicación escalar sobre la curva secp256k1."],
+ ["secp256k1","Curva elíptica y grupo matemático utilizados por Bitcoin para sus operaciones de clave pública."],
+ ["HASH160","Composición RIPEMD160(SHA256(x)); en P2PKH se aplica a la clave pública."],
+ ["P2PKH","Pay to Public Key Hash; tipo clásico de salida que compromete un hash de clave pública."],
+ ["Base58Check","Codificación con versión y checksum usada por direcciones Bitcoin clásicas."],
+ ["scriptPubKey","Programa o condición de gasto almacenada en un output."],
+ ["Taproot","Esquema SegWit v1 cuyo witness program contiene una output key de 32 bytes, derivada mediante tweak."]
+ ]
+},
+{
+ id:"02",file:"02-sha256-avalancha.html",title:"SHA-256 y efecto avalancha",precision:"protocol",precisionLabel:"Protocolo / concepto",
+ what:"Compara dos mensajes, calcula SHA-256 para cada uno y mide cuántos de los 256 bits de salida son diferentes. Visualiza sensibilidad de entrada, integridad y difusión.",
+ how:[
+ "Partí de los mensajes por defecto “Bitcoin” y “bitcoin”.",
+ "Modificá un solo carácter en uno de los mensajes y observá SHA-256(A), SHA-256(B), bits diferentes y porcentaje.",
+ "Usá la ejecución dinámica para ver sucesivas modificaciones y comparaciones."
+ ],
+ experiment:[
+ "Probá “Bitcoin” frente a “Bitcoin.”, luego frente a “Bitcoim” y compará la distancia de Hamming.",
+ "Antes de calcular, predecí si los hashes deberían parecerse por tener entradas parecidas. Después contrastá la predicción."
+ ],
+ observe:[
+ "Pequeñas modificaciones producen hashes visualmente no correlacionados.",
+ "La salida tiene siempre 256 bits.",
+ "La distancia de Hamming cuantifica cuántas posiciones binarias cambiaron.",
+ "Un hash no es cifrado: no existe un procedimiento de “descifrar SHA-256” para recuperar arbitrariamente la entrada."
+ ],
+ checkpoint:"¿Por qué el efecto avalancha ayuda a detectar cambios en transacciones y bloques, y por qué un hash no equivale a cifrado?",
+ glossary:[
+ ["Hash","Resumen determinista de longitud fija calculado a partir de una entrada."],
+ ["SHA-256","Función hash criptográfica con salida de 256 bits utilizada extensamente en Bitcoin."],
+ ["Efecto avalancha","Propiedad por la cual un cambio pequeño en la entrada produce cambios amplios e impredecibles en la salida."],
+ ["Distancia de Hamming","Cantidad de posiciones distintas entre dos cadenas de bits de igual longitud."],
+ ["Integridad","Capacidad de detectar modificaciones comparando valores comprometidos criptográficamente."],
+ ["Preimagen","Entrada que produce un hash dado; la resistencia a preimagen dificulta recuperarla a partir del hash."],
+ ["Colisión","Dos entradas distintas que producen la misma salida hash."]
+ ]
+},
+{
+ id:"03",file:"03-modelo-utxo.html",title:"Modelo UTXO",precision:"model",precisionLabel:"Modelo didáctico",
+ what:"Representa el valor como outputs no gastados. La simulación selecciona UTXOs para cubrir monto + fee, consume los inputs completos y crea nuevos outputs de pago y cambio.",
+ how:[
+ "Revisá la lista inicial de UTXOs de Alice.",
+ "Ingresá el monto a Bob y la fee.",
+ "Pulsá “Construir transacción” y compará inputs consumidos con outputs creados.",
+ "Usá “Siguiente paso” para recorrer coin selection, consumo de inputs, pago, cambio y fee."
+ ],
+ experiment:[
+ "Con UTXO de 0,30 BTC intentá pagar 0,22 BTC más fee y observá por qué aparece cambio.",
+ "Aumentá el monto hasta obligar a seleccionar más de un UTXO.",
+ "Probá un monto que exceda fondos + fee y observá el error."
+ ],
+ observe:[
+ "Un UTXO se consume entero; no se recorta.",
+ "El cambio es un nuevo output, no el resto que queda dentro del input anterior.",
+ "La conservación de valor se expresa como Σinputs = Σoutputs + fee.",
+ "Una wallet puede aplicar diferentes estrategias de coin selection."
+ ],
+ checkpoint:"Si gastás un UTXO de 0,30 BTC para pagar 0,22 BTC, ¿por qué el UTXO de 0,30 desaparece y qué representa el cambio?",
+ glossary:[
+ ["UTXO","Unspent Transaction Output: output válido que todavía no fue gastado."],
+ ["Input","Referencia a un output anterior que una transacción intenta consumir."],
+ ["Output","Nuevo valor creado por una transacción bajo una condición de gasto."],
+ ["Coin selection","Proceso por el cual una wallet elige qué UTXOs utilizar como inputs."],
+ ["Change","Nuevo output que devuelve al pagador el valor excedente después del pago y la fee."],
+ ["Fee","Diferencia entre la suma de valores de inputs y outputs."],
+ ["Double spend","Intento de gastar dos veces el mismo UTXO."]
+ ]
+},
+{
+ id:"04",file:"04-transaccion-bitcoin.html",title:"Bitcoin Transaction Lab",precision:"model",precisionLabel:"Modelo didáctico",
+ what:"Integra en un único flujo wallet, UTXOs, coin selection, outputs, fee rate, firma, TXID, broadcast y mempool.",
+ how:[
+ "Pulsá “Nueva wallet” y después “Faucet 0.5 BTC” para cargar fondos de prueba.",
+ "Ingresá destino, monto y fee rate en sat/vB.",
+ "Pulsá “Crear, firmar y transmitir”.",
+ "Leé inputs, outputs, vBytes, fee, TXID y el estado de mempool."
+ ],
+ experiment:[
+ "Repetí el mismo pago con distintos sat/vB y observá cómo cambia la fee total.",
+ "Agregá más UTXOs y buscá un pago que requiera varios inputs; observá cómo aumenta el tamaño estimado.",
+ "Compará fee absoluta con fee rate."
+ ],
+ observe:[
+ "La wallet administra claves y UTXOs; no existe una cuenta central con un saldo único en el protocolo.",
+ "Más inputs suelen aumentar el tamaño virtual de la transacción.",
+ "Fee rate y fee absoluta son conceptos diferentes.",
+ "Una transacción válida transmitida puede permanecer sin confirmar en la mempool hasta que un minero la incluya."
+ ],
+ checkpoint:"¿Por qué una transacción con fee total mayor puede ofrecer menor incentivo al minero que otra con fee total menor?",
+ glossary:[
+ ["Wallet","Software que administra claves, detecta UTXOs y construye transacciones."],
+ ["vByte","Virtual byte: unidad derivada del peso de una transacción SegWit."],
+ ["sat/vB","Satoshis pagados por virtual byte; medida habitual de fee rate."],
+ ["Firma digital","Prueba criptográfica de autorización sobre datos concretos de una transacción."],
+ ["TXID","Identificador de una transacción derivado de su serialización sin witness en transacciones SegWit."],
+ ["Broadcast","Propagación de una transacción a pares de la red."],
+ ["Mempool","Conjunto local de transacciones válidas no confirmadas que un nodo mantiene según su política."],
+ ["Faucet","Fuente ficticia de fondos utilizada por el laboratorio; no forma parte del protocolo Bitcoin."]
+ ]
+}
+]},
+{
+ title:"II · Consenso y seguridad",
+ subtitle:"De la selección de transacciones a Proof of Work, forks y reorganizaciones.",
+ labs:[
+{
+ id:"05",file:"05-mempool-fees-mineria.html",title:"Mempool, fees y minería PoW",precision:"model",precisionLabel:"Modelo didáctico",
+ what:"Conecta políticas de mempool, selección económica de transacciones, bloque candidato, Merkle root, nonce, Proof of Work y recompensa del minero.",
+ how:[
+ "Elegí número de transacciones, capacidad didáctica del bloque y dificultad visual.",
+ "Pulsá “Regenerar mempool” para crear transacciones con distintos tamaños y fee rates.",
+ "Observá cuáles entran al bloque candidato.",
+ "Pulsá “Minar bloque” y seguí los intentos hasta encontrar una solución."
+ ],
+ experiment:[
+ "Reducí la capacidad del bloque y observá qué transacciones quedan afuera.",
+ "Mantené constante la mempool y aumentá la dificultad visual; compará cantidad de intentos.",
+ "Buscá dos transacciones donde la de mayor fee absoluta tenga menor sat/vB."
+ ],
+ observe:[
+ "La mempool no es global: cada nodo aplica sus políticas.",
+ "Los mineros suelen priorizar rentabilidad por espacio/peso, expresada mediante fee rate.",
+ "La Merkle root compromete las transacciones del bloque.",
+ "La visualización de ceros hex iniciales aproxima el concepto; la regla real compara numéricamente hash(header) con target.",
+ "La coinbase combina subsidio permitido y fees de las transacciones incluidas."
+ ],
+ checkpoint:"¿Por qué “el hash debe empezar con N ceros” es sólo una visualización y cuál es la regla formal de validez del PoW?",
+ glossary:[
+ ["Mempool","Conjunto local de transacciones no confirmadas que un nodo acepta según reglas y políticas."],
+ ["Fee rate","Comisión por unidad de tamaño virtual, habitualmente sat/vB."],
+ ["Bloque candidato","Conjunto de transacciones y metadatos que un minero intenta convertir en un bloque válido."],
+ ["Merkle root","Hash raíz que compromete el conjunto de transacciones del bloque."],
+ ["Nonce","Campo del encabezado que puede modificarse durante la búsqueda de PoW."],
+ ["Target","Umbral numérico; el hash del encabezado debe ser menor o igual a él."],
+ ["Difficulty","Medida relativa de cuán exigente es el target respecto de una referencia."],
+ ["Proof of Work","Prueba de trabajo basada en encontrar un encabezado cuyo hash satisfaga el target."],
+ ["Coinbase transaction","Primera transacción del bloque, que crea el subsidio autorizado y asigna también las fees."]
+ ]
+},
+{
+ id:"06",file:"06-merkle-tree-proof.html",title:"Merkle Tree y Merkle Proof",precision:"protocol",precisionLabel:"Protocolo / concepto",
+ what:"Construye un árbol de hashes, obtiene una Merkle root y muestra cómo demostrar inclusión de una transacción usando sólo los hashes hermanos del camino.",
+ how:[
+ "Elegí la transacción sobre la que querés generar la prueba.",
+ "Pulsá “Verificar Merkle proof” y seguí el camino desde la hoja hasta la raíz.",
+ "Pulsá “Mutar transacción elegida” y observá cómo cambia la hoja, los padres y la Merkle root."
+ ],
+ experiment:[
+ "Seleccioná distintas transacciones y compará cuántos hashes necesita la prueba.",
+ "Mutá una sola transacción y verificá que no sea necesario modificar manualmente el resto para que cambie la raíz.",
+ "Explicá qué información faltaría para saber si el bloque completo es válido."
+ ],
+ observe:[
+ "La raíz compromete todo el conjunto de transacciones.",
+ "Una Merkle proof evita transmitir todas las transacciones para demostrar inclusión respecto de una raíz.",
+ "La prueba demuestra inclusión, no validez completa de la transacción ni del bloque.",
+ "Con cantidades impares, el modelo muestra la duplicación del último hash para construir el nivel siguiente."
+ ],
+ checkpoint:"¿Qué demuestra exactamente una Merkle proof y qué NO demuestra?",
+ glossary:[
+ ["Merkle tree","Árbol binario de hashes que resume un conjunto de elementos."],
+ ["Leaf","Nodo hoja; en este contexto representa el hash asociado a una transacción."],
+ ["Parent hash","Hash obtenido al combinar un par de nodos hijos."],
+ ["Merkle root","Único hash en la cima del árbol."],
+ ["Merkle proof","Conjunto de hashes hermanos necesario para reconstruir el camino de una hoja a la raíz."],
+ ["Sibling hash","Hash del nodo hermano requerido en cada nivel de la prueba."],
+ ["Inclusion proof","Prueba de que un elemento está comprometido por una raíz concreta."],
+ ["SPV","Simplified Payment Verification; enfoque de clientes livianos basado históricamente en headers y pruebas de inclusión."]
+ ]
+},
+{
+ id:"07",file:"07-fork-chainwork-confirmaciones.html",title:"Fork, chainwork y confirmaciones",precision:"model",precisionLabel:"Modelo didáctico",
+ what:"Simula dos ramas válidas que compiten desde un ancestro común y muestra por qué el criterio relevante es mayor trabajo acumulado, no simplemente mayor cantidad de bloques.",
+ how:[
+ "Ajustá el hashrate de la rama A y el trabajo por bloque de A y B.",
+ "Pulsá repetidamente “Encontrar próximo bloque”.",
+ "Observá chainwork A, chainwork B, la rama seleccionada y las confirmaciones de la transacción incluida en A."
+ ],
+ experiment:[
+ "Usá el mismo trabajo por bloque para ambas ramas y observá cuándo “más larga” coincide con mayor chainwork.",
+ "Luego asigná mayor trabajo por bloque a B y buscá un caso donde una rama con menos bloques tenga más trabajo acumulado.",
+ "Observá qué ocurre con las confirmaciones si la rama que contiene la transacción deja de ser la mejor cadena."
+ ],
+ observe:[
+ "Dos bloques válidos pueden producir una bifurcación temporal.",
+ "Los nodos primero verifican validez y luego comparan trabajo acumulado.",
+ "Una reorganización reemplaza la cadena local seleccionada por otra con mayor chainwork.",
+ "Las confirmaciones expresan trabajo acumulado posterior, no finalidad absoluta."
+ ],
+ checkpoint:"¿Por qué la frase “Bitcoin elige la cadena más larga” puede ser engañosa y qué significa chainwork?",
+ glossary:[
+ ["Fork","Bifurcación temporal en la que existen dos ramas competidoras."],
+ ["Branch","Una de las ramas derivadas de un ancestro común."],
+ ["Tip","Bloque final de una rama."],
+ ["Chainwork","Medida acumulada del trabajo esperado representado por los bloques de una cadena."],
+ ["Reorganization","Cambio de la mejor cadena local cuando otra rama válida acumula más trabajo."],
+ ["Confirmation","Profundidad de una transacción respecto de la punta de la mejor cadena."],
+ ["Common ancestor","Último bloque compartido por dos ramas antes de separarse."],
+ ["Probabilistic finality","Seguridad que aumenta con trabajo acumulado, sin una regla de finalidad instantánea absoluta."]
+ ]
+},
+{
+ id:"08",file:"08-ataque-51.html",title:"Ataque del 51%",precision:"model",precisionLabel:"Modelo probabilístico",
+ what:"Modela como carrera probabilística una rama honesta y una rama privada del atacante que intenta alcanzar un déficit inicial de confirmaciones.",
+ how:[
+ "Elegí el porcentaje de hashrate atacante, las confirmaciones iniciales de la víctima y el máximo de eventos.",
+ "Pulsá “Simular carrera privada”.",
+ "Repetí exactamente los mismos parámetros varias veces y compará “Alcanzó” / “No alcanzó” y el déficit final."
+ ],
+ experiment:[
+ "Compará q = 20 %, 35 %, 45 %, 51 % y 60 % manteniendo seis confirmaciones.",
+ "Luego fijá q = 35 % y compará 1, 3, 6 y 12 confirmaciones.",
+ "Explicá por qué una única corrida no representa una probabilidad."
+ ],
+ observe:[
+ "Con q < 50 %, alcanzar desde atrás sigue siendo posible, pero se vuelve menos probable al aumentar el déficit.",
+ "Con mayoría sostenida de hashrate, la dinámica de la carrera cambia sustancialmente.",
+ "Un ataque de mayoría puede facilitar censura o reorganizaciones, pero no rompe firmas ni autoriza gastos ajenos.",
+ "La simulación es un random walk educativo, no un modelo exhaustivo de economía minera o propagación de red."
+ ],
+ checkpoint:"¿Qué capacidades agrega una mayoría de hashrate y qué cosas siguen protegidas por las reglas de consenso y las firmas?",
+ glossary:[
+ ["51% attack","Ataque en el que una entidad controla una fracción dominante del hashrate y puede intentar reorganizar la cadena."],
+ ["Hashrate","Cantidad de trabajo computacional realizado por unidad de tiempo en la minería PoW."],
+ ["Double spend","Intento de hacer que un pago aceptado quede en una rama que luego sea sustituida."],
+ ["Private chain","Rama alternativa que el atacante mantiene temporalmente sin publicar."],
+ ["Catch-up","Proceso por el cual una rama retrasada intenta alcanzar a otra en trabajo acumulado."],
+ ["Deficit","Ventaja en bloques/trabajo que separa a una rama de su competidora en este modelo."],
+ ["Reorg","Reorganización de la cadena seleccionada cuando otra rama válida supera el trabajo acumulado."],
+ ["Random walk","Proceso estocástico de pasos sucesivos usado aquí para visualizar la carrera."]
+ ]
+}
+]},
+{
+ title:"III · Escalabilidad",
+ subtitle:"Pagos fuera de la cadena con restricciones de liquidez y enrutamiento.",
+ labs:[
+{
+ id:"09",file:"09-lightning-network.html",title:"Lightning Network",precision:"model",precisionLabel:"Modelo didáctico",
+ what:"Representa Lightning como un grafo de canales con liquidez direccional, fees por salto y búsqueda de rutas de costo bajo.",
+ how:[
+ "Elegí nodo de origen, destino, monto en sats y fee máxima total.",
+ "Pulsá “Buscar ruta y pagar”.",
+ "Observá ruta, costo, hops y cómo cambia la liquidez de cada canal utilizado.",
+ "Usá “Restaurar liquidez” para volver al estado inicial."
+ ],
+ experiment:[
+ "Ejecutá varias veces el mismo pago sin restaurar liquidez y observá si la ruta cambia o deja de ser posible.",
+ "Aumentá el monto hasta superar la liquidez de algún canal.",
+ "Reducí la fee máxima para forzar el rechazo de rutas económicamente válidas pero demasiado costosas."
+ ],
+ observe:[
+ "Capacidad total del canal y liquidez disponible en una dirección no son lo mismo.",
+ "Una ruta debe cumplir simultáneamente conectividad, liquidez y costo.",
+ "Cada pago desplaza balances internos y altera la topología efectiva para pagos futuros.",
+ "Dijkstra es una aproximación pedagógica; Lightning real utiliza restricciones y modelos de ruta más complejos."
+ ],
+ checkpoint:"¿Cómo puede un canal tener capacidad suficiente y, aun así, no permitir un pago en una dirección determinada?",
+ glossary:[
+ ["Payment channel","Canal de pagos bidireccional anclado en transacciones Bitcoin."],
+ ["Capacity","Cantidad total de fondos comprometidos en un canal."],
+ ["Directional liquidity","Saldo que puede desplazarse actualmente en una dirección específica."],
+ ["Hop","Salto de un nodo al siguiente dentro de una ruta."],
+ ["Base fee","Componente fijo de la comisión de routing de un canal."],
+ ["ppm","Parts per million; componente proporcional de fee por cada millón de unidades enviadas."],
+ ["Routing","Proceso de encontrar un camino viable entre pagador y receptor."],
+ ["Dijkstra","Algoritmo clásico de caminos mínimos utilizado aquí como aproximación educativa."],
+ ["HTLC","Hash Time-Locked Contract; construcción que condiciona el pago a secreto y tiempo."],
+ ["Atomic payment","Propiedad por la cual el pago multi-hop se completa de extremo a extremo o falla."]
+ ]
+}
+]},
+{
+ title:"IV · Estrategia, on-chain y comportamiento",
+ subtitle:"Simulaciones económicas para separar protocolo, datos observables, decisiones y riesgo.",
+ labs:[
+{
+ id:"10",file:"10-hodl-strategy-lab.html",title:"HODL Strategy Lab",precision:"simulation",precisionLabel:"Simulación económica",
+ what:"Compara HODL, DCA y una regla ilustrativa de venta/recompra sobre la misma trayectoria de precios, separando cantidad de BTC, caja, aportes y valoración.",
+ how:[
+ "Elegí una trayectoria: caída + recuperación, bear market, lateral volátil o estocástica con semilla.",
+ "Definí capital inicial, aporte DCA y umbral de venta por drawdown.",
+ "Pulsá “Aplicar escenario” y avanzá período a período o con ejecución dinámica.",
+ "Compará BTC, USD en caja, aportes acumulados, valor total y retorno sobre aportes."
+ ],
+ experiment:[
+ "Usá la misma trayectoria con DCA = 0 y luego con aportes positivos.",
+ "Cambiá el umbral de venta entre −25 %, −35 % y −50 %.",
+ "Observá qué ocurre con la regla de venta/recompra cuando el mercado rebota rápido después de vender."
+ ],
+ observe:[
+ "Una caída del precio cambia la valoración, no necesariamente la cantidad de BTC.",
+ "DCA aumenta los aportes acumulados y por eso no debe compararse sólo por valor final sin normalizar.",
+ "La regla conductual vende al superar el umbral y recompra después de un rebote del 15 % desde el mínimo posterior.",
+ "La simulación no busca declarar una estrategia ganadora; el resultado depende de la trayectoria."
+ ],
+ checkpoint:"¿Por qué comparar sólo el valor final de HODL y DCA puede ser engañoso si una estrategia recibió aportes adicionales?",
+ glossary:[
+ ["HODL","Estrategia de mantener la exposición a BTC sin vender por fluctuaciones de corto plazo."],
+ ["DCA","Dollar-Cost Averaging: compras periódicas con aportes sucesivos."],
+ ["Drawdown","Caída porcentual desde un máximo o referencia previa."],
+ ["Market timing","Intento de decidir momentos de entrada y salida según el mercado."],
+ ["Reentry risk","Riesgo de vender y luego no poder recomprar en condiciones favorables."],
+ ["Aportes acumulados","Capital total ingresado a la estrategia a lo largo del tiempo."],
+ ["Valoración","Valor de mercado de la posición a un precio determinado."],
+ ["Semilla","Número que permite reproducir una trayectoria pseudoaleatoria."]
+ ]
+},
+{
+ id:"11",file:"11-utxo-aging-hodl-waves.html",title:"UTXO Aging + HODL Waves",precision:"simulation",precisionLabel:"Simulación on-chain",
+ what:"Hace envejecer un conjunto de UTXOs, los agrupa por bandas temporales y construye HODL Waves didácticas sin atribuir intención a sus propietarios.",
+ how:[
+ "Definí meses a simular, UTXOs gastados por mes, política de gasto y semilla.",
+ "Pulsá “Generar UTXO”.",
+ "Avanzá paso a paso o con ejecución dinámica y observá la evolución de las bandas.",
+ "Usá “Gastar el más antiguo” para aislar el efecto de consumir un UTXO viejo."
+ ],
+ experiment:[
+ "Compará las políticas Aleatoria, Prioriza jóvenes y Prioriza antiguos con la misma semilla.",
+ "Fijá una tasa de gasto baja y luego alta; observá cómo cambia la participación de BTC con más de un año.",
+ "Gastá manualmente el UTXO más antiguo y observá el desplazamiento hacia bandas jóvenes."
+ ],
+ observe:[
+ "La edad de un UTXO aumenta mientras permanezca sin gastar.",
+ "Al gastarlo, el modelo crea un output nuevo del mismo valor y edad cero para aislar el efecto temporal.",
+ "La forma de una HODL Wave depende tanto de creación como de gasto de UTXOs.",
+ "Edad on-chain no revela por sí sola intención: ahorro, custodia o pérdida de claves pueden producir observaciones similares."
+ ],
+ checkpoint:"¿Por qué una mayor proporción de monedas antiguas no permite concluir automáticamente que aumentó la convicción de los inversores?",
+ glossary:[
+ ["UTXO age","Tiempo transcurrido desde la creación de un output no gastado."],
+ ["HODL Waves","Representación de la oferta agrupada por bandas de antigüedad de UTXOs."],
+ ["Age band","Intervalo temporal usado para clasificar UTXOs por edad."],
+ ["Dormant supply","Oferta que no se movió durante cierto período; no implica una intención específica."],
+ ["Weighted average age","Edad media ponderada por la cantidad de BTC de cada UTXO."],
+ ["Spend policy","Regla del modelo para decidir qué UTXOs se consumen."],
+ ["Cold storage","Custodia de claves fuera de sistemas conectados; una posible causa de UTXOs antiguos."],
+ ["On-chain inference","Inferencia basada en datos de blockchain; requiere cautela porque las identidades e intenciones no están observadas directamente."]
+ ]
+},
+{
+ id:"12",file:"12-coin-days-destroyed.html",title:"Coin Days Destroyed",precision:"simulation",precisionLabel:"Simulación on-chain",
+ what:"Calcula actividad ponderada por antigüedad mediante CDD = BTC gastados × edad en días. Permite elegir UTXOs manualmente o mediante distintas políticas.",
+ how:[
+ "Elegí una política automática o seleccioná una fila de UTXO.",
+ "Pulsá “Gastar seleccionado” o avanzá automáticamente.",
+ "Observá CDD del último evento, CDD acumulado, BTC gastados y edad destruida media.",
+ "Cada UTXO consumido reaparece como un output nuevo con edad cero en el modelo."
+ ],
+ experiment:[
+ "Compará “Mayor valor” con “Más antiguo”: no siempre producen el mayor CDD.",
+ "Buscá un UTXO pequeño y muy antiguo que produzca más CDD que uno grande y joven.",
+ "Compará CDD acumulado con BTC acumulados gastados."
+ ],
+ observe:[
+ "El volumen por sí solo no captura antigüedad.",
+ "CDD pondera simultáneamente cantidad y tiempo sin movimiento.",
+ "Un evento de CDD alto indica movimiento de valor antiguo, pero no explica la motivación económica.",
+ "La edad destruida media puede obtenerse como CDD acumulado / BTC gastados."
+ ],
+ checkpoint:"¿Cómo puede 1 BTC generar más CDD que 10 BTC y qué información adicional necesitarías para interpretar ese evento?",
+ glossary:[
+ ["Coin day","Un BTC mantenido sin gastar durante un día equivale, conceptualmente, a un coin-day acumulado."],
+ ["CDD","Coin Days Destroyed: BTC gastados multiplicados por su edad en días."],
+ ["CDD potencial","Coin-days que destruiría un UTXO si se gastara en ese momento."],
+ ["Edad destruida","Antigüedad que desaparece cuando un UTXO se consume y su valor pasa a outputs nuevos."],
+ ["Dormancy","Métrica relacionada con la edad media de las monedas gastadas."],
+ ["On-chain metric","Indicador calculado a partir de datos observables en la blockchain."],
+ ["Volume","Cantidad transferida; no incorpora por sí sola la antigüedad de las monedas."]
+ ]
+},
+{
+ id:"13",file:"13-behavioral-bitcoin-lab.html",title:"Behavioral Bitcoin Lab",precision:"simulation",precisionLabel:"Experimento conductual",
+ what:"Presenta doce decisiones independientes de HOLD o SELL sin revelar inicialmente si la posición está en ganancia o pérdida. Después compara la proporción de ganancias y pérdidas realizadas.",
+ how:[
+ "Completá cada caso eligiendo HOLD o SELL según la trayectoria mostrada.",
+ "Evitá mirar cálculos externos: la idea es registrar la respuesta intuitiva.",
+ "Al terminar los 12 casos, observá PGR, PLR y PGR − PLR.",
+ "También podés usar la ejecución automática para ver una demostración reproducible."
+ ],
+ experiment:[
+ "Realizá primero el experimento manual y anotá tu intuición.",
+ "Reiniciá y observá la demostración automática; compará patrones, no “resultados correctos”.",
+ "Explicá por qué doce decisiones no alcanzan para diagnosticar un rasgo psicológico."
+ ],
+ observe:[
+ "PGR = ganancias vendidas / oportunidades con ganancias.",
+ "PLR = pérdidas vendidas / oportunidades con pérdidas.",
+ "PGR > PLR puede ser compatible con disposition effect en la muestra.",
+ "El laboratorio es didáctico y no diagnostica a una persona."
+ ],
+ checkpoint:"¿Qué significa que PGR sea mayor que PLR y por qué esa diferencia no prueba, por sí sola, un sesgo estable de una persona?",
+ glossary:[
+ ["HOLD","Decisión de mantener una posición sin realizar el resultado."],
+ ["SELL","Decisión de vender y materializar el resultado de la posición."],
+ ["Ganancia latente","Ganancia no realizada mientras la posición permanece abierta."],
+ ["Pérdida latente","Pérdida no realizada mientras la posición permanece abierta."],
+ ["PGR","Proportion of Gains Realized: proporción de oportunidades con ganancias que terminaron en venta."],
+ ["PLR","Proportion of Losses Realized: proporción de oportunidades con pérdidas que terminaron en venta."],
+ ["Disposition effect","Tendencia documentada a realizar ganancias relativamente más rápido que pérdidas."],
+ ["Sesgo conductual","Patrón sistemático de decisión; requiere evidencia más amplia que un ejercicio breve."]
+ ]
+},
+{
+ id:"14",file:"14-hodl-risk-allocation-lab.html",title:"HODL Risk & Allocation Lab",precision:"simulation",precisionLabel:"Simulación financiera",
+ what:"Compara 100 % BTC, una asignación BTC/cash y una estrategia con rebalanceo trimestral bajo necesidades de liquidez. Muestra drawdown y ventas forzadas.",
+ how:[
+ "Elegí una trayectoria de BTC.",
+ "Definí patrimonio, necesidad mensual, asignación inicial a BTC, inicio y duración de la necesidad y rendimiento del efectivo.",
+ "Pulsá “Aplicar supuestos” y avanzá mes a mes.",
+ "Compará valor total, máximo drawdown, BTC restantes, BTC vendidos por liquidez y meses con venta forzada."
+ ],
+ experiment:[
+ "Compará 100 % BTC con 40 % BTC manteniendo la misma necesidad mensual.",
+ "Aumentá la necesidad de liquidez durante el tramo de mayor drawdown.",
+ "Activá una asignación intermedia y observá qué hace el rebalanceo cada tres meses.",
+ "Probá necesidad mensual = 0 para separar riesgo de mercado de riesgo de liquidez."
+ ],
+ observe:[
+ "Una tesis de largo plazo no elimina la necesidad de administrar liquidez.",
+ "La reserva de efectivo puede reducir ventas forzadas, aunque también modifica la exposición.",
+ "El rebalanceo compra o vende para volver a la asignación objetivo cada tres meses.",
+ "El drawdown se calcula respecto del máximo previo: valor_t / máximo_previo − 1.",
+ "El modelo omite impuestos, inflación, comisiones, slippage y riesgo de contraparte."
+ ],
+ checkpoint:"¿Cómo puede una persona vender BTC durante una caída aun cuando su tesis de largo plazo no haya cambiado?",
+ glossary:[
+ ["Asset allocation","Distribución del patrimonio entre diferentes activos o reservas."],
+ ["Position sizing","Tamaño de una exposición respecto del patrimonio total."],
+ ["Cash reserve","Reserva líquida utilizada para necesidades de corto plazo."],
+ ["Drawdown","Caída porcentual desde el máximo previo de una cartera o activo."],
+ ["Forced selling","Venta motivada por necesidad de liquidez y no necesariamente por cambio de tesis."],
+ ["Rebalancing","Compra o venta periódica para volver a una asignación objetivo."],
+ ["Liquidity risk","Riesgo de necesitar efectivo cuando vender el activo resulta desfavorable."],
+ ["Slippage","Diferencia entre el precio esperado y el precio efectivo de ejecución; omitida en el modelo."],
+ ["Counterparty risk","Riesgo asociado a que una contraparte no cumpla; también omitido en el modelo."]
+ ]
+}
+]}
+];
+
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+function list(items){return '<ul>'+items.map(x=>'<li>'+x+'</li>').join('')+'</ul>';}
+function glossary(items){return '<dl class="lab-glossary">'+items.map(x=>'<div><dt>'+esc(x[0])+'</dt><dd>'+x[1]+'</dd></div>').join('')+'</dl>';}
+
+document.querySelector('#studyGuide').innerHTML=groups.map((g,gi)=>`
+<section class="study-block">
+  <div class="study-block-head">
+    <span class="study-block-number">0${gi+1}</span>
+    <div><h3>${g.title}</h3><p>${g.subtitle}</p></div>
+  </div>
+  <div class="lab-guide-list">
+    ${g.labs.map(l=>`
+    <details class="lab-guide" id="guia-lab-${l.id}" data-guide-file="${l.file}">
+      <summary>
+        <span class="lab-guide-id">LAB ${l.id}</span>
+        <span class="lab-guide-summary"><strong>${l.title}</strong><small>${l.checkpoint}</small></span>
+        <span class="precision-badge ${l.precision}">${l.precisionLabel}</span>
+        <span class="guide-chevron" aria-hidden="true">⌄</span>
+      </summary>
+      <div class="lab-guide-body">
+        <div class="guide-main">
+          <article class="guide-panel guide-panel--wide"><span class="guide-label">Qué hace</span><p>${l.what}</p></article>
+          <article class="guide-panel"><span class="guide-label">Cómo ejecutar</span>${list(l.how)}</article>
+          <article class="guide-panel"><span class="guide-label">Experimento recomendado</span>${list(l.experiment)}</article>
+          <article class="guide-panel"><span class="guide-label">Qué observar</span>${list(l.observe)}</article>
+          <article class="guide-panel guide-panel--checkpoint"><span class="guide-label">Deberías poder explicar</span><p>${l.checkpoint}</p></article>
+          <article class="guide-panel guide-panel--glossary"><span class="guide-label">Glosario del laboratorio</span>${glossary(l.glossary)}</article>
+        </div>
+        <div class="guide-footer">
+          <a class="button primary" href="${l.file}">▶ Abrir LAB ${l.id}</a>
+          <button class="button mastery-button" type="button" data-mark-lab="${l.file}">✓ Ya puedo explicarlo</button>
+          <span class="mastery-state" data-mastery-state="${l.file}">Pendiente</span>
+        </div>
+      </div>
+    </details>`).join('')}
+  </div>
+</section>`).join('');
+
+document.querySelector('#expandAll').addEventListener('click',()=>document.querySelectorAll('.lab-guide').forEach(d=>d.open=true));
+document.querySelector('#collapseAll').addEventListener('click',()=>document.querySelectorAll('.lab-guide').forEach(d=>d.open=false));
+</script>
+<script src="../assets/modulo-bitcoin.js"></script>
+</body>
+</html>
