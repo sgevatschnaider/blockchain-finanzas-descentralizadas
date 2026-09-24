@@ -13,12 +13,12 @@
     <div class="site-header__inner">
       <a class="brand" href="index.html"><span class="coin">₿</span><span>Unidad 2<small>Bitcoin, consenso y seguridad</small></span></a>
       <nav class="topnav" aria-label="Navegación principal">
-        <a href="#ruta">Ruta</a><a href="simuladores/index.html">Laboratorios</a><a href="materiales/index.html">Presentaciones</a><a href="recursos/glosario-bitcoin.html">Glosario</a><a href="evaluacion/cuestionario-bitcoin-completo.html">Cuestionario</a><a href="evaluacion/cuestionario-bitcoin.html">Evaluación</a>
+        <a href="#ruta">Ruta</a><a href="materiales/index.html">Presentaciones</a><a href="simuladores/index.html">Laboratorios</a><a href="recursos/glosario-bitcoin.html">Glosario</a><a href="evaluacion/cuestionario-bitcoin-completo.html">Cuestionario</a><a href="evaluacion/cuestionario-bitcoin.html">Evaluación</a>
       </nav>
     </div>
   </header>
 
-  <!-- u02-home-version: 2026-09-24-q30-card -->
+  <!-- u02-home-version: 2026-09-24-resource-hub-v2 -->
   <main class="shell">
     <section class="hero">
       <div>
@@ -40,20 +40,57 @@
       </div>
     </section>
 
-    <section class="entry-grid" aria-label="Accesos principales del módulo">
-      <a class="entry-card entry-card--orange" href="simuladores/index.html"><span class="entry-icon">⚙</span><span><small>Experimentar</small><strong>Simulaciones</strong><em>14 laboratorios paso a paso</em></span><b>→</b></a>
-      <a class="entry-card" href="materiales/index.html"><span class="entry-icon">▶</span><span><small>Estudiar</small><strong>Presentaciones</strong><em>PDF, PPTX, Google Slides y autoplay</em></span><b>→</b></a>
-      <a class="entry-card" href="recursos/glosario-bitcoin.html"><span class="entry-icon">⌕</span><span><small>Consultar</small><strong>Glosario</strong><em>49 conceptos conectados</em></span><b>→</b></a>
-      <a class="entry-card" href="evaluacion/cuestionario-bitcoin-completo.html"><span class="entry-icon">?</span><span><small>Repasar</small><strong>Cuestionario completo</strong><em>30 preguntas con respuestas desarrolladas</em></span><b>→</b></a>
-      <a class="entry-card" href="evaluacion/cuestionario-bitcoin.html"><span class="entry-icon">✓</span><span><small>Comprobar</small><strong>Evaluación</strong><em>20 preguntas explicadas</em></span><b>→</b></a>
-      <a class="entry-card entry-card--orange" href="recursos/hodl-estudio-index.html"><span class="entry-icon">◎</span><span><small>Integrar</small><strong>HODL y on-chain</strong><em>Guía, 5 laboratorios y 36 preguntas</em></span><b>→</b></a>
+    <section class="entry-grid" aria-labelledby="accesos-principales">
+      <div class="entry-hub-heading">
+        <div>
+          <p class="entry-kicker">Ruta rápida · de la teoría a la integración</p>
+          <h2 id="accesos-principales">Elegí cómo avanzar</h2>
+        </div>
+        <p>La primera fila sigue el recorrido recomendado. La segunda reúne consulta, comprobación y profundización.</p>
+      </div>
+
+      <a class="entry-card" href="materiales/index.html" aria-label="Paso 1: estudiar las presentaciones">
+        <span class="entry-step">01</span><span class="entry-icon">▶</span>
+        <span><small>Estudiar</small><strong>Presentaciones</strong><em>PDF, PPTX, Google Slides y autoplay</em></span>
+        <span class="entry-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="entry-card entry-card--orange" href="simuladores/index.html" aria-label="Paso 2: experimentar con las simulaciones">
+        <span class="entry-step">02</span><span class="entry-icon">⚙</span>
+        <span><small>Experimentar</small><strong>Simulaciones</strong><em>14 laboratorios interactivos paso a paso</em></span>
+        <span class="entry-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="entry-card entry-card--accent" href="evaluacion/cuestionario-bitcoin-completo.html" aria-label="Paso 3: repasar con el cuestionario completo">
+        <span class="entry-step">03</span><span class="entry-icon">?</span>
+        <span><small>Repasar</small><strong>Cuestionario completo</strong><em>30 preguntas con respuestas desarrolladas</em></span>
+        <span class="entry-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="entry-card" href="recursos/glosario-bitcoin.html" aria-label="Paso 4: consultar el glosario">
+        <span class="entry-step">04</span><span class="entry-icon">⌕</span>
+        <span><small>Consultar</small><strong>Glosario</strong><em>49 conceptos conectados y explicados</em></span>
+        <span class="entry-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="entry-card" href="evaluacion/cuestionario-bitcoin.html" aria-label="Paso 5: comprobar conocimientos con la evaluación">
+        <span class="entry-step">05</span><span class="entry-icon">✓</span>
+        <span><small>Comprobar</small><strong>Evaluación</strong><em>20 preguntas de opción múltiple explicadas</em></span>
+        <span class="entry-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="entry-card entry-card--orange" href="recursos/hodl-estudio-index.html" aria-label="Paso 6: integrar con HODL y análisis on-chain">
+        <span class="entry-step">06</span><span class="entry-icon">◎</span>
+        <span><small>Integrar</small><strong>HODL y on-chain</strong><em>Guía, 5 laboratorios y 36 preguntas</em></span>
+        <span class="entry-arrow" aria-hidden="true">→</span>
+      </a>
     </section>
 
     <div class="quick-grid" aria-label="Componentes del módulo">
       <div class="quick"><strong>223 diapositivas</strong><span>seis presentaciones integradas</span></div>
       <div class="quick"><strong>14 simulaciones</strong><span>cada una en su propio archivo</span></div>
       <div class="quick"><strong>103 términos</strong><span>dos glosarios desarrollados</span></div>
-      <div class="quick"><strong>86 preguntas</strong><span>30 guía + 20 autoevaluación + 36 HODL</span></div>
+      <div class="quick"><strong>86 preguntas</strong><span>30 guía · 20 evaluación · 36 HODL</span></div>
     </div>
 
     <section class="section" id="ruta">
