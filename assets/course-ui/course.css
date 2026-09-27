@@ -21,5 +21,12 @@
 .course-path{display:grid;gap:10px;counter-reset:path}.course-path>div{counter-increment:path;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:16px;border:1px solid var(--course-line);border-radius:16px;background:var(--course-panel)}.course-path>div:before{content:counter(path,decimal-leading-zero);display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,var(--course-accent),var(--course-accent-2));font-weight:950}.course-path h3{margin:0}.course-path p{margin:3px 0 0;color:var(--course-muted)}
 .course-footer{margin-top:54px;border-top:1px solid var(--course-line);padding:30px 0 48px;color:var(--course-muted)}
 .skip-link{position:fixed;left:12px;top:-80px;z-index:200;background:white;color:#111;padding:10px 14px;border-radius:8px}.skip-link:focus{top:12px}
-@media(max-width:760px){.course-header{position:relative}.course-header__inner{align-items:flex-start;padding-block:12px}.course-nav{justify-content:flex-end}.course-grid{grid-template-columns:1fr}.course-hero{padding-top:52px}.course-shell{width:min(100% - 22px,1180px)}}
+
+.exam-spotlight{margin-top:8px;margin-bottom:18px;padding:28px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);align-items:center;gap:24px;border:1px solid rgba(245,195,91,.42);border-radius:24px;background:linear-gradient(145deg,rgba(245,195,91,.13),rgba(139,92,246,.09) 42%,var(--course-panel));box-shadow:var(--course-shadow);position:relative;overflow:hidden}
+.exam-spotlight:before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:linear-gradient(var(--course-gold),var(--course-accent-2))}
+.exam-spotlight h2{font-size:clamp(1.8rem,4vw,3rem);margin:6px 0 10px}
+.exam-spotlight p{color:var(--course-muted);max-width:760px}
+.exam-spotlight__note{padding:15px 16px;border:1px solid rgba(245,195,91,.28);border-radius:15px;background:rgba(5,9,20,.28)}
+.exam-spotlight__note strong{color:var(--course-text)}
+@media(max-width:760px){.exam-spotlight{grid-template-columns:1fr;padding:22px}.course-header{position:relative}.course-header__inner{align-items:flex-start;padding-block:12px}.course-nav{justify-content:flex-end}.course-grid{grid-template-columns:1fr}.course-hero{padding-top:52px}.course-shell{width:min(100% - 22px,1180px)}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
