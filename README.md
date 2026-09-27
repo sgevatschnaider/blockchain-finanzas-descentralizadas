@@ -8,6 +8,7 @@ Campus docente de nivel posgrado elaborado por el profesor **Sergio Gevatschnaid
 
 ## Acceso rápido
 
+- **[Guía integral para el examen · 50 preguntas desarrolladas](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/guia-examen/)**
 - [Campus web](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/)
 - [M0 · Clase inicial](unidades/u00-clase-inicial-blockchain-negocios/)
 - [U1 · Fundamentos y Smart Contracts](unidades/u01-fundamentos-smart-contracts/)
@@ -37,6 +38,7 @@ La inserción de Ethereum como U3 desplazó las unidades históricas a U4–U7. 
 
 ```text
 assets/                     estilos y recursos compartidos
+guia-examen/                guía integral interactiva del examen
 contracts/                  contratos de demostración
 cronograma/                 planificación docente
 python/                     pruebas y utilidades Python
