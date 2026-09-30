@@ -91,10 +91,11 @@
 
   <div class="container">
     <header class="header">
-      <h1 class="main-title">El Paradigma de la Confianza Cero</h1>
-      <p class="subtitle">Un Análisis de ZKP en la Era Web3</p>
+      <h1 class="main-title">Pruebas de Conocimiento Cero</h1>
+      <p class="subtitle">De la cueva de Alí Babá a la verificación de cómputos y ZK-rollups</p>
     </header>
 
+    <nav aria-label="Recursos ZKP"><a href="../">← Unidad 5</a> · <a href="ZPK_Simulador_hash.html">Cueva de Alí Babá</a> · <a href="ZPK_Glosario.html">Glosario</a> · <a href="ZPK_Rollups.html">ZK-rollups</a></nav>
     <div class="lesson-container">
 
         <div class="topic-card open">
@@ -116,8 +117,8 @@
         <div class="topic-card">
             <div class="topic-header"><span class="topic-title">2. La Intuición Fundamental: Comprendiendo ZKP con Analogías</span><i class="fas fa-chevron-down expand-icon"></i></div>
             <div class="topic-content">
-                <p>Para internalizar la poderosa intuición detrás de esta tecnología, podemos recurrir a analogías. Imagine el desafío de <strong>"¿Dónde está Wally?"</strong>. Con una ZKP, uno podría demostrar que ha localizado al personaje sin señalar su ubicación, tal vez cubriendo la ilustración con una cartulina opaca que solo tuviera un pequeño recorte sobre Wally.</p>
-                <p>De forma similar, un individuo podría demostrar que es mayor de 18 años sin revelar su fecha de nacimiento, o una empresa probar que sus reservas superan sus pasivos sin desvelar sus balances. El hilo conductor es el <strong>principio de revelación mínima de datos</strong>, una capacidad transformadora para proteger la privacidad y optimizar la eficiencia.</p>
+                <p>Para internalizar la poderosa intuición detrás de esta tecnología, podemos recurrir a analogías. En la <strong>cueva de Alí Babá</strong>, dos caminos están conectados por una puerta que exige una palabra secreta. El probador entra sin ser observado; después recibe el desafío de regresar por A o B. Si conoce la palabra puede cambiar de camino; si no, solo acierta cuando el desafío coincide con su entrada. <a href="ZPK_Simulador_hash.html">Abrir la cueva interactiva</a>.</p>
+                <p>De forma similar, un individuo podría demostrar que es mayor de 18 años sin revelar su fecha de nacimiento, o una empresa probar que sus reservas superan sus pasivos sin desvelar los importes privados. Estos ejemplos requieren verificar la autenticidad de las credenciales o datos y definir qué pasivos se incluyen; una prueba aritmética no certifica por sí sola información externa. El hilo conductor es el <strong>principio de revelación mínima de datos</strong>, una capacidad transformadora para proteger la privacidad y optimizar la eficiencia.</p>
             </div>
         </div>
 
@@ -129,7 +130,7 @@
                     <div class="diagram-title">Las 3 Propiedades Fundamentales de ZKP</div>
                     <div class="diagram-grid">
                         <div class="diagram-box"><strong>Completitud</strong><span>Si la afirmación es verdadera y todos son honestos, la prueba siempre será aceptada.</span></div>
-                        <div class="diagram-box"><strong>Solidez</strong><span>Si la afirmación es falsa, es imposible para un probador deshonesto convencer al verificador.</span></div>
+                        <div class="diagram-box"><strong>Solidez</strong><span>Si la afirmación es falsa, un probador deshonesto solo puede convencer con una probabilidad acotada por el error de solidez.</span></div>
                         <div class="diagram-box"><strong>Cero Conocimiento</strong><span>El verificador no aprende nada más allá de la simple validez de la afirmación.</span></div>
                     </div>
                 </div>
@@ -144,7 +145,7 @@
                     <div class="diagram-title">Comparativa de Tecnologías ZKP Populares</div>
                     <div class="diagram-grid">
                         <div class="diagram-box"><strong>zk-SNARKs</strong><span>Pruebas muy pequeñas y verificación rápida. Ideal para rollups. Algunos requieren "trusted setup".</span></div>
-                        <div class="diagram-box"><strong>zk-STARKs</strong><span>Transparentes (sin "trusted setup"). Más escalables para cómputos complejos y resistentes a la computación cuántica. Pruebas más grandes.</span></div>
+                        <div class="diagram-box"><strong>zk-STARKs</strong><span>Transparentes: sin ceremonia con secreto. Se basan en hashes y ofrecen resistencia poscuántica bajo los supuestos y parámetros adecuados. El tamaño y rendimiento dependen del esquema.</span></div>
                         <div class="diagram-box"><strong>Bulletproofs</strong><span>No requieren "trusted setup". Eficientes para pruebas de rango. Tamaño de prueba moderado.</span></div>
                     </div>
                 </div>
@@ -167,7 +168,7 @@
                          <div class="diagram-arrow down"><div class="diagram-arrow-label">Publica en</div></div>
                         <div class="diagram-section">
                              <div class="diagram-section-title">Capa 1 (On-chain)</div>
-                             <div class="diagram-box"><strong>Verificación en Cadena</strong><span>Solo la prueba se publica y verifica, heredando la seguridad de la red principal.</span></div>
+                             <div class="diagram-box"><strong>Verificación en Cadena</strong><span>Se verifican la prueba y las entradas públicas; también se publican datos suficientes para reconstruir el estado de L2.</span></div>
                         </div>
                     </div>
                 </div>
@@ -194,7 +195,7 @@
                  <ul>
                     <li><strong>Privacidad por diseño:</strong> Revelación mínima de datos como principio fundamental.</li>
                     <li><strong>Integridad criptográfica:</strong> Garantías matemáticas de que las reglas se cumplen.</li>
-                    <li><strong>Escalabilidad:</strong> Permite procesar miles de transacciones con el costo de una sola.</li>
+                    <li><strong>Escalabilidad:</strong> Amortiza costos fijos entre transacciones; también hay costos de ejecución, generación de pruebas y publicación de datos.</li>
                 </ul>
                 <h4>Límites y Desafíos</h4>
                 <ul>
@@ -237,6 +238,34 @@
             <div class="topic-header"><span class="topic-title">9. Conclusión: La Esencia de las Pruebas de Conocimiento Cero</span><i class="fas fa-chevron-down expand-icon"></i></div>
             <div class="topic-content">
                 <p>En una sola frase, ZKP es la tecnología que te deja <strong>probar que algo es cierto sin contar el “cómo” ni el “cuánto”</strong>, habilitando privacidad verificable y escalado seguro en finanzas, identidad, juegos y metaverso—donde revelar menos, mantener la integridad y operar a baja fricción marca la diferencia.</p>
+            </div>
+        </div>
+
+
+        <div class="topic-card open" id="afirmacion-testigo">
+            <div class="topic-header"><span class="topic-title">10. Del ejemplo a la definición: afirmación pública y testigo privado</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>Una ZKP parte de una <strong>relación R(x,w)=1</strong>. La entrada pública x especifica qué se demuestra; el testigo privado w aporta los datos que satisfacen esa relación. El probador genera una prueba π y el verificador comprueba la prueba junto con x, sin recibir w. Las entradas públicas siguen siendo públicas: cero conocimiento protege aquello que el protocolo define como privado.</p>
+                <h4>Ejemplo conceptual: preimagen de un hash</h4><p>Entrada pública: C. Testigo: mensaje m y aleatoriedad r. Relación: <code>C = H(r || m)</code>. Se quiere demostrar conocimiento de una apertura válida de C sin entregar m ni r. En cambio, el laboratorio de compromiso recibe ambos para recalcular el hash: <strong>es una apertura, no una ZKP</strong>.</p>
+                <h4>Ejemplo financiero: una transición válida de estado</h4><p>Entradas públicas: raíz del estado inicial y raíz del estado final, junto con los demás compromisos públicos exigidos por el protocolo. Testigo: datos de transacciones y ejecución. El circuito impone firmas válidas, saldos suficientes y conservación de las reglas de estado. Si falta una restricción, la prueba solo certifica el circuito incompleto; no corrige el error de diseño.</p>
+                <h4>Completitud, solidez y conocimiento</h4><p>Completitud exige que el probador honesto con testigo válido sea aceptado con la probabilidad prevista por el sistema. Solidez limita la aceptación de afirmaciones falsas. En una <strong>prueba o argumento de conocimiento</strong> se requiere además una garantía formal de posesión del testigo. Ocultar una contraseña en pantalla no establece estas garantías.</p>
+            </div>
+        </div>
+        <div class="topic-card" id="cueva-probabilidad">
+            <div class="topic-header"><span class="topic-title">11. La cueva: orden del desafío, repetición y probabilidad de engaño</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <p>El orden es <strong>entrada oculta → desafío impredecible → respuesta → verificación</strong>. Si se anuncia la salida antes de la entrada, un impostor puede elegir ese camino y acertar siempre sin atravesar la puerta. La vista docente muestra el interior para explicar el mecanismo; la vista del verificador solo conserva lo que este debería observar.</p>
+                <p>Sin palabra secreta, cada desafío uniforme e independiente se supera con probabilidad 1/2. Pasar todas las k rondas de una sesión previamente fijada tiene probabilidad <strong>2<sup>−k</sup></strong>. Para k=10, es 1/1024, aproximadamente 0,0977 %. No es una fórmula para todas las ZKP ni la probabilidad posterior de que una persona sea deshonesta.</p>
+                <p>Formalmente, cero conocimiento se justifica mediante una simulación de la vista del verificador que no necesita el testigo. La cueva ilustra esa idea, pero este HTML simula ambos roles y <strong>no constituye un sistema criptográfico seguro</strong>. <a href="ZPK_Simulador_hash.html">Practicar con las rondas y leer la guía del laboratorio</a>.</p>
+            </div>
+        </div>
+        <div class="topic-card" id="limites-zkp">
+            <div class="topic-header"><span class="topic-title">12. Cuatro distinciones para evaluar un proyecto ZK</span><i class="fas fa-chevron-down expand-icon"></i></div>
+            <div class="topic-content">
+                <ul><li><strong>Compromiso frente a ZKP:</strong> commit-reveal entrega el valor al abrir; una ZKP envía una prueba sin entregar el testigo.</li><li><strong>Validez frente a privacidad:</strong> probar una transición correcta no implica ocultar datos que se publican como entradas públicas o para disponibilidad.</li><li><strong>Validez frente a disponibilidad:</strong> una prueba válida no suministra automáticamente los datos necesarios para reconstruir estado o retirar fondos.</li><li><strong>Confirmación frente a finalidad:</strong> la respuesta del secuenciador, la publicación de la prueba y la finalidad en L1 son eventos diferentes.</li></ul>
+                <p>El setup depende del sistema concreto. Groth16 suele requerir parámetros por circuito; PLONK con compromisos KZG puede utilizar un setup universal actualizable. Existen SNARKs transparentes: <strong>SNARK no significa automáticamente trusted setup</strong>. Tampoco debe atribuirse una propiedad de setup a todas las variantes de una biblioteca por su nombre.</p>
+                <h4>Preguntas de estudio</h4><p>¿Qué son x y w en tu aplicación? ¿Qué restricción garantiza que el dato externo es auténtico? ¿Qué información sigue siendo pública? ¿Qué ocurre si el operador retiene los datos aunque la prueba sea válida? Responderlas permite distinguir el alcance real de la prueba de las promesas del producto.</p>
+                <h4>Referencias</h4><ul><li>Quisquater y colaboradores: <a href="https://fermatslibrary.com/s/how-to-explain-zero-knowledge-protocols-to-your-children">How to Explain Zero-Knowledge Protocols to Your Children</a>, CRYPTO ’89 (1990).</li><li>Ethereum.org: <a href="https://ethereum.org/zero-knowledge-proofs/">Zero-knowledge proofs</a>, <a href="https://ethereum.org/developers/docs/scaling/zk-rollups/">ZK-rollups</a> y <a href="https://ethereum.org/developers/docs/scaling/validium/">Validium</a>.</li></ul>
             </div>
         </div>
 

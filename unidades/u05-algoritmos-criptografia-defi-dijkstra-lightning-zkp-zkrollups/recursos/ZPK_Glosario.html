@@ -80,6 +80,7 @@
       <p class="subtitle">Términos Clave, Conceptos Fundamentales y Arquitecturas</p>
     </header>
 
+    <nav aria-label="Recursos ZKP"><a href="../">← Unidad 5</a> · <a href="ZPK_Simulador_hash.html">Cueva de Alí Babá</a> · <a href="ZPK_TEORIA.html">Teoría</a> · <a href="ZPK_Rollups.html">ZK-rollups</a></nav>
     <div class="lesson-container">
 
         <div class="topic-card open">
@@ -92,16 +93,25 @@
                     <div class="diagram-title">Los 3 Pilares de una ZKP</div>
                     <div class="diagram-grid">
                         <div class="diagram-box"><strong>Completitud</strong><span>Una prueba honesta siempre convencerá al verificador.</span></div>
-                        <div class="diagram-box"><strong>Solidez</strong><span>Es imposible para un probador deshonesto falsificar una prueba.</span></div>
+                        <div class="diagram-box"><strong>Solidez</strong><span>La probabilidad de aceptar una afirmación falsa está acotada por el error de solidez.</span></div>
                         <div class="diagram-box"><strong>Cero Conocimiento</strong><span>El verificador no aprende nada sobre el secreto, solo que la afirmación es cierta.</span></div>
                     </div>
                 </div>
+
+
+                <h4>Afirmación y entrada pública (Statement, x)</h4><p>Información que el verificador recibe para especificar qué se demuestra: por ejemplo, un compromiso C o las raíces inicial y final de un estado. Las entradas públicas no quedan ocultas por usar una ZKP.</p>
+                <h4>Testigo privado (Witness, w)</h4><p>Datos que satisfacen una relación R(x,w)=1: una preimagen y su aleatoriedad, una credencial o la traza de ejecución de un circuito. El probador los utiliza para generar la prueba; el verificador no necesita recibirlos en claro.</p>
+                <h4>Solidez de conocimiento (Knowledge soundness)</h4><p>Garantía formal de que un probador capaz de producir pruebas aceptadas posee un testigo adecuado, expresada mediante un extractor. Es una exigencia adicional respecto de rechazar afirmaciones falsas.</p>
+                <h4>Compromiso hash y apertura (Commit-reveal)</h4><p>Un compromiso incorpora aleatoriedad privada para ocultar el valor antes de abrirlo y vincular al emisor con ese valor. La apertura entrega el valor y la aleatoriedad para verificar el compromiso. Por eso <strong>commit-reveal no es una ZKP</strong>, aunque sea útil como componente de otros protocolos.</p>
+                <h4>Ocultación y vinculación (Hiding, binding)</h4><p>Ocultación impide aprender el valor comprometido antes de su apertura. Vinculación impide abrir el mismo compromiso como dos valores diferentes. Dependen del esquema y sus supuestos; un hash de un mensaje predecible puede ser vulnerable a diccionario.</p>
+                <h4>Error de solidez</h4><p>Cota sobre la probabilidad de aceptación indebida bajo las reglas del protocolo. En la cueva ideal se reduce por repetición independiente. No equivale a una probabilidad posterior sobre la honestidad de una persona.</p>
+                <h4>Prueba de validez frente a privacidad</h4><p>Una prueba de validez certifica que las restricciones de un cálculo se cumplieron. Cero conocimiento protege el testigo respecto de la información pública. Un rollup puede utilizar pruebas de validez y publicar datos de transacciones; esas propiedades deben analizarse por separado.</p>
 
                 <h4>Completitud</h4>
                 <p>Garantiza la fiabilidad del sistema para afirmaciones verdaderas. Formalmente, si un probador actúa honestamente y posee el conocimiento que respalda su afirmación, el protocolo asegura que el verificador aceptará la prueba. En la analogía de la "Cueva de Alí Babá", el probador que conoce la palabra secreta siempre puede salir por el camino que el verificador le solicita.</p>
 
                 <h4>Solidez (Soundness)</h4>
-                <p>El pilar de seguridad que protege contra la falsificación. Dicta que si la afirmación es falsa, la probabilidad de engañar al verificador es probabilísticamente despreciable. Tras k rondas, la probabilidad de engañar se reduce exponencialmente a (1/2)<sup>k</sup>.</p>
+                <p>El pilar de seguridad que protege contra la falsificación. Dicta que si la afirmación es falsa, la probabilidad de engañar al verificador es probabilísticamente despreciable. En la cueva de Alí Babá, con desafíos binarios uniformes e independientes y una sesión de k rondas fijada de antemano, el error es (1/2)<sup>k</sup>. Esa fórmula no se aplica a cualquier sistema ZKP.</p>
 
                 <h4>Cero Conocimiento</h4>
                 <p>La propiedad de privacidad que asegura que la interacción no filtra información adicional sobre el secreto. El verificador aprende que el probador sabe algo, pero no aprende qué es ese algo.</p>
@@ -110,7 +120,7 @@
                 <p>Una evolución que elimina la necesidad de un diálogo entre probador y verificador. El probador genera una única "prueba" que puede ser verificada por cualquiera, en cualquier momento. Es fundamental para sistemas asíncronos como las blockchains y los ZK-rollups.</p>
 
                 <h4>Heurística de Fiat-Shamir</h4>
-                <p>Una técnica que transforma un protocolo interactivo en uno no interactivo (NIZK) reemplazando los desafíos del verificador con el resultado de una función de hash criptográfica, permitiendo pruebas "fire-and-forget".</p>
+                <p>Una técnica que transforma un protocolo interactivo en uno no interactivo (NIZK) derivando los desafíos de un hash del contexto, la afirmación y el compromiso. Su seguridad exige las condiciones del protocolo y el modelo de oráculo aleatorio; no basta con agregar un hash arbitrario.</p>
 
                 <h4>Argumento Sucinto (la "S" de SNARK)</h4>
                 <p>Se refiere a que la prueba es muy pequeña en tamaño y extremadamente rápida de verificar. Esta brevedad es fundamental para la escalabilidad en blockchain, permitiendo que una L1 verifique rápidamente la integridad de un lote masivo de transacciones de una L2.</p>
@@ -130,16 +140,18 @@
                 <p>Una variante de SNARK con un setup "universal y actualizable", lo que significa que una única ceremonia inicial sirve para muchos programas diferentes, haciéndolo muy flexible.</p>
 
                 <h4>Groth16</h4>
-                <p>Un esquema SNARK pionero con el tamaño de prueba más pequeño y la verificación más rápida. Su desventaja es que requiere un trusted setup específico para cada circuito.</p>
+                <p>Un esquema SNARK con pruebas compactas y verificación eficiente basada en emparejamientos. Su desventaja es que requiere un trusted setup específico para cada circuito.</p>
 
-                <h4>Halo2 / Bulletproofs</h4>
-                <p>Sistemas de prueba que no requieren un trusted setup. Son eficientes para pruebas de rango y conocidos por su capacidad de agregación y recursión de pruebas.</p>
+                <h4>Bulletproofs</h4>
+                <p>Pruebas de rango basadas en argumentos de producto interno, sin ceremonia de trusted setup. Su tamaño crece logarítmicamente con el rango; el costo de verificación también debe evaluarse.</p>
+                <h4>Halo2</h4>
+                <p>Biblioteca y arquitectura de circuitos cuyo setup depende del esquema de compromisos utilizado. Las variantes IPA pueden ser transparentes; las variantes KZG requieren parámetros adecuados. El nombre Halo2 no garantiza por sí solo ausencia de ceremonia.</p>
 
                 <h4>R1CS / Arithmetización</h4>
                 <p>El proceso de traducir un programa computacional en un sistema de ecuaciones algebraicas (restricciones) que una ZKP puede entender. Es un paso de compilación esencial para generar una prueba.</p>
 
                 <h4>Trusted Setup</h4>
-                <p>Una ceremonia criptográfica para generar parámetros públicos (CRS) necesarios para algunos SNARKs. La seguridad depende de que los datos secretos intermedios ("residuo tóxico") se destruyan. Alternativas como las ceremonias multipartitas (MPC) o esquemas transparentes (STARKs, Halo2) mitigan este riesgo.</p>
+                <p>Una ceremonia criptográfica para generar parámetros públicos (CRS) necesarios para algunos SNARKs. La seguridad depende de que los datos secretos intermedios ("residuo tóxico") se destruyan. Alternativas como las ceremonias multipartitas (MPC) o esquemas transparentes (por ejemplo, STARKs o sistemas con compromisos IPA) mitigan este riesgo.</p>
 
                 <h4>Compromiso (Commitment), Pruebas de Rango y Pertenencia</h4>
                 <p>Primitivas criptográficas clave: <strong>Compromiso</strong> para "sellar" un valor; <strong>Pruebas de Rango</strong> para demostrar que un valor está en un intervalo sin revelarlo; y <strong>Pruebas de Pertenencia</strong> para demostrar que un elemento está en un conjunto sin revelar cuál es.</p>
@@ -177,7 +189,7 @@
                 </ul>
 
                 <h4>Puente (Bridge) L1↔L2</h4>
-                <p>El conjunto de contratos que gestiona el depósito y retiro seguro de activos entre la L1 y la L2. Los retiros en ZK-rollups son rápidos y no requieren períodos de disputa.</p>
+                <p>El conjunto de contratos que gestiona el depósito y retiro seguro de activos entre la L1 y la L2. No se requiere el período de disputa propio de un optimistic rollup, pero los retiros dependen de la generación y publicación de pruebas, la inclusión y finalidad en L1, la disponibilidad de datos y las reglas del puente.</p>
             </div>
         </div>
 
@@ -188,10 +200,10 @@
                 <p>Un conjunto de transacciones de L2 que se agrupan, ejecutan y prueban juntas. El procesamiento por lotes es la clave de la eficiencia de los rollups.</p>
 
                 <h4>Finalidad (Finality) del Lote</h4>
-                <p>El tiempo que transcurre desde que un usuario envía una transacción hasta que es criptográficamente finalizada en la L1. Es significativamente más rápido que en los optimistic rollups.</p>
+                <p>La finalidad de una transición requiere la aceptación de su prueba, la inclusión en L1 y la finalidad de esa cadena. El tiempo hasta esa condición incluye espera del lote, generación y publicación de la prueba y las etapas de L1; no debe confundirse con una confirmación del secuenciador.</p>
 
                 <h4>TPS Efectivo y Fee Amortizado</h4>
-                <p><strong>TPS (Transacciones por Segundo)</strong> es la medida del rendimiento. El <strong>Fee Amortizado</strong> es el costo real para el usuario, calculado dividiendo el costo total del lote en L1 por el número de transacciones.</p>
+                <p><strong>TPS (Transacciones por Segundo)</strong> es la medida del rendimiento. El <strong>Fee Amortizado</strong> es un costo medio del lote: costo total considerado dividido por número de transacciones. La comisión efectiva del usuario también puede incluir ejecución en L2, generación de pruebas, margen del operador y condiciones del mercado de datos.</p>
 
                 <h4>Latencia vs. Throughput (Trade-off)</h4>
                 <p>Un compromiso de diseño: lotes más grandes aumentan el throughput (TPS) y reducen el fee, pero pueden aumentar la latencia si la red tiene poco tráfico, ya que se debe esperar a que el lote se llene.</p>
@@ -203,7 +215,7 @@
             <div class="topic-content">
 
                 <h4>Comparación con Optimistic Rollups</h4>
-                <p>Los Optimistic Rollups asumen validez y usan "pruebas de fraude" con un período de disputa (retiros lentos). Los ZK-rollups usan "pruebas de validez", ofreciendo finalidad rápida y seguridad matemática.</p>
+                <p>Los Optimistic Rollups asumen validez y usan "pruebas de fraude" con un período de disputa (retiros lentos). Los ZK-rollups usan pruebas de validez sin ese período de disputa; su liquidación y retiros dependen de pruebas, datos, contratos y finalidad en L1.</p>
 
                 <div class="diagram-container">
                     <div class="diagram-title">Rollups: Pruebas de Validez vs. Pruebas de Fraude</div>
@@ -217,7 +229,7 @@
                 <p>Un rollup que replica el entorno de ejecución de Ethereum (EVM) dentro de un circuito ZK, permitiendo portar dApps y herramientas de Ethereum a la L2 con mínimos cambios.</p>
 
                 <h4>zk-ID / PoR / Anti-trampa</h4>
-                <p>Aplicaciones avanzadas: <strong>zk-ID</strong> para probar atributos personales sin revelar datos; <strong>Proof of Reserves (PoR)</strong> para que entidades centralizadas demuestren solvencia; y sistemas <strong>Anti-trampa</strong> en juegos para verificar acciones sin revelar la lógica interna.</p>
+                <p>Aplicaciones avanzadas: <strong>zk-ID</strong> para probar atributos personales sin revelar datos; <strong>Proof of Reserves (PoR)</strong> para demostrar reservas bajo un alcance definido; afirmar solvencia exige además considerar pasivos, integridad de los datos y otros supuestos; y sistemas <strong>Anti-trampa</strong> en juegos para verificar acciones sin revelar la lógica interna.</p>
 
                 <h4>Riesgo de Setup / Upgrades</h4>
                 <p>En SNARKs con trusted setup, un fallo en la ceremonia inicial podría comprometer la seguridad. Además, las actualizaciones de los contratos deben ser manejadas con extrema cautela a través de una gobernanza robusta.</p>

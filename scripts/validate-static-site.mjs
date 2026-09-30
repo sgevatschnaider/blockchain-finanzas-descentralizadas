@@ -57,6 +57,26 @@ for (const file of files.filter((item) => /\.(?:html?|md)$/i.test(item))) {
   }
 }
 
+// Los enlaces absolutos de GitHub Pages también deben corresponder a archivos reales.
+// La U5 usa esos enlaces en su README: un espacio omitido puede pasar inadvertido
+// en la validación habitual de href/src y dejar inaccesible el laboratorio ZKP.
+const u5Path = "unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups";
+const u5 = path.join(root, u5Path);
+const pagesPrefix = "https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/";
+const u5Readme = fs.readFileSync(path.join(u5, "README.md"), "utf8");
+for (const match of u5Readme.matchAll(/https:\/\/sgevatschnaider\.github\.io\/blockchain-finanzas-descentralizadas\/[^\s)"<>]+/g)) {
+  const { pathname } = cleanTarget(match[0].slice(pagesPrefix.length));
+  if (!fs.existsSync(path.join(root, pathname))) fail(`U5 README: enlace de Pages inexistente -> ${match[0]}`);
+}
+const zkpCanonical = path.join(u5, "recursos/ZPK_Simulador_hash.html");
+const zkpLegacy = path.join(u5, "recursos/ZPK_ Simulador_hash.html");
+if (!fs.existsSync(zkpCanonical)) fail("U5: falta el laboratorio ZKP sin espacios");
+if (!fs.existsSync(zkpLegacy)) fail("U5: falta el acceso compatible al laboratorio ZKP");
+else {
+  const legacyText = fs.readFileSync(zkpLegacy, "utf8");
+  if (!/http-equiv=["']refresh["']/i.test(legacyText) || !/rel=["']canonical["']/i.test(legacyText) || !legacyText.includes("ZPK_Simulador_hash.html")) fail("U5: redirección del laboratorio ZKP incompleta");
+}
+
 const u3 = path.join(root, "unidades/u03-ethereum");
 const manifestPath = path.join(u3, "materiales/decks.json");
 let decks = [];

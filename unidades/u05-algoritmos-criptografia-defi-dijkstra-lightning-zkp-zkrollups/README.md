@@ -1,6 +1,6 @@
 # U5 — Algoritmos y Criptografía para DeFi: Dijkstra en Lightning, ZKP y ZK-Rollups
 
-[![Unidad](https://img.shields.io/badge/Unidad-4-blueviolet)](#)
+[![Unidad](https://img.shields.io/badge/Unidad-5-blueviolet)](#)
 [![Dominio](https://img.shields.io/badge/%C3%A1rea-Sistemas%20Financieros%20Digitales-0b7285)](#)
 [![Interactividad](https://img.shields.io/badge/recursos-HTML5-green?logo=HTML5)](#)
 
@@ -37,10 +37,10 @@
 
 | Recurso Educativo | Enlace Directo |
 | :--- | :--- |
-| **Guía Teórica: Pruebas de Conocimiento Cero (ZKP)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una introducción al paradigma de la "confianza cero" a través de las ZKP. El material explica las propiedades fundamentales (completitud, solidez, cero conocimiento), compara los tipos de ZKP más importantes (SNARKs vs. STARKs), y explora sus casos de uso en producción, con un enfoque en el escalado de blockchain, videojuegos y el metaverso.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_ZKP-HTML-blueviolet?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_TEORIA.html) |
+| **Guía Teórica: Pruebas de Conocimiento Cero (ZKP)** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una introducción a las pruebas de conocimiento cero y a la privacidad verificable. El material explica las propiedades fundamentales (completitud, solidez, cero conocimiento), compara los tipos de ZKP más importantes (SNARKs vs. STARKs), y explora sus casos de uso en producción, con un enfoque en el escalado de blockchain, videojuegos y el metaverso.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_ZKP-HTML-blueviolet?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_TEORIA.html) |
 | **Guía Teórica: ZK-Rollups** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Guía enfocada en la arquitectura de los ZK-Rollups como la principal solución de escalado para blockchains. Desglosa el ciclo de vida de un lote, los componentes clave de la infraestructura (Secuenciador, Prover, Verificador) y los fundamentos de su seguridad, incluyendo el concepto de Disponibilidad de Datos (DA) que diferencia a un ZK-Rollup de un Validium.</p></details> | [![Abrir Guía](https://img.shields.io/badge/Teoría_Rollups-HTML-blueviolet?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Rollups.html) |
 | **Glosario de Términos ZKP** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un glosario exhaustivo que define los términos y conceptos clave del ecosistema ZKP. Organizado en secciones temáticas, cubre desde los fundamentos y primitivas criptográficas hasta los componentes de un ZK-Rollup, su flujo operativo, métricas de rendimiento y el stack de herramientas para desarrolladores, convirtiéndolo en una referencia rápida y esencial.</p></details> | [![Abrir Glosario](https://img.shields.io/badge/Glosario-HTML-informational?style=for-the-badge&logo=html5)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Glosario.html) |
-| **Simulador ZKP: Cueva de Alí Babá + Compromiso Hash** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una demo interactiva doble. La primera parte simula la famosa analogía de la "Cueva de Alí Babá" para ilustrar las propiedades de una ZKP. La segunda parte implementa un sistema de "Commit-Reveal" usando compromisos hash, permitiendo a los usuarios crear un compromiso a un secreto y luego probar que lo conocen sin revelarlo.</p></details> | [![Abrir Demo](https://img.shields.io/badge/Demo_ZKP-Interactiva-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html) |
+| **Simulador ZKP: Cueva de Alí Babá + Compromiso Hash** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Un laboratorio con tres secciones: cueva de Alí Babá, compromiso hash y guía de estudio. La cueva permite avanzar paso a paso, comparar la vista docente con la del verificador y experimentar con la probabilidad de engaño. El compromiso usa SHA-256 real y muestra por qué verificar una apertura no equivale a una ZKP.</p></details> | [![Abrir Demo](https://img.shields.io/badge/Demo_ZKP-Interactiva-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html) |
 | **Simulador Interactivo de ZK-Rollups** <br><br><details><summary><strong>Resumen:</strong> <em>(clic para expandir)</em></summary><p>Una simulación visual que modela la dinámica de un ZK-Rollup. Los usuarios pueden ajustar parámetros como el tamaño del lote, la tasa de llegada de transacciones y los costos de gas para observar en tiempo real su impacto en métricas clave como el TPS efectivo, el costo por transacción y la finalidad del lote. Permite comparar el modo ZK-Rollup (DA on-chain) vs. Validium (DA off-chain).</p></details> | [![Abrir Simulación](https://img.shields.io/badge/Simulador_Rollup-Interactivo-green?style=for-the-badge&logo=javascript)](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_ROLLUP_SIMULADOR.HTML) |
 | **Animación: Flujo de un ZK-Rollup** <br><br>![Animación ZK-Rollup](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/simulacion.gif) | [![Ver GIF](https://img.shields.io/badge/Ver_Animación-GIF-lightgrey?style=for-the-badge&logo=html5)](https://raw.githubusercontent.com/sgevatschnaider/blockchain-finanzas-descentralizadas/main/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/simulacion.gif) |
 
@@ -69,7 +69,7 @@
 ### 4) ZKP y ZK-Rollups
 
 *   **ZKP**: verificar sin revelar el testigo (privacidad/verificabilidad).
-*   **ZK-Rollups**: agregación off-chain + *validity proof* → heredan seguridad L1 y aumentan throughput.
+*   **ZK-Rollups**: ejecución off-chain + prueba de validez + datos suficientes publicados en L1 para reconstruir el estado. La privacidad de las transacciones requiere un diseño adicional.
 *   **Trade-offs**: *data availability*, latencia de retiro, centralización del *sequencer*.
 
 ### 5) Regulación (alto nivel)
@@ -90,23 +90,27 @@
     2.  actualiza costo acumulado y predecesores; 4) reconstruye ruta mínima.
 *   **Muestra**: *logs* paso a paso, **costo total**, **hops** y etiquetas en SVG.
 
-### B) **ZKP — Hash/Preimage**
+### B) **ZKP — Cueva de Alí Babá y compromisos**
 
-*   Ilustra compromisos: `c = H(m)`; verificación pública de `H(m)=c` sin revelar `m`.
-*   Observá el **efecto avalancha** al cambiar 1 byte en `m`.
+*   La cueva ejecuta **entrada oculta → desafío aleatorio → respuesta → verificación**, con una puerta interior que conecta A y B.
+*   La **vista del verificador** oculta la entrada y el cruce; la **vista docente** los muestra para explicar el mecanismo.
+*   Sin secreto, la probabilidad de pasar **todas las k rondas independientes de una sesión fijada de antemano** es `2^-k`. No es la probabilidad posterior de que una persona mienta.
+*   Compara **1000 sesiones** con y sin secreto, y distingue valores esperados de resultados empíricos.
+*   El compromiso usa `C = SHA-256(r + ":" + mensaje)` con aleatoriedad privada r. Al abrirlo se entregan mensaje y r; **commit-reveal no es una ZKP**.
+*   Una ZKP de preimagen requeriría demostrar que existe un testigo que satisface la relación del hash, enviando una prueba sin entregar el testigo. Este HTML no implementa ese sistema criptográfico.
 
 ### C) **ZK-Rollups**
 
 *   **Secuenciamiento** → **loteo** → **prueba** → **verificación** → actualización de **state root**.
-*   Simula un lote inválido para discutir manejo de fallas.
+*   Modela costos y tiempos de loteo, generación y verificación. No genera pruebas criptográficas ni valida transacciones reales.
 
 ---
 
 ## 🧰 Guía de uso rápido
 
-1.  Abre **`Lighting_Dijstra_completo.html`** → “Generar red” → define **origen/destino** y **monto** → **“Ejecutar Dijkstra”**.
-2.  Abre **`ZPK_Simulador_hash.html`** → ingresa un mensaje → genera/verifica **hash**.
-3.  Abre **`ZPK_ROLLUP_SIMULADOR.HTML`** → agrega transacciones → **secuencia** → **prueba** → **verifica**.
+1.  Abre **`recursos/Lighting_Dijistra_completo.html`** → “Generar red” → define **origen/destino** y **monto** → **“Ejecutar Dijkstra”**.
+2.  Abre **`recursos/ZPK_Simulador_hash.html`** → **Siguiente paso** o **Jugar 1 ronda** → compara los modos con/sin secreto → revisa **Compromiso hash** y **Guía de estudio**.
+3.  Abre **`recursos/ZPK_ROLLUP_SIMULADOR.HTML`** → ajusta tamaño de lote y tasa de llegada → **Iniciar/Continuar** → compara **ZK-rollup** y **Validium**.
 
 ---
 
@@ -122,14 +126,17 @@
 *   En una red fija, subí el `ppm` de un hub.
 *   Medí cambio en **costo** y **ruta** óptima. Discute *pricing power*.
 
-**Lab 3 — Compromisos y verificación (ZKP)**
+**Lab 3 — Cueva, compromiso y ZKP**
 
-*   Publica `c = H(m)` para tres mensajes.
-*   Otro equipo verifica sin conocer `m` (revelás al final). Relación con **commit-reveal/MEV**.
+*   Ejecuta cinco rondas con el secreto activado: deben aceptarse todas. Desactívalo y observa aciertos y fallos.
+*   Explica por qué el desafío debe generarse después de la entrada y qué observa realmente el verificador.
+*   Compara `k = 1, 5, 10, 20` en 1000 sesiones. Calcula el número esperado de falsas aceptaciones `1000 × 2^-k`.
+*   Crea tres compromisos con mensajes ficticios. Publica C, conserva r privada y revela mensaje + r al abrir.
+*   Cambia el mensaje de apertura y observa el rechazo. Explica por qué una apertura correcta no prueba conocimiento cero.
 
 **Lab 4 — Data Availability (ZK-Rollups)**
 
-*   Inserta un lote inválido y observa el rechazo del verificador.
+*   Compara el costo del modelo con DA en L1 y fuera de L1. El simulador no permite inyectar lotes inválidos ni ejecuta un verificador criptográfico real.
 *   Debate: efectos de falla de disponibilidad de datos en **retiros** y confianza.
 
 ---
@@ -152,15 +159,18 @@
 ```bash
 u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
 ├── README.md
-├── Lighting_Dijstra_completo.html
-├── lightning.Dijstra.html
-├── Ligthling_Teoría.html
-├── ZPK_TEORIA.html
-├── ZPK_Glosario.html
-├── ZPK_Rollups.html
-├── ZPK_ROLLUP_SIMULADOR.HTML
-├── ZPK_Simulador_hash.html
-└── recursos/simulacion.gif
+├── index.html
+└── recursos/
+    ├── Lighting_Dijistra_completo.html
+    ├── lightning.Dijstra.html
+    ├── Ligthling_Teoría.html
+    ├── ZPK_TEORIA.html
+    ├── ZPK_Glosario.html
+    ├── ZPK_Rollups.html
+    ├── ZPK_ROLLUP_SIMULADOR.HTML
+    ├── ZPK_Simulador_hash.html
+    ├── ZPK_ Simulador_hash.html  # redirección compatible
+    └── simulacion.gif
 ```
 
 ---
@@ -177,7 +187,7 @@ u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
 **ZKP (esqueleto formal):**
 
 *   *Completeness* (acepta si verdad), *Soundness* (difícil engañar), *Zero-Knowledge* (no filtra info del testigo).
-*   Familias: Σ-protocols, zk-SNARKs (setup confiable), zk-STARKs (sin setup; pruebas más grandes).
+*   Familias: protocolos Σ, zk-SNARKs (el setup depende del esquema y sus compromisos polinomiales), zk-STARKs (transparentes; tamaño y rendimiento dependen de los parámetros).
 
 **ZK-Rollups:**
 
@@ -189,7 +199,7 @@ u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
 ## 🔁 Conexión curricular
 
 *   **Desde U3/U4**: plataformas DeFi, costos y latencia → aquí bajamos a **algoritmos** y **pruebas**.
-*   **Hacia U5**: *trading* y gestión de riesgo; lo aprendido (costos, latencia, MEV) se traduce en **slippage**, *fills* y riesgo operativo.
+*   **Hacia U6**: *trading* y gestión de riesgo; lo aprendido (costos, latencia, MEV) se traduce en **slippage**, *fills* y riesgo operativo.
 
 ---
 
@@ -197,8 +207,8 @@ u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
 
 *   [ ] Obtengo rutas válidas para `monto=500k msat` en ≥80% de instancias.
 *   [ ] Entiendo cómo `ppm` y `base_fee` cambian el **costo marginal**.
-*   [ ] Puedo explicar por qué `H(m)=c` permite verificación sin revelar `m`.
-*   [ ] Describo el flujo de una tx en **ZK-Rollup** y qué se publica en L1.
+*   [ ] Distingo hash, compromiso, apertura y ZKP; sé que verificar una apertura requiere recibir el valor y la aleatoriedad.
+*   [ ] Describo el flujo de una tx en **ZK-Rollup**, los datos publicados en L1 y la diferencia entre validez, privacidad, disponibilidad y finalidad.
 *   [ ] Relaciono **AMMs/MEV/regulación** con ejecución y diseño de incentivos.
 
 ---
@@ -210,3 +220,12 @@ u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/
 *   Para clases: abrir en **pantalla completa**; si el SVG se ve vacío, **“Generar red”** → **“Ejecutar Dijkstra”**.
 
 ---
+
+
+## Ruta recomendada para estudiar ZKP
+
+1. [Cueva de Alí Babá · laboratorio interactivo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html).
+2. [Teoría: afirmación, testigo y propiedades](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_TEORIA.html).
+3. [Glosario](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Glosario.html) y [arquitectura de rollups](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Rollups.html).
+
+La sigla estándar es **ZKP**. Se conservan los nombres históricos `ZPK_…` para no romper enlaces. El simulador tiene una ruta principal sin espacios; el archivo anterior con espacio redirige a ella.

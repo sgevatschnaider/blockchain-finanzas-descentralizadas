@@ -188,9 +188,9 @@
         </div>
       </div>
 
-      <p class="note">La “finalidad por lote” ≈ <b>tiempo para llenar el lote</b> + <b>tiempo de prueba</b> + <b>verificación en L1</b>.</p>
+      <p class="note">La latencia simplificada por lote ≈ <b>tiempo para llenar el lote</b> + <b>tiempo de prueba</b> + <b>verificación en L1</b>.</p>
       <div class="stat" style="margin-top:8px">
-        <div class="k">Finalidad por lote (estimada)</div>
+        <div class="k">Latencia por lote (modelo)</div>
         <div class="v warn" id="mFinality">—</div>
       </div>
     </section>
@@ -213,7 +213,8 @@
     </section>
   </div>
 
-  <div class="footer">Consejo: sube el <b>tamaño de lote</b> y verás bajar el <b>fee por tx</b> (mejor amortización), pero la <b>finalidad</b> puede empeorar si la tasa de llegada es baja. Cambia a <b>Validium</b> y compara costo vs. confianza en datos.</div>
+  <div class="footer">Consejo: sube el <b>tamaño de lote</b> y verás bajar el <b>fee por tx</b> (mejor amortización), pero la <b>latencia del modelo</b> puede aumentar si la tasa de llegada es baja. Cambia a <b>Validium</b> y compara costo vs. confianza en datos.</div>
+  <div class="footer"><b>Alcance del modelo:</b> esta animación calcula costos y tiempos hipotéticos; no genera ni verifica una prueba ZKP real. El costo de datos representa un modelo simplificado de calldata, sin mercado de blobs, costos completos del operador ni todas las reglas de gas. La latencia mostrada excluye inclusión y finalidad de L1. Una prueba de validez no garantiza por sí sola privacidad ni disponibilidad de datos. <a href="ZPK_TEORIA.html" style="color:inherit">Leer teoría</a> · <a href="../" style="color:inherit">Volver a U5</a></div>
   <div class="credit">Material elaborado por el profesor Sergio Gevatschnaider</div>
 </div>
 
@@ -500,7 +501,7 @@ function drawBG(){
   text((layout.provX+12)*DPR, (layout.provY+layout.provH-36)*DPR, `Prueba: ${batch.state==='prove'? fmt(Math.min(100,batch.t/batch.tProve*100),0): (batch.state==='verify'? "100":"0")}%`, 12, "#e9ddff");
   text((layout.l1X+12)*DPR, (layout.l1Y+12)*DPR, `Verificación on-chain: ${controls.verifyTime}s`, 12, "#dfe8ff");
   text((layout.l1X+12)*DPR, (layout.l1Y+34)*DPR, `Fee/tx: ${fmt(m.perTxGas,0)} gas  ·  ${fmt(m.perTxETH,6)} ETH  ·  $${fmt(m.perTxUSD,4)}`, 12, "#ffe8b7");
-  text((layout.l1X+12)*DPR, (layout.l1Y+56)*DPR, `TPS ≈ ${fmt(m.tpsEff,1)}  |  Finalidad ≈ ${fmt(m.finality,1)}s`, 12, "#cfe2ff");
+  text((layout.l1X+12)*DPR, (layout.l1Y+56)*DPR, `TPS ≈ ${fmt(m.tpsEff,1)}  |  Latencia ≈ ${fmt(m.finality,1)}s`, 12, "#cfe2ff");
 }
 
 function loop(now){
@@ -520,3 +521,4 @@ requestAnimationFrame(loop);
 </script>
 </body>
 </html>
+

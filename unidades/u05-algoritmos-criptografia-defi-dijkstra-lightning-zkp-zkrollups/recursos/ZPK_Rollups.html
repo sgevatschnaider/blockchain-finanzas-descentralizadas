@@ -87,6 +87,7 @@
       <p class="subtitle">La Arquitectura de la Eficiencia y la Seguridad</p>
     </header>
 
+    <nav aria-label="Recursos ZKP"><a href="../">← Unidad 5</a> · <a href="ZPK_Simulador_hash.html">Cueva de Alí Babá</a> · <a href="ZPK_TEORIA.html">Teoría</a> · <a href="ZPK_ROLLUP_SIMULADOR.HTML">Simulador de lotes</a></nav>
     <div class="lesson-container">
 
         <div class="topic-card open">
@@ -124,7 +125,7 @@
                              <div class="diagram-section-title">Capa 1 (On-chain)</div>
                              <div class="diagram-box"><strong>4. Publicación en L1</strong><span>La prueba ZK y los datos comprimidos se envían a un contrato en L1.</span></div>
                              <div class="diagram-arrow down"></div>
-                             <div class="diagram-box"><strong>5. Verificación en L1</strong><span>El contrato L1 verifica la prueba (rápido y barato) y finaliza el estado.</span></div>
+                             <div class="diagram-box"><strong>5. Verificación en L1</strong><span>El contrato comprueba la prueba y actualiza la raíz; la finalidad depende también de L1.</span></div>
                         </div>
                     </div>
                 </div>
@@ -150,8 +151,8 @@
         <div class="topic-card">
             <div class="topic-header"><span class="topic-title">5. Fundamentos de Confianza: Seguridad y Finalidad</span><i class="fas fa-chevron-down expand-icon"></i></div>
             <div class="topic-content">
-                <p>La robustez de los ZK-rollups se basa en garantías criptográficas, no en confianza. Su principal ventaja es el uso de <strong>pruebas de validez (validity proofs)</strong>: la L1 no necesita confiar en que el operador de la L2 sea honesto, ya que la validez de cada lote está matemáticamente demostrada por la ZKP. Esto conduce a una <strong>finalidad rápida</strong>: una vez que la prueba se verifica en L1, el estado se considera final.</p>
-                <p>Un matiz importante es la <strong>disponibilidad de datos (Data Availability)</strong>. Un ZK-rollup estricto publica los datos en L1, asegurando que cualquiera pueda reconstruir el estado. Un <strong>Validium</strong> mantiene los datos fuera de L1 para reducir costes, pero introduce un supuesto de confianza adicional.</p>
+                <p>Las <strong>pruebas de validez</strong> permiten verificar que una transición de estado satisface las restricciones del circuito. La seguridad depende de la criptografía, el circuito, los contratos, el puente y los permisos de actualización. Una confirmación del secuenciador es distinta de la liquidación del lote: se debe generar y publicar la prueba, incluirla en L1 y alcanzar la finalidad de L1. Por eso no corresponde identificar la verificación aislada con finalidad inmediata.</p>
+                <p>Un matiz importante es la <strong>disponibilidad de datos (Data Availability)</strong>. Un ZK-rollup estricto publica los datos en L1, asegurando que cualquiera pueda reconstruir el estado. Un <strong>Validium</strong> mantiene los datos fuera de L1 para reducir costes, pero introduce supuestos adicionales de disponibilidad. Aunque la prueba sea válida, retener esos datos puede impedir reconstruir el estado o retirar fondos. La validez criptográfica y la disponibilidad son garantías diferentes.</p>
             </div>
         </div>
 
@@ -160,9 +161,9 @@
             <div class="topic-content">
                  <ul>
                     <li><strong>Mayor Rendimiento (TPS) y Tasas Bajas:</strong> Reemplazar la ejecución costosa por una verificación barata multiplica las transacciones por segundo y reduce las comisiones en órdenes de magnitud.</li>
-                    <li><strong>Privacidad Opcional:</strong> La naturaleza de las ZKP permite diseñar aplicaciones que prueben condiciones sin exponer datos subyacentes.</li>
+                    <li><strong>Privacidad según el diseño:</strong> usar una prueba de validez no vuelve confidenciales las transacciones. Se debe examinar qué datos son públicos, cuáles se publican para disponibilidad y qué protege realmente la prueba.</li>
                     <li><strong>Compatibilidad EVM:</strong> Muchos ZK-rollups son compatibles con la Ethereum Virtual Machine, facilitando la migración de dApps existentes.</li>
-                    <li><strong>Reducción de MEV y Latencia:</strong> La secuenciación controlada puede mitigar ciertas formas de Valor Máximo Extraíble (MEV) y acelerar las transacciones.</li>
+                    <li><strong>Secuenciación y MEV:</strong> los incentivos y el control del orden pueden producir MEV y censura. Una prueba válida verifica las reglas del circuito, pero no garantiza una política de ordenamiento justa.</li>
                 </ul>
             </div>
         </div>
