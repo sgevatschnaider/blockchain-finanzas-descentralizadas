@@ -1,5 +1,13 @@
 # U5 — Algoritmos y Criptografía para DeFi: Dijkstra en Lightning, ZKP y ZK-Rollups
 
+> **ZKP · Versión mejorada del 29/09/2026**
+>
+> **[ABRIR LA CUEVA DE ALÍ BABÁ — NUEVA VERSIÓN](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html?v=20260929-2)**
+>
+> [Abrir el campus actualizado de la unidad 5](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/?v=20260929-2) · [Leer la teoría ZKP](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_TEORIA.html?v=20260929-2)
+>
+> La versión nueva tiene tres pestañas: **Cueva de Alí Babá**, **Compromiso hash** y **Guía de estudio**. Para usarla, abrí el enlace anterior; la vista de archivos HTML en GitHub muestra su código.
+
 [![Unidad](https://img.shields.io/badge/Unidad-5-blueviolet)](#)
 [![Dominio](https://img.shields.io/badge/%C3%A1rea-Sistemas%20Financieros%20Digitales-0b7285)](#)
 [![Interactividad](https://img.shields.io/badge/recursos-HTML5-green?logo=HTML5)](#)

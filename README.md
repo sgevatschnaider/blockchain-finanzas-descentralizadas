@@ -15,7 +15,7 @@ Campus docente de nivel posgrado elaborado por el profesor **Sergio Gevatschnaid
 - [U2 · Bitcoin, consenso y seguridad](unidades/u02-criptoactivos-consenso-seguridad/)
 - [U3 · Ethereum — abrir campus interactivo](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u03-ethereum/)
 - [U4 · IoT, IA/ML y Metaverso](unidades/u04-iot-ia-metaverso/)
-- [U5 · Algoritmos y criptografía aplicada](unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/)
+- **[U5 · Abrir campus mejorado de ZKP](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/?v=20260929-2)** · [Cueva de Alí Babá](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html?v=20260929-2) · [Archivos de la unidad](unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/)
 - [U6 · Indicadores y trading](unidades/u06-indicadores-trading/)
 - [U7 · Python y Blockchain Analytics](unidades/u07-python-blockchain-analytics/)
 
