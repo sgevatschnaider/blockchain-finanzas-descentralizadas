@@ -53,7 +53,19 @@ print('PPTX: integridad, diapositivas, notas y autoría correctas')
   if(!guide.startsWith('%PDF-')||(guide.match(/\/Type\s*\/Page\b/g)||[]).length!==33) throw new Error('U8: guía PDF inconsistente');
   const content = JSON.parse(fs.readFileSync(path.join(unit,'recursos/guia-contenido.json'),'utf8'));
   if(content.labs.length!==8||content.generalVocabulary.length!==47)throw new Error('U8: contenido de guía incompleto');
-  console.log('U8: cinco presentaciones, 89 diapositivas, ocho laboratorios, guía de 33 páginas y autoría verificados.');
+  const glossary = JSON.parse(fs.readFileSync(path.join(unit,'recursos/glosario-datos.json'),'utf8'));
+  const termIds=new Set(glossary.terms.map(x=>x.id));
+  if(glossary.terms.length!==145||termIds.size!==145||new Set(glossary.terms.map(x=>x.category)).size!==16)throw new Error('U8: glosario incompleto o duplicado');
+  if(glossary.terms.filter(x=>Number.isInteger(x.originalIndex)).length!==133||new Set(glossary.terms.filter(x=>Number.isInteger(x.originalIndex)).map(x=>x.originalIndex)).size!==133)throw new Error('U8: se perdió un término original');
+  for(const item of glossary.terms){for(const lang of ['es','en'])if(!item[lang]||!item.example[lang]||!item.caution[lang])throw new Error('U8: desarrollo bilingüe incompleto '+item.id);for(const id of item.related)if(!termIds.has(id))throw new Error('U8: referencia de glosario ausente '+id);for(const n of item.labs)if(!catalog.labs[n-1])throw new Error('U8: vínculo de laboratorio inválido');}
+  const glossaryHTML=fs.readFileSync(path.join(unit,'recursos/glosario.html'),'utf8');
+  if((glossaryHTML.match(/class="glossary-card"/g)||[]).length!==145||!glossaryHTML.includes(glossary.author)||/<script[^>]*src=/.test(glossaryHTML))throw new Error('U8: HTML del glosario incompleto o no autocontenido');
+  const before=glossaryHTML;
+  const generated=spawnSync('python3',[path.join(root,'scripts/build-u08-glossary.py')],{encoding:'utf8'});
+  if(generated.status!==0||fs.readFileSync(path.join(unit,'recursos/glosario.html'),'utf8')!==before)throw new Error('U8: glosario generado desactualizado');
+  const unitHTML=fs.readFileSync(path.join(unit,'index.html'),'utf8');
+  if(!unitHTML.includes('data-glossary')||!unitHTML.includes('data-tiktok')||!unitHTML.includes('https://sgevatschnaider.github.io/es/articulos/tiktok/index.html'))throw new Error('U8: accesos a glosario o artículo ausentes');
+  console.log('U8: cinco presentaciones, 89 diapositivas, ocho laboratorios, guía de 33 páginas, glosario de 145 términos y autoría verificados.');
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) validateU08();

@@ -66,8 +66,17 @@ Los módulos y estilos son locales; no necesitan APIs ni cotizaciones. Para ejec
 
 El texto fuente de la guía está en [guia-contenido.json](recursos/guia-contenido.json); el generador [build-u08-guide.py](../../scripts/build-u08-guide.py) recrea HTML y PDF con ReportLab y tipografías DejaVu Sans.
 
-La guía conserva y desarrolla todos sus vocabularios originales, actualiza controles y agrega ejemplos comprobables. El glosario independiente se elaborará en la siguiente etapa.
+La guía conserva y desarrolla todos sus vocabularios originales, actualiza controles y agrega ejemplos comprobables. El [glosario independiente de 145 términos](recursos/glosario.html) conserva los 133 conceptos recibidos y agrega 12 complementarios para cubrir los laboratorios y la lectura recomendada. Cada entrada incluye definición ES/EN, ejemplo, lectura crítica, términos relacionados y laboratorio. Ofrece búsqueda sin distinción de acentos, filtros combinados, enlaces por término, impresión, descarga HTML autocontenida y temas compartidos con la unidad.
 
 Verificación adicional: `node scripts/test-u08-math.mjs` y `node scripts/browser-u08-labs.cjs` (este último requiere Playwright, Chromium y servidor HTTP en el puerto 4173).
+
+## Glosario y lectura complementaria
+
+- [Consultar glosario · 145 términos](recursos/glosario.html).
+- [Leer artículo: TikTok y GNN ↗](https://sgevatschnaider.github.io/es/articulos/tiktok/index.html), **Cómo TikTok sabe lo que querés ver**, del profesor Sergio Gevatschnaider.
+
+Lectura recomendada después del laboratorio 06. Comparar el grafo bipartito usuario-video con un grafo de direcciones o transacciones; identificar atributos, vecinos y objetivo. El artículo ofrece una analogía didáctica: su fórmula de ranking no documenta la arquitectura interna de TikTok. La documentación pública de TikTok sobre recomendaciones aparece entre las fuentes del glosario.
+
+El glosario descargado puede abrirse directamente sin servidor ni conexión para consultar y filtrar términos; navegar al campus o a fuentes externas requiere internet. Su fuente está en [glosario-datos.json](recursos/glosario-datos.json) y se reconstruye con `python3 scripts/build-u08-glossary.py`. La CI verifica conservación, bilingüismo, filtros, vínculos, impresión y diseño 1440/390/320.
 
 [← U7 · Python y Blockchain Analytics](../u07-python-blockchain-analytics/) · [Campus](../../index.html)

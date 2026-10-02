@@ -50,3 +50,14 @@ jobs:
           name: u08-laboratorios-qa
           path: artifacts/u08-laboratorios-qa
           retention-days: 14
+      - name: Verificar glosario y accesos U8
+        run: |
+          python3 -m http.server 4173 > /tmp/u08-glossary-http.log 2>&1 &
+          node scripts/browser-u08-glossary.cjs
+      - name: Conservar capturas del glosario
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: u08-glosario-qa
+          path: artifacts/u08-glosario-qa
+          retention-days: 14

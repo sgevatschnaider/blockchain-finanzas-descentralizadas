@@ -54,4 +54,14 @@ El diseño incorpora gráficos de ancho completo, colores de alto contraste, con
 
 Las comprobaciones de cálculo se contrastan con NumPy, scikit-learn y NetworkX; las fórmulas recurrentes y sus conteos se contrastan con la documentación oficial de PyTorch durante la revisión. La CI incluye controles de navegador para los ocho laboratorios, reinicios, límites, idioma, tema, exportación, fullscreen y anchos 1440/390/320; sus capturas quedan en el artefacto `u08-laboratorios-qa`. La guía PDF se renderiza y revisa visualmente.
 
-El glosario independiente es la etapa siguiente; los vocabularios de la guía ya están desarrollados.
+## Glosario y artículo complementario
+
+Se conserva la totalidad de los 133 términos del HTML recibido y se desarrolla cada uno con un ejemplo y una lectura crítica en español e inglés. Se agregan 12 conceptos necesarios: neurona, UTXO, ridge, purga, disponibilidad, fuerza, densidad, self-loop, pooling, SHAP interventional, grafo bipartito y filtrado colaborativo. Total: **145 entradas y 16 áreas**.
+
+Se alinean las definiciones con los cálculos reales de los laboratorios: baseline cero/cash, maduración de etiquetas, GCN simétrica, concatenación GraphSAGE, GAT de una cabeza, convención GRU de PyTorch, conteos de parámetros y SHAP lineal con referencia variable. Se corrigen distinciones entre dirección e identidad, grado y fuerza, gas y fee, explicación y causalidad.
+
+El glosario incorpora búsqueda insensible a acentos, filtros combinados y reflejados en la URL, enlaces por término, referencias cruzadas, acceso a laboratorios, temas compartidos, ES/EN, expansión, impresión de visibles y descarga HTML autocontenida. El contenido existe en HTML aun sin JavaScript; la búsqueda y cambio de idioma requieren JavaScript. Las referencias y rutas se validan en CI.
+
+El artículo **Cómo TikTok sabe lo que querés ver**, del profesor Sergio Gevatschnaider, se leyó desde su fuente publicada y se incorpora mediante un botón destacado en la unidad, el visor, el hub, los ocho laboratorios, la guía y el glosario. El contexto docente identifica su modelo como analogía didáctica y no como documentación de la arquitectura interna de TikTok. No se modifica el artículo externo.
+
+Los vocabularios de la guía permanecen desarrollados; el PDF de 33 páginas conserva su edición verificada.
