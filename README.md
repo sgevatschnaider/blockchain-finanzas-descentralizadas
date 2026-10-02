@@ -18,6 +18,7 @@ Campus docente de nivel posgrado elaborado por el profesor **Sergio Gevatschnaid
 - **[U5 · Abrir campus mejorado de ZKP](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/?v=20260929-2)** · [Cueva de Alí Babá](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/recursos/ZPK_Simulador_hash.html?v=20260929-2) · [Archivos de la unidad](unidades/u05-algoritmos-criptografia-defi-dijkstra-lightning-zkp-zkrollups/)
 - [U6 · Indicadores y trading](unidades/u06-indicadores-trading/)
 - [U7 · Python y Blockchain Analytics](unidades/u07-python-blockchain-analytics/)
+- **[U8 · Redes neuronales, LSTM y GNN — abrir unidad](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u08-redes-neuronales-lstm-gnn-blockchain/)** · [Presentaciones revisadas](https://sgevatschnaider.github.io/blockchain-finanzas-descentralizadas/unidades/u08-redes-neuronales-lstm-gnn-blockchain/materiales/)
 
 ## Ruta didáctica
 
@@ -31,6 +32,7 @@ Campus docente de nivel posgrado elaborado por el profesor **Sergio Gevatschnaid
 | U5 | Dijkstra, Lightning, ZKP y ZK-rollups | Laboratorios algorítmicos y criptográficos |
 | U6 | Trading y gestión del riesgo | Simuladores, guías y notebook LSTM |
 | U7 | Python y datos on-chain | Código y proyecto de analítica reproducible |
+| U8 | Redes neuronales, LSTM y GNN | 5 presentaciones revisadas, 89 diapositivas, notas docentes y proyecto integrador |
 
 La inserción de Ethereum como U3 desplazó las unidades históricas a U4–U7. Se conservan redirecciones en las rutas anteriores y una copia compatible del notebook de trading para no romper enlaces de Colab.
 
@@ -51,12 +53,14 @@ unidades/u04-...            U4
 unidades/u05-...            U5
 unidades/u06-...            U6
 unidades/u07-...            U7
+unidades/u08-...            U8
 ```
 
 ## Validación local
 
 ```bash
 node scripts/validate-static-site.mjs
+node scripts/validate-u08.mjs
 python -m pytest -q
 ```
 
@@ -65,3 +69,4 @@ Las validaciones específicas de M0, U1 y U2 permanecen en sus respectivas carpe
 ## Contribuciones y licencia
 
 Antes de proponer cambios, consultar [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) y [SECURITY.md](SECURITY.md). La licencia se encuentra en [LICENSE](LICENSE).
+

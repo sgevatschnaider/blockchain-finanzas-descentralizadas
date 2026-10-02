@@ -1,0 +1,72 @@
+[
+  {
+    "id": "u08-00",
+    "order": 0,
+    "title": "Introducción a las redes neuronales",
+    "subtitle": "Fundamentos para comprender LSTM y GNN",
+    "description": "Neurona artificial, activaciones, capas, pérdidas, entrenamiento, generalización y elección de arquitectura.",
+    "slides": 18,
+    "pdf": "pdf/U8_00_Introduccion_Redes_Neuronales_Sergio_Gevatschnaider.pdf",
+    "pptx": "pptx/U8_00_Introduccion_Redes_Neuronales_Sergio_Gevatschnaider.pptx",
+    "thumbnail": "thumbs/u08-00.webp",
+    "googlePublic": false,
+    "googleAccess": "not-configured",
+    "relatedLabs": []
+  },
+  {
+    "id": "u08-01",
+    "order": 1,
+    "title": "Metodología y arquitectura de ML en blockchain",
+    "subtitle": "Diseño del experimento, datos y validación temporal",
+    "description": "Objetivos, variables BTC/ETH, disponibilidad del dato, baselines, walk-forward, leakage y métricas.",
+    "slides": 16,
+    "pdf": "pdf/U8_01_Metodologia_ML_Blockchain_Sergio_Gevatschnaider.pdf",
+    "pptx": "pptx/U8_01_Metodologia_ML_Blockchain_Sergio_Gevatschnaider.pptx",
+    "thumbnail": "thumbs/u08-01.webp",
+    "googlePublic": false,
+    "googleAccess": "not-configured",
+    "relatedLabs": []
+  },
+  {
+    "id": "u08-02",
+    "order": 2,
+    "title": "LSTM y GRU para Bitcoin y Ethereum",
+    "subtitle": "Ventanas causales, memoria y evaluación fuera de muestra",
+    "description": "Secuencias, ecuaciones de LSTM y GRU, ejemplos de compuertas, preparación de ventanas y entrenamiento temporal.",
+    "slides": 19,
+    "pdf": "pdf/U8_02_LSTM_GRU_Bitcoin_Ethereum_Sergio_Gevatschnaider.pdf",
+    "pptx": "pptx/U8_02_LSTM_GRU_Bitcoin_Ethereum_Sergio_Gevatschnaider.pptx",
+    "thumbnail": "thumbs/u08-02.webp",
+    "googlePublic": false,
+    "googleAccess": "not-configured",
+    "relatedLabs": []
+  },
+  {
+    "id": "u08-03",
+    "order": 3,
+    "title": "GNN aplicadas a blockchain",
+    "subtitle": "Grafos de transacciones, message passing y evaluación temporal",
+    "description": "Diseño de grafos, GCN, GraphSAGE, GAT, Elliptic, heterogeneidad y prevención de fuga estructural.",
+    "slides": 20,
+    "pdf": "pdf/U8_03_GNN_Blockchain_Grafos_Sergio_Gevatschnaider.pdf",
+    "pptx": "pptx/U8_03_GNN_Blockchain_Grafos_Sergio_Gevatschnaider.pptx",
+    "thumbnail": "thumbs/u08-03.webp",
+    "googlePublic": false,
+    "googleAccess": "not-configured",
+    "relatedLabs": []
+  },
+  {
+    "id": "u08-04",
+    "order": 4,
+    "title": "Integrador LSTM y GNN",
+    "subtitle": "Información temporal, topología y proyecto reproducible",
+    "description": "Pooling de grafos, fusión temporal, ablaciones, SHAP, drift, backtesting y rúbrica del proyecto.",
+    "slides": 16,
+    "pdf": "pdf/U8_04_Integrador_LSTM_GNN_Sergio_Gevatschnaider.pdf",
+    "pptx": "pptx/U8_04_Integrador_LSTM_GNN_Sergio_Gevatschnaider.pptx",
+    "thumbnail": "thumbs/u08-04.webp",
+    "googlePublic": false,
+    "googleAccess": "not-configured",
+    "relatedLabs": []
+  }
+]

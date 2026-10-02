@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateU08 } from "./validate-u08.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ignored = new Set([".git", "node_modules", "tmp", "dist"]);
@@ -125,8 +126,10 @@ for (const redirect of redirectRoots) {
   if (!/http-equiv=["']refresh["']/i.test(text) || !/rel=["']canonical["']/i.test(text)) fail(`${redirect}: redirección incompleta`);
 }
 
+try { validateU08(root); } catch (error) { fail(error.message); }
+
 if (errors.length) {
   console.error(`Validación fallida (${errors.length}):\n- ${errors.join("\n- ")}`);
   process.exit(1);
 }
-console.log(`Validación correcta: ${files.length} archivos; 6 decks; 12 laboratorios; rutas y IDs verificados.`);
+console.log(`Validación correcta: ${files.length} archivos; presentaciones U3/U8; 12 laboratorios; rutas y IDs verificados.`);

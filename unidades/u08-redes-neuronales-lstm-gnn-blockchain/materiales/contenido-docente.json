@@ -1,0 +1,2182 @@
+{
+  "author": "Material elaborado por el profesor Sergio Gevatschnaider.",
+  "version": "2026-10-02",
+  "references": {
+    "optimization": [
+      "Goodfellow, Bengio y Courville (2016). Deep Learning, capítulo 8",
+      "https://www.deeplearningbook.org/contents/optimization.html"
+    ],
+    "lstm": [
+      "Hochreiter y Schmidhuber (1997). Long Short-Term Memory",
+      "https://www.bioinf.jku.at/publications/older/2604.pdf"
+    ],
+    "pytorchLSTM": [
+      "PyTorch. LSTM: ecuaciones, estados y dimensiones",
+      "https://docs.pytorch.org/docs/stable/generated/torch.nn.LSTM.html"
+    ],
+    "gru": [
+      "Cho et al. (2014). Learning Phrase Representations using RNN Encoder-Decoder",
+      "https://arxiv.org/abs/1406.1078"
+    ],
+    "pytorchGRU": [
+      "PyTorch. GRU: convención de actualización y candidato",
+      "https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html"
+    ],
+    "transformer": [
+      "Vaswani et al. (2017). Attention Is All You Need",
+      "https://arxiv.org/abs/1706.03762"
+    ],
+    "gcn": [
+      "Kipf y Welling (2017). Semi-Supervised Classification with GCN",
+      "https://arxiv.org/abs/1609.02907"
+    ],
+    "sage": [
+      "Hamilton, Ying y Leskovec (2017). Inductive Representation Learning",
+      "https://arxiv.org/abs/1706.02216"
+    ],
+    "gat": [
+      "Veličković et al. (2018). Graph Attention Networks",
+      "https://arxiv.org/abs/1710.10903"
+    ],
+    "elliptic": [
+      "Weber et al. (2019). Anti-Money Laundering in Bitcoin",
+      "https://arxiv.org/abs/1908.02591"
+    ],
+    "shap": [
+      "Lundberg y Lee (2017). A Unified Approach to Interpreting Model Predictions",
+      "https://arxiv.org/abs/1705.07874"
+    ],
+    "split": [
+      "scikit-learn. TimeSeriesSplit",
+      "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html"
+    ],
+    "leakage": [
+      "scikit-learn. Common pitfalls and recommended practices",
+      "https://scikit-learn.org/stable/common_pitfalls.html"
+    ],
+    "appliedLSTM": [
+      "Kaur et al. (2025). Cryptocurrency prediction with GRU and LSTM",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC11935774/"
+    ],
+    "volatility": [
+      "Moiz y Raza (2026). Deep learning and GARCH family models",
+      "https://mf-journal.com/article/view/370"
+    ],
+    "temporalGAT": [
+      "Zheng, Zhou y Song (2025). Temporal-Aware Graph Attention Network",
+      "https://arxiv.org/abs/2506.21382"
+    ],
+    "illicit": [
+      "Graph Network Models To Detect Illicit Transactions In Block Chain (2024)",
+      "https://arxiv.org/abs/2410.07150"
+    ]
+  },
+  "decks": [
+    {
+      "id": "u08-00",
+      "order": 0,
+      "slug": "U8_00_Introduccion_Redes_Neuronales",
+      "short": "Redes neuronales",
+      "accent": "#0369a1",
+      "title": "Introducción a las redes neuronales",
+      "subtitle": "Fundamentos para comprender LSTM y GNN",
+      "source": null,
+      "description": "Neurona artificial, activaciones, capas, pérdidas, entrenamiento, generalización y elección de arquitectura.",
+      "slides": [
+        {
+          "title": "Redes neuronales",
+          "type": "cover",
+          "subtitle": "Fundamentos para comprender LSTM y GNN aplicadas a blockchain"
+        },
+        {
+          "title": "Qué aprende una red neuronal",
+          "blocks": [
+            [
+              "Función parametrizada",
+              "Una red transforma variables de entrada en una salida mediante operaciones cuyos pesos aprende a partir de ejemplos."
+            ],
+            [
+              "Aprendizaje supervisado",
+              "Cada ejemplo combina características X con un objetivo y. El entrenamiento ajusta parámetros para reducir una pérdida."
+            ],
+            [
+              "Generalización",
+              "El valor del modelo se evalúa sobre observaciones que quedaron fuera del entrenamiento."
+            ]
+          ],
+          "note": "La inspiración biológica es una analogía histórica. El modelo utilizado aquí es una función matemática. Una característica describe lo disponible al decidir. El objetivo representa lo que se intenta estimar. En blockchain podemos predecir una variable temporal o clasificar un nodo con etiqueta válida. El aprendizaje depende del problema, de la calidad del dato y de la evaluación.",
+          "sources": [
+            "optimization"
+          ]
+        },
+        {
+          "title": "Entradas, capas ocultas y salida",
+          "type": "table",
+          "headers": [
+            "Componente",
+            "Función",
+            "Ejemplo en blockchain"
+          ],
+          "rows": [
+            [
+              "Entrada",
+              "Recibe características medidas",
+              "Retorno, volumen, gas o atributos de un nodo"
+            ],
+            [
+              "Capas ocultas",
+              "Construyen representaciones intermedias",
+              "Combinaciones aprendidas de actividad y mercado"
+            ],
+            [
+              "Salida",
+              "Produce una estimación del objetivo",
+              "Retorno, probabilidad o volatilidad"
+            ],
+            [
+              "Parámetros",
+              "Pesos y sesgos aprendibles",
+              "Valores que se ajustan durante el entrenamiento"
+            ]
+          ],
+          "note": "Una capa densa transforma un vector mediante una matriz y un sesgo. Varias capas con activaciones no lineales pueden representar relaciones complejas. La capa de salida se elige según el objetivo. La probabilidad que produce el modelo necesita comprobarse con calibración y datos fuera de muestra."
+        },
+        {
+          "title": "La neurona artificial",
+          "type": "formula",
+          "equations": [
+            "z = w₁x₁ + w₂x₂ + ... + b",
+            "a = φ(z)"
+          ],
+          "blocks": [
+            [
+              "Pesos w",
+              "Modulan la contribución de cada entrada. El signo y la escala dependen de la representación del dato."
+            ],
+            [
+              "Sesgo b y activación φ",
+              "El sesgo desplaza la respuesta. La activación introduce una transformación no lineal."
+            ]
+          ],
+          "note": "z es la combinación afín de las entradas. a es la activación. Sin activaciones no lineales, una sucesión de capas densas conserva una transformación afín equivalente, por profunda que sea. Los pesos de una capa oculta no suelen interpretarse como efectos causales independientes."
+        },
+        {
+          "title": "Ejemplo numérico de una neurona",
+          "type": "formula",
+          "equations": [
+            "x = (0,5; -1,0)       w = (0,8; -0,2)       b = 0,1",
+            "z = 0,8 × 0,5 + (-0,2) × (-1,0) + 0,1 = 0,7",
+            "ReLU(z) = 0,7"
+          ],
+          "blocks": [
+            [
+              "Lectura del cálculo",
+              "Las entradas ya están escaladas. La salida corresponde a una activación interna."
+            ],
+            [
+              "Alcance",
+              "Ejemplo matemático ilustrativo. Estos números no provienen de datos de BTC o ETH."
+            ]
+          ],
+          "note": "La primera entrada aporta 0,4. La segunda aporta 0,2. El sesgo agrega 0,1. La suma es 0,7. ReLU conserva el resultado positivo. Una activación de 0,7 no es automáticamente una probabilidad. Para una clasificación binaria se puede utilizar una salida sigmoide sobre un logit y una pérdida compatible."
+        },
+        {
+          "title": "Funciones de activación",
+          "type": "activation",
+          "note": "Las curvas representan funciones matemáticas exactas evaluadas entre -4 y 4. ReLU(z)=max(0,z), sigmoide(z)=1/(1+exp(-z)) y tanh(z) es la tangente hiperbólica. Las funciones tienen rangos y derivadas diferentes. Una activación oculta no establece por sí misma el tipo de problema ni asegura buena generalización."
+        },
+        {
+          "title": "Propagación hacia adelante",
+          "type": "formula",
+          "equations": [
+            "h = ReLU(W₁x + b₁)",
+            "ŷ = W₂h + b₂"
+          ],
+          "blocks": [
+            [
+              "Cálculo de la predicción",
+              "La entrada atraviesa las capas con los parámetros actuales. Para regresión, la última salida puede ser lineal."
+            ],
+            [
+              "Profundidad",
+              "Agregar capas aumenta la capacidad del modelo y también la necesidad de datos y regularización."
+            ]
+          ],
+          "note": "Forward pass significa calcular una predicción, sin actualizar todavía los parámetros. En una implementación se procesa un lote de ejemplos. La salida de la primera capa es la entrada de la siguiente. La profundidad no implica superioridad empírica. Se contrasta con un modelo lineal y con otros baselines bajo la misma validación."
+        },
+        {
+          "title": "Objetivo, salida y pérdida",
+          "type": "table",
+          "headers": [
+            "Problema",
+            "Salida habitual",
+            "Pérdida o evaluación"
+          ],
+          "rows": [
+            [
+              "Retorno futuro",
+              "Valor real",
+              "MSE o MAE"
+            ],
+            [
+              "Dirección",
+              "Logit o probabilidad",
+              "Entropía cruzada binaria"
+            ],
+            [
+              "Volatilidad",
+              "Estimación positiva",
+              "Pérdida sobre varianza o log-varianza"
+            ],
+            [
+              "Clase de un nodo",
+              "Logits por clase",
+              "Entropía cruzada con máscara de etiquetas"
+            ]
+          ],
+          "note": "La pérdida orienta el entrenamiento y la métrica evalúa el resultado. Pueden diferir. En clasificación binaria, una implementación numéricamente estable aplica la pérdida directamente a logits. En volatilidad se puede estimar log-varianza y transformar la salida para mantener positividad. Los nodos sin etiqueta conocida no aportan a la pérdida supervisada."
+        },
+        {
+          "title": "Ejemplo de error cuadrático",
+          "type": "formula",
+          "equations": [
+            "y = (1,0; -1,0)       ŷ = (0,5; 0,5)",
+            "MSE = [(1,0 - 0,5)² + (-1,0 - 0,5)²] / 2",
+            "MSE = (0,25 + 2,25) / 2 = 1,25"
+          ],
+          "blocks": [
+            [
+              "Unidades",
+              "Si los retornos se expresan en puntos porcentuales, el MSE se expresa en puntos porcentuales al cuadrado."
+            ],
+            [
+              "Interpretación",
+              "El segundo error pesa más porque la pérdida eleva al cuadrado su magnitud."
+            ]
+          ],
+          "note": "Ejemplo ilustrativo sin resultados empíricos. El RMSE de este ejemplo es aproximadamente 1,118 puntos porcentuales. El MAE es 1 punto porcentual. Una escala de entrada o de objetivo distinta cambia los números. Al reportar métricas debe documentarse si los retornos están en fracción o en porcentaje."
+        },
+        {
+          "title": "Descenso del gradiente",
+          "type": "formula",
+          "equations": [
+            "θ nuevo = θ actual - η ∇θ L",
+            "w actual = 0,8       η = 0,1       ∂L/∂w = 0,3",
+            "w nuevo = 0,8 - 0,1 × 0,3 = 0,77"
+          ],
+          "blocks": [
+            [
+              "Tasa de aprendizaje η",
+              "Controla la magnitud del paso. Un valor alto puede desestabilizar el entrenamiento."
+            ],
+            [
+              "Gradiente",
+              "Indica cómo cambia la pérdida al variar un parámetro en el punto actual."
+            ]
+          ],
+          "note": "El ejemplo muestra una actualización de un parámetro escalar. En una red hay muchas matrices y vectores. Adam combina estimaciones de momentos del gradiente y es una alternativa habitual a SGD. El entrenamiento estocástico no garantiza que cada actualización disminuya la pérdida medida en todo el conjunto.",
+          "sources": [
+            "optimization"
+          ]
+        },
+        {
+          "title": "Retropropagación y entrenamiento",
+          "blocks": [
+            [
+              "Predicción y pérdida",
+              "La red calcula ŷ y compara esa salida con el objetivo observado."
+            ],
+            [
+              "Regla de la cadena",
+              "La retropropagación calcula derivadas a través de las operaciones de cada capa."
+            ],
+            [
+              "Actualización",
+              "El optimizador utiliza los gradientes para modificar pesos y sesgos. El ciclo se repite con nuevos lotes."
+            ]
+          ],
+          "note": "Backpropagation calcula gradientes. El optimizador decide cómo utilizarlos. Son pasos diferentes. En una RNN la retropropagación atraviesa también los pasos temporales, a menudo con truncamiento. Las variables de evaluación no deben retroalimentar la selección del modelo después de cerrar el protocolo.",
+          "sources": [
+            "optimization"
+          ]
+        },
+        {
+          "title": "Hiperparámetros del entrenamiento",
+          "type": "table",
+          "headers": [
+            "Concepto",
+            "Definición",
+            "Decisión práctica"
+          ],
+          "rows": [
+            [
+              "Epoch",
+              "Recorrido de los ejemplos de entrenamiento",
+              "Seleccionar con validación y early stopping"
+            ],
+            [
+              "Batch",
+              "Lote utilizado para una actualización",
+              "Equilibrar ruido, memoria y costo"
+            ],
+            [
+              "Learning rate",
+              "Escala del paso del optimizador",
+              "Ajustar en el período de validación"
+            ],
+            [
+              "Hidden size",
+              "Dimensión de la representación oculta",
+              "Comparar capacidad y generalización"
+            ]
+          ],
+          "note": "Los hiperparámetros no se aprenden del mismo modo que los pesos. Se seleccionan mediante experimentos controlados. El orden temporal de los ejemplos y el tratamiento del estado recurrente deben ser explícitos. Se puede mezclar el orden de ventanas independientes ya asignadas al entrenamiento sin mezclar los períodos de entrenamiento y prueba."
+        },
+        {
+          "title": "Entrenamiento, validación y prueba",
+          "type": "table",
+          "headers": [
+            "Conjunto",
+            "Uso",
+            "Restricción temporal"
+          ],
+          "rows": [
+            [
+              "Entrenamiento",
+              "Ajustar pesos y transformaciones",
+              "Sólo información disponible antes del corte"
+            ],
+            [
+              "Validación",
+              "Elegir arquitectura e hiperparámetros",
+              "Período posterior al entrenamiento"
+            ],
+            [
+              "Prueba final",
+              "Estimar generalización",
+              "Período reservado hasta cerrar el diseño"
+            ]
+          ],
+          "note": "La validación temporal puede repetirse en varios folds. El conjunto de prueba final permanece reservado. El scaler y la selección de variables se ajustan con entrenamiento. Toda etiqueta debe haber madurado al momento de entrenar. La frecuencia regular facilita comparar períodos.",
+          "sources": [
+            "split",
+            "leakage"
+          ]
+        },
+        {
+          "title": "Sobreajuste y early stopping",
+          "type": "overfit",
+          "note": "Curvas sintéticas para ilustrar sobreajuste. El mínimo de la pérdida de validación aparece en la quinta época. Una política de early stopping puede detenerse varias épocas después y recuperar el mejor checkpoint. El período de validación permite elegir la época. La prueba final se utiliza para la evaluación, sin seleccionar checkpoints con ella."
+        },
+        {
+          "title": "Regularización y controles",
+          "blocks": [
+            [
+              "Capacidad del modelo",
+              "Comparar una red pequeña antes de aumentar capas o unidades. Registrar cantidad de parámetros."
+            ],
+            [
+              "Regularización",
+              "Dropout y penalizaciones sobre pesos reducen algunas formas de sobreajuste. Su intensidad se elige en validación."
+            ],
+            [
+              "Estabilidad",
+              "Usar varias semillas, inspeccionar curvas y conservar el mejor checkpoint de validación."
+            ]
+          ],
+          "note": "Estas técnicas controlan la capacidad o modifican el entrenamiento. No eliminan fuga de información, etiquetas incorrectas ni cambios de distribución. Dropout y evaluación requieren modos de funcionamiento distintos. En una red recurrente debe especificarse dónde se aplica. Los intervalos entre folds y los resultados por semilla ayudan a medir estabilidad."
+        },
+        {
+          "title": "Familias de redes",
+          "type": "table",
+          "headers": [
+            "Arquitectura",
+            "Estructura utilizada",
+            "Aplicación del curso"
+          ],
+          "rows": [
+            [
+              "MLP",
+              "Vector de variables o ventana aplanada",
+              "Baseline tabular de mercado y on-chain"
+            ],
+            [
+              "RNN, LSTM y GRU",
+              "Orden de una secuencia",
+              "Retorno, volatilidad y actividad futura"
+            ],
+            [
+              "GNN",
+              "Vecindarios y relaciones de un grafo",
+              "Clasificación y representaciones de transacciones"
+            ],
+            [
+              "Modelo híbrido",
+              "Grafo por período y secuencia",
+              "Evaluar información temporal y estructural"
+            ]
+          ],
+          "note": "Una MLP puede utilizar retardos y por ello trabajar con información temporal. La recurrencia introduce un mecanismo diferente para compartir parámetros y actualizar estados. Una GNN introduce información de conexiones, siempre que el grafo esté definido de acuerdo con el objetivo y con la disponibilidad temporal."
+        },
+        {
+          "title": "Actividad de comprensión",
+          "blocks": [
+            [
+              "Problema",
+              "Una red recibe retorno, volumen y gas de los últimos 30 días para estimar el retorno del día siguiente."
+            ],
+            [
+              "Análisis",
+              "Identificar entradas, objetivo, salida, pérdida y baseline. Explicar cómo separar entrenamiento y prueba."
+            ],
+            [
+              "Discusión",
+              "¿Qué evidencia permitiría justificar una LSTM frente a una MLP con la misma ventana?"
+            ]
+          ],
+          "note": "Respuesta orientativa: la entrada contiene una ventana causal y el objetivo está desplazado un día. La salida puede ser lineal con MSE o una alternativa robusta. Un baseline sencillo para el retorno es cero. La MLP recibe la ventana aplanada y la LSTM una secuencia. La comparación requiere mismos folds, datos disponibles, presupuesto de selección y métricas fuera de muestra."
+        },
+        {
+          "title": "Bibliografía y documentación",
+          "type": "references",
+          "references": [
+            "optimization",
+            "lstm",
+            "pytorchLSTM",
+            "gru",
+            "gcn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u08-01",
+      "order": 1,
+      "slug": "U8_01_Metodologia_ML_Blockchain",
+      "short": "Metodología",
+      "accent": "#0369a1",
+      "title": "Metodología y arquitectura de ML en blockchain",
+      "subtitle": "Diseño del experimento, datos y validación temporal",
+      "source": "U8_01_Metodologia_y_Arquitectura_ML_Cripto(1).pptx",
+      "description": "Objetivos, variables BTC/ETH, disponibilidad del dato, baselines, walk-forward, leakage y métricas.",
+      "slides": [
+        {
+          "title": "Metodología de ML en blockchain",
+          "type": "cover",
+          "subtitle": "Datos de Bitcoin y Ethereum, validación temporal y evidencia reproducible"
+        },
+        {
+          "title": "Mercado, actividad y estructura",
+          "type": "table",
+          "headers": [
+            "Dimensión",
+            "Observación",
+            "Pregunta de análisis"
+          ],
+          "rows": [
+            [
+              "Mercado",
+              "Precios, retornos, volumen y liquidez",
+              "¿Qué información mejora una estimación futura?"
+            ],
+            [
+              "Actividad on-chain",
+              "Transacciones, fees, gas y uso de contratos",
+              "¿Cómo cambia la utilización de la red?"
+            ],
+            [
+              "Estructura",
+              "Conexiones entre transacciones o cuentas",
+              "¿Qué aporta el vecindario de un nodo?"
+            ]
+          ],
+          "note": "La unidad estudia fuentes complementarias. Un token negociado en un mercado tiene información distinta de la actividad de su red. El análisis necesita explicitar unidad de observación, frecuencia, cobertura y tarea. Un cambio en una métrica on-chain puede depender de la medición y del protocolo, además de la actividad económica."
+        },
+        {
+          "title": "Formulación del experimento",
+          "blocks": [
+            [
+              "Unidad de observación",
+              "Definir si cada fila es un día, una transacción, una dirección o un snapshot de grafo."
+            ],
+            [
+              "Momento de decisión",
+              "Fijar qué información está disponible cuando se calcula la predicción."
+            ],
+            [
+              "Comparación",
+              "Precisar objetivo, horizonte, baseline y métrica antes de seleccionar una arquitectura."
+            ]
+          ],
+          "note": "La pregunta debe poder responderse con los datos y el protocolo de evaluación. Una propuesta posible es evaluar si las variables on-chain disponibles al cierre mejoran la estimación de volatilidad posterior. La superioridad de un modelo es una hipótesis que se somete a prueba, no un resultado asumido."
+        },
+        {
+          "title": "Variables objetivo",
+          "type": "formula",
+          "equations": [
+            "rₜ = ln(Pₜ / Pₜ₋₁)",
+            "dₜ₊₁ = 1[rₜ₊₁ > 0]"
+          ],
+          "blocks": [
+            [
+              "Regresión y clasificación",
+              "El retorno es un valor continuo. La dirección necesita definir qué ocurre con los retornos iguales a cero o cercanos a cero."
+            ],
+            [
+              "Volatilidad y régimen",
+              "El riesgo y el estado del mercado requieren definiciones operativas diferentes del precio."
+            ]
+          ],
+          "note": "Los retornos pueden reducir tendencias de nivel, pero no garantizan estacionariedad. Para una clasificación con banda neutral se fija un umbral en entrenamiento. Los regímenes pueden derivarse de reglas observables o de un modelo, y la regla debe distinguir análisis retrospectivo de una decisión en tiempo real."
+        },
+        {
+          "title": "Un objetivo de varianza realizada",
+          "type": "formula",
+          "equations": [
+            "vₜ,H = (1/H) Σⱼ₌₁ᴴ r²ₜ₊ⱼ",
+            "σₜ,H = √vₜ,H"
+          ],
+          "blocks": [
+            [
+              "Definición del ejemplo",
+              "Varianza realizada media sobre los próximos H retornos, usando una aproximación de media cero."
+            ],
+            [
+              "Disponibilidad de la etiqueta",
+              "El objetivo asociado al instante t se conoce recién al completar el horizonte H."
+            ]
+          ],
+          "note": "La fórmula define explícitamente un objetivo docente y no una única convención universal. También se usa la suma de retornos al cuadrado o una varianza centrada. Se documentan frecuencia, H, unidades y anualización. Si se entrenara al corte c, sólo se incluyen objetivos cuyo período de realización termine como máximo en c. GARCH pronostica varianza condicional y su comparación exige un target compatible.",
+          "sources": [
+            "volatility"
+          ]
+        },
+        {
+          "title": "Variables de Bitcoin y Ethereum",
+          "type": "table",
+          "headers": [
+            "Familia",
+            "Bitcoin",
+            "Ethereum"
+          ],
+          "rows": [
+            [
+              "Mercado",
+              "OHLCV, spread y liquidez",
+              "OHLCV, liquidez CEX y DEX"
+            ],
+            [
+              "Red",
+              "Fees, UTXO, dificultad y hash rate estimado",
+              "Gas, base fee, burn y staking"
+            ],
+            [
+              "Actividad",
+              "Transacciones y direcciones activas",
+              "Transferencias, contratos y actividad de L2"
+            ],
+            [
+              "Medición",
+              "Dirección, UTXO y entidad son unidades distintas",
+              "Cuenta, contrato, evento y llamada son unidades distintas"
+            ]
+          ],
+          "note": "Se conserva la comparación BTC/ETH del material original. Los indicadores requieren especificar unidad, agregación, cobertura y fuente. Direcciones activas no equivalen a usuarios únicos. Hash rate es una estimación y puede suavizarse. Staking y burn pertenecen a la economía de Ethereum. Las métricas de L1 no agotan la actividad de L2. Las variables exógenas, macro y sentimiento, requieren su propio reloj de publicación."
+        },
+        {
+          "title": "Calidad y disponibilidad del dato",
+          "blocks": [
+            [
+              "Tiempo de evento y de publicación",
+              "Guardar cuándo ocurrió un evento y cuándo la fuente permitió observarlo. Las revisiones posteriores requieren seguimiento."
+            ],
+            [
+              "Cobertura y consistencia",
+              "Documentar mercado, moneda de cotización, zona horaria, frecuencia, faltantes y duplicados."
+            ],
+            [
+              "Agregaciones causales",
+              "Calcular ventanas hasta el instante de decisión. Registrar retrasos, confirmaciones y criterios de cierre."
+            ]
+          ],
+          "note": "Un dato con fecha de referencia t puede publicarse en t+1 o revisarse después. Una unión por fecha sin ese control puede introducir fuga. El as-of join utiliza la información disponible a la fecha de decisión. Para datos on-chain se diferencia inclusión de bloque, confirmación, extracción y disponibilidad en la fuente utilizada."
+        },
+        {
+          "title": "Pipeline del experimento",
+          "type": "table",
+          "headers": [
+            "Etapa",
+            "Producto",
+            "Control"
+          ],
+          "rows": [
+            [
+              "Ingesta",
+              "Datos originales y metadatos",
+              "Fuente, fecha, esquema y hash"
+            ],
+            [
+              "Preparación",
+              "Características y objetivos",
+              "Disponibilidad, faltantes y unidades"
+            ],
+            [
+              "Validación",
+              "Folds temporales",
+              "Horizonte y maduración de etiquetas"
+            ],
+            [
+              "Modelado",
+              "Predicciones fuera de muestra",
+              "Mismos datos y presupuesto comparable"
+            ],
+            [
+              "Resultados",
+              "Métricas y errores",
+              "Trazabilidad hasta cada observación"
+            ]
+          ],
+          "note": "Los productos del pipeline permiten reconstruir una conclusión. Se conserva el principio del material original: exportar datos y resultados de un cálculo definido, y presentar esos artefactos sin duplicar silenciosamente el método. Un simulador didáctico puede usar datos sintéticos identificados como tales. Un visor de resultados reales debe indicar el experimento del que procede."
+        },
+        {
+          "title": "Baselines según la tarea",
+          "type": "table",
+          "headers": [
+            "Modelo",
+            "Pregunta que permite contrastar",
+            "Condición de comparación"
+          ],
+          "rows": [
+            [
+              "Naive o constante",
+              "¿Se supera una referencia mínima?",
+              "Precio previo, retorno cero o tasa base"
+            ],
+            [
+              "ARIMA",
+              "¿Existe estructura temporal lineal?",
+              "Mismo objetivo y horizonte"
+            ],
+            [
+              "GARCH",
+              "¿Persiste la varianza condicional?",
+              "Target y escala de riesgo compatibles"
+            ],
+            [
+              "RF o XGBoost",
+              "¿Aportan relaciones tabulares no lineales?",
+              "Mismas variables y folds"
+            ],
+            [
+              "LSTM, GRU o GNN",
+              "¿Aporta la estructura temporal o relacional?",
+              "Ablación, costo y estabilidad"
+            ]
+          ],
+          "note": "La lista representa alternativas y no una escalera universal de superioridad. ARIMA y GARCH modelan aspectos diferentes. Transformer se puede agregar como comparación temporal si el tamaño del dato y el presupuesto lo justifican. En clasificación se informa una referencia de tasa base y el desempeño de la clase relevante."
+        },
+        {
+          "title": "Validación walk-forward",
+          "type": "table",
+          "headers": [
+            "Fold",
+            "Entrenamiento",
+            "Validación y prueba"
+          ],
+          "rows": [
+            [
+              "1",
+              "Período inicial",
+              "Bloque posterior"
+            ],
+            [
+              "2",
+              "Período inicial ampliado",
+              "Siguiente bloque posterior"
+            ],
+            [
+              "3",
+              "Período inicial ampliado nuevamente",
+              "Nuevo bloque posterior"
+            ],
+            [
+              "Alternativa",
+              "Ventana móvil de tamaño fijo",
+              "Bloque posterior a la ventana"
+            ]
+          ],
+          "note": "Expanding window conserva toda la historia y rolling window limita la historia usada. La elección afecta costo y adaptación a cambios. Los bloques de prueba deben tener duración comparable si se agregan métricas. El modelo y las transformaciones se ajustan sin usar el bloque evaluado. La selección de hiperparámetros se realiza dentro del pasado disponible, mediante validación temporal.",
+          "sources": [
+            "split"
+          ]
+        },
+        {
+          "title": "Horizontes superpuestos y purga",
+          "type": "formula",
+          "equations": [
+            "Etiqueta del ejemplo t: retornos de t+1 a t+H",
+            "Condición de entrenamiento al corte c: t + H ≤ c"
+          ],
+          "blocks": [
+            [
+              "Frontera temporal",
+              "Una fila anterior al corte puede tener un objetivo que usa información posterior al corte."
+            ],
+            [
+              "Control",
+              "Purgar ejemplos con etiquetas aún no observadas y definir el gap según horizonte y disponibilidad."
+            ]
+          ],
+          "note": "La purga depende del intervalo real de información de cada objetivo. Un gap fijo es una aproximación que debe justificarse. Las ventanas de entrada de prueba pueden utilizar historia ya observada antes del corte. Compartir historia pasada de entrada no equivale por sí mismo a fuga. Lo decisivo es no utilizar futuros objetivos, futuros eventos o transformaciones ajustadas con el período de evaluación."
+        },
+        {
+          "title": "Fuga de información",
+          "blocks": [
+            [
+              "Transformaciones",
+              "Ajustar scaler, imputación, selección de variables o embeddings con todo el período introduce información del test."
+            ],
+            [
+              "Construcción del objetivo",
+              "Desplazar mal el target, usar una ventana centrada o unir una publicación futura contamina el experimento."
+            ],
+            [
+              "Selección del modelo",
+              "Elegir hiperparámetros o reglas después de mirar el test convierte la prueba en parte del ajuste."
+            ]
+          ],
+          "note": "La fuga puede aumentar artificialmente métricas, aunque su efecto concreto depende del dato. Un experimento pedagógico compara diseños válidos e inválidos sin presentar una magnitud universal del sesgo. Random split puede evaluar un problema diferente al pronóstico temporal y no sirve para estimar prospectivamente el desempeño de esta tarea.",
+          "sources": [
+            "leakage"
+          ]
+        },
+        {
+          "title": "Métricas y unidades",
+          "type": "table",
+          "headers": [
+            "Tarea",
+            "Métrica",
+            "Lectura"
+          ],
+          "rows": [
+            [
+              "Regresión",
+              "MAE y RMSE",
+              "Magnitud del error en unidades del objetivo"
+            ],
+            [
+              "Dirección",
+              "Acierto de signo",
+              "Comparación con tasa base y banda neutral"
+            ],
+            [
+              "Varianza",
+              "QLIKE",
+              "y/v̂ - ln(y/v̂) - 1, con y y v̂ positivos"
+            ],
+            [
+              "Clasificación",
+              "Precision, recall, F1 y PR-AUC",
+              "Desempeño de la clase relevante y umbral"
+            ],
+            [
+              "Estrategia",
+              "Sharpe y drawdown",
+              "Riesgo y costos bajo supuestos explícitos"
+            ]
+          ],
+          "note": "QLIKE tiene convenciones equivalentes hasta términos que no dependen del pronóstico. Aquí se declara la forma normalizada para varianzas positivas. Se requiere tratar ceros explícitamente. Las métricas de trading evalúan una regla de decisiones y no reemplazan las métricas del pronóstico. Sharpe necesita período, tasa de referencia, frecuencia y método de anualización coherentes."
+        },
+        {
+          "title": "Reproducibilidad y análisis de errores",
+          "blocks": [
+            [
+              "Registro del experimento",
+              "Versiones, semillas, fechas de corte, configuración y checksum del dato."
+            ],
+            [
+              "Resultados verificables",
+              "Predicciones con fecha, valor observado, modelo y fold. Métricas por período y por objetivo."
+            ],
+            [
+              "Interpretación",
+              "Comparar errores en episodios de estrés, congestión o cambios de régimen y reportar la variabilidad."
+            ]
+          ],
+          "note": "metrics.csv y predictions.csv son ejemplos de productos útiles. feature_importance.csv, shap_values.csv y graph_metrics.json documentan análisis adicionales cuando existen. Una semilla no garantiza identidad bit a bit en todos los dispositivos. Para comparar modelos se calculan diferencias sobre los mismos períodos y se evalúa su estabilidad, evitando seleccionar únicamente el mejor fold."
+        },
+        {
+          "title": "Actividad metodológica BTC/ETH",
+          "blocks": [
+            [
+              "Diseño",
+              "Definir un objetivo de volatilidad diaria y seleccionar variables de mercado y on-chain disponibles al cierre."
+            ],
+            [
+              "Experimento",
+              "Comparar una referencia de riesgo con un modelo tabular y una red temporal mediante los mismos folds."
+            ],
+            [
+              "Defensa",
+              "Justificar horizonte, retrasos, métricas, familias de variables y límites de generalización."
+            ]
+          ],
+          "note": "La propuesta es una actividad académica y no un resultado ya obtenido. Se puede comenzar con un dataset pequeño o sintético explícito. La evidencia requerida incluye cronología, esquema, transformaciones ajustadas por fold, predicciones y análisis de errores. El proyecto debe poder obtener una conclusión válida aunque el modelo complejo no mejore al baseline."
+        },
+        {
+          "title": "Bibliografía y documentación",
+          "type": "references",
+          "references": [
+            "split",
+            "leakage",
+            "volatility",
+            "elliptic",
+            "shap"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u08-02",
+      "order": 2,
+      "slug": "U8_02_LSTM_GRU_Bitcoin_Ethereum",
+      "short": "LSTM y GRU",
+      "accent": "#7c3aed",
+      "title": "LSTM y GRU para Bitcoin y Ethereum",
+      "subtitle": "Ventanas causales, memoria y evaluación fuera de muestra",
+      "source": "U8_02_LSTM_GRU_Bitcoin_Ethereum(1).pptx",
+      "description": "Secuencias, ecuaciones de LSTM y GRU, ejemplos de compuertas, preparación de ventanas y entrenamiento temporal.",
+      "slides": [
+        {
+          "title": "LSTM y GRU para BTC/ETH",
+          "type": "cover",
+          "subtitle": "Memoria temporal, construcción de ventanas y evaluación fuera de muestra"
+        },
+        {
+          "title": "Secuencia de entrada y horizonte",
+          "type": "formula",
+          "equations": [
+            "X[t] = [x[t-L+1], ..., x[t]]       objetivo: y[t+H]",
+            "Lote de entrada: B × L × F"
+          ],
+          "blocks": [
+            [
+              "L, H y F",
+              "L es la longitud de la ventana. H es el horizonte. F es el número de características por instante."
+            ],
+            [
+              "B y causalidad",
+              "B es la cantidad de ejemplos del lote. Cada ventana termina en el momento de decisión."
+            ]
+          ],
+          "note": "Con batch_first=True, PyTorch utiliza el orden batch, secuencia, características. Es una convención de implementación, no una propiedad matemática de LSTM. Si H representa un retorno acumulado, la etiqueta incluye todos los retornos del intervalo. Si representa un valor puntual, se toma el objetivo del instante t+H. El origen de la decisión debe quedar explicitado.",
+          "sources": [
+            "pytorchLSTM"
+          ]
+        },
+        {
+          "title": "Ejemplo de ventana causal",
+          "type": "table",
+          "headers": [
+            "Instante",
+            "Variables observadas",
+            "Uso"
+          ],
+          "rows": [
+            [
+              "t-2",
+              "Retorno, volumen y gas",
+              "Primer paso de la ventana"
+            ],
+            [
+              "t-1",
+              "Retorno, volumen y gas",
+              "Segundo paso de la ventana"
+            ],
+            [
+              "t",
+              "Retorno, volumen y gas",
+              "Último paso disponible"
+            ],
+            [
+              "t+1",
+              "Retorno futuro",
+              "Etiqueta del ejemplo, disponible después"
+            ]
+          ],
+          "note": "La ventana tiene L=3 y F=3. Se almacenan 9 valores de entrada y un objetivo. Al mover el origen un paso se obtiene otro ejemplo. Se puede usar historia anterior al corte para crear la primera ventana del test. Las características on-chain deben estar realmente publicadas al instante t."
+        },
+        {
+          "title": "MLP y recurrencia",
+          "type": "table",
+          "headers": [
+            "Aspecto",
+            "MLP con retardos",
+            "RNN o LSTM"
+          ],
+          "rows": [
+            [
+              "Representación",
+              "Ventana aplanada como vector",
+              "Secuencia de vectores"
+            ],
+            [
+              "Información temporal",
+              "Orden codificado en las columnas",
+              "Estado actualizado en cada paso"
+            ],
+            [
+              "Parámetros",
+              "Dependientes del tamaño de la entrada",
+              "Compartidos entre pasos temporales"
+            ],
+            [
+              "Comparación",
+              "Baseline temporal válido",
+              "Aporte de recurrencia por demostrar"
+            ]
+          ],
+          "note": "Corrección conceptual del material de partida: una MLP puede capturar relaciones entre retardos. La recurrencia aporta un sesgo inductivo diferente y reutiliza una transformación a través del tiempo. La afirmación de que una red feed-forward no puede usar secuencias sería demasiado fuerte. Se compara con mismas ventanas, variables y protocolos."
+        },
+        {
+          "title": "RNN y gradientes temporales",
+          "type": "formula",
+          "equations": [
+            "hₜ = tanh(Wxₜ + Uhₜ₋₁ + b)"
+          ],
+          "blocks": [
+            [
+              "Estado recurrente",
+              "hₜ resume información de la secuencia procesada mediante parámetros compartidos."
+            ],
+            [
+              "Entrenamiento",
+              "La retropropagación en el tiempo puede producir gradientes que disminuyen o crecen mucho."
+            ],
+            [
+              "Controles",
+              "Las compuertas de LSTM y GRU, el clipping y la longitud de secuencia modifican el comportamiento."
+            ]
+          ],
+          "note": "El estado oculto es un vector aprendido. No se interpreta como una memoria literal ni como una variable económica específica. El problema de gradientes depende de las derivadas y de la dinámica de la red. LSTM fue diseñada para facilitar el aprendizaje de dependencias largas, sin garantizar recuperación de cualquier patrón.",
+          "sources": [
+            "lstm"
+          ]
+        },
+        {
+          "title": "LSTM: compuertas y candidato",
+          "type": "formula",
+          "equations": [
+            "qₜ = [hₜ₋₁, xₜ]",
+            "fₜ = sigmoid(Wf qₜ + bf)       iₜ = sigmoid(Wi qₜ + bi)",
+            "gₜ = tanh(Wg qₜ + bg)       oₜ = sigmoid(Wo qₜ + bo)"
+          ],
+          "blocks": [
+            [
+              "f, i y o",
+              "Son las compuertas de olvido, entrada y salida. Toman valores entre 0 y 1."
+            ],
+            [
+              "Candidato g",
+              "Propone nueva información para el estado de celda. Su rango es de -1 a 1."
+            ]
+          ],
+          "note": "La notación concatena el estado oculto previo y la entrada. PyTorch separa las matrices de entrada y de recurrencia, pero la combinación afín es equivalente. g es el candidato, no una cuarta compuerta sigmoide. Las operaciones se aplican por componente del vector.",
+          "sources": [
+            "pytorchLSTM"
+          ]
+        },
+        {
+          "title": "LSTM: estado de celda y salida",
+          "type": "formula",
+          "equations": [
+            "cₜ = fₜ ⊙ cₜ₋₁ + iₜ ⊙ gₜ",
+            "hₜ = oₜ ⊙ tanh(cₜ)"
+          ],
+          "blocks": [
+            [
+              "Estado de celda c",
+              "Combina memoria previa y nueva información. Se transmite al siguiente paso."
+            ],
+            [
+              "Estado oculto h",
+              "Es la salida recurrente controlada por o. Se utiliza en el siguiente paso y en la predicción."
+            ],
+            [
+              "Símbolo ⊙",
+              "Indica multiplicación elemento a elemento, diferente del producto matricial."
+            ]
+          ],
+          "note": "La celda mantiene dos estados, c y h. El estado de celda tiene una trayectoria aditiva modulada por las compuertas. La red aprende el comportamiento de cada componente. Los coeficientes no representan automáticamente importancia causal de variables económicas.",
+          "sources": [
+            "pytorchLSTM"
+          ]
+        },
+        {
+          "title": "Ejemplo numérico de memoria LSTM",
+          "type": "formula",
+          "equations": [
+            "c anterior = 0,6       f = 0,8       i = 0,25       g = -0,4",
+            "c nuevo = 0,8 × 0,6 + 0,25 × (-0,4) = 0,38",
+            "o = 0,7       h nuevo = 0,7 × tanh(0,38) ≈ 0,254"
+          ],
+          "blocks": [
+            [
+              "Lectura",
+              "La celda conserva 0,48 de la memoria y añade -0,10 de información candidata."
+            ],
+            [
+              "Alcance",
+              "Un componente escalar ilustrativo. Las compuertas se aprenden durante el entrenamiento."
+            ]
+          ],
+          "note": "Se proporcionan compuertas como datos del ejemplo para estudiar la actualización. No se simula un modelo entrenado en mercados. c puede tener valores distintos del rango de tanh. h queda limitado por la salida y por tanh. El resultado redondeado es aproximadamente 0,25385."
+        },
+        {
+          "title": "GRU: reinicio y actualización",
+          "type": "formula",
+          "equations": [
+            "rₜ = sigmoid(Wr xₜ + Ur hₜ₋₁ + br)",
+            "zₜ = sigmoid(Wz xₜ + Uz hₜ₋₁ + bz)",
+            "nₜ = tanh(Wn xₜ + bn + rₜ ⊙ (Un hₜ₋₁ + bhn))",
+            "hₜ = (1 - zₜ) ⊙ nₜ + zₜ ⊙ hₜ₋₁"
+          ],
+          "blocks": [
+            [
+              "Convención utilizada",
+              "La notación sigue la ubicación del reset y de los sesgos del candidato en PyTorch."
+            ],
+            [
+              "Memoria",
+              "GRU mantiene un estado recurrente y no un estado de celda separado como LSTM."
+            ]
+          ],
+          "note": "Distintas implementaciones y textos utilizan convenciones diferentes para el candidato y para el peso z. Se debe cotejar la ecuación con la librería usada. Con esta convención, z próximo a 1 conserva el estado anterior. Con igual entrada y hidden size, una GRU estándar tiene menos parámetros recurrentes que una LSTM estándar.",
+          "sources": [
+            "pytorchGRU",
+            "gru"
+          ]
+        },
+        {
+          "title": "LSTM, GRU y Transformer",
+          "type": "table",
+          "headers": [
+            "Arquitectura",
+            "Mecanismo",
+            "Aspecto a evaluar"
+          ],
+          "rows": [
+            [
+              "LSTM",
+              "Celda y tres compuertas",
+              "Capacidad temporal y costo de estados"
+            ],
+            [
+              "GRU",
+              "Dos compuertas y un estado",
+              "Compacidad con igual hidden size"
+            ],
+            [
+              "Transformer",
+              "Atención entre posiciones",
+              "Máscara causal, contexto y costo"
+            ],
+            [
+              "Todas",
+              "Patrones aprendidos del dato",
+              "Resultados fuera de muestra y estabilidad"
+            ]
+          ],
+          "note": "La tabla no fija un ganador. Los costos dependen de dimensión, capas, longitud y mecanismo de atención. Una arquitectura bidireccional sobre una ventana completamente histórica puede ser válida para pronosticar después de su final. La fuga aparece si se incluyen pasos posteriores al instante de decisión. Transformer necesita una definición explícita del acceso al contexto.",
+          "sources": [
+            "transformer"
+          ]
+        },
+        {
+          "title": "Familias de variables y ablación",
+          "blocks": [
+            [
+              "Univariado",
+              "Retorno, precio o una medida de actividad. Permite construir una referencia sencilla."
+            ],
+            [
+              "Mercado y red",
+              "Agregar volumen, volatilidad y variables on-chain con disponibilidad documentada."
+            ],
+            [
+              "Valor incremental",
+              "Retirar cada familia por separado y comparar los mismos períodos, modelos y métricas."
+            ]
+          ],
+          "note": "Un modelo univariado puede constituir una investigación válida si responde una pregunta precisa. Agregar variables no garantiza mejorar. Los indicadores técnicos son transformaciones de precios y volumen, por lo que se debe estudiar redundancia. Las variables macro y sentimiento se incorporan sólo con fuentes, timestamp de publicación y cobertura definidos."
+        },
+        {
+          "title": "Cuatro tareas temporales",
+          "type": "table",
+          "headers": [
+            "Objetivo",
+            "Salida",
+            "Control principal"
+          ],
+          "rows": [
+            [
+              "Retorno",
+              "Valor real",
+              "Unidades y baseline de retorno"
+            ],
+            [
+              "Dirección",
+              "Probabilidad de subida",
+              "Calibración, tasa base y umbral"
+            ],
+            [
+              "Volatilidad",
+              "Varianza o volatilidad positiva",
+              "Horizonte y target realizados"
+            ],
+            [
+              "Régimen",
+              "Probabilidad por estado",
+              "Reglas de etiqueta y disponibilidad"
+            ]
+          ],
+          "note": "La definición del objetivo condiciona pérdidas, métricas y maduración de etiquetas. Una clasificación de régimen retrospectiva puede usar datos futuros para describir un período. Ese régimen no se puede usar como entrada contemporánea en una simulación prospectiva sin un método causal que lo estime."
+        },
+        {
+          "title": "Preprocesamiento por fold",
+          "blocks": [
+            [
+              "Ajuste",
+              "Estimar scaler, imputación y selección de variables con entrenamiento."
+            ],
+            [
+              "Transformación",
+              "Aplicar esas transformaciones congeladas a validación y prueba."
+            ],
+            [
+              "Ventanas",
+              "Construir ejemplos según el origen de decisión, la longitud L y la maduración de la etiqueta."
+            ]
+          ],
+          "note": "Si la transformación opera por característica, se calculan sus estadísticas a partir de pasos que pertenecen al período de entrenamiento. Debe documentarse cómo se tratan ventanas superpuestas. La salida escalada se invierte antes de reportar métricas en unidades originales. Los valores fuera del rango del train son posibles y no deben reescalarse usando el test.",
+          "sources": [
+            "leakage"
+          ]
+        },
+        {
+          "title": "Entrenamiento walk-forward",
+          "type": "code",
+          "code": "for corte in cortes_temporales:\n    train = ejemplos_con_etiqueta_observada(corte)\n    valid, test = bloques_posteriores(corte)\n    scaler.fit(train.X)\n    train_X = scaler.transform(train.X)\n    valid_X = scaler.transform(valid.X)\n    test_X  = scaler.transform(test.X)\n    modelo = crear_modelo(configuracion)\n    modelo.fit(train_X, train.y, valid_X, valid.y)\n    pred = modelo.predict(test_X)\n    guardar_predicciones_y_metricas(test.y, pred)",
+          "caption": "Pseudocódigo conceptual. La configuración se elige con validación temporal.",
+          "note": "El pseudocódigo omite los detalles de dimensiones y de la API concreta. Cada modelo se inicializa en el fold, salvo que se defina un protocolo explícito de actualización. La validación está antes del test. Early stopping usa validación. El conjunto de entrenamiento sólo contiene etiquetas observadas al corte. La selección de hiperparámetros no mira el test del fold.",
+          "sources": [
+            "split",
+            "leakage"
+          ]
+        },
+        {
+          "title": "Hiperparámetros y estabilidad",
+          "blocks": [
+            [
+              "Diseño de búsqueda",
+              "Comparar lookback, hidden size, capas y learning rate con un presupuesto controlado."
+            ],
+            [
+              "Sobreajuste",
+              "Seguir curvas de train y validación, aplicar regularización y recuperar el mejor checkpoint."
+            ],
+            [
+              "Variabilidad",
+              "Repetir con varias semillas y reportar resultados por fold, además de la media."
+            ]
+          ],
+          "note": "El presupuesto de selección también forma parte de la comparación. Probar miles de configuraciones de una red frente a un único baseline aumenta el riesgo de selección. Se registra tiempo de entrenamiento, parámetros y variación. Los cambios de régimen pueden modificar el desempeño incluso con un entrenamiento estable."
+        },
+        {
+          "title": "Evaluación y límites del pronóstico",
+          "blocks": [
+            [
+              "Error y dirección",
+              "Reportar métricas fuera de muestra, errores por período y comparación con referencias sencillas."
+            ],
+            [
+              "Información imprevisible",
+              "Eventos regulatorios, incidentes y shocks pueden cambiar la distribución del dato."
+            ],
+            [
+              "Uso económico",
+              "Una estrategia exige decisiones, costos y ejecución definidos. La precisión sola no establece su resultado."
+            ]
+          ],
+          "note": "Un gráfico de precios puede parecer preciso por la persistencia del nivel. La capacidad predictiva se verifica contra el naive y con métricas del objetivo real. SHAP y pesos de atención describen aspectos del modelo sin establecer causalidad. Un buen resultado en un período no basta para generalizar a otro activo o régimen."
+        },
+        {
+          "title": "Actividad LSTM/GRU",
+          "type": "table",
+          "headers": [
+            "Etapa",
+            "Trabajo",
+            "Evidencia"
+          ],
+          "rows": [
+            [
+              "Datos",
+              "Construir una tabla causal",
+              "Esquema y timestamps"
+            ],
+            [
+              "Ventanas",
+              "Definir L, H y F",
+              "Ejemplos de entrada y etiqueta"
+            ],
+            [
+              "Modelos",
+              "Comparar MLP, LSTM y GRU",
+              "Configuración y parámetros"
+            ],
+            [
+              "Validación",
+              "Usar los mismos folds",
+              "Predicciones fuera de muestra"
+            ],
+            [
+              "Interpretación",
+              "Analizar errores y ablación",
+              "Tabla de métricas y límites"
+            ]
+          ],
+          "note": "La actividad conserva la secuencia original: dataset, ventanas, baseline, LSTM, GRU, walk-forward, comparación y errores. El alumno explica cómo se obtuvieron los resultados y puede sostener una conclusión de ausencia de mejora. Los datos de ejemplo deben marcarse como sintéticos o identificarse con su fuente real."
+        },
+        {
+          "title": "Bibliografía y documentación",
+          "type": "references",
+          "references": [
+            "lstm",
+            "pytorchLSTM",
+            "gru",
+            "pytorchGRU",
+            "transformer"
+          ]
+        },
+        {
+          "title": "Lecturas aplicadas y revisión crítica",
+          "type": "references",
+          "references": [
+            "appliedLSTM",
+            "volatility",
+            "split",
+            "leakage"
+          ],
+          "note": "Las lecturas aplicadas describen resultados de sus autores, sujetos al dataset y diseño que utilizaron. Antes de extrapolar se revisan período, target, escala, benchmark, selección de hiperparámetros y disponibilidad de variables. Las cifras de un paper no constituyen resultados del laboratorio de esta unidad."
+        }
+      ]
+    },
+    {
+      "id": "u08-03",
+      "order": 3,
+      "slug": "U8_03_GNN_Blockchain_Grafos",
+      "short": "GNN y blockchain",
+      "accent": "#047857",
+      "title": "GNN aplicadas a blockchain",
+      "subtitle": "Grafos de transacciones, message passing y evaluación temporal",
+      "source": "U8_03_GNN_Blockchain_Grafos(1).pptx",
+      "description": "Diseño de grafos, GCN, GraphSAGE, GAT, Elliptic, heterogeneidad y prevención de fuga estructural.",
+      "slides": [
+        {
+          "title": "GNN aplicadas a blockchain",
+          "type": "cover",
+          "subtitle": "Representaciones de transacciones, vecindarios y evolución de la red"
+        },
+        {
+          "title": "Representación del grafo",
+          "type": "table",
+          "headers": [
+            "Símbolo",
+            "Contenido",
+            "Decisión de diseño"
+          ],
+          "rows": [
+            [
+              "V",
+              "Conjunto de nodos",
+              "Transacción, dirección, contrato o entidad"
+            ],
+            [
+              "E",
+              "Conjunto de aristas",
+              "Flujo, llamada o relación tipificada"
+            ],
+            [
+              "X",
+              "Características de nodos y aristas",
+              "Valor, actividad, tipo y atributos"
+            ],
+            [
+              "T",
+              "Timestamps o snapshots",
+              "Instante de observación y disponibilidad"
+            ]
+          ],
+          "note": "G=(V,E,X,T) es una descripción del dato. Un grafo dirigido distingue origen y destino. Un multigrafo conserva varias relaciones entre un par de nodos. Una wallet puede controlar varias direcciones y un contrato es una cuenta con código. Se evita atribuir identidad real sin evidencia externa."
+        },
+        {
+          "title": "Construcción del grafo",
+          "type": "table",
+          "headers": [
+            "Representación",
+            "Arista",
+            "Aplicación y límite"
+          ],
+          "rows": [
+            [
+              "Transacción a transacción",
+              "Un output anterior financia un input",
+              "Bitcoin y flujo UTXO"
+            ],
+            [
+              "Dirección a dirección",
+              "Transferencia según una regla declarada",
+              "Asignación ambigua con múltiples inputs"
+            ],
+            [
+              "Cuenta o contrato",
+              "Llamada o evento tipificado",
+              "Ethereum y heterogeneidad"
+            ],
+            [
+              "Entidad agregada",
+              "Relación entre clusters",
+              "Depende de heurísticas de agrupación"
+            ]
+          ],
+          "note": "Una transacción Bitcoin puede consumir múltiples inputs y crear varios outputs. Proyectarla como transferencias entre direcciones requiere una regla y no permite identificar de forma única cuánto pasó de cada input a cada output. Las heurísticas de clustering pueden fallar, por ejemplo en operaciones coordinadas. El grafo de Ethereum distingue valor nativo, eventos ERC-20 y trazas de ejecución."
+        },
+        {
+          "title": "Métricas clásicas de red",
+          "type": "table",
+          "headers": [
+            "Métrica",
+            "Qué resume",
+            "Control interpretativo"
+          ],
+          "rows": [
+            [
+              "Grado y strength",
+              "Conexiones y peso acumulado",
+              "Separar entrada y salida"
+            ],
+            [
+              "PageRank",
+              "Relevancia según flujos y enlaces",
+              "Dirección y ponderación del grafo"
+            ],
+            [
+              "Betweenness",
+              "Participación en caminos mínimos",
+              "Dependencia de la definición de distancia"
+            ],
+            [
+              "Clustering",
+              "Cierre local de triángulos",
+              "Diferente de detección de comunidades"
+            ],
+            [
+              "Comunidades",
+              "Partición según un criterio estructural",
+              "Sensibilidad a resolución y algoritmo"
+            ]
+          ],
+          "note": "Las métricas clásicas son un baseline y un puente conceptual. Clustering mide transitividad local y no equivale a comunidad. Una centralidad alta puede reflejar actividad técnica, intermediación o un sesgo de muestreo. Las métricas temporales se calculan en cada snapshot disponible, evitando utilizar una red futura."
+        },
+        {
+          "title": "Message passing",
+          "type": "formula",
+          "equations": [
+            "mᵥ = AGGREGATE({hᵤ : u ∈ N(v)})",
+            "hᵥ nuevo = UPDATE(hᵥ, mᵥ)"
+          ],
+          "blocks": [
+            [
+              "Vecindario N(v)",
+              "Debe especificar si incluye entradas, salidas, ambas o relaciones de un tipo."
+            ],
+            [
+              "Agregación",
+              "Combina mensajes de forma compatible con el orden irrelevante de los vecinos."
+            ],
+            [
+              "Aprendizaje",
+              "El modelo ajusta cómo representar atributos propios e información relacional."
+            ]
+          ],
+          "note": "En un grafo dirigido, elegir N(v) modifica la información accesible. Las funciones de agregación pueden incluir sumas, medias o atención. Al apilar capas aumenta el radio de información, con riesgos de mezcla excesiva. Los atributos de aristas se utilizan sólo si la arquitectura elegida los incorpora.",
+          "sources": [
+            "gcn",
+            "sage",
+            "gat"
+          ]
+        },
+        {
+          "title": "Ejemplo de agregación por media",
+          "type": "formula",
+          "equations": [
+            "hᵥ = 2       vecinos = {1, 3}       media = 2",
+            "hᵥ nuevo = ReLU(0,5 × 2 + 0,25 × 2) = 1,5"
+          ],
+          "blocks": [
+            [
+              "Qué se combina",
+              "Un atributo propio y un resumen del vecindario con pesos dados para el ejemplo."
+            ],
+            [
+              "Alcance",
+              "Ejemplo escalar sintético de message passing. Los pesos reales se aprenden con una tarea."
+            ]
+          ],
+          "note": "La regla ilustrativa no representa por sí sola una GCN completa. Es un cálculo sencillo de agregación y actualización. Se puede cambiar un vecino y observar el efecto. La media reduce una colección a un resumen y pierde parte de la información estructural. La identidad de los números carece de interpretación financiera."
+        },
+        {
+          "title": "GCN y normalización",
+          "type": "formula",
+          "equations": [
+            "Ã = A + I",
+            "H nuevo = φ(D̃^(-1/2) Ã D̃^(-1/2) H W)"
+          ],
+          "blocks": [
+            [
+              "A y self-loops",
+              "A es la adyacencia. I incorpora información del propio nodo. D̃ contiene los grados de Ã."
+            ],
+            [
+              "Normalización",
+              "Equilibra contribuciones según el grado. H reúne representaciones y W es aprendible."
+            ],
+            [
+              "Grafos dirigidos",
+              "La formulación clásica requiere declarar la adaptación o simetrización elegida."
+            ]
+          ],
+          "note": "Se presenta la GCN clásica de Kipf y Welling. La normalización es simétrica para la representación usada. En transacciones dirigidas no debe aplicarse sin explicar qué información conserva o pierde la transformación. La fórmula es una convolución de grafo y no una media aritmética simple en todos los casos.",
+          "sources": [
+            "gcn"
+          ]
+        },
+        {
+          "title": "GraphSAGE: muestreo y agregación",
+          "type": "formula",
+          "equations": [
+            "mᵥ = AGGREGATE({hᵤ : u ∈ muestra de N(v)})",
+            "hᵥ nuevo = φ(W [hᵥ || mᵥ])"
+          ],
+          "blocks": [
+            [
+              "Concatenación ||",
+              "Combina atributos propios y representación agregada del vecindario."
+            ],
+            [
+              "Escalabilidad",
+              "Muestrear limita el costo del vecindario utilizado por capa."
+            ],
+            [
+              "Inducción",
+              "La función aprendida puede aplicarse a nuevos nodos con atributos disponibles."
+            ]
+          ],
+          "note": "GraphSAGE aprende una función de representación en lugar de un embedding independiente para cada identificador. La variante concreta define agregador, normalización y muestreo. La generalización a nodos nuevos se evalúa con un protocolo inductivo, sin asumir que toda conexión futura ya se conoce.",
+          "sources": [
+            "sage"
+          ]
+        },
+        {
+          "title": "GAT: atención en el vecindario",
+          "type": "formula",
+          "equations": [
+            "αᵥᵤ = exp(eᵥᵤ) / Σₖ∈N(v) exp(eᵥₖ)",
+            "hᵥ nuevo = φ(Σᵤ∈N(v) αᵥᵤ W hᵤ)"
+          ],
+          "blocks": [
+            [
+              "Coeficientes normalizados",
+              "En el vecindario definido, los pesos de una cabeza suman 1."
+            ],
+            [
+              "Varias cabezas",
+              "Combinan representaciones de atención según la capa y la implementación."
+            ],
+            [
+              "Interpretación",
+              "Un peso alto describe una operación del modelo. Su lectura depende del contexto."
+            ]
+          ],
+          "note": "La fórmula simplifica la atención por cabeza. Los scores e se aprenden a partir de representaciones de nodos. Los self-loops pueden incluirse. Los pesos no garantizan una explicación causal de la predicción ni equivalen a probabilidad de ilicitud de un vecino.",
+          "sources": [
+            "gat"
+          ]
+        },
+        {
+          "title": "Ejemplo de atención ponderada",
+          "type": "table",
+          "headers": [
+            "Vecino",
+            "Atributo",
+            "Peso ilustrativo"
+          ],
+          "rows": [
+            [
+              "u₁",
+              "1",
+              "0,10"
+            ],
+            [
+              "u₂",
+              "2",
+              "0,20"
+            ],
+            [
+              "u₃",
+              "3",
+              "0,30"
+            ],
+            [
+              "u₄",
+              "4",
+              "0,40"
+            ]
+          ],
+          "caption": "Mensaje ponderado = 0,10 × 1 + 0,20 × 2 + 0,30 × 3 + 0,40 × 4 = 3,0",
+          "note": "Pesos sintéticos normalizados para enseñar una suma ponderada. No proceden de un GAT entrenado ni de transacciones reales. El resultado es 3. Cada cabeza puede usar transformaciones vectoriales y pesos diferentes. El mecanismo se interpreta junto con atributos, arquitectura y contexto."
+        },
+        {
+          "title": "GCN, GraphSAGE y GAT",
+          "type": "table",
+          "headers": [
+            "Arquitectura",
+            "Mecanismo distintivo",
+            "Decisión experimental"
+          ],
+          "rows": [
+            [
+              "GCN",
+              "Normalización de la adyacencia",
+              "Dirección, self-loops y profundidad"
+            ],
+            [
+              "GraphSAGE",
+              "Muestreo y agregación",
+              "Fan-out y protocolo inductivo"
+            ],
+            [
+              "GAT",
+              "Atención aprendida",
+              "Cabezas, vecindario y regularización"
+            ],
+            [
+              "Comparación",
+              "Mismos datos y etiquetas",
+              "Baseline tabular, costo y validación"
+            ]
+          ],
+          "note": "La GNN se compara con modelos que utilizan atributos sin estructura, y con métricas clásicas de grafo cuando corresponde. Un método más complejo no tiene una superioridad universal. La evaluación mide si la topología disponible agrega información útil.",
+          "sources": [
+            "gcn",
+            "sage",
+            "gat"
+          ]
+        },
+        {
+          "title": "Bitcoin: el dataset Elliptic",
+          "type": "table",
+          "headers": [
+            "Componente",
+            "Cantidad o definición",
+            "Uso"
+          ],
+          "rows": [
+            [
+              "Transacciones y flujos",
+              "203.769 nodos y 234.355 aristas",
+              "Grafo dirigido de transacciones"
+            ],
+            [
+              "Características",
+              "166 por nodo",
+              "94 locales y 72 agregadas"
+            ],
+            [
+              "Etiquetas conocidas",
+              "4.545 ilícitas y 42.019 lícitas",
+              "Entrenamiento y evaluación supervisada"
+            ],
+            [
+              "Sin etiqueta conocida",
+              "157.205 transacciones",
+              "Máscara fuera de la pérdida supervisada"
+            ],
+            [
+              "Tiempo",
+              "49 pasos",
+              "Evaluación cronológica declarada"
+            ]
+          ],
+          "note": "Datos del Elliptic original de Weber et al., distinto de otros datasets posteriores. Unknown indica ausencia de etiqueta lícita o ilícita y no una tercera clase semántica para esta tarea binaria. Las features agregadas incluyen información de vecinos anteriores y posteriores dentro del snapshot, por lo que se debe verificar disponibilidad para una aplicación online. Los pasos temporales tienen componentes separados sin enlaces entre pasos.",
+          "sources": [
+            "elliptic"
+          ]
+        },
+        {
+          "title": "Etiquetas y clase minoritaria",
+          "blocks": [
+            [
+              "Máscaras supervisadas",
+              "Entrenar y evaluar con etiquetas conocidas y particiones explícitas. Los nodos sin etiqueta pueden participar si el protocolo lo permite."
+            ],
+            [
+              "Métricas relevantes",
+              "Reportar precision, recall, F1 y PR-AUC de la clase ilícita, con umbral elegido en validación."
+            ],
+            [
+              "Referencia mínima",
+              "Predecir siempre la clase lícita da aproximadamente 90,2 % de accuracy en los nodos etiquetados."
+            ]
+          ],
+          "note": "El 90,2 % es una cuenta ilustrativa derivada de 42.019 / (42.019 + 4.545), no un resultado de entrenamiento. La prevalencia ilícita entre etiquetas conocidas es aproximadamente 9,76 %, distinta del porcentaje sobre el grafo completo. Los pesos de clase se calculan con el train de cada experimento. La precisión depende de prevalencia, selección de muestra y umbral. Un score de modelo requiere revisión y no establece identidad ni culpabilidad.",
+          "sources": [
+            "elliptic"
+          ]
+        },
+        {
+          "title": "Ethereum: relaciones heterogéneas",
+          "type": "table",
+          "headers": [
+            "Objeto",
+            "Observación",
+            "Control"
+          ],
+          "rows": [
+            [
+              "EOA y contratos",
+              "Cuentas y código ejecutable",
+              "Identificador y tipo al instante analizado"
+            ],
+            [
+              "Valor nativo",
+              "Transferencias de ETH",
+              "Diferenciar transacción y trazas"
+            ],
+            [
+              "Tokens y protocolos",
+              "Eventos, swaps y operaciones DeFi",
+              "Contrato, token y decodificación"
+            ],
+            [
+              "Approve y llamadas",
+              "Autorización o interacción",
+              "Una aprobación no es un flujo transferido"
+            ]
+          ],
+          "note": "Una construcción heterogénea utiliza tipos de nodos y de relaciones. Calls, transferencias nativas y eventos token no son intercambiables. Un evento mal interpretado puede crear un vínculo económico incorrecto. Se especifican protocolo, contrato, dirección del enlace y atributos como gas, fee, bloque y valor. La disponibilidad de trazas y decodificación depende de la fuente."
+        },
+        {
+          "title": "Snapshots y evolución temporal",
+          "type": "formula",
+          "equations": [
+            "G₁, G₂, ..., Gₜ       zₜ = READOUT(GNN(Gₜ))"
+          ],
+          "blocks": [
+            [
+              "Corte temporal",
+              "Cada snapshot incluye nodos, enlaces y atributos disponibles en su período."
+            ],
+            [
+              "Resumen de la red",
+              "Readout agrega representaciones de nodos para obtener un vector por snapshot."
+            ],
+            [
+              "Seguimiento",
+              "Las métricas o embeddings se pueden comparar en el tiempo y utilizar en un modelo temporal."
+            ]
+          ],
+          "note": "Una representación global del snapshot puede agregarse por suma, media o un readout aprendido. Su escala depende del tamaño del grafo. Para seguir un nodo se requiere persistencia del identificador y una política para nodos ausentes. Un embedding global evita suponer que el número de nodos es constante, pero necesita estabilidad del encoder y de la agregación."
+        },
+        {
+          "title": "Fuga temporal en grafos",
+          "blocks": [
+            [
+              "Estructura futura",
+              "Un enlace posterior al momento de decisión puede revelar actividad que aún no existía."
+            ],
+            [
+              "Atributos agregados",
+              "Una centralidad calculada sobre el grafo completo o vecinos futuros puede contaminar entradas."
+            ],
+            [
+              "Etiquetas y splits",
+              "Declarar qué nodos, atributos, enlaces y etiquetas conoce cada fold y cada etapa de inferencia."
+            ]
+          ],
+          "note": "Separar sólo las etiquetas no garantiza una evaluación prospectiva. Un protocolo transductivo offline puede permitir atributos y enlaces de nodos de evaluación sin sus etiquetas. Ese acceso debe explicitarse y no presentarse como equivalente a predicción online. Los embeddings y transformaciones aprendidos también respetan el corte del experimento."
+        },
+        {
+          "title": "Tareas y protocolos de evaluación",
+          "type": "table",
+          "headers": [
+            "Tarea",
+            "Objetivo",
+            "Control"
+          ],
+          "rows": [
+            [
+              "Clasificación de nodos",
+              "Etiqueta de transacción o cuenta",
+              "Máscaras y desbalance"
+            ],
+            [
+              "Predicción de enlaces",
+              "Interacción en un período futuro",
+              "Muestreo de negativos y corte temporal"
+            ],
+            [
+              "Detección de anomalías",
+              "Rareza según una referencia",
+              "Umbral, revisión y tasa de alertas"
+            ],
+            [
+              "Resumen de grafo",
+              "Vector o métrica por período",
+              "Readout causal y estabilidad"
+            ],
+            [
+              "Inductivo o transductivo",
+              "Nodos nuevos o grafo parcialmente conocido",
+              "Acceso a estructura declarado"
+            ]
+          ],
+          "note": "La anomalía describe distancia respecto de una referencia estadística. No equivale por sí sola a fraude. La predicción de enlaces puede sobreestimarse si negativos triviales o relaciones futuras contaminan el diseño. Se explicita si se evalúa sobre nodos nuevos, sobre nodos vistos con etiquetas ocultas o sobre grafos nuevos."
+        },
+        {
+          "title": "Profundidad, heterofilia y límites",
+          "blocks": [
+            [
+              "Oversmoothing",
+              "Con muchas capas, representaciones de nodos pueden volverse demasiado similares."
+            ],
+            [
+              "Heterofilia",
+              "Vecinos pueden pertenecer a clases distintas. La mezcla de información necesita evaluación."
+            ],
+            [
+              "Interpretación responsable",
+              "Centralidad, atención y anomalía son señales del análisis. Las etiquetas y la identidad exigen evidencia."
+            ]
+          ],
+          "note": "La profundidad no es una mejora automática. Se comparan pocas capas y se estudia sensibilidad al vecindario. La escasez de etiquetas y las heurísticas de agrupación limitan la inferencia. Una clasificación puede generar falsos positivos y debe comunicarse con sus métricas y condiciones. La relación entre nodos no transmite automáticamente la clase."
+        },
+        {
+          "title": "Actividad de GNN",
+          "blocks": [
+            [
+              "Construcción",
+              "Crear un grafo pequeño, documentar tipos de nodo, aristas, atributos y timestamps."
+            ],
+            [
+              "Modelos",
+              "Comparar métricas clásicas, un baseline tabular y una GNN con configuración declarada."
+            ],
+            [
+              "Evidencia",
+              "Entregar máscaras, corte temporal, métricas de la clase relevante y análisis de errores."
+            ]
+          ],
+          "note": "La ruta conserva los contenidos del original: grafo, métricas, comunidades, GCN, GraphSAGE, GAT, desbalance y dinámica. Se puede comenzar con un grafo sintético explícito para estudiar agregación. La práctica con Elliptic utiliza sus etiquetas documentadas y distingue ese benchmark de una aplicación con datos actuales."
+        },
+        {
+          "title": "Bibliografía y documentación",
+          "type": "references",
+          "references": [
+            "gcn",
+            "sage",
+            "gat",
+            "elliptic",
+            "temporalGAT"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u08-04",
+      "order": 4,
+      "slug": "U8_04_Integrador_LSTM_GNN",
+      "short": "Integrador",
+      "accent": "#a85605",
+      "title": "Integrador LSTM y GNN",
+      "subtitle": "Información temporal, topología y proyecto reproducible",
+      "source": null,
+      "description": "Pooling de grafos, fusión temporal, ablaciones, SHAP, drift, backtesting y rúbrica del proyecto.",
+      "slides": [
+        {
+          "title": "Integrador LSTM y GNN",
+          "type": "cover",
+          "subtitle": "Tiempo, estructura e interpretación en una investigación reproducible"
+        },
+        {
+          "title": "Información temporal y relacional",
+          "blocks": [
+            [
+              "Modelo temporal",
+              "Resume la secuencia de variables de mercado o actividad mediante estados aprendidos."
+            ],
+            [
+              "Modelo de grafo",
+              "Construye representaciones a partir de atributos y vecindarios definidos."
+            ],
+            [
+              "Hipótesis de integración",
+              "Evaluar si la información relacional disponible mejora la tarea temporal elegida."
+            ]
+          ],
+          "note": "El enfoque híbrido es una propuesta experimental. Una LSTM puede recibir métricas clásicas de red sin utilizar una GNN. La comparación permite estudiar si un embedding aprendido agrega valor frente a agregados sencillos. Las representaciones del tiempo y del grafo deben compartir un calendario y un protocolo de disponibilidad."
+        },
+        {
+          "title": "Arquitectura híbrida por snapshot",
+          "type": "formula",
+          "equations": [
+            "Hₜ = GNN(Gₜ)       zₜ = POOL(Hₜ)",
+            "uₜ = [xₜ || zₜ]",
+            "ŷ[t+H] = HEAD(LSTM([u[t-L+1], ..., u[t]]))"
+          ],
+          "blocks": [
+            [
+              "Pooling",
+              "Convierte las representaciones de muchos nodos en un vector de tamaño fijo por período."
+            ],
+            [
+              "Fusión",
+              "Concatena variables de mercado x con la representación del grafo z antes del modelo temporal."
+            ]
+          ],
+          "note": "El readout o pooling faltaba en la arquitectura original si se pretendía pronosticar una variable de toda la red. Para una tarea por nodo se usa otra arquitectura y un criterio de alineación. El encoder se entrena sólo con el pasado disponible. Se puede congelar o ajustar conjuntamente con la red temporal, según el protocolo. La combinación no tiene superioridad demostrada hasta realizar la comparación."
+        },
+        {
+          "title": "Predicción global o por nodo",
+          "type": "table",
+          "headers": [
+            "Diseño",
+            "Representación temporal",
+            "Condición"
+          ],
+          "rows": [
+            [
+              "Global",
+              "Vector agregado por snapshot",
+              "Pooling y escala del tamaño de red"
+            ],
+            [
+              "Por nodo",
+              "Secuencia del embedding del mismo nodo",
+              "Identificadores persistentes y máscara de ausencia"
+            ],
+            [
+              "Entrenamiento separado",
+              "Encoder y modelo temporal por etapas",
+              "Representación congelada dentro del fold"
+            ],
+            [
+              "Entrenamiento conjunto",
+              "GNN y LSTM reciben una pérdida común",
+              "Presupuesto y disponibilidad controlados"
+            ]
+          ],
+          "note": "Los embeddings de modelos entrenados de forma independiente pueden cambiar de orientación y escala. Utilizarlos como si pertenecieran al mismo espacio temporal requiere un encoder común o un alineamiento justificado. Para nodos ausentes se especifica una máscara y una política, evitando inventar datos de actividad."
+        },
+        {
+          "title": "Unión por disponibilidad",
+          "type": "table",
+          "headers": [
+            "Campo",
+            "Ejemplo",
+            "Uso"
+          ],
+          "rows": [
+            [
+              "event_time",
+              "Instante del bloque o mercado",
+              "Fecha del evento"
+            ],
+            [
+              "available_at",
+              "Momento de publicación o extracción",
+              "Información accesible al decidir"
+            ],
+            [
+              "decision_time",
+              "Cierre de la ventana de entrada",
+              "Corte de cada ejemplo"
+            ],
+            [
+              "target_end",
+              "Fin del horizonte realizado",
+              "Maduración de la etiqueta"
+            ]
+          ],
+          "caption": "Una entrada cumple available_at ≤ decision_time. Una etiqueta de train cumple target_end ≤ corte.",
+          "note": "Son nombres de campos propuestos para documentar un experimento. Un as-of join respeta la información conocida al origen de cada predicción. El momento de extracción actual no reproduce necesariamente qué habría mostrado la fuente históricamente. Se documentan revisiones, retardos y disponibilidad de un archivo histórico."
+        },
+        {
+          "title": "Ablaciones del modelo híbrido",
+          "type": "table",
+          "headers": [
+            "Experimento",
+            "Entradas",
+            "Pregunta"
+          ],
+          "rows": [
+            [
+              "Baseline",
+              "Variables mínimas o referencia constante",
+              "¿Se supera la referencia?"
+            ],
+            [
+              "Modelo temporal",
+              "Mercado y actividad on-chain",
+              "¿Aporta memoria?"
+            ],
+            [
+              "Temporal con métricas",
+              "Variables y agregados clásicos de grafo",
+              "¿Aporta estructura resumida?"
+            ],
+            [
+              "Temporal con GNN",
+              "Variables y embeddings causales",
+              "¿Aporta representación aprendida?"
+            ]
+          ],
+          "note": "Se conservan mismos folds, objetivo, frecuencia y criterios de selección. También se prueban modelos de features tabulares como RF o XGBoost. La ablación atribuye diferencias al componente retirado dentro de este experimento, con cautela sobre interacciones y presupuesto. Se informa estabilidad por período, semillas y costo de entrenamiento."
+        },
+        {
+          "title": "Productos reproducibles del proyecto",
+          "blocks": [
+            [
+              "Datos y metadatos",
+              "Archivo original, tabla preparada, esquema, timestamps, cobertura y checksum."
+            ],
+            [
+              "Configuración y predicciones",
+              "Versiones, semillas, cortes, hiperparámetros y salidas fechadas por modelo."
+            ],
+            [
+              "Interpretación",
+              "Métricas por fold, errores, ablaciones y explicaciones vinculadas con el experimento."
+            ]
+          ],
+          "note": "Se conserva la distinción del original entre raw data, processed data y model outputs. El resultado debe reconstruirse desde una fuente identificada y un protocolo. Un visor puede leer JSON o CSV exportados por ese cálculo. Si presenta datos sintéticos, lo indica visible y separadamente de resultados experimentales reales."
+        },
+        {
+          "title": "SHAP: explicación aditiva",
+          "type": "formula",
+          "equations": [
+            "f(x) = valor base + Σⱼ φⱼ",
+            "Ejemplo: 0,10 + 0,20 - 0,10 = 0,20 puntos porcentuales"
+          ],
+          "blocks": [
+            [
+              "Atribuciones φ",
+              "Describen contribuciones del modelo respecto de un valor de referencia y un procedimiento definidos."
+            ],
+            [
+              "Contexto",
+              "La selección del background y la correlación entre variables afectan la interpretación."
+            ],
+            [
+              "Comparación BTC/ETH",
+              "Utilizar mismo objetivo, unidades y protocolo de explicación."
+            ]
+          ],
+          "note": "Ejemplo numérico sintético, sin estimaciones de mercado. El valor base es 0,10 puntos porcentuales, la primera atribución suma 0,20 y la segunda resta 0,10. El total es 0,20. Un resumen de importancia por media del valor absoluto pierde el signo de las contribuciones locales. SHAP explica una función predictiva bajo supuestos y no establece un efecto causal.",
+          "sources": [
+            "shap"
+          ]
+        },
+        {
+          "title": "Regímenes y concept drift",
+          "blocks": [
+            [
+              "Régimen observable",
+              "Definir estados con reglas disponibles al momento de decisión, o distinguir una descripción retrospectiva."
+            ],
+            [
+              "Cambios del dato",
+              "Analizar distribución de entradas, prevalencia de etiquetas y relación entre X e y."
+            ],
+            [
+              "Seguimiento",
+              "Reportar métricas por período y régimen. Definir cuándo revisar o reentrenar el modelo."
+            ]
+          ],
+          "note": "Bull, neutral, bear, stress y recovery son ejemplos de etiquetas y requieren reglas medibles. Un cambio en las entradas no demuestra por sí mismo concept drift, entendido como un cambio en la relación condicional con el objetivo. Estimar el desempeño demanda que las nuevas etiquetas hayan madurado. Se registra costo y estabilidad del protocolo de actualización."
+        },
+        {
+          "title": "Backtesting con ejecución explícita",
+          "type": "formula",
+          "equations": [
+            "Señal al cierre t: posición pₜ para el intervalo t a t+1",
+            "R netoₜ₊₁ = pₜ R simpleₜ₊₁ - c |pₜ - pₜ₋₁|"
+          ],
+          "blocks": [
+            [
+              "Supuesto del ejemplo",
+              "Una posición sin apalancamiento y un costo proporcional c por cambio de posición."
+            ],
+            [
+              "Ejecución",
+              "Definir precio ejecutable, spread, fees, slippage y retrasos según el instrumento."
+            ]
+          ],
+          "note": "La ecuación usa retornos simples del activo y una aproximación de costos. La señal sólo utiliza información disponible antes de ejecutarse. Una observación al cierre no garantiza negociar a ese mismo cierre. El costo se liga al cambio de exposición y sus unidades deben ser coherentes. No se seleccionan reglas sobre el test. La fórmula no cubre financiación, leverage, liquidación, derivados ni modelos complejos de impacto."
+        },
+        {
+          "title": "Evaluación del backtest",
+          "type": "table",
+          "headers": [
+            "Medida",
+            "Qué informa",
+            "Qué documentar"
+          ],
+          "rows": [
+            [
+              "Retorno neto",
+              "Resultado de la regla aplicada",
+              "Costos, exposición y ejecución"
+            ],
+            [
+              "Drawdown máximo",
+              "Caída desde un máximo previo",
+              "Curva de capital y período"
+            ],
+            [
+              "Sharpe",
+              "Retorno excedente por volatilidad",
+              "Frecuencia, referencia y anualización"
+            ],
+            [
+              "Benchmarks",
+              "Comparación de estrategias",
+              "Buy-and-hold y cash con supuestos iguales"
+            ]
+          ],
+          "note": "La evaluación económica se presenta junto con la estadística. Un retorno acumulado puede ocultar pérdidas intermedias y exposición. La anualización de Sharpe depende de supuestos sobre dependencia temporal. Se reporta turnover, número de operaciones y sensibilidad a costos cuando corresponda. La actividad académica no presenta una garantía de rentabilidad."
+        },
+        {
+          "title": "Proyecto integrador",
+          "blocks": [
+            [
+              "Pregunta",
+              "¿Qué información mejora la estimación del objetivo elegido en BTC o ETH, bajo un protocolo temporal definido?"
+            ],
+            [
+              "Comparación",
+              "Dataset documentado, baseline, modelo tabular, modelo temporal y componente de grafo cuando resulte pertinente."
+            ],
+            [
+              "Entrega",
+              "Notebook reproducible, predicciones, reporte de resultados, visualización y defensa de decisiones."
+            ]
+          ],
+          "note": "La pregunta se concreta con objetivo, unidad y horizonte. Un proyecto puede concluir que el híbrido no mejora. Se valora la validez del experimento y la comunicación de sus límites. Los recursos elegidos responden a una hipótesis y se relacionan con los conceptos de las presentaciones."
+        },
+        {
+          "title": "Rúbrica del proyecto",
+          "type": "table",
+          "headers": [
+            "Dimensión",
+            "Peso",
+            "Evidencia esperada"
+          ],
+          "rows": [
+            [
+              "Formulación",
+              "20 %",
+              "Objetivo, unidad, horizonte y baseline"
+            ],
+            [
+              "Datos",
+              "15 %",
+              "Calidad, disponibilidad y trazabilidad"
+            ],
+            [
+              "Validación",
+              "20 %",
+              "Cortes, purga y ausencia de leakage"
+            ],
+            [
+              "Modelos",
+              "15 %",
+              "Comparación, ablación y configuración"
+            ],
+            [
+              "Interpretación",
+              "15 %",
+              "Errores, estabilidad y límites"
+            ],
+            [
+              "Comunicación",
+              "15 %",
+              "Reporte, código y defensa"
+            ]
+          ],
+          "note": "La rúbrica conserva los pesos del material original. Suman 100 %. El resultado de rentabilidad no determina la calificación. La ciencia de datos se evalúa por diseño, calidad del dato, comparación y justificación. Debe distinguirse resultado obtenido, hipótesis y ejemplo didáctico."
+        },
+        {
+          "title": "Preguntas para la defensa",
+          "blocks": [
+            [
+              "Disponibilidad",
+              "¿Qué dato pudo conocerse exactamente al instante de cada predicción?"
+            ],
+            [
+              "Valor incremental",
+              "¿Qué cambió al retirar las variables on-chain, las métricas de grafo o el embedding?"
+            ],
+            [
+              "Generalización",
+              "¿Cómo varían los errores por período? ¿Qué resultados y limitaciones puede sostener el experimento?"
+            ]
+          ],
+          "note": "Estas preguntas sustituyen instrucciones internas de preparación del material por una discusión académica. Se examina la coherencia entre objetivo, timestamps, arquitectura y resultados. La actividad enlaza presentaciones, práctica y proyecto mediante conceptos comunes. Los controles de un recurso visual sirven para explorar hipótesis y deben acompañarse de una interpretación."
+        },
+        {
+          "title": "Lectura crítica de un resultado publicado",
+          "blocks": [
+            [
+              "Diseño reportado",
+              "Identificar dataset, etiquetas, partición temporal, benchmark y conjunto que utiliza la tabla de resultados."
+            ],
+            [
+              "Métrica y evidencia",
+              "Distinguir diferencias de AUC, precision, recall y desempeño por umbral."
+            ],
+            [
+              "Transferencia",
+              "Evaluar si el protocolo del paper representa la aplicación que se pretende estudiar."
+            ]
+          ],
+          "note": "Como lectura aplicada, Zheng, Zhou y Song (2025) reportan ATGAT sobre un grafo de transacciones con información temporal y pérdida ponderada. Su configuración debe leerse con detalle: el paper describe un conjunto held-out reservado y no utilizado en sus experimentos. Una cifra de validación no debe presentarse como evaluación prospectiva independiente. Se usa el paper para discutir protocolo y evidencia, sin asumir superioridad general.",
+          "sources": [
+            "temporalGAT"
+          ]
+        },
+        {
+          "title": "Bibliografía y documentación",
+          "type": "references",
+          "references": [
+            "shap",
+            "elliptic",
+            "temporalGAT",
+            "split",
+            "volatility"
+          ]
+        }
+      ]
+    }
+  ]
+}

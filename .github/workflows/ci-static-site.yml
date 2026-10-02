@@ -29,3 +29,11 @@ jobs:
           node verify-viewer.cjs
           node verify-interactions.cjs
         working-directory: unidades/u01-fundamentos-smart-contracts
+      - name: Preparar navegador para U8
+        run: |
+          npm install --no-save --package-lock=false playwright@1.61.1
+          npx playwright install --with-deps chromium
+      - name: Verificar visor U8 y descargas
+        run: |
+          python3 -m http.server 4173 > /tmp/u08-http.log 2>&1 &
+          node scripts/browser-u08.cjs

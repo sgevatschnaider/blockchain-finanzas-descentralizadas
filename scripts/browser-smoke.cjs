@@ -9,7 +9,7 @@ const failures = [];
   page.on('pageerror', (error) => failures.push(`pageerror: ${error.message}`));
 
   await page.goto(`${base}/index.html`, { waitUntil: 'domcontentloaded' });
-  if (await page.locator('.course-card').count() !== 8) failures.push('campus: se esperaban 8 tarjetas');
+  if (await page.locator('.course-card').count() !== 9) failures.push('campus: se esperaban 9 tarjetas');
 
   await page.goto(`${base}/unidades/u03-ethereum/`, { waitUntil: 'domcontentloaded' });
   if (await page.locator('.eth-stat').count() !== 4) failures.push('U3: métricas de portada incompletas');
@@ -32,13 +32,20 @@ const failures = [];
   await page.goto(`${base}/unidades/u03-iot-ia-metaverso/`, { waitUntil: 'domcontentloaded' });
   await page.waitForURL(/u04-iot-ia-metaverso\/?$/);
 
+  await page.goto(`${base}/unidades/u08-redes-neuronales-lstm-gnn-blockchain/materiales/?deck=u08-04`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('[data-viewer-status]')?.textContent === 'Diapositiva 1 de 16');
+  if (await page.locator('[data-deck-id]').count() !== 5) failures.push('U8: se esperaban 5 presentaciones');
+  await page.locator('[data-next]').click();
+  await page.waitForFunction(() => document.querySelector('[data-viewer-status]')?.textContent === 'Diapositiva 2 de 16');
+
   await browser.close();
   if (failures.length) {
     console.error(`Smoke test fallido:\n- ${failures.join('\n- ')}`);
     process.exit(1);
   }
-  console.log('Smoke test correcto: campus, U3, 12 laboratorios, progreso, visor y redirección histórica.');
+  console.log('Smoke test correcto: campus, U3, 12 laboratorios, progreso, visores U3/U8 y redirección histórica.');
 })().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+

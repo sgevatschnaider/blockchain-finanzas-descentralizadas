@@ -1,6 +1,6 @@
 # Estructura didáctica del curso
 
-Revisión integral: 19 de septiembre de 2026.
+Revisión de la estructura: 2 de octubre de 2026.
 
 ## Criterio común
 
@@ -27,12 +27,19 @@ Cada unidad cuenta con una entrada web, objetivos, una ruta sugerida y accesos a
 | U5 | Algoritmos y criptografía aplicada | Dijkstra, Lightning, ZKP y ZK-rollups |
 | U6 | Indicadores y trading | Microestructura, ejecución, riesgo y LSTM |
 | U7 | Python y Blockchain Analytics | Datos on-chain y proyecto reproducible |
+| U8 | Redes neuronales, LSTM y GNN | Modelado temporal y relacional con evaluación reproducible |
 
 ## U3 · Ethereum
 
 La unidad nueva ofrece seis presentaciones completas —136 diapositivas— en PPTX y PDF, un visor local basado en manifest, doce laboratorios, un glosario interactivo de 88 conceptos y un cuestionario de 30 preguntas. La progresión va de cuentas y transacciones a EVM, contratos, PoS, L2 y MEV.
 
 Los PPTX se mantienen como masters; los PDF son la representación estable para lectura y descarga. Las copias nativas de Google Slides se registran en el manifest, pero no se muestran como públicas mientras el permiso anónimo no esté confirmado.
+
+## U8 · Redes neuronales, LSTM y GNN
+
+La nueva unidad reúne cinco presentaciones y 89 diapositivas: introducción a redes neuronales, metodología de ML en blockchain, LSTM/GRU, GNN y proyecto integrador. Cada presentación ofrece PowerPoint editable, PDF correspondiente, notas docentes y fuentes. El visor reutiliza los recursos compartidos del campus.
+
+U6 introduce LSTM en el contexto de trading; U8 desarrolla sus mecanismos y validación y los relaciona con grafos de Bitcoin y Ethereum. Las simulaciones con guía y el glosario se incorporarán en la etapa siguiente, a partir del material docente recibido.
 
 ## Solapamientos y decisiones
 
@@ -44,3 +51,4 @@ Los PPTX se mantienen como masters; los PDF son la representación estable para 
 ## Compatibilidad
 
 Las unidades anteriores U3–U6 fueron desplazadas a U4–U7. Las rutas HTML históricas mantienen redirecciones estáticas y el notebook de trading conserva además una copia en su antigua ruta para que Colab continúe resolviéndolo.
+
