@@ -37,3 +37,16 @@ jobs:
         run: |
           python3 -m http.server 4173 > /tmp/u08-http.log 2>&1 &
           node scripts/browser-u08.cjs
+      - name: Verificar cálculos de U8
+        run: node scripts/test-u08-math.mjs
+      - name: Verificar ocho laboratorios U8
+        run: |
+          python3 -m http.server 4173 > /tmp/u08-labs-http.log 2>&1 &
+          node scripts/browser-u08-labs.cjs
+      - name: Conservar capturas y registros de laboratorios
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: u08-laboratorios-qa
+          path: artifacts/u08-laboratorios-qa
+          retention-days: 14

@@ -39,7 +39,7 @@ Los PPTX se mantienen como masters; los PDF son la representación estable para 
 
 La nueva unidad reúne cinco presentaciones y 89 diapositivas: introducción a redes neuronales, metodología de ML en blockchain, LSTM/GRU, GNN y proyecto integrador. Cada presentación ofrece PowerPoint editable, PDF correspondiente, notas docentes y fuentes. El visor reutiliza los recursos compartidos del campus.
 
-U6 introduce LSTM en el contexto de trading; U8 desarrolla sus mecanismos y validación y los relaciona con grafos de Bitcoin y Ethereum. Las simulaciones con guía y el glosario se incorporarán en la etapa siguiente, a partir del material docente recibido.
+U6 introduce LSTM en el contexto de trading; U8 desarrolla sus mecanismos y validación y los relaciona con grafos de Bitcoin y Ethereum. U8 incorpora ocho laboratorios interactivos con guía HTML/PDF, actividades, trazas y vocabularios desarrollados. El glosario independiente corresponde a la próxima etapa.
 
 ## Solapamientos y decisiones
 

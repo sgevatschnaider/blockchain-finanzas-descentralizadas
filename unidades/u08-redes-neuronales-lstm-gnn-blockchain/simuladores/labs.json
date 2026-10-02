@@ -1,0 +1,246 @@
+{
+  "author": "Material elaborado por el profesor Sergio Gevatschnaider.",
+  "version": "2026-10-02",
+  "labs": [
+    {
+      "id": "01",
+      "file": "01_ventanas_lstm.html",
+      "title": "Ventanas temporales y LSTM",
+      "description": "Construí una muestra L × 2 y separá contexto de etiqueta futura.",
+      "type": "Datos sintéticos · sin entrenamiento",
+      "minutes": 20,
+      "activities": [
+        {
+          "prompt": "Compará L=7, 30 y 60 con BTC y t=120. Registrá forma de X y número de muestras train.",
+          "guidance": "Las formas son 7×2, 30×2 y 60×2; train tiene 147, 124 y 94 muestras. La etiqueta t+1 no entra en X."
+        },
+        {
+          "prompt": "Mové t hasta cruzar validation y test. ¿Puede una ventana usar contexto del tramo anterior?",
+          "guidance": "Sí: se divide por la fecha de la etiqueta. Usar historia conocida es causal; ajustar el escalador con etiquetas o datos futuros no lo es."
+        }
+      ],
+      "references": [
+        {
+          "title": "scikit-learn · TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html"
+        },
+        {
+          "title": "scikit-learn · Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "file": "02_data_leakage_walk_forward.html",
+      "title": "Data Leakage y walk-forward",
+      "description": "Detectá fuga de información y purgá etiquetas que todavía no están disponibles.",
+      "type": "Ridge ajustada · datos sintéticos",
+      "minutes": 30,
+      "activities": [
+        {
+          "prompt": "Compará leakage OFF/ON manteniendo horizonte y folds. Exportá ambos registros.",
+          "guidance": "La variable contaminada contiene 85% de la etiqueta futura; una mejora de métricas no demuestra generalización."
+        },
+        {
+          "prompt": "Elegí H=7. ¿Por qué se excluyen filas al final de train?",
+          "guidance": "Se purgan 6 orígenes cuya etiqueta termina después del primer instante de decisión test. Walk-forward no corrige una feature que ya contiene futuro."
+        }
+      ],
+      "references": [
+        {
+          "title": "scikit-learn · TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html"
+        },
+        {
+          "title": "scikit-learn · Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "file": "03_arena_modelos_btc_eth.html",
+      "title": "Arena de pronósticos BTC / ETH",
+      "description": "Contrastá seis perfiles sintéticos con métricas calculadas y costos explícitos.",
+      "type": "Perfiles sintéticos · sin entrenamiento",
+      "minutes": 25,
+      "activities": [
+        {
+          "prompt": "Activá on-chain, cambiá BTC/ETH y compará RMSE con baseline.",
+          "guidance": "El resultado depende del proceso sintético y de coeficientes prefijados. Ninguno de los seis algoritmos nombrados se entrena aquí."
+        },
+        {
+          "prompt": "Compará costos 0 y 30 bp con H=7. ¿Cambian RMSE y Sharpe de la misma manera?",
+          "guidance": "RMSE no cambia: el pronóstico permanece fijo. Sharpe y drawdown se recalculan con retornos netos y decisiones sin solapamiento."
+        }
+      ],
+      "references": [
+        {
+          "title": "scikit-learn · TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html"
+        },
+        {
+          "title": "scikit-learn · Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "file": "04_lstm_vs_gru.html",
+      "title": "LSTM vs GRU",
+      "description": "Compará parámetros exactos y observá curvas pedagógicas de pérdida.",
+      "type": "Conteo exacto · curvas sintéticas",
+      "minutes": 20,
+      "activities": [
+        {
+          "prompt": "Con d=8 y u=32, compará LSTM/GRU y uno/dos vectores de bias.",
+          "guidance": "Con dos biases: LSTM 5.376 y GRU 4.032. Con uno: 5.248 y 3.936. Una capa, una dirección, sin cabeza de salida."
+        },
+        {
+          "prompt": "Variá dropout de 0 a 0,6 y épocas de 20 a 150. Identificá el mínimo de validación.",
+          "guidance": "Las curvas se generan con una fórmula y muestran un compromiso ilustrativo. No miden desempeño real ni prueban superioridad de una arquitectura."
+        }
+      ],
+      "references": [
+        {
+          "title": "PyTorch · LSTM",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LSTM.html"
+        },
+        {
+          "title": "PyTorch · GRU",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html"
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "file": "05_blockchain_grafo.html",
+      "title": "Blockchain como grafo",
+      "description": "Explorá direcciones, aristas dirigidas, fuerza y centralidad.",
+      "type": "Grafo sintético · centralidad calculada",
+      "minutes": 25,
+      "activities": [
+        {
+          "prompt": "Elegí una dirección con vínculos entrantes y salientes. Diferenciá degree y strength.",
+          "guidance": "Degree cuenta contrapartes en este grafo simple; strength suma los pesos, definidos como conteos de transacciones agregadas."
+        },
+        {
+          "prompt": "Activá PageRank ponderado manteniendo la misma semilla.",
+          "guidance": "Los pesos cambian las probabilidades de transición. La suma de PageRank es 1; betweenness permanece no ponderada. Una dirección no identifica necesariamente una persona."
+        }
+      ],
+      "references": [
+        {
+          "title": "NetworkX · PageRank",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.link_analysis.pagerank_alg.pagerank.html"
+        },
+        {
+          "title": "NetworkX · Betweenness",
+          "url": "https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.centrality.betweenness_centrality.html"
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "file": "06_gnn_message_passing.html",
+      "title": "GNN: propagación de mensajes",
+      "description": "Seguí cada coeficiente y transformación de GCN, GraphSAGE y GAT.",
+      "type": "Pesos fijos · cálculo de capas",
+      "minutes": 30,
+      "activities": [
+        {
+          "prompt": "Seleccioná A, capa 1 y compará GCN, GraphSAGE y GAT. Reconstruí la traza.",
+          "guidance": "GCN usa coeficientes simétricos y self-loop; GraphSAGE concatena estado propio y media; GAT aplica softmax sobre scores con pesos fijos."
+        },
+        {
+          "prompt": "Explorá capas 0 a 6. ¿Qué ocurre con el campo receptivo?",
+          "guidance": "Puede alcanzar vecinos a L saltos. Los coeficientes GCN no necesariamente suman 1; GAT sí. Más capas no prueban mejor clasificación."
+        }
+      ],
+      "references": [
+        {
+          "title": "Kipf y Welling · GCN",
+          "url": "https://arxiv.org/abs/1609.02907"
+        },
+        {
+          "title": "Hamilton et al. · GraphSAGE",
+          "url": "https://arxiv.org/abs/1706.02216"
+        },
+        {
+          "title": "Veličković et al. · GAT",
+          "url": "https://arxiv.org/abs/1710.10903"
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "file": "07_integrador_gnn_lstm.html",
+      "title": "Integrador GNN + LSTM / GRU",
+      "description": "Recorré snapshots, pooling y compuertas de una celda recurrente.",
+      "type": "Pesos fijos · prefijo causal",
+      "minutes": 30,
+      "activities": [
+        {
+          "prompt": "Avanzá snapshot por snapshot y verificá pooling y estado de celda.",
+          "guidance": "Se promedian 5 embeddings, se concatena densidad y se proyecta a x escalar. Sólo se calculan estados hasta el cursor actual."
+        },
+        {
+          "prompt": "Cambiá LSTM a GRU y reconstruí h con las compuertas visibles.",
+          "guidance": "La convención GRU es h=(1−z)·g+z·h_anterior. El score sigmoide 0–1 es adimensional, sin calibración ni entrenamiento."
+        }
+      ],
+      "references": [
+        {
+          "title": "Kipf y Welling · GCN",
+          "url": "https://arxiv.org/abs/1609.02907"
+        },
+        {
+          "title": "Hamilton et al. · GraphSAGE",
+          "url": "https://arxiv.org/abs/1706.02216"
+        },
+        {
+          "title": "Veličković et al. · GAT",
+          "url": "https://arxiv.org/abs/1710.10903"
+        },
+        {
+          "title": "PyTorch · LSTM",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LSTM.html"
+        },
+        {
+          "title": "PyTorch · GRU",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html"
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "file": "08_shap_explorer.html",
+      "title": "Explorador SHAP",
+      "description": "Reconstruí la salida de un modelo lineal y cambiá su referencia.",
+      "type": "Modelo lineal · SHAP exacto bajo supuestos",
+      "minutes": 25,
+      "activities": [
+        {
+          "prompt": "Con BTC y μ=0,50 verificá baseline, contribuciones y salida.",
+          "guidance": "Base=0,0200; Σφ=−0,0070; f(x)=0,0130. La suma debe cerrar salvo redondeo."
+        },
+        {
+          "prompt": "Cambiá μ y mantené x fijo. Después elegí observación de referencia.",
+          "guidance": "Cambian baseline y contribuciones, no f(x). Si x=μ todas las contribuciones son cero. La fórmula es exacta para el juego interventional independiente, no para SHAP condicional con correlación."
+        }
+      ],
+      "references": [
+        {
+          "title": "SHAP · LinearExplainer",
+          "url": "https://shap.readthedocs.io/en/stable/generated/shap.LinearExplainer.html"
+        },
+        {
+          "title": "Lundberg y Lee · SHAP",
+          "url": "https://arxiv.org/abs/1705.07874"
+        }
+      ]
+    }
+  ]
+}

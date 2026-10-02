@@ -43,8 +43,31 @@ La rúbrica distribuye 20 % a formulación, 15 % a datos, 20 % a validación, 15
 
 La introducción es una presentación nueva. Las presentaciones 01–03 revisan los PowerPoint recibidos. El integrador 04 se reconstruyó como PowerPoint editable a partir del PDF recibido. Los originales aportados no se sobrescribieron.
 
-## Próxima etapa
+## Laboratorios y guía de actividades
 
-Se incorporarán las simulaciones con su guía de actividades y, después, un glosario con definiciones desarrolladas, ejemplos y relaciones entre conceptos, a partir del material docente suministrado para esas etapas.
+[Abrir los ocho laboratorios](simuladores/) · [Guía completa en HTML](recursos/guia-simuladores.html) · [Guía PDF revisada, 33 páginas](recursos/Guia_U8_Simuladores_Sergio_Gevatschnaider.pdf)
+
+| Lab | Recurso | Qué se calcula |
+|---|---|---|
+| 01 | [Ventanas temporales y LSTM](simuladores/01_ventanas_lstm.html) | Datos sintéticos · sin entrenamiento |
+| 02 | [Data Leakage y walk-forward](simuladores/02_data_leakage_walk_forward.html) | Ridge ajustada · datos sintéticos |
+| 03 | [Arena de pronósticos BTC / ETH](simuladores/03_arena_modelos_btc_eth.html) | Perfiles sintéticos · sin entrenamiento |
+| 04 | [LSTM vs GRU](simuladores/04_lstm_vs_gru.html) | Conteo exacto · curvas sintéticas |
+| 05 | [Blockchain como grafo](simuladores/05_blockchain_grafo.html) | Grafo sintético · centralidad calculada |
+| 06 | [GNN: propagación de mensajes](simuladores/06_gnn_message_passing.html) | Pesos fijos · cálculo de capas |
+| 07 | [Integrador GNN + LSTM / GRU](simuladores/07_integrador_gnn_lstm.html) | Pesos fijos · prefijo causal |
+| 08 | [Explorador SHAP](simuladores/08_shap_explorer.html) | Modelo lineal · SHAP exacto bajo supuestos |
+
+Cada laboratorio ofrece modo claro/oscuro, interfaz ES/EN, pantalla completa, reinicio, exportación JSON/SVG y actividad guiada. El registro conserva autoría, configuración y resultados. El avance se guarda sólo en el navegador; no asigna una calificación.
+
+La arena genera perfiles de pronóstico fijos inspirados en familias de modelos: no entrena AR, RF, XGBoost, LSTM ni GRU. Sus métricas se calculan sobre los mismos targets sintéticos. Las GNN y celdas recurrentes usan pesos fijos. El laboratorio 02 ajusta ridge con escalado train-only y etiquetas maduras.
+
+Los módulos y estilos son locales; no necesitan APIs ni cotizaciones. Para ejecutar una copia del repositorio: `python3 -m http.server 8000` desde la raíz y abrir la unidad en `http://localhost:8000/unidades/u08-redes-neuronales-lstm-gnn-blockchain/`. Los módulos ES requieren HTTP; abrir cada HTML directamente como `file://` no basta.
+
+El texto fuente de la guía está en [guia-contenido.json](recursos/guia-contenido.json); el generador [build-u08-guide.py](../../scripts/build-u08-guide.py) recrea HTML y PDF con ReportLab y tipografías DejaVu Sans.
+
+La guía conserva y desarrolla todos sus vocabularios originales, actualiza controles y agrega ejemplos comprobables. El glosario independiente se elaborará en la siguiente etapa.
+
+Verificación adicional: `node scripts/test-u08-math.mjs` y `node scripts/browser-u08-labs.cjs` (este último requiere Playwright, Chromium y servidor HTTP en el puerto 4173).
 
 [← U7 · Python y Blockchain Analytics](../u07-python-blockchain-analytics/) · [Campus](../../index.html)

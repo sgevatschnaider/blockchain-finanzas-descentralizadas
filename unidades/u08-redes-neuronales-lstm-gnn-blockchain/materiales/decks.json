@@ -11,7 +11,13 @@
     "thumbnail": "thumbs/u08-00.webp",
     "googlePublic": false,
     "googleAccess": "not-configured",
-    "relatedLabs": []
+    "relatedLabs": [
+      {
+        "number": 4,
+        "file": "04_lstm_vs_gru.html",
+        "title": "LSTM vs GRU"
+      }
+    ]
   },
   {
     "id": "u08-01",
@@ -25,7 +31,23 @@
     "thumbnail": "thumbs/u08-01.webp",
     "googlePublic": false,
     "googleAccess": "not-configured",
-    "relatedLabs": []
+    "relatedLabs": [
+      {
+        "number": 1,
+        "file": "01_ventanas_lstm.html",
+        "title": "Ventanas temporales y LSTM"
+      },
+      {
+        "number": 2,
+        "file": "02_data_leakage_walk_forward.html",
+        "title": "Data Leakage y walk-forward"
+      },
+      {
+        "number": 3,
+        "file": "03_arena_modelos_btc_eth.html",
+        "title": "Arena de pronósticos BTC / ETH"
+      }
+    ]
   },
   {
     "id": "u08-02",
@@ -39,7 +61,18 @@
     "thumbnail": "thumbs/u08-02.webp",
     "googlePublic": false,
     "googleAccess": "not-configured",
-    "relatedLabs": []
+    "relatedLabs": [
+      {
+        "number": 1,
+        "file": "01_ventanas_lstm.html",
+        "title": "Ventanas temporales y LSTM"
+      },
+      {
+        "number": 4,
+        "file": "04_lstm_vs_gru.html",
+        "title": "LSTM vs GRU"
+      }
+    ]
   },
   {
     "id": "u08-03",
@@ -53,7 +86,18 @@
     "thumbnail": "thumbs/u08-03.webp",
     "googlePublic": false,
     "googleAccess": "not-configured",
-    "relatedLabs": []
+    "relatedLabs": [
+      {
+        "number": 5,
+        "file": "05_blockchain_grafo.html",
+        "title": "Blockchain como grafo"
+      },
+      {
+        "number": 6,
+        "file": "06_gnn_message_passing.html",
+        "title": "GNN: propagación de mensajes"
+      }
+    ]
   },
   {
     "id": "u08-04",
@@ -67,6 +111,17 @@
     "thumbnail": "thumbs/u08-04.webp",
     "googlePublic": false,
     "googleAccess": "not-configured",
-    "relatedLabs": []
+    "relatedLabs": [
+      {
+        "number": 7,
+        "file": "07_integrador_gnn_lstm.html",
+        "title": "Integrador GNN + LSTM / GRU"
+      },
+      {
+        "number": 8,
+        "file": "08_shap_explorer.html",
+        "title": "Explorador SHAP"
+      }
+    ]
   }
 ]

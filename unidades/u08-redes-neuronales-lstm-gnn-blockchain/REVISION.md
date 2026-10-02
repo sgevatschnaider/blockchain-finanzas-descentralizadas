@@ -35,4 +35,23 @@ Cada diapositiva contiene la leyenda de autoría. Los cinco PowerPoint incluyen 
 
 Las notas del presentador acompañan al PowerPoint; los PDF reproducen las diapositivas visibles. Los ejemplos numéricos no implican rentabilidad, causalidad ni superioridad universal de una arquitectura.
 
-Las simulaciones, su guía y el glosario corresponden a la siguiente etapa de incorporación.
+## Revisión de simulaciones y guía
+
+Se revisaron uno por uno los ocho HTML y las 20 páginas de la guía recibida. Se conservan los ocho temas, actividades y términos docentes; la guía revisada tiene 33 páginas y versión web.
+
+| Lab | Corrección principal |
+|---|---|
+| 01 | Matriz completa L×2; conteos por fecha de etiqueta; contexto anterior legítimo |
+| 02 | Ridge y scaler dentro de train; intercepto sin penalización; maduración/purga para H=7; auditoría de folds |
+| 03 | Perfiles sintéticos explícitos; métricas desde pronósticos y targets; baseline cash; costos y decisiones sin solapamiento |
+| 04 | Conteo con uno/dos biases y desglose; dropout ilustrativo diferenciado del dropout entre capas de PyTorch |
+| 05 | Direcciones distintas de identidades; probabilidad distinta de densidad; degree/strength; PageRank ponderado opcional |
+| 06 | GCN simétrica con self; SAGE con concatenación real; GAT con softmax; traza y campo receptivo |
+| 07 | Encoder compartido; pooling/densidad explícitos; prefijo causal; compuertas completas y convención GRU consistente |
+| 08 | SHAP lineal independiente; intercepto fijo; cambio de referencia sin cambiar f(x); suma acumulada y residuo |
+
+El diseño incorpora gráficos de ancho completo, colores de alto contraste, controles adaptables, selección por teclado, traducciones, exportación JSON/SVG y avance local. Todos los recursos incluyen la leyenda de autoría.
+
+Las comprobaciones de cálculo se contrastan con NumPy, scikit-learn y NetworkX; las fórmulas recurrentes y sus conteos se contrastan con la documentación oficial de PyTorch durante la revisión. La CI incluye controles de navegador para los ocho laboratorios, reinicios, límites, idioma, tema, exportación, fullscreen y anchos 1440/390/320; sus capturas quedan en el artefacto `u08-laboratorios-qa`. La guía PDF se renderiza y revisa visualmente.
+
+El glosario independiente es la etapa siguiente; los vocabularios de la guía ya están desarrollados.

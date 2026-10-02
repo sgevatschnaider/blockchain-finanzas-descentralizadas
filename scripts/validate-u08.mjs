@@ -38,7 +38,22 @@ for deck in decks:
 print('PPTX: integridad, diapositivas, notas y autoría correctas')
 `, material], {encoding:'utf8'});
   if (verify.status !== 0) throw new Error(verify.stderr || 'U8: verificación PPTX fallida');
-  console.log('U8: cinco presentaciones, 89 diapositivas, PDF, PPTX, miniaturas, notas y autoría verificados.');
+  const labsDir = path.join(unit, 'simuladores');
+  const catalog = JSON.parse(fs.readFileSync(path.join(labsDir, 'labs.json'), 'utf8'));
+  if(catalog.labs.length !== 8) throw new Error('U8: se esperaban ocho laboratorios');
+  for(const lab of catalog.labs) {
+    const html = fs.readFileSync(path.join(labsDir,lab.file),'utf8');
+    if(!html.includes(catalog.author)||!html.includes('../assets/lab.css')) throw new Error('U8: autoría o estilo ausente en '+lab.id);
+    const module = path.join(labsDir,lab.file.replace(/\.html$/,'.mjs'));
+    if(spawnSync(process.execPath,['--check',module]).status!==0) throw new Error('U8: módulo inválido '+lab.id);
+    if(lab.activities.length<2) throw new Error('U8: actividad incompleta '+lab.id);
+  }
+  for(const deck of decks)for(const lab of deck.relatedLabs)if(!fs.existsSync(path.join(labsDir,lab.file)))throw new Error('U8: laboratorio relacionado ausente');
+  const guide = fs.readFileSync(path.join(unit,'recursos/Guia_U8_Simuladores_Sergio_Gevatschnaider.pdf')).toString('latin1');
+  if(!guide.startsWith('%PDF-')||(guide.match(/\/Type\s*\/Page\b/g)||[]).length!==33) throw new Error('U8: guía PDF inconsistente');
+  const content = JSON.parse(fs.readFileSync(path.join(unit,'recursos/guia-contenido.json'),'utf8'));
+  if(content.labs.length!==8||content.generalVocabulary.length!==47)throw new Error('U8: contenido de guía incompleto');
+  console.log('U8: cinco presentaciones, 89 diapositivas, ocho laboratorios, guía de 33 páginas y autoría verificados.');
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) validateU08();
